@@ -1,13 +1,13 @@
 # miniShell
 MiniShell
 
-Règles à respecter pour le shell :
-1. Affichage et commandes de base :
-  • Afficher une invite lorsqu’il attend une nouvelle commande.
-  • Avoir un historique fonctionnel.
-2. Recherche et exécution des commandes :
-  • Rechercher et lancer le bon exécutable :
-    • En fonction de la variable PATH.
+Règles à respecter pour le shell :\n
+1. Affichage et commandes de base :\n
+  • Afficher une invite lorsqu’il attend une nouvelle commande.\n
+  • Avoir un historique fonctionnel.\n
+2. Recherche et exécution des commandes :\n
+  • Rechercher et lancer le bon exécutable :\n
+    • En fonction de la variable PATH.\n
     • Ou en utilisant un chemin relatif ou absolu.
 3. Gestion des caractères spéciaux et des citations :
   • Ne pas interpréter :
