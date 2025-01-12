@@ -1,5 +1,4 @@
-# miniShell
-MiniShell
+# MiniShell
 
 Règles à respecter pour le shell :  
 1. Affichage et commandes de base :  
