@@ -6,7 +6,18 @@ int	main(int ac, char **av, char **env)
 	(void) env;
 	if (ac == 1)
 	{
-		printf("Hello");
+		char	*prompt;
+		char	*line;
+
+		prompt = NULL;
+		while (true)
+		{
+			prompt = update_prompt();
+			line = readline((const char*)prompt);
+			printf("%s\n", line);
+			free(prompt);
+			free(line);
+		}
 	}
 	else
 	{

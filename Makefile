@@ -1,11 +1,10 @@
 NAME		:=	minishell
 LIBFT		:=	libft.a
-BONUS_NAME	:=	minishell-bonus
 
 #==============================COMPIL===========================#
 
 CC:=		cc
-CFLAGS:=	-Wall -Wextra -Werror
+CFLAGS:=	-MP -MMD -Wall -Wextra -Werror
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
@@ -24,13 +23,6 @@ TO_COMP	:=	1
 endif
 
 PERCENT	:= 0
-
-NB_COMP_BONUS := 1
-ifndef RECURSION
-TO_COMP_BONUS := $(shell make bonus RECURSION=1 -n | grep Compiling | wc -l)
-else
-TO_COMP_BONUS := 1
-endif
 
 #==============================COLORS==============================#
 NOC			= \e[0m
@@ -58,10 +50,9 @@ RESET_BG	= \033[0m
 
 #================================DIRS============================#
 
-LIBFT_DIR		:=	libft
 SRC_DIR			:=  srcs
-SRC_BONUS_DIR	:=	bonus
-HEADER_DIR		:=	srcs
+HEADER_DIR		:=	includes
+LIBFT_DIR		:=	libft
 BUILD_DIR		:=	.build
 
 #==============================SOURCES===========================#
@@ -69,6 +60,7 @@ BUILD_DIR		:=	.build
 # no duplicates
 SRCS_FILES:=	main.c\
 				utils/errors.c\
+				utils/prompt.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 
@@ -95,11 +87,11 @@ all: $(NAME)
 $(DIRS):
 	@mkdir -p $@
 
-$(NAME): $(LIBX) $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS)
 	@echo "\n$(GREEN)Create binaries$(NOC)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
 
-# $$@D gets directory from current target - pipe prevents from relink
+# $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@mkdir -p $(BUILD_DIR)
@@ -130,7 +122,6 @@ clean:
 fclean: clean
 	@echo "$(RED)Remove binary$(NOC)"
 	@rm -f $(NAME)
-	@rm -f $(BONUS_NAME)
 
 re: fclean
 	@make

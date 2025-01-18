@@ -6,13 +6,19 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 17:00:24 by fpetit            #+#    #+#             */
-/*   Updated: 2024/12/30 18:06:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:24:58 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLORS_H
 # define COLORS_H
 
+# define P_NOC_PROMPT "\001\033[0m\002"
+# define P_TEAL_BOLD_PROMPT "\001\033[1;36m\002"
+# define P_TEAL_LIGHT_PROMPT "\001\033[0;36m\002"
+# define P_GREEN_PROMPT "\001\033[0;32m\002"
+# define P_BLACK_PROMPT "\001\033[0;30m\002"
+# define P_RED_PROMPT "\001\033[0;31m\002"
 # define P_NOC "\033[0m"
 # define P_BOLD "\033[1m"
 # define P_BLACK "\033[0;30m"
