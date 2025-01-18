@@ -1,4 +1,9 @@
+# objects and binaries
 *.out
+minishell
+libft.a
+*.o
+*.d
 
 # directories
 libft
