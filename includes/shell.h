@@ -19,6 +19,7 @@
 # include "colors.h"
 # include "../libft/libft.h"
 # include "../srcs/utils/utils.h"
+# include "../srcs/parsing/parsing.h"
 
 typedef	struct s_env
 {
