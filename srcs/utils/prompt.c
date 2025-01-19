@@ -2,7 +2,7 @@
 
 /*
  * generates prompt with format $USERNAME@ceyshell>
- */
+ *//*
 char	*update_prompt(void)
 {
 	char	*username;
@@ -28,4 +28,4 @@ char	*update_prompt(void)
 	check_malloc(prompt);
 	free(elems);
 	return (prompt);
-}
+}*/

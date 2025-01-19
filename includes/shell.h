@@ -25,4 +25,6 @@ typedef	struct s_env
 	char	**vars;
 }	t_env;
 
+void	setup_signal(void);
+
 # endif

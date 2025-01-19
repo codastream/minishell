@@ -5,7 +5,8 @@
  */
 void	printerr(char *msg)
 {
-	ft_printfd(2, "%s%s%s\n", P_RED, msg, P_NOC);
+	//ft_printfd(2, "%s%s%s\n", P_RED, msg, P_NOC);
+	ft_printf("%s%s%s\n", P_RED, msg, P_NOC);
 }
 
 void	handle_error(char *msg)

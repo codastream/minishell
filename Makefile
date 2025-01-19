@@ -4,7 +4,7 @@ LIBFT		:=	libft.a
 #==============================COMPIL===========================#
 
 CC:=		cc
-CFLAGS:=	-MP -MMD -Wall -Wextra -Werror
+CFLAGS:=	-MP -MMD -Wall -Wextra -Werror -g
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
@@ -59,6 +59,7 @@ BUILD_DIR		:=	.build
 
 # no duplicates
 SRCS_FILES:=	main.c\
+				signal/signal.c\
 				utils/errors.c\
 				utils/prompt.c\
 
