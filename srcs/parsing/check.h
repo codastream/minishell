@@ -15,10 +15,6 @@
 
 # include "../../includes/shell.h"
 
-typedef struct s_pile
-{
-	char			chr;
-	struct s_pile	*next;
-}	t_pile;
+bool	is_quote_ok(char *line);
 
 #endif

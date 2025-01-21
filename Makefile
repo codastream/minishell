@@ -62,6 +62,7 @@ SRCS_FILES:=	main.c\
 				signal/signal.c\
 				utils/errors.c\
 				utils/prompt.c\
+				parsing/is_quote_ok.c
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

@@ -12,46 +12,43 @@
 
 #include "check.h"
 
-void	check_quote(char **line, t_pile **pile)
+void	check_quote(char **line)
 {
 	char	*new_line;
 	
-	(void)pile;
 	new_line = *line;
 	new_line++;
-	while (*new_line != '\"' && *new_line)
+	while (*new_line && *new_line != '\"')
 		new_line++;
 	*line = new_line;
 }
 
-void	check_single_quote(char **line, t_pile **pile)
+void	check_single_quote(char **line)
 {
 	char	*new_line;
 	
 	new_line = *line;
 	new_line++;
-	while (*new_line != '\'' && *new_line)
+	while (*new_line && *new_line != '\'')
 		new_line++;
 	*line = new_line;
 }
 
 bool	is_quote_ok(char *line)
 {
-	t_pile	*pile;
-
 	if (!line)
 		return (true);
 	while (*line)
 	{
 		if (*line == '\"')
 		{
-			check_quote(&line, &pile);
+			check_quote(&line);
 			if (!*line)
 				return (false);
 		}
 		if (*line == '\'')
 		{
-			check_single_quote(&line, &pile);
+			check_single_quote(&line);
 			if (!*line)
 				return (false);
 		}

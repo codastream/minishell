@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 			line = readline(prompt);
 			if (!ft_strcmp(line, "exit") || !line)	// condition a rectifier
 				break;
-			ft_printf("%s\n", line);	// la ou appeler la fonction parsing et faire l'execution
+			ft_printf("%i\n", is_quote_ok(line));	
 			free (line);	// a free car allocation dans readline
 		}
 	free (prompt);
