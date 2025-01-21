@@ -65,9 +65,8 @@ void	look_for_command(char *line, t_token **tokens, int *token_index)
 
 	command_delimiters = ft_calloc(3, sizeof(char *));
 	check_malloc(command_delimiters);
-	command_delimiters[0] = " ";
-	command_delimiters[1] = "|";
-	command_delimiters[2] = NULL;
+	command_delimiters[0] = "|";
+	command_delimiters[1] = NULL;
 	found_index = ft_strstri(line, command_delimiters);
 	if (found_index != -1)
 	{
@@ -90,9 +89,8 @@ void	look_for_redir(char *line, t_token **tokens, int *token_index)
 
 	redir_delimiters = ft_calloc(3, sizeof(char *));
 	check_malloc(redir_delimiters);
-	redir_delimiters[0] = " ";
-	redir_delimiters[1] = "<";
-	redir_delimiters[2] = NULL;
+	redir_delimiters[0] = "<";
+	redir_delimiters[1] = NULL;
 	found_index = ft_strstri(line, redir_delimiters);
 	if (found_index != -1)
 	{
@@ -106,6 +104,33 @@ void	look_for_redir(char *line, t_token **tokens, int *token_index)
 	}
 }
 
+void	split_on_redirect(char **commands_to_check)
+{
+	int	i;
+	char	**redirections_to_check;
+
+	i = 0;
+	while (commands_to_check[i])
+	{
+		redirections_to_check = ft_split_str(commands_to_check[i], "<<");
+
+	}
+}
+
+void	splitter(char *line)
+{
+	char	**litteral;
+	char	**commands_to_check;
+
+	commands_to_check = ft_split_str(line, "|");
+	check_malloc(commands_to_check);
+
+	// split on && ||
+	// split on |
+	// split each on < > << >>
+	// add to tokens
+}
+
 void	tokenize(char *line)
 {
 	int		index;
@@ -113,10 +138,6 @@ void	tokenize(char *line)
 
 	tokens = NULL;
 	index = 0;
-	while(*line)
-	{
-		look_for_redir(line, &tokens, &index);
-		look_for_command(line, &tokens, &index);
-	}
+
 	print_tokens(&tokens);
 }
