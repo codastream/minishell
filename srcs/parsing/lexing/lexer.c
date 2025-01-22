@@ -33,8 +33,8 @@ void	add_token_back(t_token **tokens, t_token *new)
 {
 	t_token	*last;
 
-	if (!tokens)
-		tokens = &new;
+	if (!*tokens)
+		*tokens = new;
 	else
 	{
 		last = get_last(tokens);
@@ -94,7 +94,8 @@ t_token	**tokenize(char *line)
 	int			i;
 	t_token 	**tokens;
 
-	tokens = NULL;
+	tokens = ft_calloc(1, sizeof(t_token *));
+	check_alloc(tokens);
 	delimiters = init_space_pipe_delimiters();
 	check_alloc(delimiters);
 	splitted = ft_split_skip(line, delimiters);
