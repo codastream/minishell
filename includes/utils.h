@@ -6,6 +6,6 @@ char	*update_prompt(void);
 
 // errors.c
 void	printerr(char *msg);
-void	check_malloc(void *allocated);
+void	check_alloc(void *allocated);
 
 #endif

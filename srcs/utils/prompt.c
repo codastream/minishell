@@ -13,7 +13,7 @@ char	*update_prompt(void)
 	if (!username)
 		username = "user";
 	elems = ft_calloc(10, sizeof(char *));
-	check_malloc(elems);
+	check_alloc(elems);
 	elems[0] = P_TEAL_BOLD_PROMPT;
 	elems[1] = username;
 	elems[2] = P_TEAL_LIGHT_PROMPT;
@@ -25,7 +25,7 @@ char	*update_prompt(void)
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
 	prompt = ft_strjoin(9, elems, "");
-	check_malloc(prompt);
+	check_alloc(prompt);
 	free(elems);
 	return (prompt);
 }

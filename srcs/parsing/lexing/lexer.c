@@ -1,16 +1,17 @@
-#include "shell.h"
+#include "../../../includes/shell.h"
 
 t_token	*new_token(t_tokentype type, int index, char *string)
 {
 	t_token *token;
 
 	token = ft_calloc(1, sizeof(t_token));
-	check_malloc(token);
+	check_alloc(token);
 	token->index = index;
-	token->string = string;
 	token->type = type;
 	token->prev = NULL;
 	token->next = NULL;
+	token->string = ft_strdup(string);
+	check_alloc(token->string);
 	return (token);
 }
 
@@ -32,8 +33,8 @@ void	add_token_back(t_token **tokens, t_token *new)
 {
 	t_token	*last;
 
-	if (!*tokens)
-		*tokens = &new;
+	if (!tokens)
+		tokens = &new;
 	else
 	{
 		last = get_last(tokens);
@@ -55,89 +56,56 @@ void	print_tokens(t_token **tokens)
 		current = current->next;
 	}
 }
-
-void	look_for_command(char *line, t_token **tokens, int *token_index)
+char **init_space_pipe_delimiters(void)
 {
-	char	**command_delimiters;
-	t_token	*new;
-	int		found_index;
-	char	*string;
+	char		**delimiters;
 
-	command_delimiters = ft_calloc(3, sizeof(char *));
-	check_malloc(command_delimiters);
-	command_delimiters[0] = "|";
-	command_delimiters[1] = NULL;
-	found_index = ft_strstri(line, command_delimiters);
-	if (found_index != -1)
-	{
-		string = ft_substr(line, 0, found_index);
-		check_malloc(string);
-		new = new_token(T_COMMAND, *token_index, string);
-		check_malloc(new);
-		add_token_back(tokens, new);
-		line += found_index;
-		*token_index++;
-	}
+	delimiters = ft_calloc(3, sizeof(char *));
+	check_alloc(delimiters);
+	delimiters[0] = " ";
+	delimiters[1] = "|";
+	delimiters[2] = NULL;
+	return (delimiters);
 }
 
-void	look_for_redir(char *line, t_token **tokens, int *token_index)
+void	add_token(t_token **tokens, char *s, int i)
 {
-	char	**redir_delimiters;
-	t_token	*new;
-	int		found_index;
-	char	*string;
+	t_token		*token;
 
-	redir_delimiters = ft_calloc(3, sizeof(char *));
-	check_malloc(redir_delimiters);
-	redir_delimiters[0] = "<";
-	redir_delimiters[1] = NULL;
-	found_index = ft_strstri(line, redir_delimiters);
-	if (found_index != -1)
-	{
-		string = ft_substr(line, 0, found_index);
-		check_malloc(string);
-		new = new_token(T_REDIRECT, *token_index, string);
-		check_malloc(new);
-		add_token_back(tokens, new);
-		line += found_index;
-		*token_index++;
-	}
+	if (s[0] == '"')
+		token = new_token(T_LITERAL_DOUBLE, i, s);
+	else if (s[0] == '\'')
+		token = new_token(T_LITERAL_SINGLE, i, s);
+	else if (!ft_strcmp(s, "|"))
+		token = new_token(T_PIPE, i, s);
+	else
+		token = new_token(T_WORD, i, s);
+	add_token_back(tokens, token);
 }
 
-void	split_on_redirect(char **commands_to_check)
+/*
+ * called after syntax check
+ * assigns labels (ie enums) to input parts
+ */
+t_token	**tokenize(char *line)
 {
-	int	i;
-	char	**redirections_to_check;
-
-	i = 0;
-	while (commands_to_check[i])
-	{
-		redirections_to_check = ft_split_str(commands_to_check[i], "<<");
-
-	}
-}
-
-void	splitter(char *line)
-{
-	char	**litteral;
-	char	**commands_to_check;
-
-	commands_to_check = ft_split_str(line, "|");
-	check_malloc(commands_to_check);
-
-	// split on && ||
-	// split on |
-	// split each on < > << >>
-	// add to tokens
-}
-
-void	tokenize(char *line)
-{
-	int		index;
-	t_token	*tokens;
+	char		**delimiters;
+	char		**splitted;
+	int			i;
+	t_token 	**tokens;
 
 	tokens = NULL;
-	index = 0;
-
-	print_tokens(&tokens);
+	delimiters = init_space_pipe_delimiters();
+	check_alloc(delimiters);
+	splitted = ft_split_skip(line, delimiters);
+	check_alloc(splitted);
+	i = 0;
+	while (splitted[i])
+	{
+		add_token(tokens, splitted[i], i);
+		i++;
+	}
+	ft_free_2d_char_null_ended(splitted);
+	free(delimiters);
+	return(tokens);
 }

@@ -15,7 +15,7 @@ void	handle_error(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-void	check_malloc(void *allocated)
+void	check_alloc(void *allocated)
 {
 	if (!allocated)
 		handle_error("memory allocation error");

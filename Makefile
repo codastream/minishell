@@ -59,6 +59,7 @@ BUILD_DIR		:=	.build
 
 # no duplicates
 SRCS_FILES:=	main.c\
+				parsing/lexing/lexer.c\
 				utils/errors.c\
 				utils/prompt.c\
 
