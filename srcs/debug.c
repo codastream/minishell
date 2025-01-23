@@ -10,7 +10,7 @@ char	*get_token_type(t_tokentype type)
 		return ("2 - single quote literal");
 	else if (type == T_LITERAL_DOUBLE)
 		return ("3 - double quote literal");
-	else if (type == T_REDIRECT)
+	else if (type == T_REDIR_APPEND || type == T_REDIR_HEREDOC || type == T_REDIR_IN || type == T_REDIR_OUT)
 		return ("4 - redirect");
 	else if (type == T_FILE)
 		return ("5 - file");

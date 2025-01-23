@@ -18,6 +18,8 @@ int	main(int ac, char **av, char **env)
 			printf("%s\n", line);
 			tokens = tokenize(line);
 			print_tokens(tokens);
+			do_for_tokens(tokens, check_redirection);
+			free_tokens(tokens);
 			free(prompt);
 			free(line);
 		}
