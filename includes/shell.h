@@ -21,7 +21,6 @@
 # include "../libft/libft.h"
 # include "utils.h"
 # include "check.h"
-
 typedef	struct s_env
 {
 	char	**vars;
