@@ -44,7 +44,9 @@ void	print_tokens(t_token **tokens); // debug - to delete when ready
 void	add_before(t_token **tokens, t_token *current, t_token *new);
 void	do_for_tokens(t_token **tokens, void (*f)(t_token *));
 
-// checker.c
+// checking
 void	check_redirection(t_token *token);
+void	check_pipe(t_token *token);
+char	*get_line_with_closing_quotes(char *input);
 
 #endif

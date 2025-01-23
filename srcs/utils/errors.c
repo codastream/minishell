@@ -16,7 +16,7 @@ void	printerr_syntax(char *tokenstr)
 void	handle_error(char *msg)
 {
 	printerr(msg);
-	// free previously allocated
+	// TODO exit with free previously allocated
 	exit(EXIT_FAILURE);
 }
 

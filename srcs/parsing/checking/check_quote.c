@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_quote_ok.c                                      :+:      :+:    :+:   */
+/*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:37:04 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 17:05:59 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/23 19:50:57 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	check_quote(char **line)
+void	check_double_quote(char **line)
 {
 	char	*new_line;
 
@@ -34,25 +34,28 @@ void	check_single_quote(char **line)
 	*line = new_line;
 }
 
-bool	is_quote_ok(char *line)
+char	*get_line_with_closing_quotes(char *input)
 {
-	if (!line)
-		return (true);
+	char	*line;
+
+	if (!input)
+		return NULL;
+	line = input;
 	while (*line)
 	{
 		if (*line == '\"')
 		{
-			check_quote(&line);
+			check_double_quote(&line);
 			if (!*line)
-				return (false);
+				input = read_from_secondary(">", '"', input);
 		}
 		if (*line == '\'')
 		{
 			check_single_quote(&line);
 			if (!*line)
-				return (false);
+				input = read_from_secondary(">", '\'', input);
 		}
 		line++;
 	}
-	return (true);
+	return (input);
 }
