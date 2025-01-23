@@ -15,11 +15,12 @@
 # include <signal.h>				// signal, kill, sigaction, sigemptyset
 # include <readline/readline.h>		// readline
 # include <readline/history.h>
+# include <stdbool.h>
 
 # include "colors.h"
 # include "../libft/libft.h"
-# include "../srcs/utils/utils.h"
-# include "../srcs/parsing/check.h"
+# include "utils.h"
+# include "check.h"
 
 typedef	struct s_env
 {

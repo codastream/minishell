@@ -1,6 +1,5 @@
 #include "../../includes/shell.h"
 
-
 /*
  * displays an error msg on stderr with red text
  */
@@ -9,16 +8,15 @@ void	printerr(char *msg)
 	ft_printfd(2, "%s%s%s\n", P_RED, msg, P_NOC);
 }
 
-/*
 void	handle_error(char *msg)
 {
 	printerr(msg);
 	// free previously allocated
 	exit(EXIT_FAILURE);
 }
-*/
-void	check_malloc(void *allocated, t_alloc **alloc)
+
+void	check_malloc(void *allocated)
 {
 	if (!allocated)
-		error_exit(*alloc, EXIT_FAILURE);
+		handle_error("memory error");
 }

@@ -4,25 +4,23 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	char	*prompt;
-	t_alloc	*alloc = NULL;
 
 	(void) av;
 	(void) env;
 	if (ac == 1)
 	{
 		setup_signal();
-		prompt = update_prompt(&alloc);
+		prompt = update_prompt();
 		while (1)
 		{
 			line = readline(prompt);
 			if (!ft_strcmp(line, "exit") || !line)	// condition a rectifier
 				break;
-			ft_printf("%i\n", is_quote_ok(line));	
+			ft_printf("%i\n", is_quote_ok(line));
 			free (line);	// a free car allocation dans readline
 		}
 	free (prompt);
 	}
 	else
 		printerr("launch ./minishell without option\n");
-	free_all_alloc(alloc);
 }

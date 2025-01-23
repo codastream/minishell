@@ -1,9 +1,9 @@
 #include "../../includes/shell.h"
 
 /*
- * generates prompt with format $USERNAME@ceyshell>
+ * generates prompt with format $USERNAME@shellname>
  */
-char	*update_prompt(t_alloc **alloc)
+char	*update_prompt(void)
 {
 	char	*username;
 	char	**elems;
@@ -12,8 +12,8 @@ char	*update_prompt(t_alloc **alloc)
 	username = getenv("USER");
 	if (!username)
 		username = "user";
-	elems = ft__calloc(10, sizeof(char *), alloc);
-	check_malloc(elems, alloc);
+	elems = ft_calloc(10, sizeof(char *));
+	check_malloc(elems);
 	elems[0] = P_TEAL_BOLD_PROMPT;
 	elems[1] = username;
 	elems[2] = P_TEAL_LIGHT_PROMPT;
@@ -25,7 +25,7 @@ char	*update_prompt(t_alloc **alloc)
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
 	prompt = ft_strjoin(9, elems, "");
-	check_malloc(prompt, alloc);
-//	free(elems);
+	check_malloc(prompt);
+	free(elems);
 	return (prompt);
 }
