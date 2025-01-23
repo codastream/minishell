@@ -1,4 +1,4 @@
-#include "../includes/shell.h"
+#include "shell.h"
 
 char	*get_token_type(t_tokentype type)
 {

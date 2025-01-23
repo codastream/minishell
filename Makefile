@@ -4,7 +4,7 @@ LIBFT		:=	libft.a
 #==============================COMPIL===========================#
 
 CC:=		cc
-CFLAGS:=	-MP -MMD -Wall -Wextra -Werror -g
+CFLAGS:=	-MP -MMD -Wall -Wextra -Werror
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
@@ -81,7 +81,7 @@ DEPS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.d}
 
 #=============================INCLUDES===========================#
 
-INC:=			-I $(HEADER_DIR) -I $(LIBFT_DIR)
+INC:=			-I$(HEADER_DIR) -I$(LIBFT_DIR)
 
 #================================DIR=============================#
 

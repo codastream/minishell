@@ -1,4 +1,4 @@
-#include "../../../includes/shell.h"
+#include "shell.h"
 
 void	check_heredoc(t_token *token)
 {

@@ -1,4 +1,4 @@
-#include "../../../includes/shell.h"
+#include "shell.h"
 
 t_token	*new_token(t_tokentype type, int index, char *string)
 {

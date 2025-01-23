@@ -1,4 +1,4 @@
-#include "../../includes/shell.h"
+#include "shell.h"
 
 void	free_tokens(t_token **tokens)
 {
