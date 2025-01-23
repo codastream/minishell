@@ -62,6 +62,7 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/lexer.c\
 				utils/errors.c\
 				utils/prompt.c\
+				debug.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

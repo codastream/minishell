@@ -43,19 +43,6 @@ void	add_token_back(t_token **tokens, t_token *new)
 	}
 }
 
-void	print_tokens(t_token **tokens)
-{
-	t_token	*current;
-
-	current = *tokens;
-	while (current)
-	{
-		printf("token #%d\n", current->index);
-		printf("%s\n", current->string);
-		printf("type %d\n\n", current->type);
-		current = current->next;
-	}
-}
 char **init_space_pipe_delimiters(void)
 {
 	char		**delimiters;
@@ -85,7 +72,7 @@ void	add_token(t_token **tokens, char *s, int i)
 
 /*
  * called after syntax check
- * assigns labels (ie enums) to input parts
+ * splits and assigns first labels (ie enums) to input parts
  */
 t_token	**tokenize(char *line)
 {
