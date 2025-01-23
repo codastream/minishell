@@ -4,20 +4,27 @@ int	main(int ac, char **av, char **env)
 {
 	char	*line;
 	char	*prompt;
+	t_token **tokens;
 
 	(void) av;
 	(void) env;
 	if (ac == 1)
 	{
 		setup_signal();
-		prompt = update_prompt();
-		while (1)
+		prompt = NULL;
+		while (true)
 		{
-			line = readline(prompt);
-			if (!ft_strcmp(line, "exit") || !line)	// condition a rectifier
+			prompt = update_prompt();
+			line = readline((const char*)prompt);
+			printf("%s\n", line);
+			if (!ft_strcmp(line, "exit") || !line)
 				break;
-			ft_printf("%i\n", is_quote_ok(line));
-			free (line);	// a free car allocation dans readline
+			tokens = tokenize(line);
+			print_tokens(tokens);
+			do_for_tokens(tokens, check_redirection);
+			free_tokens(tokens);
+			free(prompt);
+			free(line);
 		}
 	free (prompt);
 	}

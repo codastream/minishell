@@ -1,46 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token_ok.c                                      :+:      :+:    :+:   */
+/*   check_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:16:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 17:06:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:42:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-bool	check_pipe(t_token *token)
+void	check_pipe(t_token *token)
 {
 	if (token->prev)
 	{
-		if ((token->prev)->type != t_COMMAND && (token->prev)->type != T_VAR)
-			return (false);
-	}
-	else
-		return(false);
-	if (token->next)
-	{
-		if ((token->next)->type != t_COMMAND || (token->next)->type != T_VAR)
-			return (false);
-	}
-	else
-		return(false);
-	return (true);
-}
-
-bool	is_token_ok(t_token *token)
-{
-	while (token)
-	{
-		if (token->type == T_PIPE)
-		{
-			if (check_pipe(t_token *token) == false)
-				return (false);
-		}
-		token = token->next;
-	}
-	return (true);
+		if (token->prev->type != T_COMMAND && token->prev->type != T_VAR)
+			handle_syntax_error(token->next->string);
+	};
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 17:07:19 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:48:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	setup_signal(void)
 
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;				// les flag permet de modifier le traitement des signaux
+	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);	// permet de modifier ctrl + C avec la fonction handle_sigint
 	signal(SIGQUIT, SIG_IGN);		// permet d'ignorer ctrl + \ avec SIG_IGN
 }

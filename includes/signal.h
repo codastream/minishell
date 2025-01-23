@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.h                                            :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:39:41 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 16:50:54 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:44:00 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECK_H
-# define CHECK_H
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-bool	is_quote_ok(char *line);
+void	setup_signal(void);
 
 #endif

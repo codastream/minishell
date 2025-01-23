@@ -20,8 +20,9 @@
 # include "colors.h"
 # include "../libft/libft.h"
 # include "parsing.h"
+# include "signal.h"
 # include "utils.h"
-# include "check.h"
+# include "debug.h"
 typedef	struct s_env
 {
 	char	**vars;

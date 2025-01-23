@@ -59,10 +59,15 @@ BUILD_DIR		:=	.build
 
 # no duplicates
 SRCS_FILES:=	main.c\
+				parsing/lexing/lexer.c\
+				parsing/checking/check_redir.c\
+				parsing/checking/check_quote.c\
+				parsing/checking/check_pipe.c\
 				signal/signal.c\
 				utils/errors.c\
+				utils/free.c\
 				utils/prompt.c\
-				parsing/is_quote_ok.c
+				debug.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 
