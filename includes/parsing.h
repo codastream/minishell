@@ -10,6 +10,8 @@ typedef enum e_token
 	T_VAR			// $<var>
 }	t_tokentype;
 
+typedef struct s_lexer t_token;
+
 typedef struct s_lexer
 {
 	int		index;

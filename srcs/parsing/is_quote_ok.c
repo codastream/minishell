@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   is_quote_ok.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmassavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:37:04 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/21 10:37:06 by jmassavi         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:05:59 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "check.h"
+#include "shell.h"
 
 void	check_quote(char **line)
 {
 	char	*new_line;
-	
+
 	new_line = *line;
 	new_line++;
 	while (*new_line && *new_line != '\"')
@@ -26,7 +26,7 @@ void	check_quote(char **line)
 void	check_single_quote(char **line)
 {
 	char	*new_line;
-	
+
 	new_line = *line;
 	new_line++;
 	while (*new_line && *new_line != '\'')

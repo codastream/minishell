@@ -6,11 +6,11 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 16:49:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/23 17:07:19 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/shell.h"
+#include "shell.h"
 
 void handle_sigint(int sig)
 {

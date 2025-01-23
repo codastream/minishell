@@ -1,4 +1,4 @@
-#include "../../includes/shell.h"
+#include "shell.h"
 
 /*
  * displays an error msg on stderr with red text

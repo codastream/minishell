@@ -1,4 +1,4 @@
-#include "../../includes/shell.h"
+#include "shell.h"
 
 /*
  * generates prompt with format $USERNAME@shellname>
