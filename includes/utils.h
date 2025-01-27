@@ -9,6 +9,7 @@ char	*read_from_secondary(char *prompt, char closing, char *line);
 void	printerr(char *msg);
 void	check_alloc(void *allocated);
 void	handle_syntax_error(char *token_str);
+void	handle_error(char *msg);
 
 // free.c
 void	free_tokens(t_token **tokens);

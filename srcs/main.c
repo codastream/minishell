@@ -16,7 +16,7 @@ int	main(int ac, char **av, char **env)
 		{
 			prompt = update_prompt();
 			line = readline((const char*)prompt);
-			line = get_line_with_closing_quotes(line);
+			check_closing_quotes(line);
 			printf("%s\n", line);
 			if (!ft_strcmp(line, "exit") || !line)
 				break;
