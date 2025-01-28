@@ -24,6 +24,7 @@
 # include "utils.h"
 # include "debug.h"
 # include "errors.h"
+# include "tree.h"
 typedef	struct s_env
 {
 	char	**vars;

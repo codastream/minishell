@@ -67,6 +67,8 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
 				signal/signal.c\
+				tree/tree.c\
+				tree/tree_struct.c\
 				utils/errors.c\
 				utils/free.c\
 				utils/prompt.c\

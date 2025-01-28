@@ -5,6 +5,7 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 	char	*prompt;
 	t_token **tokens;
+	t_tree	*tree;
 
 	(void) av;
 	(void) env;
@@ -30,7 +31,9 @@ int	main(int ac, char **av, char **env)
 			do_for_tokens(tokens, check_pipe);
 			printf("\n%safter check pipe%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
+			tree = make_tree(*tokens);
 			free_tokens(tokens);
+			free_tree(tree);
 			free(prompt);
 			free(line);
 		}
