@@ -43,7 +43,8 @@ t_token	**tokenize(char *line);
 
 // sanitize
 void	add_after_splitted_on_space(t_token *token, int index_space);
-void	merge_single_literal_with_preceding_word(t_token *token);
+void	merge_word_with_next_literal(t_token *token);
+t_token	*get_first_of_consecutive(t_token *token);
 
 // token utils
 t_token	*new_token(t_tokentype type, int index, char *string);

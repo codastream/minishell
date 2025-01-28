@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **env)
 			tokens = tokenize(line);
 			printf("after tokenize\n");
 			print_tokens(tokens);
-			do_for_tokens(tokens, merge_single_literal_with_preceding_word);
+			do_for_tokens(tokens, merge_word_with_next_literal);
 			do_for_tokens(tokens, check_redirection);
 			printf("after check redir\n");
 			print_tokens(tokens);
