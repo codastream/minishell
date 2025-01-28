@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:16:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/27 17:46:21 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/28 16:45:44 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	check_pipe(t_token *token)
 		return ;
 	if (!token->prev || !token->next)
 		handle_syntax_error(token->string);
-	if (token->prev->type != T_WORD)
+	if (token->prev->type == T_WORD)
 		token->prev->type = T_COMMAND;
-	else
-		handle_syntax_error(token->next->string);
+	else if (token->prev->type != T_FILE)
+		handle_syntax_error(token->string);
 	if (token->next->type == T_WORD)
 		token->next->type = T_COMMAND;
 	else

@@ -38,11 +38,21 @@ typedef struct s_token
 }	t_token;
 
 // lexer.c
-t_token	**tokenize(char *line);
-t_token	*new_token(t_tokentype type, int index, char *string);
-void	print_tokens(t_token **tokens); // debug - to delete when ready
-void	add_before(t_token **tokens, t_token *current, t_token *new);
 void	do_for_tokens(t_token **tokens, void (*f)(t_token *));
+t_token	**tokenize(char *line);
+
+// sanitize
+void	add_after_splitted_on_space(t_token *token, int index_space);
+void	merge_single_literal_with_preceding_word(t_token *token);
+
+// token utils
+t_token	*new_token(t_tokentype type, int index, char *string);
+void	add_before(t_token **tokens, t_token *current, t_token *new);
+void	add_after(t_token *current, t_token *new);
+void	add_token_back(t_token **tokens, t_token *new);
+
+void	delete_token(t_token *token);
+void	merge_with_next(t_token *token);
 
 // checking
 void	check_redirection(t_token *token);

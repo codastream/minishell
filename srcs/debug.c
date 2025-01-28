@@ -3,17 +3,25 @@
 char	*get_token_type(t_tokentype type)
 {
 	if (type == T_WORD)
-		return ("0 - word");
+		return ("word");
 	else if (type == T_PIPE)
-		return ("1 - pipe");
+		return ("pipe");
 	else if (type == T_LITERAL_SINGLE)
-		return ("2 - single quote literal");
+		return ("single quote literal");
 	else if (type == T_LITERAL_DOUBLE)
-		return ("3 - double quote literal");
-	else if (type == T_REDIR_APPEND || type == T_REDIR_HEREDOC || type == T_REDIR_IN || type == T_REDIR_OUT)
-		return ("4 - redirect");
+		return ("double quote literal");
+	else if (type == T_REDIR_HEREDOC)
+		return ("redirect heredoc");
+	else if (type == T_REDIR_IN)
+		return ("redirect infile");
+	else if (type == T_REDIR_OUT)
+		return ("redirect outfile");
+	else if (type == T_REDIR_APPEND)
+		return ("redirect append");
 	else if (type == T_FILE)
-		return ("5 - file");
+		return ("file");
+	else if (type == T_COMMAND)
+		return ("command");
 	else
 		return ("unknown");
 }

@@ -60,6 +60,9 @@ BUILD_DIR		:=	.build
 # no duplicates
 SRCS_FILES:=	main.c\
 				parsing/lexing/lexer.c\
+				parsing/lexing/sanitize.c\
+				parsing/lexing/tokens_utils.c\
+				parsing/lexing/tokens_utils_clean.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\

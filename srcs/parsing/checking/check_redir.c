@@ -10,10 +10,17 @@ void	check_heredoc(t_token *token)
 
 void	check_redirin(t_token *token)
 {
+	int		index_space;
+
 	if (!token->next)
 		handle_syntax_error("newline");
 	if (token->next && token->next->type == T_WORD)
+	{
+		index_space = ft_strchri(token->next->string, ' ');
+		if (index_space != -1)
+			add_after_splitted_on_space(token, index_space);
 		token->next->type = T_FILE;
+	}
 }
 
 void	check_redirout(t_token *token)
