@@ -23,6 +23,7 @@
 # include "signals.h"
 # include "utils.h"
 # include "debug.h"
+# include "errors.h"
 typedef	struct s_env
 {
 	char	**vars;

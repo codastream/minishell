@@ -23,7 +23,7 @@ void	handle_error(char *msg)
 void	handle_syntax_error(char *token_str)
 {
 	printerr_syntax(token_str);
-	exit(EXIT_FAILURE);
+	exit(EXIT_SYNTAX_ERROR);
 }
 
 void	check_alloc(void *allocated)
