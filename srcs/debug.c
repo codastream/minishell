@@ -33,9 +33,17 @@ void	print_tokens(t_token **tokens)
 	current = *tokens;
 	while (current)
 	{
-		printf("\ntoken #%d\n", current->index);
-		printf("%s%s%s\n", P_BLUE, current->string, P_NOC);
-		printf("type %s\n\n", get_token_type(current->type));
+		printf("token #%d\t", current->index);
+		printf("%s%*s%s", P_BLUE, 15, current->string, P_NOC);
+		printf("\t\ttype %s\n", get_token_type(current->type));
+		if (current->type == T_COMMAND)
+		{
+			printf("\t\t%s<  in : %s\n%s", P_GREEN, current->command->redir_in, P_NOC);
+			printf("\t\t%s<< heredoc : %s\n%s", P_GREEN, current->command->heredoc, P_NOC);
+			printf("\t\t%s>  out: %s\n%s", P_GREEN, current->command->redir_out_truncate, P_NOC);
+			printf("\t\t%s>> append: %s\n%s", P_GREEN, current->command->redir_out_append, P_NOC);
+		}
 		current = current->next;
 	}
+	printf("\n");
 }

@@ -23,7 +23,9 @@ typedef struct s_command
 	char		*command_path;
 	char		**command_args; // command name of path + options - null ended for execve
 	char		*redir_in;
-	char		*redir_out;
+	char		*heredoc;
+	char		*redir_out_truncate;
+	char		*redir_out_append;
 }	t_command;
 
 typedef struct s_token t_token;

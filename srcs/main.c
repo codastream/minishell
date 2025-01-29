@@ -21,14 +21,14 @@ int	main(int ac, char **av, char **env)
 			if (!ft_strcmp(line, "exit") || !line)
 				break;
 			tokens = tokenize(line);
-			printf("after tokenize\n");
+			printf("\n%safter tokenize%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			do_for_tokens(tokens, merge_word_with_next_literal);
 			do_for_tokens(tokens, check_redirection);
-			printf("after check redir\n");
+			printf("\n%safter check redir%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			do_for_tokens(tokens, check_pipe);
-			printf("after checks\n");
+			printf("\n%safter check pipe%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			free_tokens(tokens);
 			free(prompt);

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:16:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/29 09:27:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/29 10:22:55 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,60 @@ t_command *new_command(char *string)
 	return (command);
 }
 
+void	add_previous_redirect_to_command(t_token *command)
+{
+	t_token	*current;
+
+	current = command;
+	while (current && current->type != T_PIPE)
+	{
+		current = current->prev;
+		if (!current)
+			return ;
+		if (current->type == T_FILE && current->prev && current->prev->type == T_REDIR_IN)
+		{
+			command->command->redir_in = ft_strdup(current->string);
+			delete_token(current->prev);
+			delete_token(current);
+			return ; // check later in case of successive redirs
+		}
+		if (current->type == T_WORD && current->prev && current->prev->type == T_REDIR_HEREDOC)
+		{
+			command->command->heredoc = ft_strdup(current->string);
+			delete_token(current->prev);
+			delete_token(current);
+			return ; // check later in case of successive redirs
+		}
+	}
+}
+
+void	add_following_redirect_to_command(t_token *command)
+{
+	t_token	*current;
+
+	current = command;
+	while (current && current->type != T_PIPE)
+	{
+		current = current->next;
+		if (!current)
+			return ;
+		if (current->type == T_REDIR_OUT && current->next && current->next->type == T_FILE)
+		{
+			command->command->redir_out_truncate = ft_strdup(current->next->string);
+			delete_token(current->next);
+			delete_token(current);
+			return ; // check later in case of successive redirs
+		}
+		if (current->type == T_REDIR_APPEND && current->next && current->next->type == T_FILE)
+		{
+			command->command->redir_out_append = ft_strdup(current->next->string);
+			delete_token(current->next);
+			delete_token(current);
+			return ;
+		}
+	}
+}
+
 void	add_command_to_token(t_token *token, bool is_before_pipe)
 {
 	t_command	*command;
@@ -36,6 +90,10 @@ void	add_command_to_token(t_token *token, bool is_before_pipe)
 	command = new_command(token->string);
 	token->command = command;
 	token->type = T_COMMAND;
+	if (is_before_pipe)
+		add_previous_redirect_to_command(token);
+	else
+		add_following_redirect_to_command(token);
 }
 
 /*
@@ -50,10 +108,10 @@ void	check_pipe(t_token *token)
 		handle_syntax_error(token->string);
 	if (token->prev->type == T_WORD)
 		add_command_to_token(token->prev, true);
-	else if (token->prev->type != T_FILE)
+	else if (token->prev->type != T_FILE && token->prev->type != T_COMMAND)
 		handle_syntax_error(token->string);
 	if (token->next->type == T_WORD)
 		add_command_to_token(token->next, false);
-	else if (token->next->type != T_REDIR_OUT && token->next->type != T_REDIR_APPEND)
+	else if (token->next->type != T_REDIR_OUT && token->next->type != T_REDIR_APPEND && token->next->type != T_COMMAND)
 		handle_syntax_error(token->next->string);
 }
