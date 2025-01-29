@@ -40,8 +40,13 @@ void	merge_word_with_next_words(t_token *token)
 
 void	merge_word_with_next_literal(t_token *token)
 {
-	if (token->type == T_WORD && token->next && token->next->type == T_LITERAL_SINGLE)
+	char	*trimmed;
+
+	while (token->type == T_WORD && token->next && token->next->type == T_LITERAL_SINGLE)
 	{
+		trimmed = ft_strtrim(token->next->string, "'");
+		free(token->next->string);
+		token->next->string = trimmed;
 		merge_with_next(token);
 	}
 }

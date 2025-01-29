@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:16:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/28 20:30:34 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/01/29 09:27:07 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,9 @@ void	add_command_to_token(t_token *token, bool is_before_pipe)
 	t_command	*command;
 
 	if (is_before_pipe)
-	{
 		token = get_first_of_consecutive(token);
+	while (token->next->type == token->type)
 		merge_with_next(token);
-	}
-	else
-	{
-		merge_with_next(token);
-	}
 	command = new_command(token->string);
 	token->command = command;
 	token->type = T_COMMAND;
@@ -54,11 +49,11 @@ void	check_pipe(t_token *token)
 	if (!token->prev || !token->next)
 		handle_syntax_error(token->string);
 	if (token->prev->type == T_WORD)
-		add_command_to_token(token, true);
+		add_command_to_token(token->prev, true);
 	else if (token->prev->type != T_FILE)
 		handle_syntax_error(token->string);
 	if (token->next->type == T_WORD)
-		add_command_to_token(token, false);
-	else
+		add_command_to_token(token->next, false);
+	else if (token->next->type != T_REDIR_OUT && token->next->type != T_REDIR_APPEND)
 		handle_syntax_error(token->next->string);
 }
