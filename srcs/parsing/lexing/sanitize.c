@@ -8,8 +8,10 @@ void	add_after_splitted_on_space(t_token *token, int index_space)
 
 	string1 = ft_substr(token->next->string, 0, index_space);
 	check_alloc(string1);
-	new = new_token(T_FILE, token->index, string1);
+	new = new_token(T_FILE, token->index, "toto");
 	check_alloc(new);
+	free(new->string);
+	new->string = string1;
 	string2 = ft_substr(token->next->string, index_space + 1, \
 		ft_strlen(token->next->string));
 	check_alloc(string2);
