@@ -30,15 +30,15 @@ t_token	*get_first_of_consecutive(t_token *token)
 	return (current);
 }
 
-void	merge_word_with_next_words(t_token *token)
+void	merge_word_with_next_words(t_token **tokens, t_token *token)
 {
 	while (token->type == T_WORD && token->next && token->next->type == T_WORD)
 	{
-		merge_with_next(token);
+		merge_with_next(tokens, token);
 	}
 }
 
-void	merge_word_with_next_literal(t_token *token)
+void	merge_word_with_next_literal(t_token **tokens, t_token *token)
 {
 	char	*trimmed;
 
@@ -47,6 +47,6 @@ void	merge_word_with_next_literal(t_token *token)
 		trimmed = ft_strtrim(token->next->string, "'");
 		free(token->next->string);
 		token->next->string = trimmed;
-		merge_with_next(token);
+		merge_with_next(tokens, token);
 	}
 }

@@ -66,6 +66,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
+				parsing/checking/check_simple_command.c\
 				signal/signal.c\
 				utils/errors.c\
 				utils/free.c\

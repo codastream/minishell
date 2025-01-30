@@ -43,8 +43,9 @@ void	check_append(t_token *token)
 		token->next->type = T_FILE;
 }
 
-void	check_redirection(t_token *token)
+void	check_redirection(t_token **tokens, t_token *token)
 {
+	(void) tokens;
 	if (token->type == T_WORD)
 		return ;
 	if (token->type == T_REDIR_HEREDOC)

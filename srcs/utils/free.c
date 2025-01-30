@@ -2,10 +2,10 @@
 
 void	free_tokens(t_token **tokens)
 {
-	t_token *current;
+	t_token	*current;
 	t_token	*tmp;
 
-	current = tokens[0];
+	current = *tokens;
 	while (current)
 	{
 		tmp = current->next;
