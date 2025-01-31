@@ -49,6 +49,7 @@ void	merge_word_with_next_literal(t_token **tokens, t_token *token);
 t_token	*get_first_of_consecutive(t_token *token);
 
 // token utils
+int		get_tokens_nb(t_token *tokens);
 t_token	*new_token(t_tokentype type, int index, char *string);
 void	add_before(t_token **tokens, t_token *current, t_token *new);
 void	add_after(t_token *current, t_token *new);

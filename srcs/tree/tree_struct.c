@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   tree_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmassavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 19:09:55 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/28 19:09:56 by jmassavi         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:25:29 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tree.h"
+#include "shell.h"
 
 t_tree	*new_tree_node(void)
 {
 	t_tree	*new_node;
-	
+
 	new_node = malloc(sizeof(t_tree));
 	if (!new_node)
 		return (NULL);

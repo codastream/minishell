@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tree.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmassavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:56:16 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/28 18:56:19 by jmassavi         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:32:21 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TREE_H
 # define TREE_H
 
-# include "shell.h"
-
+# include "parsing.h"
 typedef	struct s_tree
 {
 	t_token			*value;
@@ -24,6 +23,7 @@ typedef	struct s_tree
 
 t_tree	*new_tree_node(void);
 void	free_tree(t_tree *tree);
+void	print_tree(t_tree *root);
 
 t_tree	*make_tree(t_token *list);
 

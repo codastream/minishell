@@ -19,17 +19,16 @@
 
 # include "colors.h"
 # include "../libft/includes/libft.h"
+# include "tree.h"
 # include "parsing.h"
 # include "signals.h"
 # include "utils.h"
 # include "debug.h"
 # include "errors.h"
-# include "tree.h"
+
 typedef	struct s_env
 {
 	char	**vars;
 }	t_env;
-
-void	setup_signal(void);
 
 # endif

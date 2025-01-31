@@ -33,6 +33,8 @@ int	main(int ac, char **av, char **env)
 			printf("\n%safter check pipe%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			tree = make_tree(*tokens);
+			print_tree(tree);
+			printf("\n");
 			free_tokens(tokens);
 			free_tree(tree);
 			free(prompt);

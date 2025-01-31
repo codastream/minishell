@@ -47,3 +47,16 @@ void	print_tokens(t_token **tokens)
 	}
 	printf("\n");
 }
+
+void	print_tree(t_tree *root)
+{
+	t_tree	*current;
+
+	if (!root)
+		return ;
+	current = root;
+	print_tree(current->left);
+	printf("%s%s%s (%s)", P_BLUE, current->value->string, P_NOC, get_token_type(current->value->type));
+	printf("->");
+	print_tree(current->right);
+}

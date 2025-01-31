@@ -1,5 +1,22 @@
 #include "shell.h"
 
+int	get_tokens_nb(t_token *tokens)
+{
+	int	size;
+	t_token	*current;
+
+	current = tokens;
+	if (!current)
+		return (0);
+	size = 1;
+	while (current->next)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+
 t_token	*new_token(t_tokentype type, int index, char *string)
 {
 	t_token *token;
