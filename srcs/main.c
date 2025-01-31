@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **env)
 			tree = make_tree(*tokens);
 			print_tree(tree);
 			printf("\n");
-			free_tokens(tokens);
+			free(tokens);
 			free_tree(tree);
 			free(prompt);
 			free(line);

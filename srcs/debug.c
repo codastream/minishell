@@ -56,7 +56,10 @@ void	print_tree(t_tree *root)
 		return ;
 	current = root;
 	print_tree(current->left);
+	if (current->left)
+		printf("->");
 	printf("%s%s%s (%s)", P_BLUE, current->value->string, P_NOC, get_token_type(current->value->type));
-	printf("->");
+	if (current->left)
+		printf("->");
 	print_tree(current->right);
 }
