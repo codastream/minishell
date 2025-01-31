@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char **init_separators(void)
+char	**init_separators(void)
 {
 	char		**separators;
 
@@ -41,7 +41,7 @@ static void	add_token(t_token **tokens, char *s, int i)
 	add_token_back(tokens, token);
 }
 
-void	do_for_tokens(t_token **tokens, void (*f)(t_token *))
+void	do_for_tokens(t_token **tokens, void (*f)(t_token **, t_token *))
 {
 	t_token	*current;
 
@@ -50,7 +50,7 @@ void	do_for_tokens(t_token **tokens, void (*f)(t_token *))
 	current = *tokens;
 	while (current)
 	{
-		f(current);
+		f(tokens, current);
 		current = current->next;
 	}
 }
@@ -64,9 +64,9 @@ t_token	**tokenize(char *line)
 	char		**separators;
 	char		**splitted;
 	int			i;
-	t_token 	**tokens;
+	t_token		**tokens;
 
-	tokens = ft_calloc(1, sizeof(t_token *));
+	tokens = ft_calloc(1, sizeof(t_token));
 	check_alloc(tokens);
 	separators = init_separators();
 	check_alloc(separators);
@@ -80,5 +80,5 @@ t_token	**tokenize(char *line)
 	}
 	ft_free_2d_char_null_ended(splitted);
 	free(separators);
-	return(tokens);
+	return (tokens);
 }

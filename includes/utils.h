@@ -13,5 +13,6 @@ void	handle_error(char *msg);
 
 // free.c
 void	free_tokens(t_token **tokens);
+void	free_token(t_token *token);
 
 #endif

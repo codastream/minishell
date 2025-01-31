@@ -29,6 +29,7 @@ int	main(int ac, char **av, char **env)
 			printf("\n%safter check redir%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			do_for_tokens(tokens, check_pipe);
+			do_for_tokens(tokens, check_simple_command);
 			printf("\n%safter check pipe%s\n", P_PINK, P_NOC);
 			print_tokens(tokens);
 			tree = make_tree(*tokens);

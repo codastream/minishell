@@ -18,7 +18,7 @@
 # include <stdbool.h>
 
 # include "colors.h"
-# include "../libft/libft.h"
+# include "../libft/includes/libft.h"
 # include "parsing.h"
 # include "signals.h"
 # include "utils.h"
