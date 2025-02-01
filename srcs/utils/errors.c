@@ -13,11 +13,18 @@ void	printerr_syntax(char *tokenstr)
 	ft_printfd(2, "Syntax error near unexpected token '%s'\n", tokenstr);
 }
 
+
 void	handle_error(char *msg)
 {
 	printerr(msg);
 	// TODO exit with free previously allocated
 	exit(EXIT_FAILURE);
+}
+
+void	handle_code(int code, char *msg)
+{
+	if (code < 0)
+		handle_error(msg);
 }
 
 void	handle_syntax_error(char *token_str)

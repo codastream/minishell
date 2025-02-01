@@ -10,6 +10,7 @@ void	printerr(char *msg);
 void	check_alloc(void *allocated);
 void	handle_syntax_error(char *token_str);
 void	handle_error(char *msg);
+void	handle_code(int code, char *msg);
 
 // free.c
 void	free_tokens(t_token **tokens);

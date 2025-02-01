@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tree.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 17:42:19 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/31 20:15:11 by fpetit           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "shell.h"
 
-t_token	*midle_part(t_token *tokens)
+t_token	*get_central_token(t_token *tokens)
 {
 	int		size;
 	int		i;
@@ -28,24 +16,14 @@ t_token	*midle_part(t_token *tokens)
 	}
 	while (current->next && current->type != T_PIPE)
 		current = current->next;
-	// i = (size + 1) / 2 - 1; // size 3 -> i 1
-	// while (i != 0)
-	// {
-	// 	i--;
-	// 	current = current->next;
-	// }
-	// while (current->type != T_PIPE && current->next)
-	// 	current = current->next;
 	return (current);
 }
-
-
 
 void split(t_token *tokens, t_token **left, t_token **right)
 {
 	t_token *current;
 
-	current = midle_part(tokens);
+	current = get_central_token(tokens);
 	current = current->prev;
 	*right = current->next->next;
 	current->next = NULL;
@@ -54,15 +32,22 @@ void split(t_token *tokens, t_token **left, t_token **right)
 	*left = current;
 }
 
-// t_token	*right_part(t_token *tokens)
-// {
-// 	t_token *current;
+void	count_if_command(t_tree *tree, int *nb)
+{
+	if (tree && tree->value->type == T_COMMAND)
+		*nb += 1;
+}
 
-// 	current = midle_part(tokens);
-// 	current = current->prev;
-// 	current->prev = NULL;
-// 	return (current);
-// }
+int iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *))
+{
+	if (!tree)
+		return (0);
+	iter_tree_count(tree->left, count, f);
+	f(tree, count);
+	iter_tree_count(tree->right, count, f);
+
+	return (*count);
+}
 
 t_tree	*make_tree(t_token *tokens)
 {
@@ -73,7 +58,7 @@ t_tree	*make_tree(t_token *tokens)
 	tree = new_tree_node();
 	if (!tree)
 		return (NULL);
-	tree->value = midle_part(tokens);
+	tree->value = get_central_token(tokens);
 //	printf("%s\n", tree->value->string);
 	if (get_tokens_nb(tokens) >= 2)
 	{
