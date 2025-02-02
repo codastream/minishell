@@ -1,11 +1,11 @@
 #include "shell.h"
 
-int	get_tokens_nb(t_token *tokens)
+int	get_tokens_nb(t_token **tokens)
 {
 	int	size;
 	t_token	*current;
 
-	current = tokens;
+	current = *tokens;
 	if (!current)
 		return (0);
 	size = 1;
@@ -17,19 +17,19 @@ int	get_tokens_nb(t_token *tokens)
 	return (size);
 }
 
-t_token	*new_token(t_tokentype type, int index, char *string)
+t_token	*new_token(t_data *data, t_tokentype type, int index, char *string)
 {
 	t_token *token;
 
 	token = ft_calloc(1, sizeof(t_token));
-	check_alloc(token);
+	check_alloc(data, token);
 	token->index = index;
 	token->type = type;
 	token->prev = NULL;
 	token->next = NULL;
 	token->command = NULL;
 	token->string = ft_strdup(string);
-	check_alloc(token->string);
+	check_alloc(data, token->string);
 	return (token);
 }
 

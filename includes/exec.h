@@ -3,10 +3,9 @@
 
 # include "shell.h"
 
-void	exec_ins(t_tree *tree);
-void	do_pipe(t_command command);
-void	safe_dup2(int fdfrom, int fdto);
-void	safe_pipe(int	fds[2]);
-int		safe_fork(void);
+int		exec_ins(t_data *data, t_tree *tree);
+void	safe_dup2(t_data *data, int fdfrom, int fdto);
+void	safe_pipe(t_data *data, int	fds[2]);
+int		safe_fork(t_data *data);
 
 #endif

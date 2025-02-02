@@ -14,13 +14,4 @@ t_tree	*new_tree_node(void)
 	return (new_node);
 }
 
-void	free_tree(t_tree *tree)
-{
-	if (tree->right)
-		free_tree(tree->right);
-	if (tree->left)
-		free_tree(tree->left);
-	if (tree->value)
-		free_token(tree->value);
-	free(tree);
-}
+

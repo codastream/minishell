@@ -44,7 +44,7 @@ typedef struct s_command
 {
 	int			index;
 	char		*command_name;
-	char		*command_path;
+	char		*pathname;
 	char		**command_args; // command name of path + options - null ended for execve
 	char		*redir_in;
 	char		*heredoc;
@@ -78,13 +78,17 @@ typedef struct s_exec
 	int			current_cmd_index;
 	int			last_pid;
 	int			future_fdin;
-	t_command	**commands;
+	int			future_fdout;
+	// t_command	**commands;
 }	t_exec;
 
 typedef struct s_data
 {
-	t_token		*tokens;
+	t_token		**tokens;
 	t_tree		*tree;
+	t_exec		*exec;
+	char		*prompt;
+	char		*line;
 }	t_data;
 
 # include "tree.h"

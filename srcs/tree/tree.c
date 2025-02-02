@@ -1,6 +1,6 @@
 #include "shell.h"
 
-t_token	*get_central_token(t_token *tokens)
+t_token	*get_central_token(t_token **tokens)
 {
 	int		size;
 	int		i;
@@ -8,7 +8,7 @@ t_token	*get_central_token(t_token *tokens)
 
 	size = get_tokens_nb(tokens);
 	i = 0;
-	current = tokens;
+	current = *tokens;
 	while (i < (size / 2))
 	{
 		current = current->next;
@@ -19,7 +19,7 @@ t_token	*get_central_token(t_token *tokens)
 	return (current);
 }
 
-void split(t_token *tokens, t_token **left, t_token **right)
+void split(t_token **tokens, t_token **left, t_token **right)
 {
 	t_token *current;
 
@@ -45,7 +45,6 @@ int iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *))
 	iter_tree_count(tree->left, count, f);
 	f(tree, count);
 	iter_tree_count(tree->right, count, f);
-
 	return (*count);
 }
 
@@ -58,11 +57,10 @@ t_tree	*make_tree(t_token *tokens)
 	tree = new_tree_node();
 	if (!tree)
 		return (NULL);
-	tree->value = get_central_token(tokens);
-//	printf("%s\n", tree->value->string);
-	if (get_tokens_nb(tokens) >= 2)
+	tree->value = get_central_token(&tokens);
+	if (get_tokens_nb(&tokens) >= 2)
 	{
-		split(tokens, &left, &right);
+		split(&tokens, &left, &right);
 		tree->left = make_tree(left);
 		tree->right = make_tree(right);
 	}

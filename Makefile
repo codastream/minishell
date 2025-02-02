@@ -74,6 +74,7 @@ SRCS_FILES:=	main.c\
 				tree/tree_struct.c\
 				utils/errors.c\
 				utils/free.c\
+				utils/init.c\
 				utils/prompt.c\
 				debug.c\
 

@@ -3,7 +3,7 @@
 /*
  * generates prompt string with format $USERNAME@shellname>
  */
-char	*update_prompt(void)
+void	update_prompt(t_data *data)
 {
 	char	*username;
 	char	**elems;
@@ -13,7 +13,7 @@ char	*update_prompt(void)
 	if (!username)
 		username = "user";
 	elems = ft_calloc(10, sizeof(char *));
-	check_alloc(elems);
+	check_alloc(data, elems);
 	elems[0] = P_TEAL_BOLD_PROMPT;
 	elems[1] = username;
 	elems[2] = P_TEAL_LIGHT_PROMPT;
@@ -25,11 +25,13 @@ char	*update_prompt(void)
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
 	prompt = ft_strjoin(9, elems, "");
-	check_alloc(prompt);
+	check_alloc(data, prompt);
 	free(elems);
-	return (prompt);
+	if (data->prompt)
+		free(data->prompt);
+	data->prompt = prompt;
 }
-char *read_from_secondary(char *prompt, char closing, char *line)
+char *read_from_secondary(t_data *data, char *prompt, char closing, char *line)
 {
 	char	*new_line;
 	char	**new_lines;
@@ -40,7 +42,7 @@ char *read_from_secondary(char *prompt, char closing, char *line)
 
 	i = 0;
 	new_lines = ft_calloc(3, sizeof(char *));
-	check_alloc(new_lines);
+	check_alloc(data, new_lines);
 	new_lines[i++] = ft_strdup(line);
 	free(line);
 	while (true)
@@ -50,19 +52,19 @@ char *read_from_secondary(char *prompt, char closing, char *line)
 		if (index_closing >= 0)
 		{
 			trimmed = ft_substr(new_line, 0, index_closing);
-			check_alloc(trimmed);
+			check_alloc(data, trimmed);
 			new_lines[i++] = trimmed;
 			new_lines[i] = NULL;
 			free(new_line);
 			joined = ft_strjoin(i, new_lines, "");
-			check_alloc(joined);
+			check_alloc(data, joined);
 			ft_free_2d_char_null_ended(new_lines);
 			return (joined);
 		}
 		else
 		{
 			new_lines[i] = ft_strdup(new_line);
-			check_alloc(new_lines[i]);
+			check_alloc(data, new_lines[i]);
 			i++;
 			free(new_line);
 		}
