@@ -84,6 +84,7 @@ typedef struct s_exec
 
 typedef struct s_data
 {
+	t_hash		*vars;
 	t_token		**tokens;
 	t_tree		*tree;
 	t_exec		*exec;
@@ -98,5 +99,6 @@ typedef struct s_data
 # include "debug.h"
 # include "errors.h"
 # include "exec.h"
+# include "var.h"
 
 # endif

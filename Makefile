@@ -76,6 +76,7 @@ SRCS_FILES:=	main.c\
 				utils/free.c\
 				utils/init.c\
 				utils/prompt.c\
+				vars/vars.c\
 				debug.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))

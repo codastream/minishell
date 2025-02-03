@@ -22,6 +22,6 @@ void	free_tree(t_tree *tree);
 void	free_data(t_data *data);
 
 // init.c
-t_data *init_data(void);
+t_data *init_data(char **env);
 
 #endif

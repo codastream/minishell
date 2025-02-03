@@ -8,14 +8,12 @@ int	main(int ac, char **av, char **env)
 	t_data	*data;
 
 	(void) av;
-	(void) env;
 	if (ac == 1)
 	{
 		setup_signal();
-		data = init_data();
+		data = init_data(env);
 		if (!data)
 			return (EXIT_FAILURE);
-		data->prompt = NULL;
 		while (true)
 		{
 			update_prompt(data);
