@@ -115,6 +115,10 @@ void	exec_command(t_data *data, t_exec *exec, t_command *command)
 		close(exec->fds[1]);
 		handle_error(data, "invalid file");
 	}
+	if (!command->command_name)
+		exit (EXIT_SUCCESS);
+	command->pathname = get_checked_pathmame(data, command);
+	// try_exec_builtin(data, command);
 	if (command->pathname)
 	{
 		execve((const char *) command->pathname, \

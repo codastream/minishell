@@ -10,6 +10,8 @@ t_command *new_command(t_data *data, char *string)
 	command = ft_calloc(1, sizeof(t_command));
 	check_alloc(data, command);
 	command->command_args = name_with_args;
+	command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
+	check_alloc(data, command->command_name);
 	return (command);
 }
 
