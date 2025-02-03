@@ -102,8 +102,10 @@ bool	is_last_command(t_exec *exec)
 
 void	exec_command(t_data *data, t_exec *exec, t_command *command)
 {
-	// int	exec_code;
+	char	**env_local;
 
+	env_local = hashtab_to_tab(data, data->vars);
+	check_alloc(data, env_local);
 	close(exec->fds[0]);
 	close(exec->fds[1]);
 	try_init_infile(exec, command);
@@ -122,7 +124,7 @@ void	exec_command(t_data *data, t_exec *exec, t_command *command)
 	if (command->pathname)
 	{
 		execve((const char *) command->pathname, \
-			command->command_args, NULL); // todo add envparams
+			command->command_args, env_local); // todo add envparams
 	}
 	else
 	{

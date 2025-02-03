@@ -16,6 +16,40 @@ void	get_keyval(char	*s, char **key, char **value)
 	ft_free_2d_char_null_ended(splitted);
 }
 
+char	**hashtab_to_tab(t_data *data, t_hash *hash)
+{
+	char		**tab;
+	int			elem_nb;
+	int			i;
+	int			i_tab;
+	t_keyval	*current;
+	char		*to_join[2];
+
+	elem_nb = hash->elements_nb;
+	tab = ft_calloc(elem_nb + 1, sizeof(char *));
+	check_alloc(data, tab);
+	i = 0;
+	i_tab = 0;
+	while (i < hash->capacity)
+	{
+		if (hash->keyvals[i])
+		{
+			current = hash->keyvals[i];
+			while (current)
+			{
+				to_join[0] = current->key;
+				to_join[1] = current->value;
+				tab[i_tab] = ft_strjoin(2, to_join, "=");
+				check_alloc(data, tab[i_tab]);
+				current = current->next;
+				i_tab++;
+			}
+		}
+		i++;
+	}
+	return (tab);
+}
+
 void	init_vars(t_data *data, char **env)
 {
 	int		env_var_nb;

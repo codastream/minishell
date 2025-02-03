@@ -9,6 +9,10 @@ t_token	*get_central_token(t_token **tokens)
 	size = get_tokens_nb(tokens);
 	i = 0;
 	current = *tokens;
+	if (size == 0)
+		return (NULL);
+	if (size == 1)
+		return (current);
 	while (i < (size / 2))
 	{
 		current = current->next;

@@ -4,7 +4,7 @@ char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 {
 	int		i;
 	char	*pathname;
-	char	path_elems[2];
+	char	*path_elems[2];
 
 	i = 0;
 	while (splitted_paths[i])
@@ -28,8 +28,6 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	char		**splitted_paths;
 	char		*pathname;
 
-	if (token->type != T_COMMAND)
-		return ;
 	if (access(command->command_name, X_OK) == 0)
 		return (ft_strdup(command->command_name));
 	path = ft_hash_get(data->vars, "PATH");
@@ -40,6 +38,7 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	free(path);
 	pathname = find_in_paths(data, splitted_paths, command->command_name);
 	ft_free_2d_char_null_ended(splitted_paths);
+	return (pathname);
 }
 
 void	add_simple_command_to_token(t_data *data, t_token **tokens, t_token *token)
