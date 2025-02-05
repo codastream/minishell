@@ -38,7 +38,7 @@ void split(t_token **tokens, t_token **left, t_token **right)
 
 void	count_if_command(t_tree *tree, int *nb)
 {
-	if (tree && tree->value->type == T_COMMAND)
+	if (tree && tree->value && tree->value->type == T_COMMAND)
 		*nb += 1;
 }
 

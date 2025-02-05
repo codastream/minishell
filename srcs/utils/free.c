@@ -59,16 +59,20 @@ void	free_tree(t_tree *tree)
 		free_token(tree->value);
 	free(tree);
 }
-
-void	free_data(t_data *data)
+void	free_after_exec(t_data *data)
 {
 	if (data->tokens)
 		free(data->tokens);
-	if (data->exec)
-		free_exec(data->exec);
 	if (data->tree)
 		free_tree(data->tree);
-	free(data->prompt);
+	if (data->exec)
+		free_exec(data->exec);
 	free(data->line);
+}
+
+void	free_data(t_data *data)
+{
+	free_after_exec(data);
+	free(data->prompt);
 	free(data);
 }

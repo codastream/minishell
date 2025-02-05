@@ -37,8 +37,14 @@ char	**hashtab_to_tab(t_data *data, t_hash *hash)
 			current = hash->keyvals[i];
 			while (current)
 			{
-				to_join[0] = current->key;
-				to_join[1] = current->value;
+				if (current->key)
+					to_join[0] = current->key;
+				else
+					to_join[0] = "";
+				if (current->value)
+					to_join[1] = current->value;
+				else
+					to_join[1] = "";
 				tab[i_tab] = ft_strjoin(2, to_join, "=");
 				check_alloc(data, tab[i_tab]);
 				current = current->next;
@@ -73,6 +79,6 @@ void	init_vars(t_data *data, char **env)
 		// free(value);
 		i++;
 	}
-	ft_print_hashstr(vars);
+	// ft_print_hashstr(vars);
 	data->vars = vars;
 }

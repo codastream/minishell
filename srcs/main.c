@@ -17,11 +17,13 @@ int	main(int ac, char **av, char **env)
 		while (true)
 		{
 			update_prompt(data);
+			if (fcntl(STDIN_FILENO, F_GETFL) == -1)
+					perror("STDIN fermé");
 			data->line = readline((const char*)data->prompt);
 			check_closing_quotes(data, data->line);
 			printf("%s\n", data->line);
-			if (!ft_strcmp(data->line, "exit") || !data->line)
-				break;
+			if (!ft_strcmp(data->line, "exit"))
+				break ;
 			tokens = tokenize(data, data->line);
 			data->tokens = tokens;
 			tree = make_tree(*tokens);
@@ -29,8 +31,8 @@ int	main(int ac, char **av, char **env)
 			data->tree = tree;
 			print_tree(data->tree);
 			printf("\n");
-			code = exec_ins(data, data->tree);
-			free_data(data);
+			code = exec_line(data, data->tree);
+			free_after_exec(data);
 		}
 	}
 	else

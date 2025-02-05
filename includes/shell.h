@@ -50,7 +50,7 @@ typedef struct s_command
 	char		*heredoc;
 	char		*redir_out_truncate;
 	char		*redir_out_append;
-	bool		has_invalid_redir;
+	// bool		has_invalid_redir;
 }	t_command;
 
 typedef struct s_token
@@ -77,8 +77,10 @@ typedef struct s_exec
 	int			commands_nb;
 	int			current_cmd_index;
 	int			last_pid;
-	int			future_fdin;
-	int			future_fdout;
+	int			future_redirin;
+	int			future_redirout;
+	int			original_in;
+	int			original_out;
 	// t_command	**commands;
 }	t_exec;
 

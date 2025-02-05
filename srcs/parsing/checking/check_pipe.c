@@ -5,21 +5,29 @@ t_command *new_command(t_data *data, char *string)
 	char 		**name_with_args;
 	t_command	*command;
 
-	name_with_args = ft_split(string, ' ');
-	check_alloc(data, name_with_args);
 	command = ft_calloc(1, sizeof(t_command));
 	check_alloc(data, command);
-	command->command_args = name_with_args;
-	command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
-	check_alloc(data, command->command_name);
+	if (string)
+	{
+		name_with_args = ft_split(string, ' ');
+		check_alloc(data, name_with_args);
+		command->command_args = name_with_args;
+		command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
+		check_alloc(data, command->command_name);
+	}
+	else
+	{
+		command->command_name = NULL;
+		command->command_args = NULL;
+	}
 	return (command);
 }
 
-void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *command)
+void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *command_token)
 {
 	t_token	*current;
 
-	current = command;
+	current = command_token;
 	while (current && current->type != T_PIPE)
 	{
 		current = current->prev;
@@ -27,16 +35,16 @@ void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *c
 			return ;
 		if (current->type == T_FILE && current->prev && current->prev->type == T_REDIR_IN)
 		{
-			command->command->redir_in = ft_strdup(current->string);
-			check_alloc(data, command->command->redir_in);
+			command_token->command->redir_in = ft_strdup(current->string);
+			check_alloc(data, command_token->command->redir_in);
 			delete_token(tokens, current->prev);
 			delete_token(tokens, current);
 			return ; // check later in case of successive redirs
 		}
 		if (current->type == T_WORD && current->prev && current->prev->type == T_REDIR_HEREDOC)
 		{
-			command->command->heredoc = ft_strdup(current->string);
-			check_alloc(data, command->command->heredoc);
+			command_token->command->heredoc = ft_strdup(current->string);
+			check_alloc(data, command_token->command->heredoc);
 			delete_token(tokens, current->prev);
 			delete_token(tokens, current);
 			return ; // check later in case of successive redirs
@@ -91,9 +99,20 @@ void	add_command_to_token(t_data *data, t_token **tokens, t_token *token, bool i
 		add_following_redirect_to_command(data, tokens, token);
 }
 
+void	add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token, bool is_before_pipe)
+{
+	t_token	*command_token;
+
+	command_token = new_token(data, T_WORD, token->index, NULL);
+	check_alloc(data, command_token);
+	add_before(tokens, token, command_token);
+	add_command_to_token(data, tokens, command_token, is_before_pipe);
+}
+
 /*
  * checks for pattern word | word
  * and assumes word are commands
+ * or checks for pattern file | or | redir
  */
 void	check_pipe(t_data *data, t_token **tokens, t_token *token)
 {
@@ -103,7 +122,9 @@ void	check_pipe(t_data *data, t_token **tokens, t_token *token)
 		handle_syntax_error(data, token->string);
 	if (token->prev->type == T_WORD)
 		add_command_to_token(data, tokens, token->prev, true);
-	else if (token->prev->type != T_FILE && token->prev->type != T_COMMAND)
+	else if (token->prev->type == T_FILE)
+		add_empty_command_with_redir(data, tokens, token, true);
+	else if (token->prev->type != T_COMMAND)
 		handle_syntax_error(data, token->string);
 	if (token->next->type == T_WORD)
 		add_command_to_token(data, tokens, token->next, false);
