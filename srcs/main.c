@@ -37,4 +37,5 @@ int	main(int ac, char **av, char **env)
 	}
 	else
 		printerr("launch ./minishell without option\n");
+	(void)code;
 }
