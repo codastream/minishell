@@ -76,7 +76,7 @@ void	init_vars(t_data *data, char **env)
 		else if (key)
 			ft_hash_insert(vars, key, NULL);
 		free(key);
-		// free(value);
+		free(value);
 		i++;
 	}
 	// ft_print_hashstr(vars);

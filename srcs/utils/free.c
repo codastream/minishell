@@ -4,10 +4,10 @@ void	free_command(t_command *command)
 {
 	if (!command)
 		return ;
-	if (command->command_args)
-		ft_free_2d_char_null_ended(command->command_args);
-	if (command->command_name)
-		free(command->command_name);
+//	if (command->command_args)
+//		ft_free_2d_char_null_ended(command->command_args);
+//	if (command->command_name)
+//		free(command->command_name);
 	if (command->pathname)
 		free(command->pathname);
 	if (command->redir_in)
@@ -18,7 +18,7 @@ void	free_command(t_command *command)
 		free(command->redir_out_truncate);
 	if (command->heredoc)
 		free(command->heredoc);
-	free(command);
+//	free(command);
 }
 
 
