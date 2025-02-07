@@ -1,5 +1,6 @@
 # objects and binaries
 *.out
+out
 minishell
 libft.a
 *.o
