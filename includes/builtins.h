@@ -20,5 +20,11 @@ bool	is_buildins(t_command *command);
 
 char	*ft_joinfree(char *str1, char *str2);
 char	*getpwd(void);
+void	ft_exit(t_data *data, t_command *command);
+void	ft_echo(t_command *command);
+void	ft_env(t_hash *hash);
+void	ft_pwd(void);
+void	ft_cd(t_data *data,t_command *command);
+void	ft_unset(t_data *data, t_command *command);
 
 #endif

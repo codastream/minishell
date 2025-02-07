@@ -2,6 +2,8 @@
 
 void	free_command(t_command *command)
 {
+	if (!command)
+		return ;
 	if (command->command_args)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
@@ -51,6 +53,8 @@ void	free_tokens(t_token **tokens)
 
 void	free_tree(t_tree *tree)
 {
+	if (!tree)
+		return ;
 	if (tree->right)
 		free_tree(tree->right);
 	if (tree->left)
@@ -67,7 +71,8 @@ void	free_after_exec(t_data *data)
 		free_tree(data->tree);
 	if (data->exec)
 		free_exec(data->exec);
-	free(data->line);
+	if (data->line)
+		free(data->line);
 }
 
 void	free_data(t_data *data)
