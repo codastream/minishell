@@ -126,30 +126,30 @@ void	init_out(t_data *data, int fds[2], t_exec *exec, t_command *command)
 	}
 }
 
-void	do_child(t_data *data, t_exec *exec, t_command *command)
-{
-	char	**env_local;
+// void	do_child(t_data *data, t_exec *exec, t_command *command)
+// {
+// 	char	**env_local;
 
-	env_local = hashtab_to_tab(data, data->vars);
-	check_alloc(data, env_local);
-	ft_put_yellow("child init in and out\n");
-	init_in(data, exec->fds, exec, command);
-	init_out(data, exec->fds, exec, command);
-	exec->current_cmd_index++;
-	if (!command->command_name) // empty command with redir
-		exit (EXIT_SUCCESS);
-	command->pathname = get_checked_pathmame(data, command);
-	// try_exec_builtin(data, command);
-	if (command->pathname)
-	{
-		execve((const char *) command->pathname, \
-			command->command_args, env_local);
-	}
-	else
-	{
-		handle_invalid_command(data);
-	}
-}
+// 	env_local = hashtab_to_tab(data, data->vars);
+// 	check_alloc(data, env_local);
+// 	ft_put_yellow("child init in and out\n");
+// 	init_in(data, exec->fds, exec, command);
+// 	init_out(data, exec->fds, exec, command);
+// 	exec->current_cmd_index++;
+// 	if (!command->command_name) // empty command with redir
+// 		exit (EXIT_SUCCESS);
+// 	command->pathname = get_checked_pathmame(data, command);
+// 	// try_exec_builtin(data, command);
+// 	if (command->pathname)
+// 	{
+// 		execve((const char *) command->pathname, \
+// 			command->command_args, env_local);
+// 	}
+// 	else
+// 	{
+// 		handle_invalid_command(data);
+// 	}
+// }
 
 void	do_child_exec(t_data *data, t_exec *exec, t_command *command)
 {
@@ -189,8 +189,8 @@ void	exec_pipe_command(t_data *data, t_exec *exec, t_tree *tree)
 {
 	int	child_pid;
 
-	safe_pipe(data, exec->fds);
-	printf("\texec command : %s\n", tree->value->string);
+	// safe_pipe(data, exec->fds);
+	printf("*exec command : %s\n", tree->value->string);
 	printf("%snew pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
@@ -198,7 +198,6 @@ void	exec_pipe_command(t_data *data, t_exec *exec, t_tree *tree)
 		ft_put_yellow("child starting\n");
 		init_in(data, exec->fds, exec, tree->value->command);
 		init_out(data, exec->fds, exec, tree->value->command);
-		exec->current_cmd_index++;
 		do_child_exec(data, exec, tree->value->command);
 	}
 	else
@@ -207,22 +206,22 @@ void	exec_pipe_command(t_data *data, t_exec *exec, t_tree *tree)
 	}
 }
 
-void	exec_command(t_data *data, t_exec *exec, t_tree *tree)
-{
-	int	child_pid;
+// void	exec_command(t_data *data, t_exec *exec, t_tree *tree)
+// {
+// 	int	child_pid;
 
-	printf("%sparent pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
-	child_pid = safe_fork(data);
-	if (child_pid == 0)
-	{
-		do_child(data, exec, tree->value->command);
-	}
-	else
-	{
-		exec->last_pid = child_pid;
-		do_parent(data, exec);
-	}
-}
+// 	printf("%sparent pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
+// 	child_pid = safe_fork(data);
+// 	if (child_pid == 0)
+// 	{
+// 		do_child(data, exec, tree->value->command);
+// 	}
+// 	else
+// 	{
+// 		exec->last_pid = child_pid;
+// 		do_parent(data, exec);
+// 	}
+// }
 
 void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 {
@@ -230,6 +229,7 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 		return ;
 	if (tree->value->type == T_PIPE)
 	{
+		safe_pipe(data, exec->fds);
 		printf("*pipe detected\n");
 		printf(" pipe goto left\n");
 		debug_fd(data, exec);
@@ -262,9 +262,14 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 		exec_pipe_command(data, exec, tree);
 		if (is_last_command(exec))
 			safe_dup2(data, exec->fds[0], STDOUT_FILENO);
+		else
+		{
+			exec->future_redirin = dup(exec->fds[0]);
+		}
+		exec->current_cmd_index++;
 	}
 	printf("goto right\n");
-	// exec_tree_node(data, exec, tree->right);
+	//exec_tree_node(data, exec, tree->right);
 }
 
 int	exec_line(t_data *data, t_tree *tree)

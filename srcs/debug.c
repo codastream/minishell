@@ -3,12 +3,13 @@
 void	debug_fd(t_data *data, t_exec *exec)
 {
 	(void) data;
-	printf("---fds\n");
-	printf("future_redirin %d\n", exec->future_redirin);
-	printf("fds read end %d\n", exec->fds[0]);
-	printf("fds write end %d\n", exec->fds[1]);
-	printf("original in %d and out %d\n", exec->original_in, exec->original_out);
-	printf("---\n");
+	printf("\t---fds\n");
+	printf("\tcommand # %d\n", exec->current_cmd_index);
+	printf("\tfuture_redirin %d\n", exec->future_redirin);
+	printf("\tfds read end %d\n", exec->fds[0]);
+	printf("\tfds write end %d\n", exec->fds[1]);
+	printf("\toriginal in %d and out %d\n", exec->original_in, exec->original_out);
+	printf("\t---\n");
 }
 
 char	*get_token_type(t_tokentype type)
