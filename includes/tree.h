@@ -20,5 +20,7 @@ t_tree	*new_tree_node(void);
 t_tree	*make_tree(t_token *list);
 int		iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *));
 void	count_if_command(t_tree *tree, int *nb);
+int		ft_tree_get_max_depth(t_tree *tree);
+
 
 #endif

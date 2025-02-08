@@ -126,31 +126,6 @@ void	init_out(t_data *data, int fds[2], t_exec *exec, t_command *command)
 	}
 }
 
-// void	do_child(t_data *data, t_exec *exec, t_command *command)
-// {
-// 	char	**env_local;
-
-// 	env_local = hashtab_to_tab(data, data->vars);
-// 	check_alloc(data, env_local);
-// 	ft_put_yellow("child init in and out\n");
-// 	init_in(data, exec->fds, exec, command);
-// 	init_out(data, exec->fds, exec, command);
-// 	exec->current_cmd_index++;
-// 	if (!command->command_name) // empty command with redir
-// 		exit (EXIT_SUCCESS);
-// 	command->pathname = get_checked_pathmame(data, command);
-// 	// try_exec_builtin(data, command);
-// 	if (command->pathname)
-// 	{
-// 		execve((const char *) command->pathname, \
-// 			command->command_args, env_local);
-// 	}
-// 	else
-// 	{
-// 		handle_invalid_command(data);
-// 	}
-// }
-
 void	do_child_exec(t_data *data, t_exec *exec, t_command *command)
 {
 	char	**env_local;
@@ -206,23 +181,6 @@ void	exec_pipe_command(t_data *data, t_exec *exec, t_tree *tree)
 	}
 }
 
-// void	exec_command(t_data *data, t_exec *exec, t_tree *tree)
-// {
-// 	int	child_pid;
-
-// 	printf("%sparent pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
-// 	child_pid = safe_fork(data);
-// 	if (child_pid == 0)
-// 	{
-// 		do_child(data, exec, tree->value->command);
-// 	}
-// 	else
-// 	{
-// 		exec->last_pid = child_pid;
-// 		do_parent(data, exec);
-// 	}
-// }
-
 void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 {
 	if (!tree)
@@ -257,8 +215,8 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 		{
 			exec->future_redirin = dup(exec->original_in);
 			printf(" storing original STDIN in future redirin %d\n", exec->future_redirin);
-			debug_fd(data, exec);
 		}
+		debug_fd(data, exec);
 		exec_pipe_command(data, exec, tree);
 		if (is_last_command(exec))
 			safe_dup2(data, exec->fds[0], STDOUT_FILENO);
