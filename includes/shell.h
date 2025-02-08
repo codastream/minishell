@@ -103,5 +103,6 @@ typedef struct s_data
 # include "errors.h"
 # include "exec.h"
 # include "var.h"
+# include "queue.h"
 
 # endif
