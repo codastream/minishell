@@ -1,5 +1,16 @@
 #include "shell.h"
 
+void	debug_fd(t_data *data, t_exec *exec)
+{
+	(void) data;
+	printf("---fds\n");
+	printf("future_redirin %d\n", exec->future_redirin);
+	printf("fds read end %d\n", exec->fds[0]);
+	printf("fds write end %d\n", exec->fds[1]);
+	printf("original in %d and out %d\n", exec->original_in, exec->original_out);
+	printf("---\n");
+}
+
 char	*get_token_type(t_tokentype type)
 {
 	if (type == T_WORD)

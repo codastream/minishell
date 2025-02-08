@@ -32,33 +32,16 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	iter_tree_count(tree, &count, count_if_command);
 	exec->commands_nb = count;
 	exec->current_cmd_index = 0;
-	// exec->future_redirin = -1;
-	// exec->future_redirout = -1;
 	return (exec);
 }
 
-// bool	is_invalid_redir(t_command *command)
-// {
-// 	int		code;
-// 	bool	invalid;
-
-// 	invalid = false;
-// 	if (command->redir_in)
-// 	{
-// 		code = access(command->redir_in, R_OK);
-// 		if (code < 0)
-// 			invalid = true;
-// 	}
-// 	return (invalid);
-// }
-
 void	restore_in_out(t_data *data, t_exec *exec)
 {
-	(void) data;
-	dup2(exec->original_in, STDIN_FILENO);
-	printf("new fd %d = original STDIN %d\n", exec->original_in, STDIN_FILENO);
-	dup2(exec->original_out, STDOUT_FILENO);
-	printf("new fd %d = original STDOUT %d\n", exec->original_out, STDOUT_FILENO);
+	// (void) data;
+	printf("restored fd %d to STDIN\n", exec->original_in);
+	safe_dup2(data, exec->original_in, STDIN_FILENO);
+	printf("restored fd %d to STDOUT\n", exec->original_out);
+	safe_dup2(data, exec->original_out, STDOUT_FILENO);
 }
 
 bool	is_last_command(t_exec *exec)
@@ -66,44 +49,58 @@ bool	is_last_command(t_exec *exec)
 	return (exec->current_cmd_index == exec->commands_nb - 1);
 }
 
-void	init_in(t_data *data, t_exec *exec, t_command *command)
+void	init_in(t_data *data, int fds[2], t_exec *exec, t_command *command)
 {
 	int	fd;
 
 	(void) exec;
 	if (!command->redir_in && !command->heredoc)
 	{
-		safe_dup2(data, exec->fds[0], STDIN_FILENO);
+		printf("redir future %d to STDIN\n", exec->future_redirin);
+		debug_fd(data, exec);
+		safe_dup2(data, exec->future_redirin, STDIN_FILENO);
+		close(fds[0]);
 		return ;
 	}
-	// TOOD heredoc
+	// TODO heredoc
 	if (command->redir_in)
 	{
 		fd = open(command->redir_in, O_RDONLY, 0555);
 		printf("new fd for infile %d\n", fd);
 		if (fd < 0)
 		{
-			close(exec->fds[0]);
-			close(exec->fds[1]);
+			close(fds[0]);
+			close(fds[1]);
 			handle_error(data, "invalid output file");
 		}
 		else
 		{
 			safe_dup2(data, fd, STDIN_FILENO);
-			close(exec->fds[0]);
+			close(fds[0]);
 		}
 	}
 }
 
-void	init_out(t_data *data, t_exec *exec, t_command *command)
+void	init_out(t_data *data, int fds[2], t_exec *exec, t_command *command)
 {
 	int		fd;
 
 	(void) data;
+	// (void) exec;
 	if (!command->redir_out_truncate && !command->redir_out_append)
 	{
-		if (!is_last_command(exec))
-			safe_dup2(data, data->exec->fds[1], STDOUT_FILENO);
+		printf("init out no redir\n");
+		if (is_last_command(exec))
+		{
+			printf("init out last command - redirecting output to STDOUT\n");
+			safe_dup2(data, exec->original_out, STDOUT_FILENO);
+			close(fds[1]);
+		}
+		else
+		{
+			printf("init out - not last command\n");
+			safe_dup2(data, fds[1], STDOUT_FILENO);
+		}
 		return ;
 	}
 	if (command->redir_out_truncate)
@@ -118,23 +115,16 @@ void	init_out(t_data *data, t_exec *exec, t_command *command)
 	}
 	if (fd < 0)
 	{
-		close(exec->fds[0]);
-		close(exec->fds[1]);
+		close(fds[0]);
+		close(fds[1]);
 		handle_error(data, "invalid output file");
 	}
 	else
 	{
 		safe_dup2(data, fd, STDOUT_FILENO);
-		close(exec->fds[1]);
+		close(fds[1]);
 	}
 }
-
-// bool	has_redir_out(t_command *command)
-// {
-// 	if (command->redir_out_append || command->redir_out_truncate)
-// 		return (true);
-// 	return (false);
-// }
 
 void	do_child(t_data *data, t_exec *exec, t_command *command)
 {
@@ -143,8 +133,8 @@ void	do_child(t_data *data, t_exec *exec, t_command *command)
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
 	ft_put_yellow("child init in and out\n");
-	init_in(data, exec, command);
-	init_out(data, exec, command);
+	init_in(data, exec->fds, exec, command);
+	init_out(data, exec->fds, exec, command);
 	exec->current_cmd_index++;
 	if (!command->command_name) // empty command with redir
 		exit (EXIT_SUCCESS);
@@ -161,12 +151,32 @@ void	do_child(t_data *data, t_exec *exec, t_command *command)
 	}
 }
 
+void	do_child_exec(t_data *data, t_exec *exec, t_command *command)
+{
+	char	**env_local;
+
+	(void) exec;
+	env_local = hashtab_to_tab(data, data->vars);
+	check_alloc(data, env_local);
+	if (!command->command_name) // empty command with redir
+		exit (EXIT_SUCCESS);
+	command->pathname = get_checked_pathmame(data, command);
+	// try_exec_builtin(data, command);
+	if (command->pathname)
+	{
+		printf(" before exec\n");
+		debug_fd(data, exec);
+		execve((const char *) command->pathname, \
+			command->command_args, env_local);
+	}
+	else
+	{
+		handle_invalid_command(data);
+	}
+}
+
 void	do_parent(t_data *data, t_exec *exec)
 {
-	// ft_put_pink("parent restore STDIN / STDOUT\n");
-	// restore_in_out(data, exec);
-	// ft_put_pink("parent read -> STDOUT\n");
-	// safe_dup2(data, exec->fds[0], STDIN);
 	if (!is_last_command(exec))
 		safe_dup2(data, exec->fds[0], STDIN_FILENO);
 	else
@@ -175,11 +185,32 @@ void	do_parent(t_data *data, t_exec *exec)
 	(void) data;
 }
 
-void	exec_pipe(t_data *data, t_exec *exec, t_tree *tree)
+void	exec_pipe_command(t_data *data, t_exec *exec, t_tree *tree)
 {
 	int	child_pid;
 
 	safe_pipe(data, exec->fds);
+	printf("\texec command : %s\n", tree->value->string);
+	printf("%snew pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
+	child_pid = safe_fork(data);
+	if (child_pid == 0)
+	{
+		ft_put_yellow("child starting\n");
+		init_in(data, exec->fds, exec, tree->value->command);
+		init_out(data, exec->fds, exec, tree->value->command);
+		exec->current_cmd_index++;
+		do_child_exec(data, exec, tree->value->command);
+	}
+	else
+	{
+		exec->last_pid = child_pid;
+	}
+}
+
+void	exec_command(t_data *data, t_exec *exec, t_tree *tree)
+{
+	int	child_pid;
+
 	printf("%sparent pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
@@ -197,20 +228,43 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 {
 	if (!tree)
 		return ;
-	printf("goto left\n");
-	exec_tree_node(data, exec, tree->left);
 	if (tree->value->type == T_PIPE)
 	{
-		printf("\tpipe detected goto right\n");
-		exec_pipe(data, exec, tree->right); // or exec tree node ?
+		printf("*pipe detected\n");
+		printf(" pipe goto left\n");
+		debug_fd(data, exec);
+		exec_tree_node(data, exec, tree->left);
+		if (!(exec->current_cmd_index == exec->commands_nb))
+		{
+			exec->future_redirin = dup(exec->fds[0]);
+			printf(" after execution - storing read end in future redirin %d\n", exec->future_redirin);
+			debug_fd(data, exec);
+		}
+		else
+		{
+			printf(" after execution of last command\n");
+			close(exec->fds[0]);
+			debug_fd(data, exec);
+		}
+		close(exec->fds[1]);
+		printf(" pipe goto right\n");
+		exec_tree_node(data, exec, tree->right);
 	}
-	else if (tree->value->type == T_COMMAND)
+	else if (tree->value->type == T_COMMAND )
 	{
-		printf("\texec command : %s\n", tree->value->string);
-		exec_pipe(data, exec, tree);
+		printf("*command detected\n");
+		if (exec->future_redirin == -1)
+		{
+			exec->future_redirin = dup(exec->original_in);
+			printf(" storing original STDIN in future redirin %d\n", exec->future_redirin);
+			debug_fd(data, exec);
+		}
+		exec_pipe_command(data, exec, tree);
+		if (is_last_command(exec))
+			safe_dup2(data, exec->fds[0], STDOUT_FILENO);
 	}
 	printf("goto right\n");
-	exec_tree_node(data, exec, tree->right);
+	// exec_tree_node(data, exec, tree->right);
 }
 
 int	exec_line(t_data *data, t_tree *tree)
@@ -220,15 +274,17 @@ int	exec_line(t_data *data, t_tree *tree)
 
 	exec = init_exec(data, tree);
 	check_alloc(data, exec);
+	exec->future_redirin = -1;
 	exec->original_in = dup(STDIN_FILENO);
 	exec->original_out = dup(STDOUT_FILENO);
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	data->exec = exec;
 	exec_tree_node(data, data->exec, tree);
 	code = wait_all(data->exec, data->exec->last_pid);
-	dup2(exec->original_in, STDIN_FILENO);
-	dup2(exec->original_in, STDOUT_FILENO);
-	close(exec->original_in);
-	close(exec->original_out);
+	restore_in_out(data, exec);
+	// dup2(exec->original_in, STDIN_FILENO);
+	// dup2(exec->original_out, STDOUT_FILENO);
+	// close(exec->original_in);
+	// close(exec->original_out);
 	return (code);
 }
