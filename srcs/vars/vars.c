@@ -1,5 +1,6 @@
 #include "shell.h"
 
+// TODO check alloc
 void	get_keyval(char	*s, char **key, char **value)
 {
 	char	**splitted;

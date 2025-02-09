@@ -19,7 +19,6 @@ void	free_command(t_command *command)
 	free(command);
 }
 
-
 void	free_exec(t_exec *exec)
 {
 	free(exec);
@@ -55,24 +54,28 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-	if (tree->value)
-		free_token(tree->value);
 	free(tree);
 }
 void	free_after_exec(t_data *data)
 {
 	if (data->tokens)
-		free(data->tokens);
+	{
+		if (data->tokens[0])
+			free_tokens(data->tokens);
+		else
+			free(data->tokens);
+	}
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)
 		free_exec(data->exec);
+	if (data->vars)
+		ft_free_hashtable(data->vars);
 	free(data->line);
 }
 
 void	free_data(t_data *data)
 {
-	free_after_exec(data);
 	free(data->prompt);
 	free(data);
 }
