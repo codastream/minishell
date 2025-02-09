@@ -82,46 +82,6 @@ void	add_node_before(t_tree **root, t_tree *node)
 	*root = node;
 }
 
-t_tree	*make_unbalanced_tree(t_token *tokens)
-{
-	int	i;
-	int	token_nb;
-	t_token	*current;
-	t_tree	*tree;
-	t_tree	*node;
-
-	tree = NULL;
-	i = 0;
-	current = tokens;
-	token_nb = get_tokens_nb(&tokens);
-	if (token_nb == 0)
-		return (NULL);
-	if (token_nb == 1)
-	{
-		tree = new_tree_node();
-		tree->value = tokens;
-		return (tree);
-	}
-	while (current->next)
-	{
-		if (current->type == T_PIPE)
-		{
-			node = new_tree_node();
-			node->value = current;
-			if (!current->prev->prev)
-			{
-				node->left = new_tree_node();
-				node->left->value = current->prev;
-			}
-			node->right = new_tree_node();
-			node->right->value = current->next;
-			add_node_before(&tree, node);
-			current = current->next->next;
-		}
-		current = current->next;
-	}
-	return (tree);
-}
 
 int	ft_tree_get_max_depth(t_tree *tree)
 {
@@ -136,4 +96,24 @@ int	ft_tree_get_max_depth(t_tree *tree)
 		return (left_depth + 1);
 	else
 		return (right_depth + 1);
+}
+
+void	print_pretty_tree(t_tree *tree, int level, char *prefix)
+{
+	int	i;
+
+	if (tree)
+	{
+		if (tree->right)
+			print_pretty_tree(tree->right, level + 1, "┌--");
+		i = 0;
+		while (i < level)
+		{
+			printf("\t");
+			i++;
+		}
+		printf("%s%s%s%s\n", prefix, P_BLUE, tree->value->string, P_NOC);
+		if (tree->left)
+			print_pretty_tree(tree->left, level + 1, "└--");
+	}
 }
