@@ -54,6 +54,7 @@ void	init_in(t_data *data, int fds[2], t_exec *exec, t_command *command)
 	int	fd;
 
 	(void) exec;
+	close(exec->original_in);
 	if (!command->redir_in && !command->heredoc)
 	{
 		printf("redir future %d to STDIN\n", exec->future_redirin);
@@ -87,13 +88,14 @@ void	init_out(t_data *data, int fds[2], t_exec *exec, t_command *command)
 
 	(void) data;
 	// (void) exec;
+	close(exec->original_out);
 	if (!command->redir_out_truncate && !command->redir_out_append)
 	{
 		printf("init out no redir\n");
 		if (is_last_command(exec))
 		{
 			printf("init out last command - redirecting output to STDOUT\n");
-			safe_dup2(data, exec->original_out, STDOUT_FILENO);
+			safe_dup2(data, exec->future_redirout, STDOUT_FILENO);
 			close(fds[1]);
 		}
 		else
@@ -192,18 +194,7 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 		printf(" pipe goto left\n");
 		debug_fd(data, exec);
 		exec_tree_node(data, exec, tree->left);
-		if (!(exec->current_cmd_index == exec->commands_nb))
-		{
-			exec->future_redirin = dup(exec->fds[0]);
-			printf(" after execution - storing read end in future redirin %d\n", exec->future_redirin);
-			debug_fd(data, exec);
-		}
-		else
-		{
-			printf(" after execution of last command\n");
-			close(exec->fds[0]);
-			debug_fd(data, exec);
-		}
+		debug_fd(data, exec);
 		close(exec->fds[1]);
 		printf(" pipe goto right\n");
 		exec_tree_node(data, exec, tree->right);
@@ -217,17 +208,23 @@ void	exec_tree_node(t_data *data, t_exec *exec, t_tree *tree)
 			printf(" storing original STDIN in future redirin %d\n", exec->future_redirin);
 		}
 		debug_fd(data, exec);
+		if (is_last_command(exec))
+		{
+			exec->future_redirout = dup(exec->original_out);
+		}
 		exec_pipe_command(data, exec, tree);
 		if (is_last_command(exec))
+		{
+			close(exec->future_redirin);
 			safe_dup2(data, exec->fds[0], STDOUT_FILENO);
+		}
 		else
 		{
 			exec->future_redirin = dup(exec->fds[0]);
+			close(exec->fds[0]);
 		}
 		exec->current_cmd_index++;
 	}
-	printf("goto right\n");
-	//exec_tree_node(data, exec, tree->right);
 }
 
 int	exec_line(t_data *data, t_tree *tree)
@@ -238,6 +235,7 @@ int	exec_line(t_data *data, t_tree *tree)
 	exec = init_exec(data, tree);
 	check_alloc(data, exec);
 	exec->future_redirin = -1;
+	exec->future_redirout = -1;
 	exec->original_in = dup(STDIN_FILENO);
 	exec->original_out = dup(STDOUT_FILENO);
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
@@ -245,9 +243,5 @@ int	exec_line(t_data *data, t_tree *tree)
 	exec_tree_node(data, data->exec, tree);
 	code = wait_all(data->exec, data->exec->last_pid);
 	restore_in_out(data, exec);
-	// dup2(exec->original_in, STDIN_FILENO);
-	// dup2(exec->original_out, STDOUT_FILENO);
-	// close(exec->original_in);
-	// close(exec->original_out);
 	return (code);
 }
