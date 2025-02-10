@@ -138,7 +138,7 @@ void	do_child_exec(t_data *data, t_exec *exec, t_command *command)
 	if (!command->command_name) // empty command with redir
 		exit (EXIT_SUCCESS);
 	command->pathname = get_checked_pathmame(data, command);
-	try_exec_buildins(data, command);
+	// try_exec_builtin(data, command);
 	if (command->pathname)
 	{
 		printf(" before exec\n");
