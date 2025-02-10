@@ -1,38 +1,27 @@
 #include "shell.h"
 
-void	reset(void *allocated)
-{
-	if (allocated)
-	{
-		free(allocated);
-		allocated = NULL;
-	}
-}
-
 void	free_command(t_command *command)
 {
-	if (!command)
-		return ;
 	if (command->command_args)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
-		reset(command->command_name);
+		free(command->command_name);
 	if (command->pathname)
-		reset(command->pathname);
+		free(command->pathname);
 	if (command->redir_in)
-		reset(command->redir_in);
+		free(command->redir_in);
 	if (command->redir_out_append)
-		reset(command->redir_out_append);
+		free(command->redir_out_append);
 	if (command->redir_out_truncate)
-		reset(command->redir_out_truncate);
+		free(command->redir_out_truncate);
 	if (command->heredoc)
-		reset(command->heredoc);
-	reset(command);
+		free(command->heredoc);
+	free(command);
 }
 
 void	free_exec(t_exec *exec)
 {
-	reset(exec);
+	free(exec);
 }
 
 void	free_token(t_token *token)
@@ -40,8 +29,8 @@ void	free_token(t_token *token)
 	if (token->command)
 		free_command(token->command);
 	if (token->string)
-		reset(token->string);
-	reset(token);
+		free(token->string);
+	free(token);
 }
 
 void	free_tokens(t_token **tokens)
@@ -58,18 +47,16 @@ void	free_tokens(t_token **tokens)
 		free_token(current);
 		current = tmp;
 	}
-	reset(tokens);
+//	free(tokens); deja free dans la boucle, free sur adresse invalide
 }
 
 void	free_tree(t_tree *tree)
 {
-	if (!tree)
-		return ;
 	if (tree->right)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-	reset(tree);
+	free(tree);
 }
 void	free_after_exec(t_data *data)
 {
@@ -81,11 +68,17 @@ void	free_after_exec(t_data *data)
 		free_exec(data->exec);
 	if (data->vars)
 		ft_free_hashtable(data->vars);
-	reset(data->line);
-	reset(data->prompt);
+	free(data->line);
+	printf("free de la mort qui tue\n");
+	data->tokens = NULL;
+	data->tree = NULL;
+	data->exec = NULL;
+	data->vars = NULL;
+	data->line = NULL;
 }
 
 void	free_data(t_data *data)
 {
-	reset(data);
+	free(data->prompt);
+	free(data);
 }

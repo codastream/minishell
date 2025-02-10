@@ -2,10 +2,9 @@
 
 void	ft_exit(t_data *data, t_command *command)
 {
-	free_command(command);
-	ft_free_hashtable(data->vars);
+	(void)command;
+	free_after_exec(data);
 	free_data(data);
-//	(void)command;
 	exit(0); // recuperer une variable d'environement si autoriser
 }
 

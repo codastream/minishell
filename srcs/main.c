@@ -30,7 +30,9 @@ int	main(int ac, char **av, char **env)
 			code = exec_line(data, data->tree);
 			free_after_exec(data);
 		}
-		free_after_exec(data);
+//		free(data->prompt);
+//		free_after_exec(data);
+		free_data(data);
 	}
 	else
 		printerr("launch ./minishell without option\n");

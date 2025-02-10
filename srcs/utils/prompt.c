@@ -27,8 +27,6 @@ void	update_prompt(t_data *data)
 	prompt = ft_strjoin(9, elems, "");
 	check_alloc(data, prompt);
 	free(elems);
-	if (data->prompt)
-		free(data->prompt);
 	data->prompt = prompt;
 }
 char *read_from_secondary(t_data *data, char *prompt, char closing, char *line)
