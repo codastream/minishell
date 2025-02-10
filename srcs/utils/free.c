@@ -2,10 +2,12 @@
 
 void	free_command(t_command *command)
 {
-	if (command->command_args)
-		ft_free_2d_char_null_ended(command->command_args);
-	if (command->command_name)
-		free(command->command_name);
+	if (!command)
+		return ;
+//	if (command->command_args)
+//		ft_free_2d_char_null_ended(command->command_args);
+//	if (command->command_name)
+//		free(command->command_name);
 	if (command->pathname)
 		free(command->pathname);
 	if (command->redir_in)
@@ -16,7 +18,7 @@ void	free_command(t_command *command)
 		free(command->redir_out_truncate);
 	if (command->heredoc)
 		free(command->heredoc);
-	free(command);
+//	free(command);
 }
 
 void	free_exec(t_exec *exec)
@@ -50,6 +52,8 @@ void	free_tokens(t_token **tokens)
 
 void	free_tree(t_tree *tree)
 {
+	if (!tree)
+		return ;
 	if (tree->right)
 		free_tree(tree->right);
 	if (tree->left)
@@ -71,7 +75,8 @@ void	free_after_exec(t_data *data)
 		free_exec(data->exec);
 	if (data->vars)
 		ft_free_hashtable(data->vars);
-	free(data->line);
+	if (data->line)
+		free(data->line);
 }
 
 void	free_data(t_data *data)

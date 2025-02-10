@@ -138,7 +138,7 @@ void	do_child_exec(t_data *data, t_exec *exec, t_command *command)
 	if (!command->command_name) // empty command with redir
 		exit (EXIT_SUCCESS);
 	command->pathname = get_checked_pathmame(data, command);
-	// try_exec_builtin(data, command);
+	try_exec_buildins(data, command);
 	if (command->pathname)
 	{
 		printf(" before exec\n");
@@ -240,6 +240,11 @@ int	exec_line(t_data *data, t_tree *tree)
 	exec->original_out = dup(STDOUT_FILENO);
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	data->exec = exec;
+	if (!tree->left && !tree->right && is_buildins(tree->value->command))
+	{
+		try_exec_first_buildins(data, tree->value->command);
+		return(0);
+	}
 	exec_tree_node(data, data->exec, tree);
 	code = wait_all(data->exec, data->exec->last_pid);
 	restore_in_out(data, exec);
