@@ -236,8 +236,6 @@ int	exec_line(t_data *data, t_tree *tree)
 	check_alloc(data, exec);
 	exec->future_redirin = -1;
 	exec->future_redirout = -1;
-	exec->original_in = dup(STDIN_FILENO);
-	exec->original_out = dup(STDOUT_FILENO);
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_buildins(tree->value->command))
@@ -245,6 +243,8 @@ int	exec_line(t_data *data, t_tree *tree)
 		try_exec_first_buildins(data, tree->value->command);
 		return(0);
 	}
+	exec->original_in = dup(STDIN_FILENO);
+	exec->original_out = dup(STDOUT_FILENO);
 	exec_tree_node(data, data->exec, tree);
 	code = wait_all(data->exec, data->exec->last_pid);
 	restore_in_out(data, exec);
