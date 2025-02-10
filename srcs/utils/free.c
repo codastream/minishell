@@ -1,27 +1,37 @@
 #include "shell.h"
 
+void	reset(void *data)
+{
+	free(data);
+	data = NULL;
+}
+
 void	free_command(t_command *command)
 {
+	if (!command)
+		return ;
 	if (command->command_args)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
-		free(command->command_name);
+		reset(command->command_name);
 	if (command->pathname)
-		free(command->pathname);
+		reset(command->pathname);
 	if (command->redir_in)
-		free(command->redir_in);
+		reset(command->redir_in);
 	if (command->redir_out_append)
-		free(command->redir_out_append);
+		reset(command->redir_out_append);
 	if (command->redir_out_truncate)
-		free(command->redir_out_truncate);
+		reset(command->redir_out_truncate);
 	if (command->heredoc)
-		free(command->heredoc);
-	free(command);
+		reset(command->heredoc);
+	reset(command);
 }
 
 void	free_exec(t_exec *exec)
 {
-	free(exec);
+	if (!exec)
+		return ;
+	reset(exec);
 }
 
 void	free_token(t_token *token)
@@ -29,8 +39,8 @@ void	free_token(t_token *token)
 	if (token->command)
 		free_command(token->command);
 	if (token->string)
-		free(token->string);
-	free(token);
+		reset(token->string);
+	reset(token);
 }
 
 void	free_tokens(t_token **tokens)
@@ -38,6 +48,8 @@ void	free_tokens(t_token **tokens)
 	t_token	*current;
 	t_token	*tmp;
 
+	if (!tokens)
+		return ;
 	current = *tokens;
 	while (current)
 	{
@@ -45,25 +57,24 @@ void	free_tokens(t_token **tokens)
 		free_token(current);
 		current = tmp;
 	}
-	free(tokens);
+	reset(tokens);
 }
 
 void	free_tree(t_tree *tree)
 {
+	if (!tree)
+		return ;
 	if (tree->right)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-	free(tree);
+	reset(tree);
 }
 void	free_after_exec(t_data *data)
 {
 	if (data->tokens)
 	{
-		if (data->tokens[0])
-			free_tokens(data->tokens);
-		else
-			free(data->tokens);
+		free_tokens(data->tokens);
 	}
 	if (data->tree)
 		free_tree(data->tree);
@@ -71,11 +82,11 @@ void	free_after_exec(t_data *data)
 		free_exec(data->exec);
 	if (data->vars)
 		ft_free_hashtable(data->vars);
-	free(data->line);
+	reset(data->line);
 }
 
 void	free_data(t_data *data)
 {
-	free(data->prompt);
+	reset(data->prompt);
 	free(data);
 }
