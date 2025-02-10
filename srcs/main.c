@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **env)
 			free_after_exec(data);
 		}
 //		free(data->prompt);
-//		free_after_exec(data);
+		ft_free_hashtable(data->vars);
 		free_data(data);
 	}
 	else
