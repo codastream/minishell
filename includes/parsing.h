@@ -10,6 +10,8 @@ t_token	**tokenize(t_data *data, char *line);
 // sanitize
 void	add_after_splitted_on_space(t_data *data, t_token *token, int index_space);
 void	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token);
+void	merge_word_with_next_words(t_data *data, t_token **tokens, t_token *token);
+void	merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token);
 t_token	*get_first_of_consecutive(t_token *token);
 
 // token utils
@@ -31,5 +33,9 @@ void		check_pipe(t_data *data, t_token **tokens, t_token *token);
 void		check_closing_quotes(t_data *data, char *input);
 char		*get_checked_pathmame(t_data *data, t_command *command);
 void		check_simple_command(t_data *data, t_token **tokens, t_token *token);
+
+// expand
+void	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token);
+void	expand_in_words(t_data *data, t_token **tokens, t_token *token);
 
 #endif

@@ -59,6 +59,7 @@ void	check_tokens(t_data *data, t_token **tokens)
 {
 	printf("\n%safter tokenize%s\n", P_PINK, P_NOC);
 	print_tokens(tokens);
+	do_for_tokens(data, tokens, expand_in_words);
 	do_for_tokens(data, tokens, merge_word_with_next_literal);
 	do_for_tokens(data, tokens, check_redirection);
 	printf("\n%safter check redir%s\n", P_PINK, P_NOC);
@@ -66,6 +67,9 @@ void	check_tokens(t_data *data, t_token **tokens)
 	do_for_tokens(data, tokens, check_pipe);
 	do_for_tokens(data, tokens, check_simple_command);
 	printf("\n%safter check command%s\n", P_PINK, P_NOC);
+	do_for_tokens(data, tokens, expand_in_double_literals);
+	do_for_tokens(data, tokens, merge_command_with_next_word);
+	printf("\n%safter expansion%s\n", P_PINK, P_NOC);
 	print_tokens(tokens);
 }
 
