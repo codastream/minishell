@@ -28,7 +28,7 @@ int	main(int ac, char **av, char **env)
 			print_pretty_tree(data->tree, 0, "root ");
 			printf("\n");
 			code = exec_line(data, data->tree);
-//			free_after_exec(data);
+			free_after_exec(data);
 		}
 //		free(data->prompt);
 		ft_free_hashtable(data->vars);

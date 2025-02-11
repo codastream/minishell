@@ -62,6 +62,8 @@ t_tree	*make_tree(t_token *tokens)
 	if (!tree)
 		return (NULL);
 	tree->value = get_central_token(&tokens);
+  tree->value->command->in = -1;
+  tree->value->command->out = -1;
 	if (get_tokens_nb(&tokens) >= 2)
 	{
 		split(&tokens, &left, &right);
