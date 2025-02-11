@@ -113,22 +113,26 @@ int	ft_tree_get_max_depth(t_tree *tree)
 		return (right_depth + 1);
 }
 
-void	print_pretty_tree(t_tree *tree, int level, char *prefix)
+void	print_pretty_tree(t_data *data, t_tree *tree, int level, char *prefix, bool fds)
 {
 	int	i;
 
 	if (tree)
 	{
 		if (tree->right)
-			print_pretty_tree(tree->right, level + 1, "┌--");
+			print_pretty_tree(data, tree->right, level + 1, "┌--", fds);
 		i = 0;
 		while (i < level)
 		{
 			printf("\t");
 			i++;
 		}
-		printf("%s%s%s%s (in:%d out:%d)\n", prefix, P_BLUE, tree->value->string, P_NOC, tree->value->in, tree->value->out);
+		printf("%s%s%s%s (in:%d out:%d)", prefix, P_BLUE, tree->value->string, P_NOC, tree->value->in, tree->value->out);
+		if (fds && tree->value->type == T_PIPE)
+			printf("[%sfds 0:%d 1:%d %s]\n", P_PINK, data->exec->fds[0], data->exec->fds[1], P_NOC);
+		else
+			printf("\n");
 		if (tree->left)
-			print_pretty_tree(tree->left, level + 1, "└--");
+			print_pretty_tree(data, tree->left, level + 1, "└--", fds);
 	}
 }

@@ -21,7 +21,7 @@ t_tree	*make_tree(t_token *list);
 int		iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *));
 void	count_if_command(t_tree *tree, int *nb);
 int		ft_tree_get_max_depth(t_tree *tree);
-void	print_pretty_tree(t_tree *tree, int level, char *prefix);
+void	print_pretty_tree(t_data *data, t_tree *tree, int level, char *prefix, bool fds);
 void	iter_tree_modify(t_tree *tree, void (*f)(t_tree *));
 void	init_fds(t_tree *tree);
 

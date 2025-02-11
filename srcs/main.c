@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **env)
 			iter_tree_modify(tree, init_fds);
 			check_alloc(data, tree);
 			data->tree = tree;
-			print_pretty_tree(data->tree, 0, "root ");
+			print_pretty_tree(data, data->tree, 0, "root ", false);
 			printf("\n");
 			code = exec_line(data, data->tree);
 			free_after_exec(data);
