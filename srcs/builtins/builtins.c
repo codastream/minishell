@@ -24,13 +24,13 @@ char	*ft_joinfree(char *str1, char *str2)
 	return (result);
 }
 
-void	try_exec_buildins(t_data *data, t_command *command)
+void	try_exec_builtin(t_data *data, t_token *token, t_command *command)
 {
 	if (!ft_strcmp((command->command_args)[0], "exit"))
 		ft_exit(data, command);
 	if (!ft_strcmp((command->command_args)[0], "echo"))
 	{
-		ft_echo(command);
+		ft_echo(token, command);
 		ft_exit(data, command);
 	}
 	if (!ft_strcmp((command->command_args)[0], "cd"))
@@ -55,7 +55,7 @@ void	try_exec_buildins(t_data *data, t_command *command)
 	}
 }
 
-bool	is_buildins(t_command *command)
+bool	is_builtin(t_command *command)
 {
 	if (!ft_strcmp((command->command_args)[0], "exit"))
 		return (true);

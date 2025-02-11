@@ -9,7 +9,7 @@ void	ft_exit(t_data *data, t_command *command)
 	exit(0); // recuperer une variable d'environement si autoriser
 }
 
-void	ft_echo(t_command *command)
+void	ft_echo(t_token *token, t_command *command)
 {
 	int	i;
 
@@ -19,9 +19,10 @@ void	ft_echo(t_command *command)
 	if (!ft_strcmp((command->command_args)[i], "-n"))
 		i++;
 	while ((command->command_args)[i])
-		printf("%s", (command->command_args)[i++]);
+		ft_printfd(token->out, "%s", (command->command_args)[i++]);
 	if (ft_strcmp((command->command_args)[1], "-n"))
-		printf("\n");
+		ft_printfd(token->out, "\n");
+	//	printf("\n");
 }
 
 void	ft_env(t_hash *hash)
@@ -104,12 +105,12 @@ void	ft_unset(t_data *data, t_command *command)
 	ft_hash_remove(data->vars, (command->command_args)[1]);
 }
 
-void	try_exec_first_buildins(t_data *data, t_command *command)
+void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
 	if (!ft_strcmp((command->command_args)[0], "exit"))
 		ft_exit(data, command);
 	if (!ft_strcmp((command->command_args)[0], "echo"))
-		ft_echo(command);
+		ft_echo(token, command);
 	if (!ft_strcmp((command->command_args)[0], "cd"))
 		ft_cd(data, command);
 	if (!ft_strcmp((command->command_args)[0], "pwd"))
