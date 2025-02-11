@@ -42,6 +42,21 @@ void	count_if_command(t_tree *tree, int *nb)
 		*nb += 1;
 }
 
+void	init_fds(t_tree *tree)
+{
+	tree->value->in = -1;
+	tree->value->out = -1;
+}
+
+void	iter_tree_modify(t_tree *tree, void (*f)(t_tree *))
+{
+	if (!tree)
+		return ;
+	iter_tree_modify(tree->left, f);
+	f(tree);
+	iter_tree_modify(tree->right, f);
+}
+
 int iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *))
 {
 	if (!tree)
@@ -62,8 +77,6 @@ t_tree	*make_tree(t_token *tokens)
 	if (!tree)
 		return (NULL);
 	tree->value = get_central_token(&tokens);
-  tree->value->command->in = -1;
-  tree->value->command->out = -1;
 	if (get_tokens_nb(&tokens) >= 2)
 	{
 		split(&tokens, &left, &right);
@@ -114,7 +127,7 @@ void	print_pretty_tree(t_tree *tree, int level, char *prefix)
 			printf("\t");
 			i++;
 		}
-		printf("%s%s%s%s\n", prefix, P_BLUE, tree->value->string, P_NOC);
+		printf("%s%s%s%s (in:%d out:%d)\n", prefix, P_BLUE, tree->value->string, P_NOC, tree->value->in, tree->value->out);
 		if (tree->left)
 			print_pretty_tree(tree->left, level + 1, "└--");
 	}

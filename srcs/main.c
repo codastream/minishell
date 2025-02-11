@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **env)
 			tokens = tokenize(data, data->line);
 			data->tokens = tokens;
 			tree = make_tree(*tokens);
+			iter_tree_modify(tree, init_fds);
 			check_alloc(data, tree);
 			data->tree = tree;
 			print_pretty_tree(data->tree, 0, "root ");

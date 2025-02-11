@@ -37,17 +37,17 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 
 void  close_all(t_tree *tree)
 {
-  if (tree->value->command->in < 0)
-    close(tree->value->command->in);
-  if (tree->value->command->out < 0)
-    close(tree->value->command->out);
+  if (tree->value->in >= 0)
+    close(tree->value->in);
+  if (tree->value->out >= 0)
+    close(tree->value->out);
   if (tree->left)
     close_all(tree->left);
   if (tree->right)
     close_all(tree->right);
 }
 
-void	child_exec(t_data *data, t_command *command)
+void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
 
@@ -61,10 +61,10 @@ void	child_exec(t_data *data, t_command *command)
 	{
 		printf(" before exec\n");
 //		debug_fd(data, exec);
-    dup2(command->in, STDIN_FILENO);
-	  dup2(command->out, STDOUT_FILENO);
+    dup2(token->in, STDIN_FILENO);
+	  dup2(token->out, STDOUT_FILENO);
 	  execve((const char *) command->pathname, \
-		command->command_args, env_local); 
+		command->command_args, env_local);
 	}
 	else
 	{
@@ -85,7 +85,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	if (child_pid == 0)
 	{
 		ft_put_yellow("child starting\n");
-		child_exec(data, tree->value->command);
+		child_exec(data, tree->value->command, tree->value);
 	}
 	else
 	{
@@ -100,13 +100,13 @@ void  exec_pipe(t_data *data, t_tree *tree)
   int fds[2];
 
   safe_pipe(data, fds);
-  tree->left->value->command->out = fds[1];
-  tree->left->value->command->in = tree->value->command->in;
-  tree->right->value->command->in = fds[0];
-  tree->right->value->command->out = tree->value->command->out;
+  tree->left->value->out = fds[1];
+  tree->left->value->in = tree->value->in;
+  tree->right->value->in = fds[0];
+  tree->right->value->out = tree->value->out;
   exec_tree_node(data, tree->left);
   close(fds[1]);
-  
+
   exec_tree_node(data, tree->right);
   close(fds[0]);
 }
@@ -139,8 +139,8 @@ int	exec_line(t_data *data, t_tree *tree)
 		try_exec_first_buildins(data, tree->value->command);
 		return(0);
 	}
-  tree->value->command->in = 0;
-  tree->value->command->out = 1;
+  tree->value->in = 0;
+  tree->value->out = 1;
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
   close_all(tree);

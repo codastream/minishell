@@ -43,8 +43,6 @@ typedef enum e_token
 typedef struct s_command
 {
 	int			index;
-  int     in;
-  int     out;
 	char		*command_name;
 	char		*pathname;
 	char		**command_args; // command name of path + options - null ended for execve
@@ -58,6 +56,8 @@ typedef struct s_command
 typedef struct s_token
 {
 	int				index;
+	int				in;
+	int     out;
 	char			*string;
 	t_command		*command;
 	t_tokentype		type;
