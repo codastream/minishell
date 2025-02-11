@@ -71,6 +71,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_simple_command.c\
 				execution/exec.c\
 				execution/exec_utils.c\
+				execution/heredoc.c\
 				signal/signal.c\
 				tree/tree.c\
 				tree/tree_struct.c\
