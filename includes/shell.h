@@ -25,6 +25,12 @@ typedef	struct s_env
 	char	**vars;
 }	t_env;
 
+typedef struct s_fds
+{
+  int fd;
+  struct s_fds  *next;
+} t_fds;
+
 typedef enum e_token
 {
 	T_COMMAND,
@@ -93,6 +99,7 @@ typedef struct s_data
 	t_token		**tokens;
 	t_tree		*tree;
 	t_exec		*exec;
+  t_fds     *fds;
 	char		*prompt;
 	char		*line;
 }	t_data;
@@ -107,5 +114,6 @@ typedef struct s_data
 # include "exec.h"
 # include "var.h"
 # include "queue.h"
+# include "fds.h"
 
 # endif

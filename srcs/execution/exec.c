@@ -37,9 +37,9 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 
 void  close_all(t_tree *tree)
 {
-  if (tree->value->in >= 0)
+  if (tree->value->in < 0)
     close(tree->value->in);
-  if (tree->value->out >= 0)
+  if (tree->value->out < 0)
     close(tree->value->out);
   if (tree->left)
     close_all(tree->left);
@@ -61,8 +61,10 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	{
 		printf(" before exec\n");
 //		debug_fd(data, exec);
+    printf("in -> %d\nout -> %d\n", token->in, token->out);
     dup2(token->in, STDIN_FILENO);
 	  dup2(token->out, STDOUT_FILENO);
+    pop_all_fd(&(data->fds));
 	  execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
@@ -71,7 +73,6 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		handle_invalid_command(data);
 	}
   //free env_local
-  close_all(data->tree);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
@@ -95,20 +96,29 @@ void	exec_command(t_data *data, t_tree *tree)
 
 void  exec_tree_node(t_data *data, t_tree *tree);
 
+void  put_fd(t_data *data, t_tree **tree, int in, int out)
+{
+  (*tree)->value->in = in;
+  (*tree)->value->out = out;
+  printf("-> %d\n-> %d\n\n", in, out);
+  fd_push_back(&(data->fds), in);
+  fd_push_back(&(data->fds), out);
+  (void)data;
+}
+
 void  exec_pipe(t_data *data, t_tree *tree)
 {
   int fds[2];
 
   safe_pipe(data, fds);
-  tree->left->value->out = fds[1];
-  tree->left->value->in = tree->value->in;
-  tree->right->value->in = fds[0];
-  tree->right->value->out = tree->value->out;
+  put_fd(data, &(tree->left), tree->value->in, fds[1]);
+  put_fd(data, &(tree->right), fds[0], tree->value->out);
   exec_tree_node(data, tree->left);
-  close(fds[1]);
-
+//  close (fds[1]);
+  pop_fd(&(data->fds), fds[1]); 
   exec_tree_node(data, tree->right);
-  close(fds[0]);
+  pop_fd(&(data->fds), fds[0]);
+//  close (fds[1]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)
@@ -139,10 +149,14 @@ int	exec_line(t_data *data, t_tree *tree)
 		try_exec_first_buildins(data, tree->value->command);
 		return(0);
 	}
+//  data->exec->original_in = dup(0);
+//  data->exec->original_out = dup(1);
   tree->value->in = 0;
   tree->value->out = 1;
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
-  close_all(tree);
+  pop_all_fd(&(data->fds));
+//  safe_dup2(data, data->exec->original_in, 0);
+//  safe_dup2(data, data->exec->original_out, 1);
 	return (code);
 }

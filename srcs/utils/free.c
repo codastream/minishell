@@ -69,7 +69,8 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-	reset(tree);
+//	free(tree->value);
+  reset(tree);
 }
 void	free_after_exec(t_data *data)
 {
