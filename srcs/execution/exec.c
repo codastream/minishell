@@ -66,6 +66,8 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		printf(" before exec\n");
 		dup2(token->in, STDIN_FILENO);
 		dup2(token->out, STDOUT_FILENO);
+		close(data->exec->original_in);
+		close(data->exec->original_out);
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
