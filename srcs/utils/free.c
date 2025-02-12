@@ -79,8 +79,6 @@ void	free_after_exec(t_data *data)
 		free_tree(data->tree);
 	if (data->exec)
 		free_exec(data->exec);
-//	if (data->vars)
-//		ft_free_hashtable(data->vars);
 	reset(data->line);
 	reset(data->prompt);
 }

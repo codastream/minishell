@@ -12,8 +12,8 @@ int		wait_all(t_exec *exec)
 	while (i < exec->commands_nb)
 	{
 		result = waitpid(0, &status, 0);
-//		if (result == last_cpid)
-	//		code = WEXITSTATUS(status);
+		if (result == exec->last_pid)
+			code = WEXITSTATUS(status);
 		i++;
 	}
 	if (exec->return_code && exec->return_code != 0)
@@ -35,17 +35,17 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	return (exec);
 }
 
-void  close_all(t_tree *tree)
-{
-  if (tree->value->in >= 0)
-    close(tree->value->in);
-  if (tree->value->out >= 0)
-    close(tree->value->out);
-  if (tree->left)
-    close_all(tree->left);
-  if (tree->right)
-    close_all(tree->right);
-}
+// void  close_all(t_tree *tree)
+// {
+//   if (tree->value->in >= 0)
+//     close(tree->value->in);
+//   if (tree->value->out >= 0)
+//     close(tree->value->out);
+//   if (tree->left)
+//     close_all(tree->left);
+//   if (tree->right)
+//     close_all(tree->right);
+// }
 
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
@@ -55,12 +55,11 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	check_alloc(data, env_local);
 	if (!command->command_name) // empty command with redir
 		exit (EXIT_SUCCESS);
-	command->pathname = get_checked_pathmame(data, command);
 	try_exec_builtin(data, token, command);
+	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
 	{
 		printf(" before exec\n");
-//		debug_fd(data, exec);
 		dup2(token->in, STDIN_FILENO);
 		dup2(token->out, STDOUT_FILENO);
 		execve((const char *) command->pathname, \
@@ -71,20 +70,18 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		handle_invalid_command(data);
 	}
 	ft_free_2d_char_null_ended(env_local);
-  // close_all(data->tree);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
 
-	// safe_pipe(data, exec->fds);
 	printf("*exec command : %s\n", tree->value->string);
-//	printf("%snew pipe with read %d and write %d%s\n", P_PINK, exec->fds[0], exec->fds[1], P_NOC);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
 		ft_put_yellow("child starting\n");
+		// TODO handle redirs
 		child_exec(data, tree->value->command, tree->value);
 	}
 	else
@@ -95,8 +92,6 @@ void	exec_command(t_data *data, t_tree *tree)
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
-	// int	fds[2];
-
 	safe_pipe(data, data->exec->fds);
 	tree->left->value->out = data->exec->fds[1];
 	tree->left->value->in = tree->value->in;
@@ -131,16 +126,23 @@ int	exec_line(t_data *data, t_tree *tree)
 	int		code;
 
 	exec = init_exec(data, tree);
+	exec->original_in = dup(STDIN_FILENO);
+	exec->original_out = dup(STDOUT_FILENO);
 	data->exec = exec;
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	if (!tree->left && !tree->right && is_builtin(tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);
+		close(exec->original_in);
+		close(exec->original_out);
 		return(0);
 	}
+	iter_tree_modify(tree, init_fds);
 	tree->value->in = 0;
 	tree->value->out = 1;
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
+	safe_dup2(data, exec->original_in, STDIN_FILENO);
+	safe_dup2(data, exec->original_out, STDOUT_FILENO);
 	return (code);
 }

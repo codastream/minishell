@@ -23,7 +23,6 @@ int	main(int ac, char **av, char **env)
 			tokens = tokenize(data, data->line);
 			data->tokens = tokens;
 			tree = make_tree(*tokens);
-			iter_tree_modify(tree, init_fds);
 			check_alloc(data, tree);
 			data->tree = tree;
 			print_pretty_tree(data, data->tree, 0, "root ", false);
@@ -31,7 +30,6 @@ int	main(int ac, char **av, char **env)
 			code = exec_line(data, data->tree);
 			free_after_exec(data);
 		}
-//		free(data->prompt);
 		ft_free_hashtable(data->vars);
 		free_data(data);
 	}
