@@ -32,6 +32,8 @@ void	free_command(t_command *command)
 
 void	free_exec(t_exec *exec)
 {
+	if (!exec)
+		return ;
 	reset(exec);
 }
 
@@ -49,9 +51,9 @@ void	free_tokens(t_token **tokens)
 	t_token	*current;
 	t_token	*tmp;
 
-	current = NULL;
-	if (*tokens)
-		current = *tokens;
+	if (!tokens)
+		return ;
+	current = *tokens;
 	while (current)
 	{
 		tmp = current->next;
