@@ -76,7 +76,6 @@ typedef	struct s_tree
 typedef struct s_exec
 {
 	int			fds[2];
-	int			pipefds[2];
 	int			return_code;
 	int			commands_nb;
 	int			current_cmd_index;
@@ -91,6 +90,7 @@ typedef struct s_exec
 typedef struct s_data
 {
 	t_hash		*vars;
+	char		**varstab;
 	t_token		**tokens;
 	t_tree		*tree;
 	t_exec		*exec;

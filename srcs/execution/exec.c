@@ -32,6 +32,7 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	iter_tree_count(tree, &count, count_if_command);
 	exec->commands_nb = count;
 	exec->current_cmd_index = 0;
+	exec->return_code = EXIT_SUCCESS;
 	return (exec);
 }
 
@@ -53,8 +54,11 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
+	data->varstab = env_local;
 	if (!command->command_name) // empty command with redir
-		exit (EXIT_SUCCESS);
+	{
+		ft_exit(data, command);
+	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
@@ -131,7 +135,7 @@ int	exec_line(t_data *data, t_tree *tree)
 	if (!tree->left && !tree->right && is_builtin(tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);
-		// return(0); // code won't be accessed
+		return (0);
 	}
 	exec->original_in = dup(STDIN_FILENO);
 	exec->original_out = dup(STDOUT_FILENO);

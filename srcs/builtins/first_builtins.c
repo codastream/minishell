@@ -2,11 +2,14 @@
 
 void	ft_exit(t_data *data, t_command *command)
 {
+	int	return_code;
+
+	return_code = data->exec->return_code;
 	(void)command;
 	free_after_exec(data);
 	ft_free_hashtable(data->vars);
 	free_data(data);
-	exit(0); // recuperer une variable d'environement si autoriser
+	exit(return_code); // recuperer une variable d'environement si autoriser
 }
 
 void	ft_echo(t_token *token, t_command *command)
@@ -105,18 +108,19 @@ void	ft_unset(t_data *data, t_command *command)
 	ft_hash_remove(data->vars, (command->command_args)[1]);
 }
 
+// TODO use hashmap or tab with function pointers ?
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
 	if (!ft_strcmp((command->command_args)[0], "exit"))
 		ft_exit(data, command);
-	if (!ft_strcmp((command->command_args)[0], "echo"))
+	else if (!ft_strcmp((command->command_args)[0], "echo"))
 		ft_echo(token, command);
-	if (!ft_strcmp((command->command_args)[0], "cd"))
+	else if (!ft_strcmp((command->command_args)[0], "cd"))
 		ft_cd(data, command);
-	if (!ft_strcmp((command->command_args)[0], "pwd"))
+	else if (!ft_strcmp((command->command_args)[0], "pwd"))
 		ft_pwd();
-	if (!ft_strcmp((command->command_args)[0], "env"))
+	else if (!ft_strcmp((command->command_args)[0], "env"))
 		ft_env(data->vars);
-	if (!ft_strcmp((command->command_args)[0], "unset"))
+	else if (!ft_strcmp((command->command_args)[0], "unset"))
 		ft_unset(data, command);
 }

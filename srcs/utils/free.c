@@ -81,6 +81,8 @@ void	free_after_exec(t_data *data)
 		free_tree(data->tree);
 	if (data->exec)
 		free_exec(data->exec);
+	if (data->varstab)
+		ft_free_2d_char_null_ended(data->varstab);
 	reset(data->line);
 	reset(data->prompt);
 }

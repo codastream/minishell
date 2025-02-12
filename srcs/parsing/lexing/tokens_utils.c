@@ -28,6 +28,8 @@ t_token	*new_token(t_data *data, t_tokentype type, int index, char *string)
 	token->prev = NULL;
 	token->next = NULL;
 	token->command = NULL;
+	token->in = STDIN_FILENO;
+	token->out = STDOUT_FILENO;
 	if (string)
 	{
 		token->string = ft_strtrim(string, " ");
