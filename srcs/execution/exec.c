@@ -126,17 +126,15 @@ int	exec_line(t_data *data, t_tree *tree)
 	int		code;
 
 	exec = init_exec(data, tree);
-	exec->original_in = dup(STDIN_FILENO);
-	exec->original_out = dup(STDOUT_FILENO);
 	data->exec = exec;
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	if (!tree->left && !tree->right && is_builtin(tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);
-		close(exec->original_in);
-		close(exec->original_out);
-		return(0);
+		// return(0); // code won't be accessed
 	}
+	exec->original_in = dup(STDIN_FILENO);
+	exec->original_out = dup(STDOUT_FILENO);
 	iter_tree_modify(tree, init_fds);
 	tree->value->in = 0;
 	tree->value->out = 1;
