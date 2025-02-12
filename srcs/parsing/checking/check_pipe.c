@@ -7,7 +7,7 @@ t_command *new_command(t_data *data, char *string)
 
 	command = ft_calloc(1, sizeof(t_command));
 	check_alloc(data, command);
-	if (string)
+	if (string && string[0] != '\0')
 	{
 		name_with_args = ft_split(string, ' ');
 		check_alloc(data, name_with_args);

@@ -10,6 +10,7 @@ t_token	**tokenize(t_data *data, char *line);
 // sanitize
 void	add_after_splitted_on_space(t_data *data, t_token *token, int index_space);
 void	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token);
+void	merge_word_with_next_words(t_data *data, t_token **tokens, t_token *token);
 t_token	*get_first_of_consecutive(t_token *token);
 
 // token utils

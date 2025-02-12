@@ -44,6 +44,8 @@ void	count_if_command(t_tree *tree, int *nb)
 
 void	init_fds(t_tree *tree)
 {
+	if (!tree)
+		return ;
 	tree->value->in = -1;
 	tree->value->out = -1;
 }
