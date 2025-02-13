@@ -39,7 +39,7 @@ void	pop_front_fd(t_fds **head)
 	*head = (*head)->next;
   if (tmp->fd >= 3)
   {
-    printf("coucou\n");
+ //   printf("coucou\n");
     close(tmp->fd);
   }
   if (tmp)  
