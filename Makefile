@@ -72,6 +72,7 @@ SRCS_FILES:=	main.c\
 				execution/exec.c\
 				execution/exec_utils.c\
 				execution/heredoc.c\
+				execution/fds.c\
 				signal/signal.c\
 				tree/tree.c\
 				tree/tree_struct.c\

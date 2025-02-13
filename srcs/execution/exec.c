@@ -36,17 +36,17 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	return (exec);
 }
 
-// void  close_all(t_tree *tree)
-// {
-//   if (tree->value->in >= 0)
-//     close(tree->value->in);
-//   if (tree->value->out >= 0)
-//     close(tree->value->out);
-//   if (tree->left)
-//     close_all(tree->left);
-//   if (tree->right)
-//     close_all(tree->right);
-// }
+void  close_all(t_tree *tree)
+{
+  if (tree->value->in < 0)
+    close(tree->value->in);
+  if (tree->value->out < 0)
+    close(tree->value->out);
+  if (tree->left)
+    close_all(tree->left);
+  if (tree->right)
+    close_all(tree->right);
+}
 
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
@@ -57,7 +57,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	data->varstab = env_local;
 	if (!command->command_name) // empty command with redir
 	{
-		ft_exit(data, command);
+		exit(EXIT_SUCCESS);
 	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
@@ -66,8 +66,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		printf(" before exec\n");
 		dup2(token->in, STDIN_FILENO);
 		dup2(token->out, STDOUT_FILENO);
-		close(data->exec->original_in);
-		close(data->exec->original_out);
+		pop_all_fd(&(data->fds));
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
@@ -75,7 +74,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	{
 		handle_invalid_command(data);
 	}
-	ft_free_2d_char_null_ended(env_local);
+  //free env_local
 }
 
 void	exec_command(t_data *data, t_tree *tree)
@@ -96,18 +95,31 @@ void	exec_command(t_data *data, t_tree *tree)
 	}
 }
 
+void  exec_tree_node(t_data *data, t_tree *tree);
+
+void  put_fd(t_data *data, t_tree **tree, int in, int out)
+{
+  (*tree)->value->in = in;
+  (*tree)->value->out = out;
+  printf("-> %d\n-> %d\n\n", in, out);
+  fd_push_back(&(data->fds), in);
+  fd_push_back(&(data->fds), out);
+  (void)data;
+}
+
 void  exec_pipe(t_data *data, t_tree *tree)
 {
-	safe_pipe(data, data->exec->fds);
-	tree->left->value->out = data->exec->fds[1];
-	tree->left->value->in = tree->value->in;
-	tree->right->value->in = data->exec->fds[0];
-	tree->right->value->out = tree->value->out;
-	exec_tree_node(data, tree->left);
-	close(data->exec->fds[1]);
-	print_pretty_tree(data, tree, 0, "", true);
-	exec_tree_node(data, tree->right);
-	close(data->exec->fds[0]);
+  int fds[2];
+
+  safe_pipe(data, fds);
+  put_fd(data, &(tree->left), tree->value->in, fds[1]);
+  put_fd(data, &(tree->right), fds[0], tree->value->out);
+  exec_tree_node(data, tree->left);
+//  close (fds[1]);
+  pop_fd(&(data->fds), fds[1]);
+  exec_tree_node(data, tree->right);
+  pop_fd(&(data->fds), fds[0]);
+//  close (fds[1]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)
@@ -139,14 +151,14 @@ int	exec_line(t_data *data, t_tree *tree)
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return (0);
 	}
-	exec->original_in = dup(STDIN_FILENO);
-	exec->original_out = dup(STDOUT_FILENO);
-	iter_tree_modify(tree, init_fds);
-	tree->value->in = 0;
-	tree->value->out = 1;
+//  data->exec->original_in = dup(0);
+//  data->exec->original_out = dup(1);
+  tree->value->in = 0;
+  tree->value->out = 1;
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
-	safe_dup2(data, exec->original_in, STDIN_FILENO);
-	safe_dup2(data, exec->original_out, STDOUT_FILENO);
+  pop_all_fd(&(data->fds));
+//  safe_dup2(data, data->exec->original_in, 0);
+//  safe_dup2(data, data->exec->original_out, 1);
 	return (code);
 }
