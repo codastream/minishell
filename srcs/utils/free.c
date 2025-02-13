@@ -71,7 +71,6 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-//	free(tree->value);
   free_token(tree->value);
   reset(tree);
 }

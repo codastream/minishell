@@ -112,7 +112,9 @@ void	ft_unset(t_data *data, t_command *command)
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
 	if (!ft_strcmp((command->command_args)[0], "exit"))
+	{
 		ft_exit(data, command);
+	}
 	else if (!ft_strcmp((command->command_args)[0], "echo"))
 		ft_echo(token, command);
 	else if (!ft_strcmp((command->command_args)[0], "cd"))

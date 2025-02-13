@@ -100,7 +100,7 @@ typedef struct s_data
 	t_token		**tokens;
 	t_tree		*tree;
 	t_exec		*exec;
-  t_fds     *fds;
+  	t_fds     	*fds;
 	char		*prompt;
 	char		*line;
 }	t_data;

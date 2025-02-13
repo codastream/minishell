@@ -64,9 +64,10 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	if (command->pathname)
 	{
 		printf(" before exec\n");
-		dup2(token->in, STDIN_FILENO);
-		dup2(token->out, STDOUT_FILENO);
+		safe_dup2(data, token->in, STDIN_FILENO);
+		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
+		free_data(data);
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
@@ -109,17 +110,14 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
-  int fds[2];
-
-  safe_pipe(data, fds);
-  put_fd(data, &(tree->left), tree->value->in, fds[1]);
-  put_fd(data, &(tree->right), fds[0], tree->value->out);
+  safe_pipe(data, data->exec->fds);
+  put_fd(data, &(tree->left), tree->value->in, data->exec->fds[1]);
+  put_fd(data, &(tree->right), data->exec->fds[0], tree->value->out);
   exec_tree_node(data, tree->left);
-//  close (fds[1]);
-  pop_fd(&(data->fds), fds[1]);
+  print_pretty_tree(data, tree, 0, "root", true);
+  pop_fd(&(data->fds), data->exec->fds[1]);
   exec_tree_node(data, tree->right);
-  pop_fd(&(data->fds), fds[0]);
-//  close (fds[1]);
+  pop_fd(&(data->fds), data->exec->fds[0]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)
