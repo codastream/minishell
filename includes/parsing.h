@@ -5,7 +5,7 @@
 
 // lexer.c
 void	do_for_tokens(t_data *data, t_token **tokens, void (*f)(t_data *, t_token **, t_token *));
-t_token	**tokenize(t_data *data, char *line);
+void	tokenize(t_data *data, char *line);
 
 // sanitize
 void	add_after_splitted_on_space(t_data *data, t_token *token, int index_space);

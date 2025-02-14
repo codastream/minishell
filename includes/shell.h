@@ -64,7 +64,9 @@ typedef struct s_token
 {
 	int				index;
 	int				in;
-	int     out;
+	int				out;
+	int				pipe_read;
+	int				pipe_write;
 	char			*string;
 	t_command		*command;
 	t_tokentype		type;

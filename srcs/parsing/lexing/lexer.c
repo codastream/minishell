@@ -73,7 +73,7 @@ void	check_tokens(t_data *data, t_token **tokens)
  * called after syntax check
  * splits and assigns first labels (ie enums) to input parts
  */
-t_token	**tokenize(t_data *data, char *line)
+void	tokenize(t_data *data, char *line)
 {
 	char		**separators;
 	char		**splitted;
@@ -95,5 +95,5 @@ t_token	**tokenize(t_data *data, char *line)
 	ft_free_2d_char_null_ended(splitted);
 	free(separators);
 	check_tokens(data, tokens);
-	return (tokens);
+	data->tokens = tokens;
 }

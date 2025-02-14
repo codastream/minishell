@@ -2,7 +2,6 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_token **tokens;
 	t_tree	*tree;
 	int		code;
 	t_data	*data;
@@ -22,13 +21,10 @@ int	main(int ac, char **av, char **env)
 				add_history(data->line);
 			check_closing_quotes(data, data->line);
 			printf("%s\n", data->line);
-			tokens = tokenize(data, data->line);
-			data->tokens = tokens;
-			tree = make_tree(*tokens);
+			tokenize(data, data->line);
+			tree = make_tree(*(data->tokens));
 			check_alloc(data, tree);
 			data->tree = tree;
-			print_pretty_tree(data, data->tree, 0, "root ", false);
-			printf("\n");
 			code = exec_line(data, data->tree);
 			free_after_exec(data);
 		}

@@ -127,24 +127,28 @@ void  exec_tree_node(t_data *data, t_tree *tree);
 
 void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
-  (*tree)->value->in = in;
-  (*tree)->value->out = out;
-  printf("-> %d\n-> %d\n\n", in, out);
-  fd_push_back(&(data->fds), in);
-  fd_push_back(&(data->fds), out);
-  (void)data;
+	(*tree)->value->in = in;
+	(*tree)->value->out = out;
+	printf("-> %d\n-> %d\n\n", in, out);
+	fd_push_back(&(data->fds), in);
+	fd_push_back(&(data->fds), out);
+	(void)data;
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
-  safe_pipe(data, data->exec->fds);
-  put_fd(data, &(tree->left), tree->value->in, data->exec->fds[1]);
-  put_fd(data, &(tree->right), data->exec->fds[0], tree->value->out);
-  exec_tree_node(data, tree->left);
-  print_pretty_tree(data, tree, 0, "root", true);
-  pop_fd(&(data->fds), data->exec->fds[1]);
-  exec_tree_node(data, tree->right);
-  pop_fd(&(data->fds), data->exec->fds[0]);
+	int	fds[2];
+
+	safe_pipe(data, fds);
+	tree->value->pipe_read = fds[0];
+	tree->value->pipe_write = fds[1];
+	put_fd(data, &(tree->left), tree->value->in, fds[1]);
+	put_fd(data, &(tree->right), fds[0], tree->value->out);
+	exec_tree_node(data, tree->left);
+	print_pretty_tree(data, data->tree, 0, "root", true);
+	pop_fd(&(data->fds), fds[1]);
+	exec_tree_node(data, tree->right);
+	pop_fd(&(data->fds), fds[0]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)
