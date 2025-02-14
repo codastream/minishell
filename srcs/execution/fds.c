@@ -58,7 +58,7 @@ void  pop_fd(t_fds **fds, int fd)
     return ;
   while (tmp && tmp->fd != fd)
     tmp = tmp->next;
-  if (tmp && tmp->fd >= 0)
+  if (tmp && tmp->fd >= 3)
   {
     close(tmp->fd);
     tmp->fd = -1;
