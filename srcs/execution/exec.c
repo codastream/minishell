@@ -91,7 +91,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
 	{
-		printf(" before exec\n");
+		// printf(" before exec\n");
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
@@ -109,11 +109,11 @@ void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
 
-	printf("*exec command : %s\n", tree->value->string);
+	// printf("*exec command : %s\n", tree->value->string);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
-		ft_put_yellow("child starting\n");
+		// ft_put_yellow("child starting\n");
 		// TODO handle redirs
 		child_exec(data, tree->value->command, tree->value);
 	}
@@ -129,7 +129,7 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->in = in;
 	(*tree)->value->out = out;
-	printf("-> %d\n-> %d\n\n", in, out);
+	// printf("-> %d\n-> %d\n\n", in, out);
 	fd_push_back(&(data->fds), in);
 	fd_push_back(&(data->fds), out);
 	(void)data;
@@ -145,7 +145,7 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	put_fd(data, &(tree->left), tree->value->in, fds[1]);
 	put_fd(data, &(tree->right), fds[0], tree->value->out);
 	exec_tree_node(data, tree->left);
-	print_pretty_tree(data, data->tree, 0, "root", true);
+	// print_pretty_tree(data, data->tree, 0, "root", true);
 	pop_fd(&(data->fds), fds[1]);
 	exec_tree_node(data, tree->right);
 	pop_fd(&(data->fds), fds[0]);
@@ -161,7 +161,7 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	}
 	else if (tree->value->type == T_COMMAND )
 	{
-		printf("*command detected\n");
+		// printf("*command detected\n");
 		exec_command(data, tree);
 	}
 }
@@ -174,7 +174,7 @@ int	exec_line(t_data *data, t_tree *tree)
 
 	exec = init_exec(data, tree);
 	data->exec = exec;
-	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
+	// printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);

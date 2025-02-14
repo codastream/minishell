@@ -20,7 +20,6 @@ int	main(int ac, char **av, char **env)
 			if (data->line)
 				add_history(data->line);
 			check_closing_quotes(data, data->line);
-			printf("%s\n", data->line);
 			tokenize(data, data->line);
 			tree = make_tree(*(data->tokens));
 			check_alloc(data, tree);
