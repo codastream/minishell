@@ -34,6 +34,10 @@ void	free_exec(t_exec *exec)
 {
 	if (!exec)
 		return ;
+	if (exec->builtins)
+		free(exec->builtins);
+	if (exec->builtin_ptrs)
+		free(exec->builtin_ptrs);
 	reset(exec);
 }
 
@@ -45,23 +49,6 @@ void	free_token(t_token *token)
 		reset(token->string);
 	reset(token);
 }
-/*
-void	free_tokens(t_token **tokens)
-{
-	t_token	*current;
-	t_token	*tmp;
-
-	if (!tokens)
-		return ;
-	current = *tokens;
-	while (current)
-	{
-		tmp = current->next;
-		free_token(current);
-		current = tmp;
-	}
-	reset(tokens);
-}*/
 
 void	free_tree(t_tree *tree)
 {

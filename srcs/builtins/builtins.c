@@ -26,71 +26,21 @@ char	*ft_joinfree(char *str1, char *str2)
 
 void	try_exec_builtin(t_data *data, t_token *token, t_command *command)
 {
-	if (!ft_strcmp((command->command_args)[0], "exit"))
-	{
-		ft_exit(data, command);
-	}
-	if (!ft_strcmp((command->command_args)[0], "echo"))
-	{
-		ft_echo(token, command);
-		pop_all_fd(&(data->fds));
-		ft_exit(data, command);
-	}
-	if (!ft_strcmp((command->command_args)[0], "cd"))
-	{
-		ft_cd(data, command);
-		ft_exit(data, command);
-	}
-	if (!ft_strcmp((command->command_args)[0], "pwd"))
-	{
-		ft_pwd();
-		ft_exit(data, command);
-	}
-	if (!ft_strcmp((command->command_args)[0], "env"))
-	{
-		ft_env(data->vars);
-		ft_exit(data, command);
-	}
-	if (!ft_strcmp((command->command_args)[0], "unset"))
-	{
-		ft_unset(data, command);
-		ft_exit(data, command);
-	}
+	try_exec_single_builtin(data, token, command);
+	pop_all_fd(&data->fds);
+	ft_exit(data, token);
 }
 
-bool	is_builtin(t_command *command)
+bool	is_builtin(t_data *data, t_command *command)
 {
-	char	*builtins[7];
 	int	i;
 
-	builtins[0] = "cd";
-	builtins[1] = "pwd";
-	builtins[2] = "env";
-	builtins[3] = "unset";
-	builtins[4] = "echo";
-	builtins[5] = "exit";
-	builtins[6] = NULL;
-
 	i = 0;
-	while (builtins[i])
+	while (data->exec->builtins[i])
 	{
-		if (!ft_strcmp((command->command_args)[0], builtins[i]))
+		if (!ft_strcmp((command->command_args)[0], data->exec->builtins[i]))
 			return (true);
 		i++;
 	}
 	return (false);
-
-	// if (!ft_strcmp((command->command_args)[0], "exit"))
-	// 	return (true);
-	// if (!ft_strcmp((command->command_args)[0], "echo"))
-	// 	return (true);
-	// if (!ft_strcmp((command->command_args)[0], "cd"))
-	// 	return (true);
-	// if (!ft_strcmp((command->command_args)[0], "pwd"))
-	// 	return (true);
-	// if (!ft_strcmp((command->command_args)[0], "env"))
-	// 	return (true);
-	// if (!ft_strcmp((command->command_args)[0], "unset"))
-	// 	return (true);
-	// return (false);
 }

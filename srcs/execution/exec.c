@@ -21,13 +21,41 @@ int		wait_all(t_exec *exec)
 	return (code);
 }
 
+void	init_builtins(t_data *data, t_exec *exec)
+{
+	char		**builtins;
+	t_builtin	*builtin_f;
+
+	builtins = ft_calloc(7, sizeof(char *));
+	check_alloc(data, builtins);
+	builtins[0] = "cd";
+	builtins[1] = "echo";
+	builtins[2] = "exit";
+	builtins[3] = "env";
+	builtins[4] = "pwd";
+	builtins[5] = "unset";
+	builtins[6] = NULL;
+	exec->builtins = builtins;
+	builtin_f = ft_calloc(7, sizeof(t_builtin *));
+	check_alloc(data, builtin_f);
+	builtin_f[0] = ft_cd;
+	builtin_f[1] = ft_echo;
+	builtin_f[2] = ft_exit;
+	builtin_f[3] = ft_env;
+	builtin_f[4] = ft_pwd;
+	builtin_f[5] = ft_unset;
+	builtin_f[6] = NULL;
+	exec->builtin_ptrs = builtin_f;
+}
+
 t_exec	*init_exec(t_data *data, t_tree *tree)
 {
-	t_exec	*exec;
-	int	count;
+	t_exec		*exec;
+	int			count;
 
 	exec = ft_calloc(1, sizeof(t_exec));
 	check_alloc(data, exec);
+	init_builtins(data, exec);
 	count = 0;
 	iter_tree_count(tree, &count, count_if_command);
 	exec->commands_nb = count;
@@ -75,7 +103,6 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	{
 		handle_invalid_command(data);
 	}
-  //free env_local
 }
 
 void	exec_command(t_data *data, t_tree *tree)
@@ -144,19 +171,15 @@ int	exec_line(t_data *data, t_tree *tree)
 	exec = init_exec(data, tree);
 	data->exec = exec;
 	printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
-	if (!tree->left && !tree->right && is_builtin(tree->value->command))
+	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);
-		return (0);
+		return (data->exec->return_code);
 	}
-//  data->exec->original_in = dup(0);
-//  data->exec->original_out = dup(1);
-  tree->value->in = 0;
-  tree->value->out = 1;
+	tree->value->in = 0;
+	tree->value->out = 1;
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
-  pop_all_fd(&(data->fds));
-//  safe_dup2(data, data->exec->original_in, 0);
-//  safe_dup2(data, data->exec->original_out, 1);
+	pop_all_fd(&(data->fds));
 	return (code);
 }

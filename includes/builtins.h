@@ -16,15 +16,14 @@
 void	try_exec_builtin(t_data *data, t_token *token, t_command *command);
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command);
 
-bool	is_builtin(t_command *command);
-
+bool	is_builtin(t_data *data, t_command *command);
 char	*ft_joinfree(char *str1, char *str2);
-char	*getpwd(void);
-void	ft_exit(t_data *data, t_command *command);
-void	ft_echo(t_token *token, t_command *command);
-void	ft_env(t_hash *hash);
-void	ft_pwd(void);
-void	ft_cd(t_data *data,t_command *command);
-void	ft_unset(t_data *data, t_command *command);
+char	*getpwd(t_data *data);
+void	ft_exit(t_data *data, t_token *token);
+void	ft_echo(t_data *data, t_token *token);
+void	ft_env(t_data *data, t_token *token);
+void	ft_pwd(t_data *data, t_token *token);
+void	ft_cd(t_data *data, t_token *token);
+void	ft_unset(t_data *data, t_token *token);
 
 #endif

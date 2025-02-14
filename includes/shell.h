@@ -79,6 +79,9 @@ typedef	struct s_tree
 	struct s_tree	*right;
 }	t_tree;
 
+typedef struct s_data t_data;
+typedef void	(*t_builtin)(t_data *, t_token *);
+
 typedef struct s_exec
 {
 	int			fds[2];
@@ -90,6 +93,9 @@ typedef struct s_exec
 	int			future_redirout;
 	int			original_in;
 	int			original_out;
+	char		**builtins;
+	t_builtin	*builtin_ptrs;
+
 	// t_command	**commands;
 }	t_exec;
 
