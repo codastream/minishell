@@ -63,6 +63,7 @@ void	free_tree(t_tree *tree)
 }
 void	free_after_exec(t_data *data)
 {
+	data->fds = NULL;
 	if (data->tokens)
 		free(data->tokens);
 	if (data->tree)
