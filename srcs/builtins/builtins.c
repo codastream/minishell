@@ -27,8 +27,11 @@ char	*ft_joinfree(char *str1, char *str2)
 void	try_exec_builtin(t_data *data, t_token *token, t_command *command)
 {
 	try_exec_single_builtin(data, token, command);
-	pop_all_fd(&data->fds);
-	ft_exit(data, token);
+	if (is_builtin(data, command))
+	{
+		pop_all_fd(&data->fds);
+		ft_exit(data, token);
+	}
 }
 
 bool	is_builtin(t_data *data, t_command *command)
