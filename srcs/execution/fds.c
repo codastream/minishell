@@ -63,6 +63,12 @@ void  pop_fd(t_fds **fds, int fd)
     close(tmp->fd);
     tmp->fd = -1;
   }
+  while (tmp)
+  {
+    if (tmp->fd >= 3)
+      tmp->fd = -1;
+    tmp = tmp->next;
+  }
 }
 
 void	pop_all_fd(t_fds **head)

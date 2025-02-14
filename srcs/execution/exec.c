@@ -91,7 +91,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
 	{
-		printf(" before exec\n");
+		printf(" before exec\n>> %d\n>> %d\n", token->in, token->out);
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
@@ -105,6 +105,35 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 }
 
+void  put_fd(t_data *data, t_tree **tree, int in, int out)
+{
+	(*tree)->value->in = in;
+	(*tree)->value->out = out;
+//	printf("-> %d\n-> %d\n\n", in, out);
+	fd_push_back(&(data->fds), in);
+	fd_push_back(&(data->fds), out);
+	(void)data;
+}
+
+void  redir_data(t_data *data, t_tree **tree)
+{
+	int fd;
+
+	if ((*tree)->value->command->redir_in)
+	{
+		fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
+		if (fd < 0)
+		handle_invalid_command(data);
+		put_fd(data, tree, fd, (*tree)->value->out);
+	}
+	if ((*tree)->value->command->redir_out_truncate)
+	{
+		fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+			handle_invalid_command(data);
+		put_fd(data, tree, (*tree)->value->in, fd);
+	}
+}
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
@@ -114,7 +143,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	if (child_pid == 0)
 	{
 		ft_put_yellow("child starting\n");
-		// TODO handle redirs
+		redir_data(data, &tree);
 		child_exec(data, tree->value->command, tree->value);
 	}
 	else
@@ -124,16 +153,6 @@ void	exec_command(t_data *data, t_tree *tree)
 }
 
 void  exec_tree_node(t_data *data, t_tree *tree);
-
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->in = in;
-	(*tree)->value->out = out;
-	printf("-> %d\n-> %d\n\n", in, out);
-	fd_push_back(&(data->fds), in);
-	fd_push_back(&(data->fds), out);
-	(void)data;
-}
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
