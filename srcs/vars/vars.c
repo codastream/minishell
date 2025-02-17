@@ -79,6 +79,14 @@ void	init_vars(t_data *data, char **env)
 		free(key);
 		i++;
 	}
+	ft_hash_insert(vars, LAST_RETURN_CODE, 0);
 	// ft_print_hashstr(vars);
 	data->vars = vars;
+}
+void	update_last_return(t_data *data, int code)
+{
+	char	*code_s;
+
+	code_s = ft_strdup(ft_itoa(code));
+	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s);
 }

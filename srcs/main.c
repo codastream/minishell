@@ -29,8 +29,8 @@ int	main(int ac, char **av, char **env)
 		}
 		ft_free_hashtable(data->vars);
 		free_data(data);
+		return (code);
 	}
 	else
 		printerr("launch ./minishell without option\n");
-	(void)code;
 }
