@@ -1,19 +1,29 @@
 #include "shell.h"
 
-t_command *new_command(t_data *data, char *string)
+void	update_command_from_string(t_data *data, t_command *command, char *string)
 {
 	char 		**name_with_args;
+
+	if (command->command_args)
+		ft_free_2d_char_null_ended(command->command_args);
+	if (command->command_name)
+		free(command->command_name);
+	name_with_args = ft_split(string, ' ');
+	check_alloc(data, name_with_args);
+	command->command_args = name_with_args;
+	command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
+	check_alloc(data, command->command_name);
+}
+
+t_command *new_command(t_data *data, char *string)
+{
 	t_command	*command;
 
 	command = ft_calloc(1, sizeof(t_command));
 	check_alloc(data, command);
 	if (string && string[0] != '\0')
 	{
-		name_with_args = ft_split(string, ' ');
-		check_alloc(data, name_with_args);
-		command->command_args = name_with_args;
-		command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
-		check_alloc(data, command->command_name);
+		update_command_from_string(data, command, string);
 	}
 	else
 	{

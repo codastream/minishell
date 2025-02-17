@@ -46,6 +46,7 @@ void	merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token
 	{
 		merge_with_next(data, tokens, token);
 	}
+	update_command_from_string(data, token->command, token->string);
 }
 
 void	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token)
