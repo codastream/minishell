@@ -68,8 +68,8 @@ void	check_tokens(t_data *data, t_token **tokens)
 	do_for_tokens(data, tokens, check_simple_command);
 	do_for_tokens(data, tokens, expand_in_double_literals);
 	do_for_tokens(data, tokens, merge_command_with_next_word);
-	printf("\n%safter expansion%s\n", P_PINK, P_NOC);
-	print_tokens(tokens);
+	// printf("\n%safter expansion%s\n", P_PINK, P_NOC);
+	// print_tokens(tokens);
 }
 
 /*

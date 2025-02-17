@@ -46,7 +46,7 @@ char	**hashtab_to_tab(t_data *data, t_hash *hash)
 					to_join[1] = current->value;
 				else
 					to_join[1] = "";
-				tab[i_tab] = ft_strjoin(2, to_join, "=");
+				tab[i_tab] = ft_multistrjoin(2, to_join, "=");
 				check_alloc(data, tab[i_tab]);
 				current = current->next;
 				i_tab++;
@@ -79,7 +79,7 @@ void	init_vars(t_data *data, char **env)
 		free(key);
 		i++;
 	}
-	ft_hash_insert(vars, LAST_RETURN_CODE, 0);
+	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
 	// ft_print_hashstr(vars);
 	data->vars = vars;
 }
