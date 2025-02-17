@@ -25,6 +25,7 @@ int	main(int ac, char **av, char **env)
 			check_alloc(data, tree);
 			data->tree = tree;
 			code = exec_line(data, data->tree);
+			update_last_return(data, code);
 			free_after_exec(data);
 		}
 		ft_free_hashtable(data->vars);
