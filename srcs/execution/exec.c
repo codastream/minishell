@@ -160,26 +160,13 @@ void	exec_command(t_data *data, t_tree *tree)
 	// printf("*exec command : %s\n", tree->value->string);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
+	{
 		// ft_put_yellow("child starting\n");
 		// TODO handle redirs
 		child_exec(data, tree->value->command, tree->value);
 	}
 	else
-	{
 		data->exec->last_pid = child_pid;
-	}
-}
-
-void  exec_tree_node(t_data *data, t_tree *tree);
-
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->in = in;
-	(*tree)->value->out = out;
-	// printf("-> %d\n-> %d\n\n", in, out);
-	fd_push_back(&(data->fds), in);
-	fd_push_back(&(data->fds), out);
-	(void)data;
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
