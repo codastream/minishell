@@ -109,7 +109,7 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 //	printf("-> %d\n-> %d\n\n", in, out)
 	fd_push_back(&(data->fds), in);
 	fd_push_back(&(data->fds), out);
-  printf("in--> %d\n out-->%d\n\n", in, out);
+//  printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
 }
 
@@ -150,7 +150,9 @@ void  redir_data(t_data *data, t_tree **tree)
 		}
 		put_fd(data, tree, (*tree)->value->in, fd);
 	}
+  init_heredoc(data, tree);
 }
+
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;

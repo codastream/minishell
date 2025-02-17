@@ -11,7 +11,7 @@ void	merge_with_next(t_data *data, t_token **tokens, t_token *token)
 	tab[1] = ft_strdup(token->next->string);
 	check_alloc(data, tab[1]);
 	tab[2] = NULL;
-	newstr = ft_strjoin(2, tab, " ");
+	newstr = ft_doublestrjoin(2, tab, " ");
 	check_alloc(data, newstr);
 	ft_free_2d_char_null_ended(tab);
 	delete_token(tokens, token->next);

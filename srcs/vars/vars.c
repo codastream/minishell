@@ -46,7 +46,7 @@ char	**hashtab_to_tab(t_data *data, t_hash *hash)
 					to_join[1] = current->value;
 				else
 					to_join[1] = "";
-				tab[i_tab] = ft_strjoin(2, to_join, "=");
+				tab[i_tab] = ft_doublestrjoin(2, to_join, "=");
 				check_alloc(data, tab[i_tab]);
 				current = current->next;
 				i_tab++;
