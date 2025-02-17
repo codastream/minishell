@@ -16,8 +16,19 @@ void	printerr_syntax(char *tokenstr)
 void	handle_error(t_data *data, char *msg)
 {
 	printerr(msg);
-	free_data(data);
-	exit(EXIT_FAILURE);
+  free_all_data(data);
+  exit(EXIT_FAILURE);
+}
+
+void  handle_child_error(t_data *data, t_command *command)
+{
+  if (command->has_invalid_redir)
+  {
+    free_all_data(data);
+    exit(EXIT_FAILURE);
+  }
+  else
+    handle_invalid_command(data);
 }
 
 void	handle_code(t_data *data, int code, char *msg)

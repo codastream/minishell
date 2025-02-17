@@ -89,7 +89,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
-	if (command->pathname)
+	if (command->pathname && command->has_invalid_redir == false)
 	{
 		printf(" before exec\n>> %d\n>> %d\n", token->in, token->out);
 		safe_dup2(data, token->in, STDIN_FILENO);
@@ -99,17 +99,14 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
-	else
-	{
-		handle_invalid_command(data);
-	}
+  handle_child_error(data, command);
 }
 
 void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->in = in;
 	(*tree)->value->out = out;
-//	printf("-> %d\n-> %d\n\n", in, out);
+//	printf("-> %d\n-> %d\n\n", in, out)
 	fd_push_back(&(data->fds), in);
 	fd_push_back(&(data->fds), out);
 	(void)data;
@@ -123,14 +120,30 @@ void  redir_data(t_data *data, t_tree **tree)
 	{
 		fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
 		if (fd < 0)
-		handle_invalid_command(data);
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_in);
+		}
 		put_fd(data, tree, fd, (*tree)->value->out);
 	}
 	if ((*tree)->value->command->redir_out_truncate)
 	{
 		fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd < 0)
-			handle_invalid_command(data);
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_truncate);
+		}
+		put_fd(data, tree, (*tree)->value->in, fd);
+	}
+	if ((*tree)->value->command->redir_out_append)
+	{
+		fd = open((*tree)->value->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (fd < 0)
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_append);
+		}
 		put_fd(data, tree, (*tree)->value->in, fd);
 	}
 }

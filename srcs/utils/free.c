@@ -80,3 +80,10 @@ void	free_data(t_data *data)
 {
 	reset(data);
 }
+
+void  free_all_data(t_data *data)
+{
+  ft_free_hashtable(data->vars);
+  pop_all_fd(&data->fds);
+  free_after_exec(data);
+}
