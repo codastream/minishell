@@ -1,5 +1,14 @@
 #include "shell.h"
 
+char *ft_strjoinfree(char *s1, char *s2)
+{
+  char  *str;
+
+  str = ft_strjoin(s1, s2);
+  free(s1);
+  return(str);
+}
+
 void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
@@ -7,16 +16,19 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc, "\n");
-	input = get_next_line(data->exec->original_in);
+	input = readline(">");
+  input = ft_strjoinfree(input, "\n");
 	while (input && ft_strcmp(input, eof))
 	{
 		ft_print_str_fd(fds[1], input);
 		free(input);
-		input = get_next_line(data->exec->original_in);
+		input = readline(">");
+    input = ft_strjoinfree(input, "\n");
 	}
 	free(input);
   free(eof);
 	close(fds[1]);
+  (void)data;
 }
 
 void	init_heredoc(t_data *data, t_tree **tree)
