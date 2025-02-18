@@ -37,7 +37,7 @@ void	check_closing_quotes(t_data *data, char *input)
 		else if (*line == '\'')
 			check_quote(&line, '\'');
 		if (!*line)
-			handle_error(data, "invalid syntax - quotes are not properly closed");
+			handle_fatal_error(data, "invalid syntax - quotes are not properly closed");
 		line++;
 	}
 }

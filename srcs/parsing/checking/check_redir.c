@@ -36,14 +36,20 @@ void	add_command_with_heredoc(t_data *data, t_token **tokens, t_token *token)
 	token->type = T_COMMAND;
 }
 
-void	check_heredoc(t_data *data, t_token **tokens, t_token *token)
+int	check_heredoc(t_data *data, t_token **tokens, t_token *token)
 {
 	int		index_space;
 
 	if (!token->next)
+	{
 		handle_syntax_error(data, "newline");
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->next->type != T_WORD)
+	{
 		handle_syntax_error(data, token->next->string);
+		return (EXIT_SYNTAX_ERROR);
+	}
 	index_space = ft_strchri(token->next->string, ' ');
 	if (index_space != -1)
 	{
@@ -51,14 +57,18 @@ void	check_heredoc(t_data *data, t_token **tokens, t_token *token)
 	}
 	token->next->type = T_EOF;
 	add_command_with_heredoc(data, tokens, token);
+	return (EXIT_SUCCESS);
 }
 
-void	check_redirin(t_data *data, t_token *token)
+int	check_redirin(t_data *data, t_token *token)
 {
 	int		index_space;
 
 	if (!token->next)
+	{
 		handle_syntax_error(data, "newline");
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->next && token->next->type == T_WORD)
 	{
 		index_space = ft_strchri(token->next->string, ' ');
@@ -66,38 +76,55 @@ void	check_redirin(t_data *data, t_token *token)
 			add_after_splitted_on_space(data, token, index_space);
 		token->next->type = T_FILE;
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	check_redirout(t_data *data, t_token *token)
+int	check_redirout(t_data *data, t_token *token)
 {
 	if (!token->next)
+	{
 		handle_syntax_error(data, "newline");
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->next->type != T_WORD)
+	{
 		handle_syntax_error(data, token->next->string);
+		return (EXIT_SYNTAX_ERROR);
+	}
 	else
 		token->next->type = T_FILE;
+	return (EXIT_SUCCESS);
 }
 
-void	check_append(t_data *data, t_token *token)
+int	check_append(t_data *data, t_token *token)
 {
 	if (!token->next)
+	{
 		handle_syntax_error(data, "newline");
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->next->type != T_WORD)
+	{
 		handle_syntax_error(data, token->next->string);
+		return (EXIT_SYNTAX_ERROR);
+	}
 	else
 		token->next->type = T_FILE;
+	return (EXIT_SUCCESS);
 }
 
-void	check_redirection(t_data *data, t_token **tokens, t_token *token)
+int	check_redirection(t_data *data, t_token **tokens, t_token *token)
 {
-	if (token->type == T_WORD)
-		return ;
+	int	code;
+
+	code = EXIT_IGNORE;
 	if (token->type == T_REDIR_HEREDOC)
-		check_heredoc(data, tokens, token);
-	if (token->type == T_REDIR_IN)
-		check_redirin(data, token);
-	if (token->type == T_REDIR_APPEND)
-		check_append(data, token);
-	if (token->type == T_REDIR_OUT)
-		check_redirout(data, token);
+		code = check_heredoc(data, tokens, token);
+	else if (token->type == T_REDIR_IN)
+		code = check_redirin(data, token);
+	else if (token->type == T_REDIR_APPEND)
+		code = check_append(data, token);
+	else if (token->type == T_REDIR_OUT)
+		code = check_redirout(data, token);
+	return (code);
 }

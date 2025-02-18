@@ -9,7 +9,7 @@ char	*read_from_secondary(t_data *data, char *prompt, char closing, char *line);
 void	printerr(char *msg);
 void	check_alloc(t_data *data, void *allocated);
 void	handle_syntax_error(t_data *data, char *token_str);
-void	handle_error(t_data *data, char *msg);
+void	handle_fatal_error(t_data *data, char *msg);
 void	handle_code(t_data *data, int code, char *msg);
 void	handle_invalid_command(t_data *data);
 
@@ -21,6 +21,7 @@ void	free_exec(t_exec *exec);
 void	free_tree(t_tree *tree);
 void	free_data(t_data *data);
 void	free_after_exec(t_data *data);
+void	free_after_parsing(t_data *data);
 
 // init.c
 t_data *init_data(char **env);

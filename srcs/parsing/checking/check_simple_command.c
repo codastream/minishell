@@ -53,8 +53,11 @@ void	add_simple_command_to_token(t_data *data, t_token **tokens, t_token *token)
 	add_following_redirect_to_command(data, tokens, token);
 }
 
-void	check_simple_command(t_data *data, t_token **tokens, t_token *token)
+int	check_simple_command(t_data *data, t_token **tokens, t_token *token)
 {
 	if (token->type == T_WORD)
 		add_simple_command_to_token(data, tokens, token);
+	else
+		return (EXIT_IGNORE);
+	return (EXIT_SUCCESS);
 }

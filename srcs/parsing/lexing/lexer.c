@@ -41,33 +41,53 @@ static void	add_token(t_data *data, t_token **tokens, char *s, int i)
 	add_token_back(tokens, token);
 }
 
-void	do_for_tokens(t_data *data, t_token **tokens, void (*f)(t_data *, t_token **, t_token *))
+int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *))
 {
 	t_token	*current;
+	int		code;
 
 	if (!tokens)
-		return ;
+		return (EXIT_FAILURE);
 	current = *tokens;
 	while (current)
 	{
-		f(data, tokens, current);
+		code = f(data, tokens, current);
+		if (code != EXIT_SUCCESS)
+			return (code);
 		current = current->next;
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	check_tokens(t_data *data, t_token **tokens)
+int	check_tokens(t_data *data, t_token **tokens)
 {
+	int	code;
+
+	code = EXIT_SUCCESS;
 	// printf("\n%safter tokenize%s\n", P_PINK, P_NOC);
 	// print_tokens(tokens);
-	do_for_tokens(data, tokens, expand_in_words);
-	do_for_tokens(data, tokens, merge_word_with_next_literal);
-	do_for_tokens(data, tokens, check_redirection);
+	code = do_for_tokens(data, tokens, expand_in_words);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, merge_word_with_next_literal);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, check_redirection);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	// printf("\n%safter check redir%s\n", P_PINK, P_NOC);
 	// print_tokens(tokens);
-	do_for_tokens(data, tokens, check_pipe);
-	do_for_tokens(data, tokens, check_simple_command);
-	do_for_tokens(data, tokens, expand_in_double_literals);
-	do_for_tokens(data, tokens, merge_command_with_next_word);
+	code = do_for_tokens(data, tokens, check_pipe);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, check_simple_command);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, expand_in_double_literals);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, merge_command_with_next_word);
+		return (code);
 	// printf("\n%safter expansion%s\n", P_PINK, P_NOC);
 	// print_tokens(tokens);
 }
@@ -76,12 +96,13 @@ void	check_tokens(t_data *data, t_token **tokens)
  * called after syntax check
  * splits and assigns first labels (ie enums) to input parts
  */
-void	tokenize(t_data *data, char *line)
+int	tokenize(t_data *data, char *line)
 {
 	char		**separators;
 	char		**splitted;
 	int			i;
 	t_token		**tokens;
+	int			code;
 
 	tokens = ft_calloc(1, sizeof(t_token *));
 	check_alloc(data, tokens);
@@ -97,6 +118,7 @@ void	tokenize(t_data *data, char *line)
 	}
 	ft_free_2d_char_null_ended(splitted);
 	free(separators);
-	check_tokens(data, tokens);
 	data->tokens = tokens;
+	code = check_tokens(data, data->tokens);
+	return (code);
 }

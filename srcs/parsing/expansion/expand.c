@@ -53,29 +53,30 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 }
 
-void	expand_in_words(t_data *data, t_token **tokens, t_token *token)
+int	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*expanded;
 
 	(void) tokens;
 	if (token->type != T_WORD)
-		return ;
+		return (EXIT_IGNORE);
 	while (ft_strchri(token->string, '$') != -1)
 	{
 		expanded = try_replace_vars(data, token->string);
 		free(token->string);
 		token->string = expanded;
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
+int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*trimmed;
 	char	*expanded;
 
 	(void) tokens;
 	if (token->type != T_LITERAL_DOUBLE)
-		return ;
+		return (EXIT_IGNORE);
 	while (ft_strchri(token->string, '$') != -1)
 	{
 		expanded = try_replace_vars(data, token->string);
@@ -87,4 +88,5 @@ void	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
 	free(token->string);
 	token->string = trimmed;
 	token->type = T_WORD;
+	return (EXIT_SUCCESS);
 }
