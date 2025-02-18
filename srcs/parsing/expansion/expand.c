@@ -70,22 +70,21 @@ void	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 
 void	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
 {
-	char	*s;
 	char	*trimmed;
 	char	*expanded;
 
 	(void) tokens;
 	if (token->type != T_LITERAL_DOUBLE)
 		return ;
-	s = token->string;
-	while (ft_strchri(s, '$') != -1)
+	while (ft_strchri(token->string, '$') != -1)
 	{
-		expanded = try_replace_vars(data, s);
-		free(s);
-		s = expanded;
+		expanded = try_replace_vars(data, token->string);
+		free(token->string);
+		token->string = expanded;
 	}
-	trimmed = ft_strtrim(s, "\"");
+	trimmed = ft_strtrim(token->string, "\"");
 	check_alloc(data, trimmed);
+	free(token->string);
 	token->string = trimmed;
 	token->type = T_WORD;
 }
