@@ -44,6 +44,7 @@ char	*try_replace_vars(t_data *data, char *s)
 			return (s);
 		expanded = ft_subst(s, --prefixedkey, value);
 		check_alloc(data, expanded);
+		free(prefixedkey);
 		return (expanded);
 	}
 	else
@@ -54,23 +55,17 @@ char	*try_replace_vars(t_data *data, char *s)
 
 void	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 {
-	char	*s;
-	char	*trimmed;
 	char	*expanded;
 
 	(void) tokens;
 	if (token->type != T_WORD)
 		return ;
-	s = token->string;
-	while (ft_strchri(s, '$') != -1)
+	while (ft_strchri(token->string, '$') != -1)
 	{
-		expanded = try_replace_vars(data, s);
-		free(s);
-		s = expanded;
+		expanded = try_replace_vars(data, token->string);
+		free(token->string);
+		token->string = expanded;
 	}
-	trimmed = ft_strtrim(s, "\"");
-	check_alloc(data, trimmed);
-	token->string = trimmed;
 }
 
 void	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)

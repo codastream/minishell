@@ -22,6 +22,7 @@ if [[ $1 ]]; then
 else
 	testfiles=(
 			"syntax"
+			"vars"
 			)
 fi
 

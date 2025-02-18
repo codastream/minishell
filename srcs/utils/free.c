@@ -78,5 +78,7 @@ void	free_after_exec(t_data *data)
 
 void	free_data(t_data *data)
 {
+	ft_free_hashtable(data->vars);
+	// ft_hash_remove(data->vars, LAST_RETURN_CODE);
 	reset(data);
 }
