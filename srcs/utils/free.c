@@ -57,7 +57,7 @@ void	free_tokens(t_token **tokens)
 
 	if (!tokens)
 		return ;
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	if (*tokens)
 	{
 		current = tokens[0];

@@ -47,6 +47,7 @@ void	handle_quote_error(t_data *data)
 	ft_hash_remove(data->vars, LAST_RETURN_CODE);
 	reset(data->line);
 	reset(data->prompt);
+	data->return_code = EXIT_SYNTAX_ERROR;
 }
 
 void	handle_syntax_error(t_data *data, char *token_str)
@@ -58,6 +59,7 @@ void	handle_syntax_error(t_data *data, char *token_str)
 	ft_hash_update(data->vars, LAST_RETURN_CODE, last_code);
 	free(last_code);
 	free_after_parsing(data);
+	data->return_code = EXIT_SYNTAX_ERROR;
 }
 
 void	check_alloc(t_data *data, void *allocated)

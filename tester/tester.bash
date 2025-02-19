@@ -11,6 +11,9 @@ NOC="\033[0m"
 MINISHELL_PATH="../minishell"
 
 chmod 000 ./test_files/invalid_permission
+rm -rf ./outfiles/*
+rm -rf ./mini_out/*
+rm -rf ./bash_out/*
 mkdir ./outfiles
 mkdir ./mini_out
 mkdir ./bash_out
