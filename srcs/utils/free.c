@@ -95,10 +95,8 @@ void	free_after_parsing(t_data *data)
 void	free_after_exec(t_data *data)
 {
 	data->fds = NULL;
-	ft_put_pink("free after exec\n");
 	if (data->tokens)
 	{
-		ft_put_pink("free after exec - has data->tokens\n");
 		free_tokens(data->tokens);
 	}
 	if (data->tree)
