@@ -23,12 +23,12 @@ void	check_quote(char **line, char quote)
 	*line = new_line;
 }
 
-void	check_closing_quotes(t_data *data, char *input)
+int	check_closing_quotes(t_data *data, char *input)
 {
 	char	*line;
 
 	if (!input)
-		return ;
+		return (EXIT_SYNTAX_ERROR);
 	line = input;
 	while (*line)
 	{
@@ -37,7 +37,11 @@ void	check_closing_quotes(t_data *data, char *input)
 		else if (*line == '\'')
 			check_quote(&line, '\'');
 		if (!*line)
-			handle_fatal_error(data, "invalid syntax - quotes are not properly closed");
+		{
+			handle_quote_error(data);
+			return (EXIT_SYNTAX_ERROR);
+		}
 		line++;
 	}
+	return (EXIT_SUCCESS);
 }

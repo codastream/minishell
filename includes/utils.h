@@ -9,11 +9,13 @@ char	*read_from_secondary(t_data *data, char *prompt, char closing, char *line);
 void	printerr(char *msg);
 void	check_alloc(t_data *data, void *allocated);
 void	handle_syntax_error(t_data *data, char *token_str);
-void	handle_fatal_error(t_data *data, char *msg);
+void	handle_fatal_error(t_data *data, char *msg, int code);
 void	handle_code(t_data *data, int code, char *msg);
-void	handle_invalid_command(t_data *data);
+void	handle_quote_error(t_data *data);
+// void	handle_invalid_command(t_data *data);
 
 // free.c
+void	reset(void *allocated);
 void	free_command(t_command *command);
 void	free_token(t_token *token);
 void	free_tokens(t_token **tokens);

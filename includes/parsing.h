@@ -31,7 +31,7 @@ t_command	*new_command(t_data *data, char *string);
 int		check_redirection(t_data *data, t_token **tokens, t_token *token);
 int		check_pipe(t_data *data, t_token **tokens, t_token *token);
 void		update_command_from_string(t_data *data, t_command *command, char *string);
-void		check_closing_quotes(t_data *data, char *input);
+int		check_closing_quotes(t_data *data, char *input);
 char		*get_checked_pathmame(t_data *data, t_command *command);
 int		check_simple_command(t_data *data, t_token **tokens, t_token *token);
 

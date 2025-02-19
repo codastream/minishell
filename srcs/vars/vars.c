@@ -77,6 +77,7 @@ void	init_vars(t_data *data, char **env)
 		else if (key)
 			ft_hash_insert(vars, key, NULL);
 		free(key);
+		free(value);
 		i++;
 	}
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
@@ -89,4 +90,5 @@ void	update_last_return(t_data *data, int code)
 
 	code_s = ft_itoa(code);
 	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s);
+	free(code_s);
 }

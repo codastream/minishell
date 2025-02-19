@@ -64,7 +64,7 @@ void	free_tokens(t_token **tokens)
 		free_token(current);
 		current = tmp;
 	}
-	free(tokens);
+	reset(tokens);
 }
 
 void	free_tree(t_tree *tree)
@@ -75,7 +75,7 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-  free_token(tree->value);
+  // free_token(tree->value);
   reset(tree);
 }
 
@@ -92,7 +92,7 @@ void	free_after_exec(t_data *data)
 {
 	data->fds = NULL;
 	if (data->tokens)
-		free(data->tokens);
+		free_tokens(data->tokens);
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)
