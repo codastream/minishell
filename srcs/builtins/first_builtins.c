@@ -4,7 +4,10 @@ void	ft_exit(t_data *data, t_token *token)
 {
 	int	return_code;
 
-	return_code = data->exec->return_code;
+	if (data->exec)
+		return_code = data->return_code;
+	else
+		return_code = EXIT_SUCCESS;
 	(void) token;
 	free_after_exec(data);
 	free_data(data);

@@ -46,6 +46,11 @@ int	merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token)
 	{
 		merge_with_next(data, tokens, token);
 	}
+	if (!token->command)
+	{
+		token->command = new_command(data, token->string);
+		token->type = T_COMMAND;
+	}
 	update_command_from_string(data, token->command, token->string);
 	return (EXIT_SUCCESS);
 }

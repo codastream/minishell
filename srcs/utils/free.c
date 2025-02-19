@@ -57,12 +57,15 @@ void	free_tokens(t_token **tokens)
 
 	if (!tokens)
 		return ;
-	current = tokens[0];
-	while (current)
+	if (*tokens)
 	{
-		tmp = current->next;
-		free_token(current);
-		current = tmp;
+		current = tokens[0];
+		while (current)
+		{
+			tmp = current->next;
+			free_token(current);
+			current = tmp;
+		}
 	}
 	reset(tokens);
 }
