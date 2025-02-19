@@ -104,10 +104,15 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 
 void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
-	(*tree)->value->in = in;
 	(*tree)->value->out = out;
 //	printf("-> %d\n-> %d\n\n", in, out)
-	fd_push_back(&(data->fds), in);
+  if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
+    fd_push_back(&(data->fds), in);
+  else
+  {
+    (*tree)->value->in = in;
+	  fd_push_back(&(data->fds), in);
+  }
 	fd_push_back(&(data->fds), out);
 //  printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
@@ -117,10 +122,9 @@ void  redir_data(t_data *data, t_tree **tree)
 {
 	int fd;
 
-	if ((*tree)->value->command->redir_in)
+	if ((*tree)->value->command->redir_in && !(*tree)->value->command->heredoc)
 	{
 		fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
- //   fd_push_back(&data->fds, fd);
 		if (fd < 0)
 		{
 			(*tree)->value->command->has_invalid_redir = true;
@@ -150,7 +154,7 @@ void  redir_data(t_data *data, t_tree **tree)
 		}
 		put_fd(data, tree, (*tree)->value->in, fd);
 	}
-  init_heredoc(data, tree);
+ // init_heredoc(data, tree);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
@@ -177,7 +181,7 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	tree->value->pipe_read = fds[0];
 	tree->value->pipe_write = fds[1];
 	put_fd(data, &(tree->left), tree->value->in, fds[1]);
-	put_fd(data, &(tree->right), fds[0], tree->value->out);
+  put_fd(data, &(tree->right), fds[0], tree->value->out);
 	exec_tree_node(data, tree->left);
 	// print_pretty_tree(data, data->tree, 0, "root", true);
 	pop_fd(&(data->fds), fds[1]);
@@ -196,6 +200,7 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	else if (tree->value->type == T_COMMAND )
 	{
 		// printf("*command detected\n");
+    redir_data(data, &tree);
 		exec_command(data, tree);
 	}
 }
@@ -204,11 +209,10 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 int	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
-	int		code;
+	int		code = 0;
 
 	exec = init_exec(data, tree);
 	data->exec = exec;
-	// printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
 		try_exec_single_builtin(data, tree->value, tree->value->command);
@@ -216,6 +220,9 @@ int	exec_line(t_data *data, t_tree *tree)
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
+  if (heredoc(data, &tree) != 0)
+    return (130);
+//  print_pretty_tree(data, tree, 0, "root", true);
 	exec_tree_node(data, tree);
 	code = wait_all(data->exec);
 	pop_all_fd(&(data->fds));
