@@ -16,19 +16,22 @@ int	main(int ac, char **av, char **env)
 		while (true)
 		{
 			update_prompt(data);
+      rl_outstream = stderr;
 			data->line = readline((const char*)data->prompt);
-      if (!data->line)
+			if (!data->line)
         break ;
-			if (data->line)
-				add_history(data->line);
-			check_closing_quotes(data, data->line);
-			tokenize(data, data->line);
-			tree = make_tree(*(data->tokens));
-			check_alloc(data, tree);
-			data->tree = tree;
-			code = exec_line(data, data->tree);
-      pop_all_fd(&data->fds);
-			free_after_exec(data);
+      if (data->line[0])
+      {
+	  		add_history(data->line);
+			  check_closing_quotes(data, data->line);
+		  	tokenize(data, data->line);
+	  		tree = make_tree(*(data->tokens));
+  			check_alloc(data, tree);
+			  data->tree = tree;
+		  	code = exec_line(data, data->tree);
+        pop_all_fd(&data->fds);
+  			free_after_exec(data);
+      }
 		}
 		ft_free_hashtable(data->vars);
 		free_data(data);
