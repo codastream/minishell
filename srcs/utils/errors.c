@@ -14,6 +14,11 @@ void	printerr_syntax(char *tokenstr)
 }
 
 // should also handle free_after_exec ? + exit with custom code
+// void	handle_skippable_error(t_data *data, char *msg, int code)
+// {
+
+// }
+
 void	handle_fatal_error(t_data *data, char *msg, int code)
 {
 	printerr(msg);

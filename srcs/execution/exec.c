@@ -119,6 +119,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	else
 	{
 		data->exec->last_pid = child_pid;
+		ft_put_green("exec_command after affecting last pid\n");
 	}
 }
 
@@ -182,6 +183,7 @@ int	exec_line(t_data *data, t_tree *tree)
 	tree->value->in = 0;
 	tree->value->out = 1;
 	exec_tree_node(data, tree);
+	ft_put_green("exec_line before wait all\n");
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));
 	return (code);

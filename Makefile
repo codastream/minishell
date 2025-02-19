@@ -10,6 +10,10 @@ ifeq ($(DEBUG), 1)
 	CFLAGS += -g
 endif
 
+ifeq ($(SAN), 1)
+	CFLAGS += -fsanitize=address
+endif
+
 MAKEFLAGS	:=	--no-print-directory
 
 #================================COUNT============================#
