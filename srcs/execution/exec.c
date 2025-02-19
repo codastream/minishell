@@ -135,7 +135,6 @@ void  redir_data(t_data *data, t_tree **tree)
 	if ((*tree)->value->command->redir_out_truncate)
 	{
 		fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-//    fd_push_back(&(data)->fds, fd);
 		if (fd < 0)
 		{
 			(*tree)->value->command->has_invalid_redir = true;
@@ -146,8 +145,7 @@ void  redir_data(t_data *data, t_tree **tree)
 	if ((*tree)->value->command->redir_out_append)
 	{
 		fd = open((*tree)->value->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
-//    fd_push_back(&data->fds, fd);
-		if (fd <  0)
+		if (fd < 0)
 		{
 			(*tree)->value->command->has_invalid_redir = true;
 			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_append);
@@ -161,16 +159,14 @@ void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
 
-	// printf("*exec command : %s\n", tree->value->string);
-	child_pid = safe_fork(data);
-	if (child_pid == 0)
-	{
-		// ft_put_yellow("child starting\n");
-		// TODO handle redirs
-		child_exec(data, tree->value->command, tree->value);
-	}
-	else
-		data->exec->last_pid = child_pid;
+  if (tree->value->command->has_invalid_redir == false)
+  {
+	  child_pid = safe_fork(data);
+  	if (child_pid == 0)
+		  child_exec(data, tree->value->command, tree->value);
+	  else
+  		data->exec->last_pid = child_pid;
+  }
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
@@ -215,6 +211,7 @@ int	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
+    redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return (data->exec->return_code);
 	}

@@ -17,6 +17,8 @@ int	main(int ac, char **av, char **env)
 		{
 			update_prompt(data);
 			data->line = readline((const char*)data->prompt);
+      if (!data->line)
+        break ;
 			if (data->line)
 				add_history(data->line);
 			check_closing_quotes(data, data->line);

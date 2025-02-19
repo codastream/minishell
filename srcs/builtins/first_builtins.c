@@ -15,6 +15,7 @@ void	ft_exit(t_data *data, t_token *token)
 void	ft_echo(t_data *data, t_token *token)
 {
 	int		i;
+  int   j;
 	t_command	*command;
 
 	(void) data;
@@ -22,12 +23,28 @@ void	ft_echo(t_data *data, t_token *token)
 	command = token->command;
 	if (!(command->command_args)[0])
 		return ;
-	if (!ft_strcmp((command->command_args)[i], "-n"))
-		i++;
+	if (!ft_strncmp((command->command_args)[i], "-n", 2))
+	{
+		j = 2;
+		while ((command->command_args)[i][j] && (command->command_args)[i][j] == 'n')
+			j++;
+		if (!(command->command_args)[i][j])
+			i++;
+	}
 	while ((command->command_args)[i])
+	{
 		ft_printfd(token->out, "%s", (command->command_args)[i++]);
-	if (ft_strcmp((command->command_args)[1], "-n"))
-		ft_printfd(token->out, "\n");
+		if ((command->command_args)[i])
+			ft_printfd(token->out, " ");
+	}
+	if (ft_strncmp((command->command_args)[i], "-n", 2))
+	{
+		j = 2;
+		while ((command->command_args)[i][j] && (command->command_args)[i][j] == 'n')
+			j++;
+		if (!(command->command_args)[i][j])
+			ft_printfd(token->out, "\n");
+	}
 }
 
 void	ft_env(t_data *data, t_token *token)
@@ -128,7 +145,9 @@ void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
 	int	i;
 
-	i = 0;
+	if (command->has_invalid_redir)
+    return ;
+  i = 0;
 	while (data->exec->builtins[i])
 	{
 		if (!ft_strcmp(command->command_args[0], data->exec->builtins[i]))
