@@ -49,7 +49,7 @@ function	print_diff_if_errors {
 
 REMOVE_COLORS="sed s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"
 REMOVE_EXIT="grep -v ^exit$"
-PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g" )
+PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g")
 
 for testfile in ${testfiles[*]}; do
 	printf $BLUE

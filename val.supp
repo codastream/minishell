@@ -1172,3 +1172,41 @@
    fun:readline
    fun:main
 }
+{
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:tsearch
+   ...
+   fun: rl_redisplay
+   fun: _rl_internal_char_cleanup
+   fun:readline_internal_char
+   fun:readline
+   fun:main
+}
+{
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_tiparm
+   ...
+   fun: rl_redisplay
+   fun: _rl_internal_char_cleanup
+   fun:readline_internal_char
+   fun:readline
+   fun:main
+}
+{
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   ...
+   fun:_nc_tiparm
+   ...
+   fun: rl_redisplay
+   fun: _rl_internal_char_cleanup
+   fun:readline_internal_char
+   fun:readline
+   fun:main
+}
