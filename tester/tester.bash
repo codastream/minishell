@@ -53,7 +53,7 @@ PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed "s/\x1B\[[0-9;]\
 
 for testfile in ${testfiles[*]}; do
 	printf $BLUE
-	echo ______________$testfile
+	echo __________$testfile
 	printf $NOC
 	while read line; do
 		((i++))

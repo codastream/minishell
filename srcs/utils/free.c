@@ -79,7 +79,6 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-  // free_token(tree->value);
   reset(tree);
 }
 
@@ -111,6 +110,7 @@ void	free_after_exec(t_data *data)
 
 void	free_data(t_data *data)
 {
-	ft_free_hashtable(data->vars);
+	if (data->vars)
+		ft_free_hashtable(data->vars);
 	reset(data);
 }

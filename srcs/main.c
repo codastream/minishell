@@ -4,10 +4,34 @@ int	prepare_exit(t_data *data)
 {
 	int	code;
 
+	// if (data->tokens)
+	// 	free_tokens(data->tokens);
+	// if (data->tree)
+	// 	free_tree(data->tree);
+	// if (data->exec)
+	// 	free_exec(data->exec);
 	code = data->return_code;
 	free(data->prompt);
 	free_data(data);
-	exit(code);
+	return (code);
+}
+
+int	prepare_exit_exec(t_data *data)
+{
+	int	code;
+
+	if (data->tokens)
+		free_tokens(data->tokens);
+	if (data->tree)
+		free_tree(data->tree);
+	if (data->exec)
+		free_exec(data->exec);
+	if (data->line)
+		free(data->line);
+	code = data->return_code;
+	free(data->prompt);
+	free_data(data);
+	return (code);
 }
 
 void	process_line_input_non_interactive(t_data *data)
@@ -20,7 +44,6 @@ void	process_line_input_non_interactive(t_data *data)
 	data->line[len - 1] = '\0';
 	if (!data->line)
 	{
-		// printf("no data->line\n");
 		exit(prepare_exit(data));
 	}
 	// ft_put_green("after add history\n");
@@ -36,10 +59,15 @@ void	process_line_input_non_interactive(t_data *data)
 	data->tree = make_tree(*(data->tokens));
 	check_alloc(data, data->tree);
 	code = exec_line(data, data->tree);
+	update_last_return(data, code);
+	if (code != EXIT_SUCCESS)
+	{
+		exit(prepare_exit_exec(data));
+	}
 	// ft_put_green("after exec_line\n");
 	// printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
-	update_last_return(data, code);
 	free_after_exec(data);
+	free_data(data);
 }
 
 void	process_line_input_interactive(t_data *data)

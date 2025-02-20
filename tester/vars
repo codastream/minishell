@@ -1,6 +1,5 @@
-echo '$USER'
 echo $USER
-echo $?
 echo "$USER"
-echo "$?"
+echo '$USER'
 $USER
+echo $?
