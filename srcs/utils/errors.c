@@ -27,6 +27,14 @@ void	handle_fatal_error(t_data *data, char *msg, int code)
 	exit(code);
 }
 
+void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code)
+{
+	ft_printfd(2, msg, P_RED, cmd, P_NOC);
+	free_after_exec(data);
+	free_data(data);
+	exit(code);
+}
+
 void	handle_code(t_data *data, int code, char *msg)
 {
 	if (code < 0)

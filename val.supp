@@ -1974,3 +1974,17 @@
    fun:process_line_input
    fun:main
 }
+{
+	<insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}

@@ -100,7 +100,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	else
 	{
-		handle_fatal_error(data, "command not found", EXIT_NOT_FOUND_COMMAND);
+		handle_command_not_found(data, "%s%s: command not found%s\n", command->command_name, EXIT_NOT_FOUND_COMMAND);
 	}
 }
 

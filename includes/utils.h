@@ -12,7 +12,7 @@ void	handle_syntax_error(t_data *data, char *token_str);
 void	handle_fatal_error(t_data *data, char *msg, int code);
 void	handle_code(t_data *data, int code, char *msg);
 void	handle_quote_error(t_data *data);
-// void	handle_invalid_command(t_data *data);
+void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code);
 
 // free.c
 void	reset(void *allocated);
