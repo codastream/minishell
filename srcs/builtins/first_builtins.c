@@ -2,20 +2,21 @@
 
 void	ft_exit(t_data *data, t_token *token)
 {
-	int	return_code;
+	int	return_code = 0;
 
-	return_code = data->exec->return_code;
+	if (token->command->command_args[1])
+		return_code = ft_atoi(token->command->command_args[1]) % 255;
+//	else
+//		return_code = data->return_code;
 	(void) token;
 	free_after_exec(data);
-	ft_free_hashtable(data->vars);
-	free_data(data);
+//	free_data(data);
 	exit(return_code);
 }
 
 void	ft_echo(t_data *data, t_token *token)
 {
 	int		i;
-  int   j;
 	t_command	*command;
 
 	(void) data;
@@ -23,28 +24,12 @@ void	ft_echo(t_data *data, t_token *token)
 	command = token->command;
 	if (!(command->command_args)[0])
 		return ;
-	if (!ft_strncmp((command->command_args)[i], "-n", 2))
-	{
-		j = 2;
-		while ((command->command_args)[i][j] && (command->command_args)[i][j] == 'n')
-			j++;
-		if (!(command->command_args)[i][j])
-			i++;
-	}
+	if (!ft_strcmp((command->command_args)[i], "-n"))
+		i++;
 	while ((command->command_args)[i])
-	{
 		ft_printfd(token->out, "%s", (command->command_args)[i++]);
-		if ((command->command_args)[i])
-			ft_printfd(token->out, " ");
-	}
-	if (ft_strncmp((command->command_args)[i], "-n", 2))
-	{
-		j = 2;
-		while ((command->command_args)[i][j] && (command->command_args)[i][j] == 'n')
-			j++;
-		if (!(command->command_args)[i][j])
-			ft_printfd(token->out, "\n");
-	}
+	if (ft_strcmp((command->command_args)[1], "-n"))
+		ft_printfd(token->out, "\n");
 }
 
 void	ft_env(t_data *data, t_token *token)
@@ -65,7 +50,7 @@ void	ft_env(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				ft_printf("%s=%s\n", current->key, \
+				ft_printfd(token->out, "%s=%s\n", current->key, \
 					(char *) current->value);
 				current = current->next;
 			}
@@ -141,13 +126,35 @@ void	ft_unset(t_data *data, t_token *token)
 	ft_hash_remove(data->vars, (command->command_args)[1]);
 }
 
+void  ft_export(t_data *data, t_token *token)
+{
+  int   i;
+  char **var;
+  char *content;
+
+  i = 1;
+  content = NULL;
+  if (!token->command->command_args[1])
+   return ;
+  var = ft_split(token->command->command_args[1], '=');
+  while (var[i])
+  {
+    content = ft_joinfree(content, var[i++]);
+    if (var[i])
+      content = ft_joinfree(content, "=");
+  }
+  ft_hash_remove(data->vars, var[0]);
+  ft_hash_insert(data->vars, ft_strdup(var[0]), ft_strdup(content));
+  if (content)
+    free(content);
+  ft_free_2d_char_null_ended(var);
+}
+
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
 	int	i;
 
-	if (command->has_invalid_redir)
-    return ;
-  i = 0;
+	i = 0;
 	while (data->exec->builtins[i])
 	{
 		if (!ft_strcmp(command->command_args[0], data->exec->builtins[i]))

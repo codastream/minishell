@@ -25,5 +25,6 @@ void	ft_env(t_data *data, t_token *token);
 void	ft_pwd(t_data *data, t_token *token);
 void	ft_cd(t_data *data, t_token *token);
 void	ft_unset(t_data *data, t_token *token);
+void  ft_export(t_data *data, t_token *token);
 
 #endif

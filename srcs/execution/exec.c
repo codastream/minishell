@@ -26,7 +26,7 @@ void	init_builtins(t_data *data, t_exec *exec)
 	char		**builtins;
 	t_builtin	*builtin_f;
 
-	builtins = ft_calloc(7, sizeof(char *));
+	builtins = ft_calloc(8, sizeof(char *));
 	check_alloc(data, builtins);
 	builtins[0] = "cd";
 	builtins[1] = "echo";
@@ -34,9 +34,9 @@ void	init_builtins(t_data *data, t_exec *exec)
 	builtins[3] = "env";
 	builtins[4] = "pwd";
 	builtins[5] = "unset";
-	builtins[6] = NULL;
+	builtins[6] = "export";
 	exec->builtins = builtins;
-	builtin_f = ft_calloc(7, sizeof(t_builtin *));
+	builtin_f = ft_calloc(8, sizeof(t_builtin *));
 	check_alloc(data, builtin_f);
 	builtin_f[0] = ft_cd;
 	builtin_f[1] = ft_echo;
@@ -44,7 +44,7 @@ void	init_builtins(t_data *data, t_exec *exec)
 	builtin_f[3] = ft_env;
 	builtin_f[4] = ft_pwd;
 	builtin_f[5] = ft_unset;
-	builtin_f[6] = NULL;
+	builtin_f[6] = ft_export;
 	exec->builtin_ptrs = builtin_f;
 }
 
