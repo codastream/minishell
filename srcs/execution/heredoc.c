@@ -31,12 +31,12 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	eof = ft_strjoin(command->heredoc, "\n");
 	while (true)
 	{
-		input = readline(">");
-    input = ft_strjoinfree(input, "\n");
-    if (g_signal != 0 || !ft_strcmp(input, eof))
-      break ;
-    ft_print_str_fd(fds[1], input);
-    free(input);
+		input = readline("> ");
+		input = ft_strjoinfree(input, "\n");
+		if (g_signal != 0 || !ft_strcmp(input, eof))
+			break ;
+		ft_print_str_fd(fds[1], input);
+		free(input);
 	}
 	free(eof);
 	close(fds[1]);
