@@ -1,5 +1,16 @@
 #include "shell.h"
 
+int	empty_line(char *prompt)
+{
+	if (!prompt)
+		return (0);
+	while (*prompt && *prompt == ' ')
+		prompt++;
+	if (!*prompt)
+		return (0);
+	return (1);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
@@ -20,7 +31,7 @@ int	main(int ac, char **av, char **env)
 			data->line = readline((const char*)data->prompt);
 			if (!data->line)
 				break ;
-			if (data->line[0])
+			if (empty_line(data->line))
 			{
 				add_history(data->line);
 				check_closing_quotes(data, data->line);
