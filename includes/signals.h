@@ -14,5 +14,6 @@
 # define SIGNAL_H
 
 void	setup_signal(void);
+void  setup_heredoc_signal(void);
 
 #endif

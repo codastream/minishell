@@ -33,6 +33,7 @@ t_token	*new_token(t_data *data, t_tokentype type, int index, char *string)
 	if (string)
 	{
 		token->string = ft_strtrim(string, " ");
+//		printf("%d -> %s\n", index, token->string);
 		check_alloc(data, token->string);
 	}
 	else

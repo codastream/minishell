@@ -42,6 +42,8 @@ void	merge_word_with_next_words(t_data *data, t_token **tokens, t_token *token)
 
 int	merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token)
 {
+	if (token->type != T_COMMAND)
+		return (EXIT_IGNORE);
 	while (token->type == T_COMMAND && token->next && token->next->type == T_WORD)
 	{
 		merge_with_next(data, tokens, token);

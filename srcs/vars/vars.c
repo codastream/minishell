@@ -77,7 +77,8 @@ void	init_vars(t_data *data, char **env)
 		else if (key)
 			ft_hash_insert(vars, key, NULL);
 		free(key);
-		free(value);
+		if (value)
+			free (value);
 		i++;
 	}
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");

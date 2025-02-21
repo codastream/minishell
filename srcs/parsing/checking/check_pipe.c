@@ -30,6 +30,7 @@ t_command *new_command(t_data *data, char *string)
 		command->command_name = NULL;
 		command->command_args = NULL;
 	}
+  command->has_invalid_redir = false; 
 	return (command);
 }
 

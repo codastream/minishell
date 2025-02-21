@@ -8,8 +8,8 @@ char	*ft_joinfree(char *str1, char *str2)
 
 	i = 0;
 	j = 0;
-	if (!str1 || !str2)
-		return (NULL);
+	if (!str1 && str2)
+		return (ft_strdup(str2));
 	result = ft_calloc(ft_strlen(str1) + ft_strlen(str2) + 1, sizeof(char));
 	if (!result)
 		return (NULL);
@@ -20,7 +20,7 @@ char	*ft_joinfree(char *str1, char *str2)
 	}
 	while (str2[j])
 		result[i++] = str2[j++];
-	free(str1);
+  free(str1);
 	return (result);
 }
 

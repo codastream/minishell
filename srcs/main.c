@@ -1,5 +1,17 @@
 #include "shell.h"
 
+
+bool	is_empty_line(char *prompt)
+{
+	if (!prompt)
+		return (true);
+	while (*prompt && *prompt == ' ')
+		prompt++;
+	if (!*prompt)
+		return (true);
+	return (false);
+}
+
 int	prepare_exit(t_data *data)
 {
 	int	code;
