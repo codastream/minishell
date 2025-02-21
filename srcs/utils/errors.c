@@ -22,8 +22,8 @@ void	printerr_syntax(char *tokenstr)
 void	handle_fatal_error(t_data *data, char *msg, int code)
 {
 	printerr(msg);
-  free_all_data(data);
-  exit(EXIT_FAILURE);
+	free_all_data(data);
+	exit(code);
 }
 
 void  handle_child_error(t_data *data, t_command *command)
@@ -35,7 +35,6 @@ void  handle_child_error(t_data *data, t_command *command)
   }
   else
     handle_command_not_found(data, "%s%s: command not found%s\n", command->command_name, EXIT_NOT_FOUND_COMMAND);
-	exit(code);
 }
 
 void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code)

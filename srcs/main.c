@@ -92,28 +92,28 @@ void	process_line_input_interactive(t_data *data)
 		update_prompt(data);
 		data->line = readline((const char *)data->prompt);
 		if (!data->line)
-    {
-      exit(prepare_exit(data));
-    }
-    if (empty_line(data->line))
 		{
-      add_history(data->line);
-      // ft_put_green("after add history\n");
-      code = check_closing_quotes(data, data->line);
-      if (code != EXIT_SUCCESS)
-        continue ;
-      code = tokenize(data, data->line);
-      if (code != EXIT_SUCCESS)
-        continue ;
-      // ft_put_green("after tokenize\n");
-      data->tree = make_tree(*(data->tokens));
-      check_alloc(data, data->tree);
-      code = exec_line(data, data->tree);
-      // ft_put_green("after exec_line\n");
-      // printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
-      update_last_return(data, code);
-      free_after_exec(data);
-    }
+			exit(prepare_exit(data));
+		}
+		if (!is_empty_line(data->line))
+		{
+			add_history(data->line);
+			// ft_put_green("after add history\n");
+			code = check_closing_quotes(data, data->line);
+			if (code != EXIT_SUCCESS)
+				continue ;
+			code = tokenize(data, data->line);
+			if (code != EXIT_SUCCESS)
+				continue ;
+			// ft_put_green("after tokenize\n");
+			data->tree = make_tree(*(data->tokens));
+			check_alloc(data, data->tree);
+			code = exec_line(data, data->tree);
+			// ft_put_green("after exec_line\n");
+			// printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+			update_last_return(data, code);
+			free_after_exec(data);
+		}
 	}
 }
 
