@@ -22,16 +22,25 @@ void	printerr_syntax(char *tokenstr)
 void	handle_fatal_error(t_data *data, char *msg, int code)
 {
 	printerr(msg);
-	free_after_exec(data);
-	free_data(data);
+	free_all_data(data);
 	exit(code);
+}
+
+void  handle_child_error(t_data *data, t_command *command)
+{
+  if (command->has_invalid_redir)
+  {
+    free_all_data(data);
+    exit(EXIT_FAILURE);
+  }
+  else
+    handle_command_not_found(data, "%s%s: command not found%s\n", command->command_name, EXIT_NOT_FOUND_COMMAND);
 }
 
 void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code)
 {
 	ft_printfd(2, msg, P_RED, cmd, P_NOC);
-	free_after_exec(data);
-	free_data(data);
+	free_all_data(data);
 	exit(code);
 }
 

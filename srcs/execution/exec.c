@@ -26,7 +26,7 @@ void	init_builtins(t_data *data, t_exec *exec)
 	char		**builtins;
 	t_builtin	*builtin_f;
 
-	builtins = ft_calloc(7, sizeof(char *));
+	builtins = ft_calloc(8, sizeof(char *));
 	check_alloc(data, builtins);
 	builtins[0] = "cd";
 	builtins[1] = "echo";
@@ -34,9 +34,9 @@ void	init_builtins(t_data *data, t_exec *exec)
 	builtins[3] = "env";
 	builtins[4] = "pwd";
 	builtins[5] = "unset";
-	builtins[6] = NULL;
+	builtins[6] = "export";
 	exec->builtins = builtins;
-	builtin_f = ft_calloc(7, sizeof(t_builtin *));
+	builtin_f = ft_calloc(8, sizeof(t_builtin *));
 	check_alloc(data, builtin_f);
 	builtin_f[0] = ft_cd;
 	builtin_f[1] = ft_echo;
@@ -44,7 +44,7 @@ void	init_builtins(t_data *data, t_exec *exec)
 	builtin_f[3] = ft_env;
 	builtin_f[4] = ft_pwd;
 	builtin_f[5] = ft_unset;
-	builtin_f[6] = NULL;
+	builtin_f[6] = ft_export;
 	exec->builtin_ptrs = builtin_f;
 }
 
@@ -88,7 +88,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
-	if (command->pathname)
+	if (command->pathname && command->has_invalid_redir == false)
 	{
 		// printf(" before exec\n");
 		safe_dup2(data, token->in, STDIN_FILENO);
@@ -98,40 +98,74 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
-	else
+	handle_child_error(data, command);
+}
+
+void  put_fd(t_data *data, t_tree **tree, int in, int out)
+{
+	(*tree)->value->out = out;
+//	printf("-> %d\n-> %d\n\n", in, out)
+  if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
+    fd_push_back(&(data->fds), in);
+  else
+  {
+    (*tree)->value->in = in;
+	  fd_push_back(&(data->fds), in);
+  }
+	fd_push_back(&(data->fds), out);
+//  printf("in--> %d\n out-->%d\n\n", in, out);
+	(void)data;
+}
+
+void  redir_data(t_data *data, t_tree **tree)
+{
+	int fd;
+
+	if ((*tree)->value->command->redir_in && !(*tree)->value->command->heredoc)
 	{
-		handle_command_not_found(data, "%s%s: command not found%s\n", command->command_name, EXIT_NOT_FOUND_COMMAND);
+		fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
+		if (fd < 0)
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_in);
+		}
+		put_fd(data, tree, fd, (*tree)->value->out);
 	}
+	if ((*tree)->value->command->redir_out_truncate)
+	{
+		fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_truncate);
+		}
+		put_fd(data, tree, (*tree)->value->in, fd);
+	}
+	if ((*tree)->value->command->redir_out_append)
+	{
+		fd = open((*tree)->value->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (fd < 0)
+		{
+			(*tree)->value->command->has_invalid_redir = true;
+			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_append);
+		}
+		put_fd(data, tree, (*tree)->value->in, fd);
+	}
+ // init_heredoc(data, tree);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
 {
-	int	child_pid;
+	int	child_pid = 1;
 
-	// printf("*exec command : %s\n", tree->value->string);
+  if (tree->value->command->has_invalid_redir == false)
+  {
 	child_pid = safe_fork(data);
-	if (child_pid == 0)
-	{
-		// ft_put_yellow("child starting\n");
-		// TODO handle redirs
-		child_exec(data, tree->value->command, tree->value);
-	}
-	else
-	{
-		data->exec->last_pid = child_pid;
-	}
-}
-
-void  exec_tree_node(t_data *data, t_tree *tree);
-
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->in = in;
-	(*tree)->value->out = out;
-	// printf("-> %d\n-> %d\n\n", in, out);
-	fd_push_back(&(data->fds), in);
-	fd_push_back(&(data->fds), out);
-	(void)data;
+  	if (child_pid == 0)
+		  child_exec(data, tree->value->command, tree->value);
+	  else
+  		data->exec->last_pid = child_pid;
+  }
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
@@ -142,7 +176,7 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	tree->value->pipe_read = fds[0];
 	tree->value->pipe_write = fds[1];
 	put_fd(data, &(tree->left), tree->value->in, fds[1]);
-	put_fd(data, &(tree->right), fds[0], tree->value->out);
+  put_fd(data, &(tree->right), fds[0], tree->value->out);
 	exec_tree_node(data, tree->left);
 	// print_pretty_tree(data, data->tree, 0, "root", true);
 	pop_fd(&(data->fds), fds[1]);
@@ -161,6 +195,7 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	else if (tree->value->type == T_COMMAND )
 	{
 		// printf("*command detected\n");
+    redir_data(data, &tree);
 		exec_command(data, tree);
 	}
 }
@@ -169,18 +204,21 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 int	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
-	int		code;
+	int		code = 0;
 
 	exec = init_exec(data, tree);
 	data->exec = exec;
-	// printf("%sstart of execution --- storing STDIN in %d and STDOUT in %d%s\n", P_PINK, exec->original_in, exec->original_out, P_NOC);
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
+    redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return (data->return_code);
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
+  if (heredoc(data, &tree) != 0)
+    return (130);
+//  print_pretty_tree(data, tree, 0, "root", true);
 	exec_tree_node(data, tree);
 	// ft_put_green("exec_line before wait all\n");
 	code = wait_all(data, data->exec);

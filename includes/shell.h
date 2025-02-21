@@ -57,7 +57,7 @@ typedef struct s_command
 	char		*heredoc;
 	char		*redir_out_truncate;
 	char		*redir_out_append;
-	// bool		has_invalid_redir;
+	bool		has_invalid_redir;
 }	t_command;
 
 typedef struct s_token

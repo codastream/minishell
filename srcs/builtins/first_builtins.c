@@ -2,12 +2,15 @@
 
 void	ft_exit(t_data *data, t_token *token)
 {
-	int	return_code;
+	int	return_code = 0;
 
-	return_code = data->return_code;
-	(void) token;
-	free_after_exec(data);
-	free_data(data);
+	if (token->command->command_args[1])
+		return_code = ft_atoi(token->command->command_args[1]) % 255;
+//	else
+//		return_code = data->return_code;
+	if (token->out == 1)
+		ft_printfd(token->out, "exit\n");
+	free_all_data(data);
 	exit(return_code);
 }
 
@@ -47,7 +50,7 @@ void	ft_env(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				ft_printf("%s=%s\n", current->key, \
+				ft_printfd(token->out, "%s=%s\n", current->key, \
 					(char *) current->value);
 				current = current->next;
 			}
@@ -121,6 +124,30 @@ void	ft_unset(t_data *data, t_token *token)
 	if (!(command->command_args)[1])
 			return ;
 	ft_hash_remove(data->vars, (command->command_args)[1]);
+}
+
+void  ft_export(t_data *data, t_token *token)
+{
+  int   i;
+  char **var;
+  char *content;
+
+  i = 1;
+  content = NULL;
+  if (!token->command->command_args[1])
+   return ;
+  var = ft_split(token->command->command_args[1], '=');
+  while (var[i])
+  {
+    content = ft_joinfree(content, var[i++]);
+    if (var[i])
+      content = ft_joinfree(content, "=");
+  }
+  ft_hash_remove(data->vars, var[0]);
+  ft_hash_insert(data->vars, ft_strdup(var[0]), ft_strdup(content));
+  if (content)
+    free(content);
+  ft_free_2d_char_null_ended(var);
 }
 
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)

@@ -39,10 +39,11 @@ void	pop_front_fd(t_fds **head)
 		return ;
 	tmp = *head;
 		*head = tmp->next;
+//  printf("================== %d\n", tmp->fd);
   if (tmp->fd >= 3)
   {
- //   printf("coucou\n");
-    close(tmp->fd);
+//    printf("================== %d\n", tmp->fd);
+    pop_fd(&tmp, tmp->fd);
   }
   if (tmp)
     free(tmp);
@@ -63,6 +64,12 @@ void  pop_fd(t_fds **fds, int fd)
     close(tmp->fd);
     tmp->fd = -1;
   }
+  while (tmp)
+  {
+    if (tmp->fd >= 3 && tmp->fd == fd)
+      tmp->fd = -1;
+    tmp = tmp->next;
+  }
 }
 
 void	pop_all_fd(t_fds **head)
@@ -76,4 +83,5 @@ void	pop_all_fd(t_fds **head)
 	{
 		pop_front_fd(&tmp);
   }
+  *head = NULL;
 }
