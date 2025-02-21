@@ -40,6 +40,8 @@ void	print_stream_to_string(char shell, int ret, FILE *out, char *buffer)
 {
 	size_t n;
 
+	(void) shell;
+	(void) ret;
 	n = fread(buffer, 1, 999, out);
 	buffer[n] = '\0';
 }
@@ -67,25 +69,40 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 {
 	char *bash_with_prompt;
 
+	(void) ret_m;
 	// only get first line for bash output
-	char *newline = strchr(buff_b, '\n');
-	if (newline != NULL) {
+	char *newline = ft_strchr(buff_b, '\n');
+	if (newline != NULL)
+	{
 		*newline = '\0';
 	}
+	newline = ft_strchr(buff_m, '\n');
+	if (newline != NULL)
+	{
+		*newline = '\0';
+	}
+
 	// ignore red color for minishell error
-	if (ret_m != 0)
-	{
-		buff_m += ft_strlen("\\033[0;31");
-	}
-	bash_with_prompt = ft_strstr(buff_b, "bash: line ");
-	if (bash_with_prompt)
-	{
-		*buff_b += ft_strlen("bash: line ");
-		while (*buff_b != ':')
-			buff_b++;
-		buff_b++;
-	}
+	// if (ret_m != 0)
+	// {
+	// 	buff_m += ft_strlen("\\033[0;31");
+	// }
 	if (ret_b != 0)
+	{
+		bash_with_prompt = ft_strstr(buff_b, ": line ");
+		if (bash_with_prompt)
+		{
+			bash_with_prompt += ft_strlen(": line ");
+			while (*bash_with_prompt != ':')
+				bash_with_prompt++;
+			bash_with_prompt += 2;
+			buff_b = bash_with_prompt;
+		}
+		if (ft_strstr(buff_m, buff_b))
+			return (true);
+		else
+			return (false);
+	}
 
 	if (ft_strcmp(buff_b, buff_m))
 	{
@@ -188,8 +205,8 @@ int main()
 	ok_count = 0;
 	test_count = 0;
 	test_files = ft_calloc(3, sizeof(char *));
-	test_files[0] = "syntax";
-	test_files[1] = "vars";
+	test_files[0] = "vars";
+	test_files[1] = "syntax";
 	// test_files[0] = "tester/syntax";
 	// test_files[1] = "tester/vars";
 
@@ -204,9 +221,16 @@ int main()
 		i++;
 	}
 	if (ok_count == test_count)
-		printf("🎊");
+	{
+		printf("🎊 Success ");
+		printf("%d out of %d tests passed", ok_count, test_count);
+		return (EXIT_SUCCESS);
+	}
 	else
-		printf("👷");
-	printf("%d out of %d tests passed", ok_count, test_count);
+	{
+		printf("👷 Work still needed ");
+		printf("%d out of %d tests passed", ok_count, test_count);
+		return (EXIT_FAILURE);
+	}
 }
 
