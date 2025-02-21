@@ -2,3 +2,7 @@ echo $USER
 echo "$USER"
 echo '$USER'
 echo $?
+echo "$"
+echo '$'
+echo $?tata
+cd $PWD
