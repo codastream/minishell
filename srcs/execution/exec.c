@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int		wait_all(t_exec *exec)
+int		wait_all(t_data *data, t_exec *exec)
 {
 	int		status;
 	pid_t	result;
@@ -16,8 +16,8 @@ int		wait_all(t_exec *exec)
 			code = WEXITSTATUS(status);
 		i++;
 	}
-	if (exec->return_code && exec->return_code != 0)
-		code = exec->return_code;
+	if (data->return_code && data->return_code != 0)
+		code = data->return_code;
 	return (code);
 }
 
@@ -60,7 +60,6 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	iter_tree_count(tree, &count, count_if_command);
 	exec->commands_nb = count;
 	exec->current_cmd_index = 0;
-	exec->return_code = EXIT_SUCCESS;
 	return (exec);
 }
 
@@ -213,7 +212,7 @@ int	exec_line(t_data *data, t_tree *tree)
 	{
     redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
-		return (data->exec->return_code);
+		return (data->return_code);
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
@@ -221,7 +220,8 @@ int	exec_line(t_data *data, t_tree *tree)
     return (130);
 //  print_pretty_tree(data, tree, 0, "root", true);
 	exec_tree_node(data, tree);
-	code = wait_all(data->exec);
+	// ft_put_green("exec_line before wait all\n");
+	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));
 	return (code);
 }

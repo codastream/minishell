@@ -10,6 +10,10 @@ ifeq ($(DEBUG), 1)
 	CFLAGS += -g
 endif
 
+ifeq ($(SAN), 1)
+	CFLAGS += -fsanitize=address
+endif
+
 MAKEFLAGS	:=	--no-print-directory
 
 #================================COUNT============================#
@@ -69,6 +73,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_simple_command.c\
+				parsing/expansion/expand.c\
 				execution/exec.c\
 				execution/exec_utils.c\
 				execution/heredoc.c\

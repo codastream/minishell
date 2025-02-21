@@ -29,6 +29,7 @@ void	update_prompt(t_data *data)
 	free(elems);
 	data->prompt = prompt;
 }
+
 char *read_from_secondary(t_data *data, char *prompt, char closing, char *line)
 {
 	char	*new_line;

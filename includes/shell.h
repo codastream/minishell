@@ -87,7 +87,6 @@ typedef void	(*t_builtin)(t_data *, t_token *);
 typedef struct s_exec
 {
 	int			fds[2];
-	int			return_code;
 	int			commands_nb;
 	int			current_cmd_index;
 	int			last_pid;
@@ -111,6 +110,7 @@ typedef struct s_data
   	t_fds     	*fds;
 	char		*prompt;
 	char		*line;
+	int			return_code;
 }	t_data;
 
 # include "builtins.h"

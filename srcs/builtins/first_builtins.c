@@ -8,7 +8,6 @@ void	ft_exit(t_data *data, t_token *token)
 		return_code = ft_atoi(token->command->command_args[1]) % 255;
 //	else
 //		return_code = data->return_code;
-	(void) token;
 	free_all_data(data);
 	exit(return_code);
 }

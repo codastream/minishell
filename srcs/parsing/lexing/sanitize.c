@@ -40,7 +40,22 @@ void	merge_word_with_next_words(t_data *data, t_token **tokens, t_token *token)
 	}
 }
 
-void	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token)
+int	merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token)
+{
+	while (token->type == T_COMMAND && token->next && token->next->type == T_WORD)
+	{
+		merge_with_next(data, tokens, token);
+	}
+	if (!token->command)
+	{
+		token->command = new_command(data, token->string);
+		token->type = T_COMMAND;
+	}
+	update_command_from_string(data, token->command, token->string);
+	return (EXIT_SUCCESS);
+}
+
+int	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*trimmed;
 
@@ -52,4 +67,5 @@ void	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token
 		token->next->string = trimmed;
 		merge_with_next(data, tokens, token);
 	}
+	return (EXIT_SUCCESS);
 }
