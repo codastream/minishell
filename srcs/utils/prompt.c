@@ -24,11 +24,12 @@ void	update_prompt(t_data *data)
 	elems[7] = " >";
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
-	prompt = ft_strjoin(9, elems, "");
+	prompt = ft_multistrjoin(9, elems, "");
 	check_alloc(data, prompt);
 	free(elems);
 	data->prompt = prompt;
 }
+
 char *read_from_secondary(t_data *data, char *prompt, char closing, char *line)
 {
 	char	*new_line;
@@ -54,7 +55,7 @@ char *read_from_secondary(t_data *data, char *prompt, char closing, char *line)
 			new_lines[i++] = trimmed;
 			new_lines[i] = NULL;
 			free(new_line);
-			joined = ft_strjoin(i, new_lines, "");
+			joined = ft_multistrjoin(i, new_lines, "");
 			check_alloc(data, joined);
 			ft_free_2d_char_null_ended(new_lines);
 			return (joined);

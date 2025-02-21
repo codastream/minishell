@@ -50,6 +50,27 @@ void	free_token(t_token *token)
 	reset(token);
 }
 
+void	free_tokens(t_token **tokens)
+{
+	t_token	*current;
+	t_token	*tmp;
+
+	if (!tokens)
+		return ;
+	// print_tokens(tokens);
+	if (*tokens)
+	{
+		current = tokens[0];
+		while (current)
+		{
+			tmp = current->next;
+			free_token(current);
+			current = tmp;
+		}
+	}
+	reset(tokens);
+}
+
 void	free_tree(t_tree *tree)
 {
 	if (!tree)
@@ -58,14 +79,25 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->right);
 	if (tree->left)
 		free_tree(tree->left);
-  free_token(tree->value);
   reset(tree);
 }
+
+void	free_after_parsing(t_data *data)
+{
+	ft_hash_remove(data->vars, LAST_RETURN_CODE);
+	if (data->tokens)
+		free_tokens(data->tokens);
+	reset(data->line);
+	reset(data->prompt);
+}
+
 void	free_after_exec(t_data *data)
 {
 	data->fds = NULL;
 	if (data->tokens)
-		free(data->tokens);
+	{
+		free_tokens(data->tokens);
+	}
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)
@@ -78,5 +110,7 @@ void	free_after_exec(t_data *data)
 
 void	free_data(t_data *data)
 {
+	if (data->vars)
+		ft_free_hashtable(data->vars);
 	reset(data);
 }

@@ -4,10 +4,9 @@ void	ft_exit(t_data *data, t_token *token)
 {
 	int	return_code;
 
-	return_code = data->exec->return_code;
+	return_code = data->return_code;
 	(void) token;
 	free_after_exec(data);
-	ft_free_hashtable(data->vars);
 	free_data(data);
 	exit(return_code);
 }
