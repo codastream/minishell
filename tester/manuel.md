@@ -2,5 +2,7 @@
 
 | Test | Code | Output | Fichiers |
 | ---- | ---- | -------| -------- |
-|`"""`| 2?| `bash: line 1: unexpected EOF while looking for matching ``"'`|-|
+| `<<<<<<<<<<<<<<<<` | 2 | `syntax error near unexpected token ``<<<'`|-|
+|`"""`| 2?| `unexpected EOF while looking for matching ``"'`|-|
+
 

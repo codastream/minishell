@@ -28,7 +28,7 @@ int	prepare_exit_exec(t_data *data)
 		free_exec(data->exec);
 	if (data->line)
 		free(data->line);
-	code = data->return_code;
+	code = ft_atoi(ft_hash_get(data->vars, LAST_RETURN_CODE));
 	free(data->prompt);
 	free_data(data);
 	return (code);

@@ -164,7 +164,7 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 
 
 		// ===== DISPLAY
-		printf("\n\n%d : ", *test_index);
+		printf("\n%d : ", *test_index);
 		is_same_return = have_same_return(ret_b, ret_m);
 		is_same_output = have_same_output(ret_b, ret_m, buff_b, buff_m);
 		if ((is_same_return && is_same_output))
