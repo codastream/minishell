@@ -1,0 +1,4 @@
+echo a > ./files/outfile.txt
+< ./files/infile.txt cat
+< ./files/badperm.txt
+echo a > ./files/outfile.txt | echo b >> ./files/outfile.txt

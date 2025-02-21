@@ -1,9 +1,17 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include "../libft/includes/libft.h"
 
 # define MINISHELL_PATH "../minishell"
+# define OUTDIR_MINI "outdir_m"
+# define OUTDIR_BASH "outdir_b"
+# define OUTFIR "./files"
+# define OUTFILE "outfile.txt"
+# define OUTFILE_MINI "./outdir_m/outfile.txt"
+# define OUTFILE_BASH "./outdir_b/outfile.txt"
+
 // # define MINISHELL_PATH "./minishell"
 
 char	*build_instruction(char shell_type, char *test, char *run_mode)
@@ -82,11 +90,6 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 		*newline = '\0';
 	}
 
-	// ignore red color for minishell error
-	// if (ret_m != 0)
-	// {
-	// 	buff_m += ft_strlen("\\033[0;31");
-	// }
 	if (ret_b != 0)
 	{
 		bash_with_prompt = ft_strstr(buff_b, ": line ");
@@ -110,6 +113,71 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 	}
 	return (true);
 }
+void	init_redir(void)
+{
+	chmod("./files/badperm.txt", 0);
+	mkdir(OUTDIR_MINI, 0755);
+	mkdir(OUTDIR_BASH, 0755);
+}
+
+void	reset_redir(void)
+{
+	chmod("./files/badperm.txt", 0755);
+	rmdir(OUTDIR_MINI);
+	rmdir(OUTDIR_BASH);
+	if (access(OUTFILE_MINI, F_OK))
+		remove(OUTFILE_MINI);
+	if (access(OUTFILE_BASH, F_OK))
+		remove(OUTFILE_BASH);
+}
+
+void	print_file(char *file)
+{
+	int	fd;
+	char	*line;
+
+	fd = open(file, O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+	}
+	free(line);
+	close(fd);
+}
+
+bool	is_identical_outfile(void)
+{
+	int	fd_m;
+	int	fd_b;
+	char	*line_m;
+	char	*line_b;
+
+	fd_m = open(OUTFILE_MINI, O_RDONLY);
+	fd_b = open(OUTFILE_BASH, O_RDONLY);
+	line_m = get_next_line(fd_m);
+	line_b = get_next_line(fd_b);
+	while (line_m)
+	{
+		if (ft_strcmp(line_m, line_b))
+		{
+			free(line_m);
+			free(line_b);
+			close(fd_m);
+			close(fd_b);
+			return (false);
+		}
+		free(line_m);
+		free(line_b);
+		line_m = get_next_line(fd_m);
+		line_b = get_next_line(fd_b);
+	}
+	free(line_m);
+	free(line_b);
+	close(fd_m);
+	close(fd_b);
+	return (true);
+}
 
 void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 {
@@ -127,20 +195,33 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 	char	*instruction_popen_b;
 	bool	is_same_return = false;
 	bool	is_same_output = false;
+	bool	is_same_outfile = false;
 
 	test = get_next_line(fd);
 	if (test && ft_strlen(test) > 0)
 		test[ft_strlen(test) - 1] = '\0';
 	while (test)
 	{
+		// ===== INIT
+		init_redir();
+
 		// ===== COMPARE RETURN
-		instruction_m = build_instruction('m', test, "system");
 		instruction_b = build_instruction('b', test, "system");
-		ret_system = system(instruction_m);
-		ret_m = get_return_status(ret_system);
-		// printf("ret code %d\n", ret_m);
 		ret_system = system(instruction_b);
 		ret_b = get_return_status(ret_system);
+		if (access("./files/outfile.txt", F_OK))
+		{
+			rename("./files/outfile.txt", OUTFILE_BASH);
+		}
+
+		instruction_m = build_instruction('m', test, "system");
+		ret_system = system(instruction_m);
+		ret_m = get_return_status(ret_system);
+		if (access("./files/outfile.txt", F_OK))
+		{
+			rename("./files/outfile.txt", OUTFILE_MINI);
+		}
+		// printf("ret code %d\n", ret_m);
 
 		// ===== COMPARE OUTPUT
 		instruction_popen_m = build_instruction('m', test, "popen");
@@ -152,22 +233,17 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 		pclose(outstream_m);
 		pclose(outstream_b);
 
-		// fd_outfile_m = open("mini_out", O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		// if (fd_outfile_m < 0)
-		// 	ft_printfd("%sErreur d'ouverture du fichier %s%s\n", P_RED, "mini_out", P_NOC);
-		// close(fd_outfile_m);
-		// printf("%s\n", buff_m);
-		// print_stream_to_file(outstream_m, fd_outfile_m);
-		// print_stream(outstream_m);
-
 		// ===== COMPARE FILES
-
+		if (access(OUTFILE_BASH, F_OK))
+			is_same_outfile = is_identical_outfile();
+		else
+			is_same_outfile = true;
 
 		// ===== DISPLAY
 		printf("\n%d : ", *test_index);
 		is_same_return = have_same_return(ret_b, ret_m);
 		is_same_output = have_same_output(ret_b, ret_m, buff_b, buff_m);
-		if ((is_same_return && is_same_output))
+		if ((is_same_return && is_same_output && is_same_outfile))
 		{
 			printf("✅");
 			(*ok_count)++;
@@ -176,25 +252,35 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 		{
 			printf("❌");
 		}
-		printf("\t%50s\n", test);
+		printf("\t%s%50s%s\n", P_YELLOW, test, P_NOC);
 		if (!is_same_output)
 		{
 			printf("❕ sortie\nbash:%s\nmini:%s\n", buff_b, buff_m);
 		}
-
 		if (!is_same_return)
 		{
 			printf("❕ valeurs de retour\nbash: %d\nmini:%d\n", ret_b, ret_m);
 		}
+		if (!is_same_outfile)
+		{
+			printf("❕ outfile.txt\n");
+			printf("bash:\n");
+			print_file(OUTFILE_BASH);
+			printf("mini:\n");
+			print_file(OUTFILE_MINI);
+		}
+
+		// ===== CLEANUP
+		reset_redir();
+		free(test);
 
 		(*test_index)++;
-		free(test);
 		test = get_next_line(fd);
 	}
 	free(test);
 }
 
-int main()
+int main(int ac, char **av)
 {
 	char	**test_files;
 	int		i;
@@ -204,11 +290,38 @@ int main()
 
 	ok_count = 0;
 	test_count = 0;
-	test_files = ft_calloc(3, sizeof(char *));
-	test_files[0] = "vars";
-	test_files[1] = "syntax";
-	// test_files[0] = "tester/syntax";
-	// test_files[1] = "tester/vars";
+	test_files = ft_calloc(10, sizeof(char *));
+
+	if (ac == 1)
+	{
+		test_files[0] = "tests/00_syntax.txt";
+		test_files[1] = "tests/01_builtins.txt";
+		test_files[2] = "tests/02_vars.txt";
+		test_files[3] = "tests/03_commands.txt";
+		test_files[4] = "tests/04_redirs.txt";
+		test_files[5] = "tests/05_pipes.txt";
+	}
+	else if (ac == 2)
+	{
+		if (!ft_strcmp("syntax", av[1]))
+			test_files[0] = "tests/00_syntax.txt";
+		else if (!ft_strcmp("builtins", av[1]))
+			test_files[0] = "tests/01_builtins.txt";
+		else if (!ft_strcmp("vars", av[1]))
+			test_files[0] = "tests/02_vars.txt";
+		else if (!ft_strcmp("commands", av[1]))
+			test_files[0] = "tests/03_commands.txt";
+		else if (!ft_strcmp("redirs", av[1]))
+			test_files[0] = "tests/04_redirs.txt";
+		else if (!ft_strcmp("pipes", av[1]))
+			test_files[0] = "tests/05_pipes.txt";
+	}
+	else
+	{
+		printf("usage ./tester without arguments or with one of:\n \
+			syntax - builtins - vars - commands - redirs - pipes\n");
+		return (1);
+	}
 
 	i = 0;
 	while (test_files[i])
