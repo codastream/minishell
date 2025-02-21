@@ -19,4 +19,4 @@ jobs:
     - name: build project
       run: make
     - name: test
-      run: cd ./tester && ./tester.bash
+      run: cd ./tester && make && ./tester

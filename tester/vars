@@ -1,5 +1,4 @@
 echo $USER
 echo "$USER"
 echo '$USER'
-$USER
 echo $?

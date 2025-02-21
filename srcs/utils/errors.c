@@ -10,7 +10,7 @@ void	printerr(char *msg)
 
 void	printerr_syntax(char *tokenstr)
 {
-	ft_printfd(2, "%sSyntax error near unexpected token '%s'%s\n", P_RED, tokenstr, P_NOC);
+	ft_printfd(2, "%ssyntax error near unexpected token `%s'%s\n", P_RED, tokenstr, P_NOC);
 }
 
 // should also handle free_after_exec ? + exit with custom code
