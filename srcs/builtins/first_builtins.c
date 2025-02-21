@@ -9,8 +9,7 @@ void	ft_exit(t_data *data, t_token *token)
 //	else
 //		return_code = data->return_code;
 	(void) token;
-	free_after_exec(data);
-//	free_data(data);
+	free_all_data(data);
 	exit(return_code);
 }
 
