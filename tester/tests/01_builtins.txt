@@ -7,7 +7,7 @@ echo tata""toto
 echo "tata '"
 echo 'tata "'
 echo -n "tata"
-echo "> >> < << * ? [ ] | ; || && ( ) # $ \"
+echo "> >> < << * ? [ ] | ; || && ( ) # $ "
 cd 123
 cd . tata
 cd

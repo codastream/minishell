@@ -69,6 +69,11 @@ int	check_redirin(t_data *data, t_token *token)
 		handle_syntax_error(data, "newline");
 		return (EXIT_SYNTAX_ERROR);
 	}
+	if (token->next->type != T_WORD && token->next->type != T_REDIR_OUT)
+	{
+		handle_syntax_error(data, token->next->string);
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->next && token->next->type == T_WORD)
 	{
 		index_space = ft_strchri(token->next->string, ' ');
