@@ -48,4 +48,4 @@ exit "+100"
 exit "-100"
 exit
 exit 123
-exit 256
+exit 257
