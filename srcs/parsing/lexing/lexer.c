@@ -56,6 +56,7 @@ int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **,
 			return (code);
 		current = current->next;
 	}
+	print_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 
@@ -66,28 +67,42 @@ int	check_tokens(t_data *data, t_token **tokens)
 	code = EXIT_SUCCESS;
 	// printf("\n%safter tokenize%s\n", P_PINK, P_NOC);
 	// print_tokens(tokens);
+	ft_put_yellow("expand in words\n");
 	code = do_for_tokens(data, tokens, expand_in_words);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	code = do_for_tokens(data, tokens, merge_word_with_next_literal);
+	// ft_put_yellow("merge word with ''\n");
+	// code = do_for_tokens(data, tokens, merge_word_with_next_literal);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
+	ft_put_yellow("expand in double\n");
+	code = do_for_tokens(data, tokens, expand_in_double_literals);
 	if (code != EXIT_SUCCESS)
 		return (code);
+	ft_put_yellow("merge literal with next word\n");
+	code = do_for_tokens(data, tokens, merge_literal_with_next_word);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	ft_put_yellow("merge word with next word or literal\n");
+	code = do_for_tokens(data, tokens, merge_word_with_next_word_or_literal);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	ft_put_yellow("redir\n");
 	code = do_for_tokens(data, tokens, check_redirection);
 	if (code != EXIT_SUCCESS)
 		return (code);
 	// printf("\n%safter check redir%s\n", P_PINK, P_NOC);
-	// print_tokens(tokens);
+	ft_put_yellow("pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	code = do_for_tokens(data, tokens, check_simple_command);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	code = do_for_tokens(data, tokens, expand_in_double_literals);
-	if (code != EXIT_SUCCESS)
-		return (code);
+	ft_put_yellow("merge command with next word\n");
 	code = do_for_tokens(data, tokens, merge_command_with_next_word);
+	if (code != EXIT_SUCCESS)
 		return (code);
+	ft_put_yellow("simple command\n");
+	code = do_for_tokens(data, tokens, merge_word_with_next_words_and_make_command);
+	return (code);
 	// printf("\n%safter expansion%s\n", P_PINK, P_NOC);
 	// print_tokens(tokens);
 }

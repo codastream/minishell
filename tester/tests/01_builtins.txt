@@ -1,5 +1,6 @@
 echo
 echo tata toto
+echo a                     b c            d
 echo tata
 echo "tata"
 echo 'tata'

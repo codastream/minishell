@@ -87,6 +87,5 @@ int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
 	check_alloc(data, trimmed);
 	free(token->string);
 	token->string = trimmed;
-	token->type = T_WORD;
 	return (EXIT_SUCCESS);
 }

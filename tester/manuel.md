@@ -8,7 +8,7 @@
 |`cat << EOF`|?|``|-|-|
 |`echo -n a`|0|``|-|tester removes `\n`|
 |`export MAVAR="hello"` puis `echo $MAVAR`|0|``|-|-|
-|``|0|``|-|-|
+|`echo tata''toto titi`|0|`tatatoto titi`|-|-|
 |``|0|``|-|-|
 
 
