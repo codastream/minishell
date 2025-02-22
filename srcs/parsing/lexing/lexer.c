@@ -119,6 +119,7 @@ int	tokenize(t_data *data, char *line)
 	ft_free_2d_char_null_ended(splitted);
 	free(separators);
 	data->tokens = tokens;
+	// print_tokens(tokens);
 	code = check_tokens(data, data->tokens);
 	return (code);
 }

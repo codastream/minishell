@@ -7,7 +7,7 @@ echo tata""toto
 echo "tata '"
 echo 'tata "'
 echo -n "tata"
-echo "> >> < << * ? [ ] | ; || && ( ) # $ \"
+echo "> >> < << * ? [ ] | ; || && ( ) # $ "
 cd 123
 cd . tata
 cd
@@ -48,4 +48,4 @@ exit "+100"
 exit "-100"
 exit
 exit 123
-exit 256
+exit 257
