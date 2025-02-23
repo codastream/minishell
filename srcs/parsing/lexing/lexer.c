@@ -75,7 +75,7 @@ int	check_tokens(t_data *data, t_token **tokens)
 	code = do_for_tokens(data, tokens, handle_quote);
 	if (code != EXIT_SUCCESS)
 		return (code);
-
+	return(code);
 	// print_tokens(tokens);
 }
 
