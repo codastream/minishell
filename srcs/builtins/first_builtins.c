@@ -2,14 +2,32 @@
 
 void	ft_exit(t_data *data, t_token *token)
 {
-	int	return_code = 0;
+	int	return_code;
+	int	code;
 
+	return_code = EXIT_SUCCESS;
+	if (token->command->command_args[2])
+		handle_builtin_error(data, token->command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (token->command->command_args[1])
-		return_code = ft_atoi(token->command->command_args[1]) % 255;
-//	else
-//		return_code = data->return_code;
-	if (token->out == 1)
-		ft_printfd(token->out, "exit\n");
+	{
+		if (is_atoi_str(token->command->command_args[1]))
+		{
+			code = ft_atoi(token->command->command_args[1]);
+			if (code > 255)
+				return_code = EXIT_SYNTAX_ERROR;
+			else if (code <= 255)
+				return_code = ft_atoi(token->command->command_args[1]);
+			else
+				return_code = EXIT_FAILURE + ft_atoi(token->command->command_args[1]) % 255;
+		}
+		else
+		{
+			build_wrongvar_msg(data, token->command->command_args[1], MSG_NUMERIC_ARGUMENT_REQUIRED);
+			handle_builtin_error(data, token->command, data->exec->error_msg, EXIT_SYNTAX_ERROR);
+		}
+	}
+	// if (token->out == 1)
+	// 	ft_printfd(token->out, "exit\n");
 	free_all_data(data);
 	exit(return_code);
 }
@@ -48,6 +66,8 @@ void	ft_env(t_data *data, t_token *token)
 	hash = data->vars;
 	keyvals = hash->keyvals;
 	i = 0;
+	if (token->command->command_args[1])
+		handle_builtin_error(data, token->command, "usage : no OPTS and no ARGS", EXIT_SYNTAX_ERROR);
 	while (i < hash->capacity)
 	{
 		if (keyvals[i])
@@ -107,17 +127,22 @@ void	ft_cd(t_data *data, t_token *token)
 	t_command	*command;
 
 	command = token->command;
+	if (command->command_args[2])
+		handle_builtin_error(data, command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (!(command->command_args)[1])
 	{
 		chdir(ft_hash_get(data->vars, "HOME"));
-		return ;
+		return ; // TODO check leaks and test with free_all_data + exit
 	}
 	path = ft_joinfree(getpwd(data), "/");
 	check_alloc(data, path);
 	path = ft_joinfree(path, (command->command_args)[1]);
 	check_alloc(data, path);
 	if (chdir(path) < 0)
-		ft_printfd(2, "error\n");
+	{
+		build_wrongvar_msg(data, command->command_args[1], MSG_NO_SUCH_FILE_OR_DIRECTORY);
+		handle_builtin_error(data, command, data->exec->error_msg, EXIT_FAILURE);
+	}
 	free(path);
 }
 

@@ -10,10 +10,12 @@ void	printerr(char *msg);
 void	check_alloc(t_data *data, void *allocated);
 void	handle_syntax_error(t_data *data, char *token_str);
 void	handle_fatal_error(t_data *data, char *msg, int code);
+void	handle_builtin_error(t_data *data, t_command *command, char *msg, int code);
 void	handle_code(t_data *data, int code, char *msg);
 void  handle_child_error(t_data *data, t_command *command);
 void	handle_quote_error(t_data *data);
 void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code);
+void	build_wrongvar_msg(t_data *data, char *wrong_var, char *msg);
 
 // free.c
 void	reset(void *allocated);

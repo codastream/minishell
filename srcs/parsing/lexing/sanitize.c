@@ -61,8 +61,9 @@ int	merge_literal_with_next_word(t_data *data, t_token **tokens, t_token *token)
 {
 	if (token->type != T_LITERAL_DOUBLE && token->type != T_LITERAL_SINGLE)
 		return (EXIT_IGNORE);
-	if (token->next->type == T_WORD)
+	if (token->next && token->next->type == T_WORD)
 		merge_with_next(data, tokens, token);
+	token->type = T_WORD;
 	return (EXIT_SUCCESS);
 }
 

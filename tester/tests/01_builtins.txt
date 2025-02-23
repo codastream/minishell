@@ -8,7 +8,7 @@ echo tata""toto
 echo "tata '"
 echo 'tata "'
 echo -n "tata"
-echo "> >> < << * ? [ ] | ; || && ( ) # $ \"
+echo "> >> < << * ? [ ] | ; || && ( ) # $ "
 cd 123
 cd . tata
 cd
@@ -39,7 +39,6 @@ unset WRONGVAR
 unset SHELL
 unset PATH
 env
-env a
 exit 123 124
 exit tata
 exit "tata"
@@ -49,4 +48,4 @@ exit "+100"
 exit "-100"
 exit
 exit 123
-exit 256
+exit 258

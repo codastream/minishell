@@ -38,6 +38,8 @@ void	free_exec(t_exec *exec)
 		free(exec->builtins);
 	if (exec->builtin_ptrs)
 		free(exec->builtin_ptrs);
+	if (exec->error_msg)
+		free(exec->error_msg);
 	reset(exec);
 }
 

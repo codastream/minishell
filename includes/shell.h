@@ -95,6 +95,7 @@ typedef struct s_exec
 	int			original_in;
 	int			original_out;
 	char		**builtins;
+	char		*error_msg;
 	t_builtin	*builtin_ptrs;
 
 	// t_command	**commands;
