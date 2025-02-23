@@ -53,6 +53,42 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 }
 
+void  skip_single_quote(char **string)
+{
+	char  *str;
+
+	str = *string;
+	str++;
+	while (*str && *str != '\'')
+		str++;
+	*string = str;
+}
+
+int next_expend(char *string, char chr)
+{
+	if (!*string)
+		return (-1);
+	while (*string)
+	{
+		if (*string == '\'')
+			skip_single_quote(&string);
+		if (*string == '\"')
+		{
+			string++;
+			while(*string == '\"')
+			{
+				if (*string == chr)
+					return(0);
+				string++;
+			}
+		}
+		if (*string == chr)
+			return(0);
+		string++;
+	}
+	return (-1);
+}
+
 int	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*expanded;
@@ -60,7 +96,7 @@ int	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_WORD)
 		return (EXIT_IGNORE);
-	while (ft_strchri(token->string, '$') != -1)
+	while (next_expend(token->string, '$') != -1)
 	{
 		expanded = try_replace_vars(data, token->string);
 		free(token->string);
