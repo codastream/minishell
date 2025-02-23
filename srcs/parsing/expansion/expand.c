@@ -69,24 +69,106 @@ int	expand_in_words(t_data *data, t_token **tokens, t_token *token)
 	return (EXIT_SUCCESS);
 }
 
-int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)
+void  trime_quote(char **str, int first_quote, int second_quote)
 {
-	char	*trimmed;
-	char	*expanded;
+	int	  i;
+	int	  j;
+	char  *trimmed;
 
-	(void) tokens;
-	if (token->type != T_LITERAL_DOUBLE)
-		return (EXIT_IGNORE);
-	while (ft_strchri(token->string, '$') != -1)
+	i = 0;
+	j = 0;
+	trimmed = ft_calloc(ft_strlen(*str) - 1, sizeof(char));
+	if (!trimmed)
+		return ;
+	while ((*str)[i])
 	{
-		expanded = try_replace_vars(data, token->string);
-		free(token->string);
-		token->string = expanded;
+		if (i != first_quote && i != second_quote)
+		{
+			trimmed[j] = (*str)[i];
+			j++;
+		}
+		i++;
 	}
-	trimmed = ft_strtrim(token->string, "\"");
-	check_alloc(data, trimmed);
-	free(token->string);
+	free(*str);
+	*str = trimmed;
+}
+
+int  handle_double_quote(t_data *data, char **trimmed, int i)
+{
+	int	  j;
+
+	j = i;
+	if ((*trimmed)[i])
+	{
+		i++;
+		while ((*trimmed)[i] && (*trimmed)[i] != '\"')
+			i++;
+		if ((*trimmed)[i])
+		{
+			trime_quote(trimmed, j, i);
+			i = i - 2;
+		}
+		check_alloc(data, (*trimmed));
+	}
+	return (i);
+}
+
+int  handle_single_quote(t_data *data, char **trimmed, int i)
+{
+	int	  j;
+
+	j = i;
+	if ((*trimmed)[i])
+	{
+		i++;
+		while ((*trimmed)[i] && (*trimmed)[i] != '\'')
+			i++;
+		if ((*trimmed)[i])
+		{
+			trime_quote(trimmed, j, i);
+			i = i - 2;
+		}
+		check_alloc(data, (*trimmed));
+	}
+	return (i);
+}
+
+int	handle_quote(t_data *data, t_token **tokens, t_token *token)
+{
+	int	  i;
+	char  *trimmed;
+
+	trimmed = token->string;
+	i = 0;
+	(void)tokens;
+	while (trimmed[i])
+	{
+		if (trimmed[i] == '\"')
+			i = handle_double_quote(data, &trimmed, i);
+		if (trimmed[i] == '\'')
+			i = handle_single_quote(data, &trimmed, i);
+		i++;
+	}
 	token->string = trimmed;
-	token->type = T_WORD;
 	return (EXIT_SUCCESS);
 }
+
+/*int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)*/
+/*{*/
+/*	char	*trimmed;*/
+/*	char	*expanded;*/
+/**/
+/*	(void) tokens;*/
+/*	while (ft_strchri(token->string, '$') != -1)*/
+/*	{*/
+/*		expanded = try_replace_vars(data, token->string);*/
+/*		free(token->string);*/
+/*		token->string = expanded;*/
+/*	}*/
+/*	trimmed = ft_strtrim(token->string, "\"");*/
+/*	check_alloc(data, trimmed);*/
+/*	free(token->string);*/
+/*	token->string = trimmed;*/
+/*	token->type = T_WORD;*/
+/*	return (EXIT_SUCCESS);*/
+/*}*/

@@ -63,6 +63,9 @@ int	check_tokens(t_data *data, t_token **tokens)
 	code = do_for_tokens(data, tokens, expand_in_words);
 	if (code != EXIT_SUCCESS)
 		return (code);
+	code = do_for_tokens(data, tokens, handle_quote);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	code = do_for_tokens(data, tokens, merge_word_with_next_literal);
 	if (code != EXIT_SUCCESS)
 		return (code);
@@ -73,9 +76,6 @@ int	check_tokens(t_data *data, t_token **tokens)
 	if (code != EXIT_SUCCESS)
 		return (code);
 	code = do_for_tokens(data, tokens, check_simple_command);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	code = do_for_tokens(data, tokens, expand_in_double_literals);
 	if (code != EXIT_SUCCESS)
 		return (code);
 	code = do_for_tokens(data, tokens, merge_command_with_next_word);
