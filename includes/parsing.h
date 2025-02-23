@@ -1,7 +1,7 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-
+# include "shell.h"
 
 // lexer.c
 int		do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *));
@@ -36,7 +36,11 @@ char		*get_checked_pathmame(t_data *data, t_command *command);
 int		check_simple_command(t_data *data, t_token **tokens, t_token *token);
 
 // expand
-int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token);
 int	expand_in_words(t_data *data, t_token **tokens, t_token *token);
+
+char **split_skip_quotes(char *line);
+
+int	handle_quote(t_data *data, t_token **tokens, t_token *token);
+
 
 #endif
