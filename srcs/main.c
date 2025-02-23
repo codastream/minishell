@@ -116,7 +116,8 @@ void	process_line_input_interactive(t_data *data)
 				continue ;
 			// ft_put_green("after tokenize\n");
 			data->tree = make_tree(*(data->tokens));
-			// print_tree(data->tree);
+			if (DEBUG == 1)
+				print_tree(data->tree);
 			check_alloc(data, data->tree);
 			code = exec_line(data, data->tree);
 			// ft_put_green("after exec_line\n");

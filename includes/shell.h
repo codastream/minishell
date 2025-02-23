@@ -20,6 +20,8 @@
 # include "colors.h"
 # include "../libft/includes/libft.h"
 
+# define DEBUG 0
+
 typedef	struct s_env
 {
 	char	**vars;
