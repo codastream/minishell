@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	**init_separators(t_data *data)
+char	**init_separators_for_operators(t_data *data)
 {
 	char		**separators;
 
@@ -10,9 +10,11 @@ char	**init_separators(t_data *data)
 	separators[1] = "||";
 	separators[2] = "|";
 	separators[3] = "<<";
-	separators[4] = "<";
-	separators[5] = ">>";
+	separators[4] = ">>";
+	separators[5] = "<";
 	separators[6] = ">";
+	separators[6] = "(";
+	separators[6] = ")";
 	separators[7] = NULL;
 	return (separators);
 }
@@ -34,15 +36,12 @@ t_delimiter	*new_delimiter(t_data *data, char *opening, char *closing)
 t_delimiter	**init_quote_delimiters(t_data *data)
 {
 	t_delimiter	**delims;
-	int			nb_delims;
 
-	nb_delims = 4;
-	delims = ft_calloc(nb_delims + 1, sizeof(t_delimiter *));
+	delims = ft_calloc(3, sizeof(t_delimiter *));
 	check_alloc(data, delims);
 	delims[0] = new_delimiter(data, "\"", "\"");
 	delims[1] = new_delimiter(data, "'", "'");
-	delims[2] = new_delimiter(data, "(", ")");
-	delims[3] = NULL;
+	delims[2] = NULL;
 	return (delims);
 }
 
@@ -58,16 +57,18 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 		token = new_token(data, T_OR, i, s[i]);
 	else if (!ft_strcmp(s[i], "|"))
 		token = new_token(data, T_PIPE, i, s[i]);
-	else if (s[i][0] == '(')
-		token = new_token(data, T_PARENTHESIS, i, s[i]);
 	else if (!ft_strcmp(s[i], "<<"))
 		token = new_token(data, T_REDIR_HEREDOC, i, s[i]);
 	else if (!ft_strcmp(s[i], "<"))
 		token = new_token(data, T_REDIR_IN, i, s[i]);
-	else if (!ft_strcmp(s[i], ">"))
-		token = new_token(data, T_REDIR_TRUNCATE, i, s[i]);
 	else if (!ft_strcmp(s[i], ">>"))
 		token = new_token(data, T_REDIR_APPEND, i, s[i]);
+	else if (!ft_strcmp(s[i], ">"))
+		token = new_token(data, T_REDIR_TRUNCATE, i, s[i]);
+	else if (!ft_strcmp(s[i], "("))
+		token = new_token(data, T_OPENING_PARENTHESIS, i, s[i]);
+	else if (!ft_strcmp(s[i], ")"))
+		token = new_token(data, T_CLOSING_PARENTHESIS, i, s[i]);
 	else
 		token = new_token(data, T_WORD, i, s[i]);
 	add_token_back(tokens, token);
@@ -99,30 +100,30 @@ int	check_tokens(t_data *data, t_token **tokens)
 
 	code = EXIT_SUCCESS;
 	if (PRINT == 1)
-		ft_put_yellow("check pipe\n");
-	code = do_for_tokens(data, tokens, check_pipe);
-	if (code != EXIT_SUCCESS)
-	return (code);
-	if (PRINT == 1)
 		ft_put_yellow("check redir\n");
 	code = do_for_tokens(data, tokens, check_redirection);
 	if (code != EXIT_SUCCESS)
-	return (code);
-	if (PRINT == 1)
-		ft_put_yellow("check simple command\n");
-	code = do_for_tokens(data, tokens, check_simple_command);
-	if (code != EXIT_SUCCESS)
-	return (code);
-	if (PRINT == 1)
-		ft_put_yellow("expand vars\n");
-	code = do_for_tokens(data, tokens, expand_in_words);
-	if (code != EXIT_SUCCESS)
-	return (code);
-	if (PRINT == 1)
-		ft_put_yellow("quotes\n");
-	code = do_for_tokens(data, tokens, handle_quote);
-	if (code != EXIT_SUCCESS)
 		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("check pipe\n");
+	code = do_for_tokens(data, tokens, check_pipe);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
+	// if (PRINT == 1)
+	// 	ft_put_yellow("check simple command\n");
+	// code = do_for_tokens(data, tokens, check_simple_command);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
+	// if (PRINT == 1)
+	// 	ft_put_yellow("expand vars\n");
+	// code = do_for_tokens(data, tokens, expand_in_words);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
+	// if (PRINT == 1)
+	// 	ft_put_yellow("quotes\n");
+	// code = do_for_tokens(data, tokens, handle_quote);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	return(code);
 }
 
@@ -135,7 +136,7 @@ int	tokenize(t_data *data, char *line)
 	t_delimiter	**delimiters;
 	t_token	**tokens;
 
-	separators = init_separators(data);
+	separators = init_separators_for_operators(data);
 	delimiters = init_quote_delimiters(data);
 	splitted = ft_split_skip(line, separators, delimiters);
 	check_alloc(data, splitted);

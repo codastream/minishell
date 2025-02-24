@@ -20,7 +20,7 @@
 # include "colors.h"
 # include "../libft/includes/libft.h"
 
-# define PRINT 0
+# define PRINT 1
 
 typedef	struct s_env
 {
@@ -39,14 +39,17 @@ typedef enum e_token
 	T_OR,
 	T_PIPE,				// |
 	T_COMMAND,
-	T_PARENTHESIS,
+	T_OPENING_PARENTHESIS,
+	T_CLOSING_PARENTHESIS,
 	T_REDIR_HEREDOC,
-	T_EOF,
 	T_REDIR_IN,
 	T_REDIR_APPEND,
 	T_REDIR_TRUNCATE,
-	T_FILE,				// during syntax checking
 	T_WORD,				// default
+	T_EOF,
+	T_INFILE,
+	T_OUTFILE_APPEND,
+	T_OUTFILE_TRUNCATE,				// during syntax checking
 	T_LITERAL_SINGLE,
 	T_LITERAL_DOUBLE,
 	T_VAR

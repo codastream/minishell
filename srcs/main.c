@@ -108,15 +108,15 @@ void	process_line_input_interactive(t_data *data)
 			code = tokenize(data, data->line);
 			if (code != EXIT_SUCCESS)
 				continue ;
-			// ft_put_green("after tokenize\n");
-			data->tree = make_tree(*(data->tokens));
-			if (PRINT == 1)
-				print_tree(data->tree);
-			check_alloc(data, data->tree);
-			code = exec_line(data, data->tree);
-			// ft_put_green("after exec_line\n");
-			// printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
-			update_last_return(data, code);
+			// // ft_put_green("after tokenize\n");
+			// data->tree = make_tree(*(data->tokens));
+			// if (PRINT == 1)
+			// 	print_tree(data->tree);
+			// check_alloc(data, data->tree);
+			// code = exec_line(data, data->tree);
+			// // ft_put_green("after exec_line\n");
+			// // printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+			// update_last_return(data, code);
 		}
 		free_after_exec(data);
 	}
