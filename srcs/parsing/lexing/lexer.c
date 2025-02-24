@@ -52,8 +52,22 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 
 	if (ft_isemptystr(s[i]))
 		return ;
+	else if (!ft_strcmp(s[i], "||"))
+		token = new_token(data, T_AND, i, s[i]);
+	else if (!ft_strcmp(s[i], "&&"))
+		token = new_token(data, T_OR, i, s[i]);
 	else if (!ft_strcmp(s[i], "|"))
 		token = new_token(data, T_PIPE, i, s[i]);
+	else if (s[i][0] == '(')
+		token = new_token(data, T_PARENTHESIS, i, s[i]);
+	else if (!ft_strcmp(s[i], "<<"))
+		token = new_token(data, T_REDIR_HEREDOC, i, s[i]);
+	else if (!ft_strcmp(s[i], "<"))
+		token = new_token(data, T_REDIR_IN, i, s[i]);
+	else if (!ft_strcmp(s[i], ">"))
+		token = new_token(data, T_REDIR_TRUNCATE, i, s[i]);
+	else if (!ft_strcmp(s[i], ">>"))
+		token = new_token(data, T_REDIR_APPEND, i, s[i]);
 	else
 		token = new_token(data, T_WORD, i, s[i]);
 	add_token_back(tokens, token);
@@ -74,7 +88,7 @@ int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **,
 			return (code);
 		current = current->next;
 	}
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		print_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
@@ -84,27 +98,27 @@ int	check_tokens(t_data *data, t_token **tokens)
 	int	code;
 
 	code = EXIT_SUCCESS;
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
 	if (code != EXIT_SUCCESS)
 	return (code);
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		ft_put_yellow("check redir\n");
 	code = do_for_tokens(data, tokens, check_redirection);
 	if (code != EXIT_SUCCESS)
 	return (code);
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		ft_put_yellow("check simple command\n");
 	code = do_for_tokens(data, tokens, check_simple_command);
 	if (code != EXIT_SUCCESS)
 	return (code);
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_in_words);
 	if (code != EXIT_SUCCESS)
 	return (code);
-	if (DEBUG == 1)
+	if (PRINT == 1)
 		ft_put_yellow("quotes\n");
 	code = do_for_tokens(data, tokens, handle_quote);
 	if (code != EXIT_SUCCESS)

@@ -26,7 +26,7 @@ char	*get_token_type(t_tokentype type)
 		return ("redirect heredoc");
 	else if (type == T_REDIR_IN)
 		return ("redirect infile");
-	else if (type == T_REDIR_OUT)
+	else if (type == T_REDIR_TRUNCATE)
 		return ("redirect outfile");
 	else if (type == T_REDIR_APPEND)
 		return ("redirect append");

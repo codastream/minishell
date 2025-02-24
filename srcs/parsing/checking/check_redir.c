@@ -69,7 +69,7 @@ int	check_redirin(t_data *data, t_token *token)
 		handle_syntax_error(data, "newline");
 		return (EXIT_SYNTAX_ERROR);
 	}
-	if (token->next->type != T_WORD && token->next->type != T_REDIR_OUT)
+	if (token->next->type != T_WORD && token->next->type != T_REDIR_TRUNCATE)
 	{
 		handle_syntax_error(data, token->next->string);
 		return (EXIT_SYNTAX_ERROR);
@@ -129,7 +129,7 @@ int	check_redirection(t_data *data, t_token **tokens, t_token *token)
 		code = check_redirin(data, token);
 	else if (token->type == T_REDIR_APPEND)
 		code = check_append(data, token);
-	else if (token->type == T_REDIR_OUT)
+	else if (token->type == T_REDIR_TRUNCATE)
 		code = check_redirout(data, token);
 	return (code);
 }

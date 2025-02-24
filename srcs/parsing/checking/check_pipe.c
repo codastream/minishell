@@ -30,7 +30,7 @@ t_command *new_command(t_data *data, char *string)
 		command->command_name = NULL;
 		command->command_args = NULL;
 	}
-  command->has_invalid_redir = false; 
+  command->has_invalid_redir = false;
 	return (command);
 }
 
@@ -73,7 +73,7 @@ void	add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *
 		current = current->next;
 		if (!current)
 			return ;
-		if (current->type == T_REDIR_OUT && current->next && current->next->type == T_FILE)
+		if (current->type == T_REDIR_TRUNCATE && current->next && current->next->type == T_FILE)
 		{
 			command->command->redir_out_truncate = ft_strdup(current->next->string);
 			check_alloc(data, command->command->redir_out_truncate);
@@ -146,7 +146,7 @@ int	check_pipe(t_data *data, t_token **tokens, t_token *token)
 	}
 	if (token->next->type == T_WORD)
 		add_command_to_token(data, tokens, token->next, false);
-	else if (token->next->type != T_REDIR_OUT && token->next->type != T_REDIR_APPEND && token->next->type != T_COMMAND)
+	else if (token->next->type != T_REDIR_TRUNCATE && token->next->type != T_REDIR_APPEND && token->next->type != T_COMMAND)
 	{
 		handle_syntax_error(data, token->next->string);
 		return (EXIT_SYNTAX_ERROR);
