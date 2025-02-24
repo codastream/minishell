@@ -20,7 +20,7 @@
 # include "colors.h"
 # include "../libft/includes/libft.h"
 
-# define DEBUG 0
+# define DEBUG 1
 
 typedef	struct s_env
 {

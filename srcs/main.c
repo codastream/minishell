@@ -16,12 +16,6 @@ int	prepare_exit(t_data *data)
 {
 	int	code;
 
-	// if (data->tokens)
-	// 	free_tokens(data->tokens);
-	// if (data->tree)
-	// 	free_tree(data->tree);
-	// if (data->exec)
-	// 	free_exec(data->exec);
 	code = data->return_code;
 	free(data->prompt);
 	free_data(data);
@@ -33,7 +27,7 @@ int	prepare_exit_exec(t_data *data)
 	int	code;
 
 	if (data->tokens)
-		free_tokens(data->tokens);
+		free(data->tokens);
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)

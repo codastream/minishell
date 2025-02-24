@@ -4,16 +4,46 @@ char	**init_separators(t_data *data)
 {
 	char		**separators;
 
-	separators = ft_calloc(7, sizeof(char *));
+	separators = ft_calloc(8, sizeof(char *));
 	check_alloc(data, separators);
-	separators[0] = " ";
-	separators[1] = "|";
-	separators[2] = "<<";
-	separators[3] = "<";
-	separators[4] = ">>";
-	separators[5] = ">";
-	separators[6] = NULL;
+	separators[0] = "&&";
+	separators[1] = "||";
+	separators[2] = "|";
+	separators[3] = "<<";
+	separators[4] = "<";
+	separators[5] = ">>";
+	separators[6] = ">";
+	separators[7] = NULL;
 	return (separators);
+}
+
+t_delimiter	*new_delimiter(t_data *data, char *opening, char *closing)
+{
+	t_delimiter	*new;
+
+	new = ft_calloc(1, sizeof(t_delimiter));
+	check_alloc(data, new);
+	new->opening = ft_strdup(opening);
+	check_alloc(data, new->opening);
+	new->closing = ft_strdup(closing);
+	check_alloc(data, new->closing);
+	new->level = 0;
+	new->is_closed = true;
+	return (new);
+}
+t_delimiter	**init_quote_delimiters(t_data *data)
+{
+	t_delimiter	**delims;
+	int			nb_delims;
+
+	nb_delims = 4;
+	delims = ft_calloc(nb_delims + 1, sizeof(t_delimiter *));
+	check_alloc(data, delims);
+	delims[0] = new_delimiter(data, "\"", "\"");
+	delims[1] = new_delimiter(data, "'", "'");
+	delims[2] = new_delimiter(data, "(", ")");
+	delims[3] = NULL;
+	return (delims);
 }
 
 static void	add_token(t_data *data, t_token **tokens, char **s, int i)
@@ -87,48 +117,24 @@ int	tokenize(t_data *data, char *line)
 	int		i;
 	int		code;
 	char	**splitted;
+	char	**separators;
+	t_delimiter	**delimiters;
 	t_token	**tokens;
 
-	i = 0;
-	splitted = split_skip_quotes(line);
+	separators = init_separators(data);
+	delimiters = init_quote_delimiters(data);
+	splitted = ft_split_skip(line, separators, delimiters);
+	check_alloc(data, splitted);
 	tokens = ft_calloc(1, sizeof(t_token *));
+	check_alloc(data, tokens);
+	i = 0;
 	while (splitted[i])
 		add_token(data, tokens, splitted, i++);
+	free(separators);
+	free_delimiters(delimiters);
 	ft_free_2d_char_null_ended(splitted);
 	data->tokens = tokens;
 	code = check_tokens(data, data->tokens);
 	return (code);
 }
 
-/*
- * called after syntax check
- * splits and assigns first labels (ie enums) to input parts
- */
-/*
-int	tokenize(t_data *data, char *line)
-{
-	char		**separators;
-	char		**splitted;
-	int			i;
-	t_token		**tokens;
-	int			code;
-
-	tokens = ft_calloc(1, sizeof(t_token *));
-	check_alloc(data, tokens);
-	separators = init_separators(data);
-	check_alloc(data, separators);
-	splitted = ft_split_skip(line, separators);
-	check_alloc(data, splitted);
-	i = 0;
-	while (splitted[i])
-	{
-		add_token(data, tokens, splitted[i], i);
-		i++;
-	}
-	ft_free_2d_char_null_ended(splitted);
-	free(separators);
-	data->tokens = tokens;
-	// print_tokens(tokens);
-	code = check_tokens(data, data->tokens);
-	return (code);
-}*/
