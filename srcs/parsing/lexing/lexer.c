@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	**init_separators(t_data *data)
+char	**init_separators_for_operators(t_data *data)
 {
 	char		**separators;
 
@@ -14,6 +14,32 @@ char	**init_separators(t_data *data)
 	separators[5] = ">";
 	separators[6] = NULL;
 	return (separators);
+}
+
+t_delimiter	*new_delimiter(t_data *data, char *opening, char *closing)
+{
+	t_delimiter	*new;
+
+	new = ft_calloc(1, sizeof(t_delimiter));
+	check_alloc(data, new);
+	new->opening = ft_strdup(opening);
+	check_alloc(data, new->opening);
+	new->closing = ft_strdup(closing);
+	check_alloc(data, new->closing);
+	new->level = 0;
+	new->is_closed = true;
+	return (new);
+}
+t_delimiter	**init_quote_delimiters(t_data *data)
+{
+	t_delimiter	**delims;
+
+	delims = ft_calloc(3, sizeof(t_delimiter *));
+	check_alloc(data, delims);
+	delims[0] = new_delimiter(data, "\"", "\"");
+	delims[1] = new_delimiter(data, "'", "'");
+	delims[2] = NULL;
+	return (delims);
 }
 
 static void	add_token(t_data *data, t_token **tokens, char *s, int i)
@@ -113,26 +139,28 @@ int	check_tokens(t_data *data, t_token **tokens)
  */
 int	tokenize(t_data *data, char *line)
 {
-	char		**separators;
-	char		**splitted;
-	int			i;
-	t_token		**tokens;
-	int			code;
+	int		i;
+	int		code;
+	char	**splitted;
+	char	**separators;
+	t_delimiter	**delimiters;
+	t_token	**tokens;
 
+	separators = init_separators_for_operators(data);
+	delimiters = init_quote_delimiters(data);
+	splitted = ft_split_skip(line, separators, delimiters);
+	check_alloc(data, splitted);
 	tokens = ft_calloc(1, sizeof(t_token *));
 	check_alloc(data, tokens);
-	separators = init_separators(data);
-	check_alloc(data, separators);
-	splitted = ft_split_skip(line, separators);
-	check_alloc(data, splitted);
 	i = 0;
 	while (splitted[i])
 	{
 		add_token(data, tokens, splitted[i], i);
 		i++;
 	}
-	ft_free_2d_char_null_ended(splitted);
 	free(separators);
+	free_delimiters(delimiters);
+	ft_free_2d_char_null_ended(splitted);
 	data->tokens = tokens;
 	code = check_tokens(data, data->tokens);
 	return (code);

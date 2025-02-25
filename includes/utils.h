@@ -26,8 +26,9 @@ void	free_exec(t_exec *exec);
 void	free_tree(t_tree *tree);
 void	free_data(t_data *data);
 void	free_after_exec(t_data *data);
-void  free_all_data(t_data *data);
+void	free_all_data(t_data *data);
 void	free_after_parsing(t_data *data);
+void	free_delimiters(t_delimiter **delims);
 
 // init.c
 t_data *init_data(char **env);

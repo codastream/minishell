@@ -125,3 +125,18 @@ void  free_all_data(t_data *data)
   free_after_exec(data);
   free(data);
 }
+
+void	free_delimiters(t_delimiter **delims)
+{
+	int		i;
+
+	i = 0;
+	while (delims[i])
+	{
+		free(delims[i]->opening);
+		free(delims[i]->closing);
+		free(delims[i]);
+		i++;
+	}
+	free(delims);
+}
