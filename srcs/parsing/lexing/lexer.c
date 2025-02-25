@@ -4,7 +4,7 @@ char	**init_separators_for_operators(t_data *data)
 {
 	char		**separators;
 
-	separators = ft_calloc(8, sizeof(char *));
+	separators = ft_calloc(10, sizeof(char *));
 	check_alloc(data, separators);
 	separators[0] = "&&";
 	separators[1] = "||";
@@ -13,9 +13,9 @@ char	**init_separators_for_operators(t_data *data)
 	separators[4] = ">>";
 	separators[5] = "<";
 	separators[6] = ">";
-	separators[6] = "(";
-	separators[6] = ")";
-	separators[7] = NULL;
+	separators[7] = "(";
+	separators[8] = ")";
+	separators[9] = NULL;
 	return (separators);
 }
 
@@ -72,6 +72,26 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 	else
 		token = new_token(data, T_WORD, i, s[i]);
 	add_token_back(tokens, token);
+}
+
+int	do_for_tokens_reverse(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *))
+{
+	t_token	*current;
+	int		code;
+
+	if (!tokens)
+		return (EXIT_FAILURE);
+	current = get_last(tokens);
+	while (current)
+	{
+		code = f(data, tokens, current);
+		if (code != EXIT_SUCCESS)
+			return (code);
+		current = current->prev;
+	}
+	if (PRINT == 1)
+		print_tokens(tokens);
+	return (EXIT_SUCCESS);
 }
 
 int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *))

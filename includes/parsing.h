@@ -21,6 +21,7 @@ t_token	*new_token(t_data *data, t_tokentype type, int index, char *string);
 void	add_before(t_token **tokens, t_token *current, t_token *new);
 void	add_after(t_token *current, t_token *new);
 void	add_token_back(t_token **tokens, t_token *new);
+t_token	*get_last(t_token **tokens);
 
 void	delete_token(t_token **tokens, t_token *token);
 void	merge_with_next(t_data *data, t_token **tokens, t_token *token);

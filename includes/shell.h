@@ -20,7 +20,7 @@
 # include "colors.h"
 # include "../libft/includes/libft.h"
 
-# define PRINT 1
+# define PRINT 0
 
 typedef	struct s_env
 {
