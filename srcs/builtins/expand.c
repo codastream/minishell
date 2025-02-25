@@ -107,8 +107,6 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	return (EXIT_SUCCESS);
 }
 
-
-
 /*int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)*/
 /*{*/
 /*	char	*trimmed;*/

@@ -3,13 +3,22 @@
 void	update_command_from_string(t_data *data, t_command *command, char *string)
 {
 	char 		**name_with_args;
+	char		**seps;
+	t_delimiter **delimiters;
 
 	if (command->command_args)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
 		free(command->command_name);
-	name_with_args = ft_split(string, ' ');
+	seps = ft_calloc(2, sizeof(char *));
+	check_alloc(data, seps);
+	seps[0] = " ";
+	seps[1] = NULL;
+	delimiters = init_quote_delimiters(data);
+	name_with_args = ft_split_skip(string, seps, delimiters);
 	check_alloc(data, name_with_args);
+	free(seps);
+	free_delimiters(delimiters);
 	command->command_args = name_with_args;
 	command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
 	check_alloc(data, command->command_name);

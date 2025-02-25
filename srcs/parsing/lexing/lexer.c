@@ -132,19 +132,20 @@ int	check_tokens(t_data *data, t_token **tokens)
 	if (PRINT == 1)
 		ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, add_command);
+	if (PRINT == 1)
+		ft_put_yellow("expand vars\n");
+	code = do_for_tokens(data, tokens, expand_vars);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("quotes\n");
+	code = do_for_tokens(data, tokens, handle_quotes);
+	if (code != EXIT_SUCCESS)
+		return (code);
+
 	// if (PRINT == 1)
 	// 	ft_put_yellow("check simple command\n");
 	// code = do_for_tokens(data, tokens, check_simple_command);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
-	// if (PRINT == 1)
-	// 	ft_put_yellow("expand vars\n");
-	// code = do_for_tokens(data, tokens, expand_in_words);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
-	// if (PRINT == 1)
-	// 	ft_put_yellow("quotes\n");
-	// code = do_for_tokens(data, tokens, handle_quote);
 	// if (code != EXIT_SUCCESS)
 	// 	return (code);
 	return(code);

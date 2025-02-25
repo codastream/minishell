@@ -76,6 +76,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_simple_command.c\
 				parsing/expansion/expand.c\
+				parsing/expansion/trim.c\
 				execution/exec.c\
 				execution/exec_utils.c\
 				execution/heredoc.c\

@@ -44,9 +44,9 @@ void		add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *toke
 int			add_command(t_data *data, t_token **tokens, t_token *token);
 
 // expand
-int		expand_in_words(t_data *data, t_token **tokens, t_token *token);
+int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	**split_skip_quotes(char *line);
-int		handle_quote(t_data *data, t_token **tokens, t_token *token);
+int		handle_quotes(t_data *data, t_token **tokens, t_token *token);
 
 
 #endif

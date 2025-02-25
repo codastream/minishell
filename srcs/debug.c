@@ -58,6 +58,21 @@ void	print_redirs(char *redirtype, t_list *redirlist)
 	printf("\n");
 }
 
+void	print_command(t_command *command)
+{
+	int	i;
+
+	printf("\t\t%scommand name\t:%s%s\n", P_PINK, command->command_name, P_NOC);
+	printf("\t\t%sargs\t\t:%s", P_PINK, P_NOC);
+	i = 0;
+	while (command->command_args[i])
+	{
+		printf("%s%s|%s", P_PINK, command->command_args[i], P_NOC);
+		i++;
+	}
+	printf("\n");
+}
+
 void	print_tokens(t_token **tokens)
 {
 	t_token	*current;
@@ -74,6 +89,7 @@ void	print_tokens(t_token **tokens)
 			print_redirs("<< heredoc\t", current->command->heredoc);
 			print_redirs(">> append\t", current->command->redir_out_append);
 			print_redirs("> truncate\t", current->command->redir_out_truncate);
+			print_command(current->command);
 		}
 		current = current->next;
 	}
