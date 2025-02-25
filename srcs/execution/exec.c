@@ -238,14 +238,14 @@ int	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-    redir_data(data, &tree);
+		redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return (data->return_code);
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-  if (heredoc(data, &tree) != 0)
-    return (130);
+	if (heredoc(data, &tree) != 0)
+		return (130);
 //  print_pretty_tree(data, tree, 0, "root", true);
 	exec_tree_node(data, tree);
 	// ft_put_green("exec_line before wait all\n");

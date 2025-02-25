@@ -61,19 +61,21 @@ void	process_line_input_non_interactive(t_data *data)
 	{
 		exit(prepare_exit(data));
 	}
-	//ft_put_green("after tokenize\n");
-	// data->tree = make_tree(*(data->tokens));
-	// check_alloc(data, data->tree);
-	// code = exec_line(data, data->tree);
-	// update_last_return(data, code);
-	// if (code != EXIT_SUCCESS)
-	// {
-	// 	exit(prepare_exit_exec(data));
-	// }
-	//ft_put_green("after exec_line\n");
-	//printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+	data->tree = make_tree(*(data->tokens));
+	check_alloc(data, data->tree);
+	code = exec_line(data, data->tree);
+	update_last_return(data, code);
+	if (code != EXIT_SUCCESS)
+	{
+		exit(prepare_exit_exec(data));
+	}
+	if (PRINT == 1)
+	{
+		ft_put_green("after exec_line\n");
+		printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+	}
 	free_after_exec(data);
-	free_data(data);
+	exit(prepare_exit(data));
 }
 
 int	empty_line(char *prompt)
@@ -111,7 +113,7 @@ void	process_line_input_interactive(t_data *data)
 				ft_put_green("after tokenize\n");
 			data->tree = make_tree(*(data->tokens));
 			if (PRINT == 1)
-				print_tree(data->tree);
+				print_pretty_tree(data, data->tree, 0, "after build tree", false);
 			check_alloc(data, data->tree);
 			code = exec_line(data, data->tree);
 			if (PRINT == 1)
