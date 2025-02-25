@@ -104,16 +104,16 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->out = out;
-//	printf("-> %d\n-> %d\n\n", in, out)
-  if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
-    fd_push_back(&(data->fds), in);
-  else
-  {
-    (*tree)->value->in = in;
-	  fd_push_back(&(data->fds), in);
-  }
+	//	printf("-> %d\n-> %d\n\n", in, out)
+	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
+		fd_push_back(&(data->fds), in);
+	else
+	{
+		(*tree)->value->in = in;
+		fd_push_back(&(data->fds), in);
+  	}
 	fd_push_back(&(data->fds), out);
-//  printf("in--> %d\n out-->%d\n\n", in, out);
+//	printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
 }
 
@@ -136,7 +136,12 @@ void	do_redirs(t_data *data, t_tree *tree, t_list *redir_list, int opening_flag)
 			ft_printfd(2, "%s: %s\n", strerror(errno), redir_file);
 		}
 		else
-			put_fd(data, &tree, tree->value->in, fd);
+		{
+			if (opening_flag == O_RDONLY) // if redirin
+				put_fd(data, &tree, fd, tree->value->out);
+			else
+				put_fd(data, &tree, tree->value->in, fd);
+		}
 		current = current->next;
 	}
 }
@@ -223,7 +228,7 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	else if (tree->value->type == T_COMMAND )
 	{
 		// printf("*command detected\n");
-    redir_data(data, &tree);
+		redir_data(data, &tree);
 		exec_command(data, tree);
 	}
 }
