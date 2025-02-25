@@ -117,40 +117,68 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 	(void)data;
 }
 
-void  redir_data(t_data *data, t_tree **tree)
+void	do_redirs(t_data *data, t_tree *tree, t_list *redir_list, int opening_flag)
 {
-	int fd;
+	int					fd;
+	t_list			*current;
+	const char	*redir_file;
 
-	if ((*tree)->value->command->redir_in && !(*tree)->value->command->heredoc)
+	if (!redir_list)
+		return ;
+	current = redir_list;
+	while (current)
 	{
-		fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
+		redir_file = (const char *) current->content;
+		fd = open(redir_file, opening_flag, 0644);
 		if (fd < 0)
 		{
-			(*tree)->value->command->has_invalid_redir = true;
-			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_in);
+			tree->value->command->has_invalid_redir = true;
+			ft_printfd(2, "%s: %s\n", strerror(errno), redir_file);
 		}
-		put_fd(data, tree, fd, (*tree)->value->out);
+		else
+			put_fd(data, &tree, tree->value->in, fd);
+		current = current->next;
 	}
-	if ((*tree)->value->command->redir_out_truncate)
-	{
-		fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			(*tree)->value->command->has_invalid_redir = true;
-			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_truncate);
-		}
-		put_fd(data, tree, (*tree)->value->in, fd);
-	}
-	if ((*tree)->value->command->redir_out_append)
-	{
-		fd = open((*tree)->value->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (fd < 0)
-		{
-			(*tree)->value->command->has_invalid_redir = true;
-			printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_append);
-		}
-		put_fd(data, tree, (*tree)->value->in, fd);
-	}
+}
+
+void  redir_data(t_data *data, t_tree **tree_p)
+{
+	// int fd;
+	t_tree	*tree;
+
+	tree = *tree_p;
+	// if (tree->value->command->redir_in && !tree->value->command->heredoc)
+		do_redirs(data, tree, tree->value->command->redir_in, O_RDONLY);
+		// fd = open((*tree)->value->command->redir_in, O_RDONLY, 0644);
+		// if (fd < 0)
+		// {
+		// 	(*tree)->value->command->has_invalid_redir = true;
+		// 	printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_in);
+		// }
+		// put_fd(data, tree, fd, (*tree)->value->out);
+	// }
+	// if (tree->value->command->redir_out_truncate)
+		do_redirs(data, tree, tree->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
+	// {
+	// 	fd = open((*tree)->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	// 	if (fd < 0)
+	// 	{
+	// 		(*tree)->value->command->has_invalid_redir = true;
+	// 		printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_truncate);
+	// 	}
+	// 	put_fd(data, tree, (*tree)->value->in, fd);
+	// }
+	// if (tree->value->command->redir_out_append)
+	do_redirs(data, tree, tree->value->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
+	// {
+	// 	fd = open((*tree)->value->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	// 	if (fd < 0)
+	// 	{
+	// 		(*tree)->value->command->has_invalid_redir = true;
+	// 		printf("%s: %s\n", strerror(errno), (*tree)->value->command->redir_out_append);
+	// 	}
+	// 	put_fd(data, tree, (*tree)->value->in, fd);
+	// }
  // init_heredoc(data, tree);
 }
 

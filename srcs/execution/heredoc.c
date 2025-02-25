@@ -28,7 +28,8 @@ void	process_input(t_data *data, t_command *command, int fds[2])
   char  *eof;
 
 	close(fds[0]);
-	eof = ft_strjoin(command->heredoc, "\n");
+	eof = ft_strjoin(command->heredoc->content, "\n");
+	check_alloc(data, eof);
 	while (true)
 	{
 		input = readline("> ");
@@ -62,7 +63,7 @@ void	init_heredoc(t_data *data, t_tree **tree)
 	}
 	close(fds[1]);
 	put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
-	waitpid(child_pid, NULL, 0);  
+	waitpid(child_pid, NULL, 0);
 }
 
 int heredoc_exec(t_data *data, t_tree **tree)

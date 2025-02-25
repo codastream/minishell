@@ -8,6 +8,7 @@
  */
 int	check_pipe(t_data *data, t_token **tokens, t_token *token)
 {
+	(void) tokens;
 	if (token->type != T_PIPE)
 		return (EXIT_IGNORE);
 	if (!token->prev || !token->next)

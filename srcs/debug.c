@@ -30,12 +30,32 @@ char	*get_token_type(t_tokentype type)
 		return ("redirect outfile");
 	else if (type == T_REDIR_APPEND)
 		return ("redirect append");
-	else if (type == T_FILE)
-		return ("file");
+	else if (type == T_EOF)
+		return ("eof");
+	else if (type == T_INFILE)
+		return ("ïnfile");
+	else if (type == T_OUTFILE_APPEND)
+		return ("outfile >>");
+	else if (type == T_OUTFILE_TRUNCATE)
+		return ("outfile >");
 	else if (type == T_COMMAND)
 		return ("command");
 	else
 		return ("unknown");
+}
+
+void	print_redirs(char *redirtype, t_list *redirlist)
+{
+	t_list	*current;
+
+	current = redirlist;
+	printf("\t\t%s%s : %s", P_GREEN, redirtype, P_NOC);
+	while (current)
+	{
+		printf("%s%s%s", P_GREEN, (char *)current->content, P_NOC);
+		current = current->next;
+	}
+	printf("\n");
 }
 
 void	print_tokens(t_token **tokens)
@@ -50,10 +70,10 @@ void	print_tokens(t_token **tokens)
 		printf("\t\ttype %s\n", get_token_type(current->type));
 		if (current->type == T_COMMAND)
 		{
-			printf("\t\t%s<  in : %s\n%s", P_GREEN, current->command->redir_in, P_NOC);
-			printf("\t\t%s<< heredoc : %s\n%s", P_GREEN, current->command->heredoc, P_NOC);
-			printf("\t\t%s>  out: %s\n%s", P_GREEN, current->command->redir_out_truncate, P_NOC);
-			printf("\t\t%s>> append: %s\n%s", P_GREEN, current->command->redir_out_append, P_NOC);
+			print_redirs("< in\t", current->command->redir_in);
+			print_redirs("<< heredoc\t", current->command->heredoc);
+			print_redirs(">> append\t", current->command->redir_out_append);
+			print_redirs("> truncate\t", current->command->redir_out_truncate);
 		}
 		current = current->next;
 	}

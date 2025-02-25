@@ -44,6 +44,7 @@ t_list **get_redir_list_from_operator(t_token *operator_token, t_token *command_
 		return (&command_token->command->redir_out_append);
 	else if (operator_token->type == T_REDIR_TRUNCATE)
 		return (&command_token->command->redir_out_truncate);
+	return (NULL);
 }
 
 void	add_redirect_file_to_command(t_data *data, t_token **tokens, t_list **redir_list, t_token *file_token)
@@ -69,7 +70,7 @@ void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *c
 		current = current->prev;
 		if (!current)
 			return ;
-		if (is_file(current) && current->prev && is_redir_operator(current->prev->type))
+		if (is_file(current) && current->prev && is_redir_operator(current->prev))
 		{
 			redir_list = get_redir_list_from_operator(current->prev, command_token);
 			add_redirect_file_to_command(data, tokens, redir_list, current);
