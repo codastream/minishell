@@ -127,8 +127,11 @@ int	check_tokens(t_data *data, t_token **tokens)
 	if (PRINT == 1)
 		ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("check pipe\n");
+	code = do_for_tokens(data, tokens, add_command);
 	// if (PRINT == 1)
 	// 	ft_put_yellow("check simple command\n");
 	// code = do_for_tokens(data, tokens, check_simple_command);

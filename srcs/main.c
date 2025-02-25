@@ -62,14 +62,14 @@ void	process_line_input_non_interactive(t_data *data)
 		exit(prepare_exit(data));
 	}
 	//ft_put_green("after tokenize\n");
-	data->tree = make_tree(*(data->tokens));
-	check_alloc(data, data->tree);
-	code = exec_line(data, data->tree);
-	update_last_return(data, code);
-	if (code != EXIT_SUCCESS)
-	{
-		exit(prepare_exit_exec(data));
-	}
+	// data->tree = make_tree(*(data->tokens));
+	// check_alloc(data, data->tree);
+	// code = exec_line(data, data->tree);
+	// update_last_return(data, code);
+	// if (code != EXIT_SUCCESS)
+	// {
+	// 	exit(prepare_exit_exec(data));
+	// }
 	//ft_put_green("after exec_line\n");
 	//printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
 	free_after_exec(data);
@@ -100,6 +100,8 @@ void	process_line_input_interactive(t_data *data)
 			exit(prepare_exit(data));
 		if (empty_line(data->line))
 		{
+			if (!ft_strcmp("exit", data->line))
+				exit(0);
 		// ft_put_green("after add history\n");
 			add_history(data->line);
 			code = check_closing_quotes(data, data->line);

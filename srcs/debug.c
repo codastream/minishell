@@ -33,7 +33,7 @@ char	*get_token_type(t_tokentype type)
 	else if (type == T_EOF)
 		return ("eof");
 	else if (type == T_INFILE)
-		return ("ïnfile");
+		return ("infile");
 	else if (type == T_OUTFILE_APPEND)
 		return ("outfile >>");
 	else if (type == T_OUTFILE_TRUNCATE)
@@ -52,7 +52,7 @@ void	print_redirs(char *redirtype, t_list *redirlist)
 	printf("\t\t%s%s : %s", P_GREEN, redirtype, P_NOC);
 	while (current)
 	{
-		printf("%s%s%s", P_GREEN, (char *)current->content, P_NOC);
+		printf("%s %s%s", P_GREEN, (char *)current->content, P_NOC);
 		current = current->next;
 	}
 	printf("\n");
@@ -70,7 +70,7 @@ void	print_tokens(t_token **tokens)
 		printf("\t\ttype %s\n", get_token_type(current->type));
 		if (current->type == T_COMMAND)
 		{
-			print_redirs("< in\t", current->command->redir_in);
+			print_redirs("< in\t\t", current->command->redir_in);
 			print_redirs("<< heredoc\t", current->command->heredoc);
 			print_redirs(">> append\t", current->command->redir_out_append);
 			print_redirs("> truncate\t", current->command->redir_out_truncate);

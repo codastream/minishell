@@ -36,7 +36,7 @@ t_command *new_command(t_data *data, char *string)
 
 t_list **get_redir_list_from_operator(t_token *operator_token, t_token *command_token)
 {
-	if (operator_token->type == T_EOF)
+	if (operator_token->type == T_REDIR_HEREDOC)
 		return (&command_token->command->heredoc);
 	else if (operator_token->type == T_REDIR_IN)
 		return (&command_token->command->redir_in);
@@ -52,79 +52,77 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, t_list **redir
 	char	*redir_file_str;
 	t_list	*redir_file;
 
+	if (PRINT == 1)
+	{
+		ft_put_yellow("add redirect\n");
+		print_tokens(tokens);
+	}
 	redir_file_str = ft_strdup(file_token->string);
 	redir_file = ft_lstnew(redir_file_str);
 	check_alloc(data, redir_file);
 	ft_lstadd_back(redir_list, redir_file);
 	delete_token(tokens, file_token->prev);
+	delete_token(tokens, file_token);
 }
 
 void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *command_token)
 {
-	t_token	*current;
 	t_list	**redir_list;
 
-	current = command_token;
-	while (current && current->type != T_PIPE)
+	if (PRINT == 1)
+		printf("adding previous\n");
+	while (command_token && command_token->prev && command_token->prev->type != T_PIPE)
 	{
-		current = current->prev;
-		if (!current)
-			return ;
-		if (is_file(current) && current->prev && is_redir_operator(current->prev))
+		if (command_token->prev->prev && is_file(command_token->prev) && is_redir_operator(command_token->prev->prev))
 		{
-			redir_list = get_redir_list_from_operator(current->prev, command_token);
-			add_redirect_file_to_command(data, tokens, redir_list, current);
-			delete_token(tokens, current->prev); // delete operator token
-			return ; // TODO check later in case of successive redirs
+			redir_list = get_redir_list_from_operator(command_token->prev->prev, command_token);
+			add_redirect_file_to_command(data, tokens, redir_list, command_token->prev);
 		}
+		print_tokens(tokens);
 	}
 }
 
 void	add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *command_token)
 {
-	t_token	*current;
 	t_list	**redir_list;
 
-	current = command_token;
-	while (current && current->type != T_PIPE)
+	while (command_token && command_token->next && command_token->next->type != T_PIPE)
 	{
-		current = current->next;
-		if (!current)
-			return ;
-		if (is_file(current->next) && current->next && is_redir_operator(current))
+		if (command_token->next && is_file(command_token->next->next) && is_redir_operator(command_token->next))
 		{
-			redir_list = get_redir_list_from_operator(current, command_token);
-			add_redirect_file_to_command(data, tokens, redir_list, current->next);
-			delete_token(tokens, current); // delete operator token
-			return ;
+			redir_list = get_redir_list_from_operator(command_token->next, command_token);
+			add_redirect_file_to_command(data, tokens, redir_list, command_token->next->next);
 		}
 	}
 }
 
-void	add_command_to_token(t_data *data, t_token **tokens, t_token *token, bool is_before_pipe)
+void	add_command_to_token(t_data *data, t_token **tokens, t_token *token)
 {
 	t_command	*command;
 
-	if (is_before_pipe)
-		token = get_first_of_consecutive(token);
-	while (token->next && token->next->type == token->type)
-		merge_with_next(data, tokens, token);
+	(void) tokens;
 	command = new_command(data, token->string);
 	check_alloc(data, command);
 	token->command = command;
 	token->type = T_COMMAND;
-	if (is_before_pipe)
-		add_previous_redirect_to_command(data, tokens, token);
-	else
-		add_following_redirect_to_command(data, tokens, token);
 }
 
-void	add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token, bool is_before_pipe)
+void	add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token)
 {
 	t_token	*command_token;
 
 	command_token = new_token(data, T_WORD, token->index, NULL);
 	check_alloc(data, command_token);
 	add_before(tokens, token, command_token);
-	add_command_to_token(data, tokens, command_token, is_before_pipe);
+	add_command_to_token(data, tokens, command_token);
+}
+int	add_command(t_data *data, t_token **tokens, t_token *token)
+{
+	if (token->type != T_WORD)
+		return (EXIT_IGNORE);
+	// TODO expand in quotes or in previous iteration
+	add_command_to_token(data, tokens, token);
+	add_previous_redirect_to_command(data, tokens, token);
+	add_following_redirect_to_command(data, tokens, token);
+	return (EXIT_SUCCESS);
 }

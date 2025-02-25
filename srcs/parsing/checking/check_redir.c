@@ -64,6 +64,7 @@ void	add_file_after_redir(t_data *data, t_token **tokens, t_token *token, t_toke
 	{
 		split_append_token(data, token, index_space, filetype);
 	}
+	token->next->type = filetype;
 }
 
 int	check_redir(t_data *data, t_token **tokens, t_token *token, t_tokentype filetype)
