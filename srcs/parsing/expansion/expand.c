@@ -41,7 +41,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	{
 		value = ft_hash_get(data->vars, ++prefixedkey);
 		if (!value)
-			return (s);
+			return (ft_strdup(s));
 		expanded = ft_subst(s, --prefixedkey, value);
 		check_alloc(data, expanded);
 		free(prefixedkey);
@@ -49,7 +49,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 	else
 	{
-		return (s);
+		return (ft_strdup(s));
 	}
 }
 
