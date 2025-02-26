@@ -26,13 +26,6 @@ void	printerr_strno_source(char *error_source)
 	ft_printfd(2, "%s%s: %s%s\n", P_RED, error_source, strerror(errno), P_NOC);
 }
 
-// void	handle_fatal_error(t_data *data, char *msg, int code)
-// {
-// 	printerr(msg);
-// 	free_all_data(data);
-// 	exit(code);
-// }
-
 void	update_last_error(t_data *data, int code)
 {
 	char	*code_str;
@@ -45,7 +38,6 @@ void	update_last_error(t_data *data, int code)
 
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 {
-
 	if (msg)
 		printerr(msg);
 	update_last_error(data, code);
@@ -58,8 +50,6 @@ void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit)
 {
-	char	*code_str;
-
 	if (!error_source)
 		printerr_strno();
 	else
@@ -80,22 +70,23 @@ void	handle_builtin_error(t_data *data, t_command *command, char *msg, int code)
 	exit(code);
 }
 
-// void	build_wrongvar_msg(t_data *data, char *wrong_var, char *msg)
-// {
-// 	char	*full_msg;
-// 	char	**tabs;
+char	*build_wrongvar_msg(t_data *data, char *command_name, char *wrong_var, char *msg)
+{
+	char	*full_msg;
+	char	**tabs;
 
-// 	tabs = ft_calloc(4, sizeof(char *));
-// 	check_alloc(data, tabs);
-// 	tabs[0] = "";
-// 	tabs[1] = wrong_var;
-// 	tabs[2] = ": ";
-// 	tabs[3] = msg;
+	tabs = ft_calloc(5, sizeof(char *));
+	check_alloc(data, tabs);
+	tabs[0] = command_name;
+	tabs[1] = ": ";
+	tabs[2] = wrong_var;
+	tabs[3] = ": ";
+	tabs[4] = msg;
 
-// 	full_msg = ft_multistrjoin(4, tabs, "");
-// 	check_alloc(data, full_msg);
-// 	data->exec->error_msg = full_msg;
-// }
+	full_msg = ft_multistrjoin(4, tabs, "");
+	check_alloc(data, full_msg);
+	return (full_msg);
+}
 
 void	handle_and_exit_if_negative(t_data *data, int code, char *msg)
 {
@@ -111,25 +102,16 @@ void	check_alloc(t_data *data, void *allocated)
 
 void	handle_quote_error(t_data *data)
 {
-	char	*last_code;
-
 	printerr(MSG_SYNTAX_QUOTE_ERROR);
-	last_code = ft_itoa(EXIT_SYNTAX_ERROR);
-	ft_hash_update(data->vars, LAST_RETURN_CODE, last_code);
-	free(last_code);
-	reset(data->line);
-	reset(data->prompt);
-	// data->return_code = EXIT_SYNTAX_ERROR;
+	update_last_error(data, EXIT_SYNTAX_ERROR);
+	free_before_parsing(data);
 }
 
 void	handle_syntax_error(t_data *data, char *token_str)
 {
-	char	*last_code;
-
 	printerr_syntax(token_str);
 	update_last_error(data, EXIT_SYNTAX_ERROR);
 	free_after_parsing(data);
-	// data->return_code = EXIT_SYNTAX_ERROR;
 }
 
 void	handle_child_error(t_data *data, t_command *command)

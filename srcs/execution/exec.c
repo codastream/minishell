@@ -94,7 +94,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
-		free_data(data);
+		free_vars_and_data(data);
 		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}

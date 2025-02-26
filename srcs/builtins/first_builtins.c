@@ -4,6 +4,7 @@ void	ft_exit(t_data *data, t_token *token)
 {
 	int	return_code;
 	int	code;
+	char	*msg;
 
 	return_code = EXIT_SUCCESS;
 	if (token->command->command_args[2])
@@ -22,12 +23,11 @@ void	ft_exit(t_data *data, t_token *token)
 		}
 		else
 		{
-			build_wrongvar_msg(data, token->command->command_args[1], MSG_NUMERIC_ARGUMENT_REQUIRED);
-			handle_builtin_error(data, token->command, data->exec->error_msg, EXIT_SYNTAX_ERROR);
+			msg = build_wrongvar_msg(data, token->command->command_name, token->command->command_args[1], MSG_NUMERIC_ARGUMENT_REQUIRED);
+			handle_custom_error(data, msg, EXIT_SYNTAX_ERROR, false);
+			free(msg);
 		}
 	}
-	// if (token->out == 1)
-	// 	ft_printfd(token->out, "exit\n");
 	free_all_data(data);
 	exit(return_code);
 }

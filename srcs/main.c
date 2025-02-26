@@ -18,7 +18,7 @@ int	prepare_exit(t_data *data)
 
 	code = data->return_code;
 	free(data->prompt);
-	free_data(data);
+	free_vars_and_data(data);
 	return (code);
 }
 
@@ -36,7 +36,7 @@ int	prepare_exit_exec(t_data *data)
 		free(data->line);
 	code = ft_atoi(ft_hash_get(data->vars, LAST_RETURN_CODE));
 	free(data->prompt);
-	free_data(data);
+	free_vars_and_data(data);
 	return (code);
 }
 
