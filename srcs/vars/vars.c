@@ -82,7 +82,8 @@ void	init_vars(t_data *data, char **env)
 		i++;
 	}
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
-	// ft_print_hashstr(vars);
+	char *code = ft_hash_get(vars, LAST_RETURN_CODE);
+	printf("code %s", code);
 	data->vars = vars;
 }
 void	update_last_return(t_data *data, int code)

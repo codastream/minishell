@@ -17,6 +17,8 @@ void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code);
 char	*build_wrongvar_msg(t_data *data, char *error_source, char *wrong_var, char *msg);
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit);
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit);
+void	handle_end_of_loop(t_data *data);
+void	handle_non_interactive_end(t_data *data, char *step);
 
 // free.c
 void	reset(void *allocated);

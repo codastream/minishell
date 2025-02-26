@@ -202,7 +202,7 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	}
 }
 
-int	exec_line(t_data *data, t_tree *tree)
+void	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
 	int		code = 0;
@@ -213,14 +213,14 @@ int	exec_line(t_data *data, t_tree *tree)
 	{
 		redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
-		return (data->return_code);
+		return ;
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
 	if (heredoc(data, &tree) != 0)
-		return (130);
+		return ;
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));
-	return (code);
+	update_last_return(data, code);
 }

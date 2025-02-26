@@ -100,6 +100,33 @@ void	check_alloc(t_data *data, void *allocated)
 		handle_custom_error(data, MSG_MEMORY_ERROR, EXIT_FAILURE, true);
 }
 
+void	handle_end_of_loop(t_data *data)
+{
+	int	code;
+
+	code = get_last_return(data);
+	free(data->prompt);
+	free_vars_and_data(data);
+	exit(code);
+}
+
+void	handle_non_interactive_end(t_data *data, char *step)
+{
+	int	code;
+
+	code = get_last_return(data);
+	if (!strcmp(step, "beforeexec"))
+	{
+		free(data->line);
+		free_vars_and_data(data);
+	}
+	else if (!strcmp(step, "afterexec"))
+	{
+		free_after_exec(data);
+	}
+	exit(code);
+}
+
 void	handle_quote_error(t_data *data)
 {
 	printerr(MSG_SYNTAX_QUOTE_ERROR);

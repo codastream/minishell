@@ -24,7 +24,7 @@ void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
 void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
-  char  *eof;
+	char	*eof;
 
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
@@ -42,8 +42,8 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
-  (void)data;
-  exit(132 - g_signal);
+	(void) data;
+	exit(132 - g_signal);
 }
 
 void	init_heredoc(t_data *data, t_tree **tree)
