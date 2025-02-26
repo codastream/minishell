@@ -29,6 +29,12 @@ char	*try_replace_vars(t_data *data, char *s)
 		if (s[i] == '$')
 		{
 			len = 0;
+			if (s[i + 1] && s[i + 1] == '?')
+			{
+				prefixedkey = ft_substr(s, i, len + 2);
+				check_alloc(data, prefixedkey);
+				break ;
+			}
 			while (ft_ischarforenvvar(s[i + len + 1]))
 				len++;
 			prefixedkey = ft_substr(s, i, len + 1);
