@@ -1,5 +1,21 @@
 #include "shell.h"
 
+bool	ft_isalnumstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strlen(s) == 0)
+		return (false);
+	while (s[i])
+	{
+		if (!ft_isalnum(s[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	ft_exit(t_data *data, t_token *token)
 {
 	int	return_code;
@@ -128,7 +144,11 @@ void	ft_cd(t_data *data, t_token *token)
 
 	command = token->command;
 	if (command->command_args[2])
-		handle_builtin_error(data, command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
+	{
+		ft_printfd(2, "cd: too many arguments\n");
+		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+		return ;
+	}
 	if (!(command->command_args)[1])
 	{
 		chdir(ft_hash_get(data->vars, "HOME"));
@@ -140,8 +160,8 @@ void	ft_cd(t_data *data, t_token *token)
 	check_alloc(data, path);
 	if (chdir(path) < 0)
 	{
-		build_wrongvar_msg(data, command->command_args[1], MSG_NO_SUCH_FILE_OR_DIRECTORY);
-		handle_builtin_error(data, command, data->exec->error_msg, EXIT_FAILURE);
+		ft_printfd(2, "cd: %s: No such file or directory\n", command->command_args[1]);
+		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
 	}
 	free(path);
 }
@@ -158,26 +178,34 @@ void	ft_unset(t_data *data, t_token *token)
 
 void  ft_export(t_data *data, t_token *token)
 {
-  int   i;
-  char **var;
-  char *content;
+	int   i;
+	char **var;
+	char *content;
 
-  i = 1;
-  content = NULL;
-  if (!token->command->command_args[1])
-   return ;
-  var = ft_split(token->command->command_args[1], '=');
-  while (var[i])
-  {
-    content = ft_joinfree(content, var[i++]);
-    if (var[i])
-      content = ft_joinfree(content, "=");
-  }
-  ft_hash_remove(data->vars, var[0]);
-  ft_hash_insert(data->vars, ft_strdup(var[0]), ft_strdup(content));
-  if (content)
-    free(content);
-  ft_free_2d_char_null_ended(var);
+	i = 1;
+	content = NULL;
+	if (!token->command->command_args[1])
+		return ;
+	var = ft_split(token->command->command_args[1], '=');
+	while (var[i])
+	{
+		content = ft_joinfree(content, var[i++]);
+		if (var[i])
+			content = ft_joinfree(content, "=");
+	}
+	if (var[0] && ft_isalpha(var[0][0]) && ft_isalnumstr(var[0]) && content)
+	{
+		ft_hash_remove(data->vars, var[0]);
+		ft_hash_insert(data->vars, ft_strdup(var[0]), ft_strdup(content));
+	}
+	else if (!var[0] || !ft_isalpha(var[0][0]) || !ft_isalnumstr(var[0]))
+	{
+		ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[1]);
+		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+	}
+	if (content)
+		free(content);
+	ft_free_2d_char_null_ended(var);
 }
 
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
