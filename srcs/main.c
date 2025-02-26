@@ -16,7 +16,7 @@ int	prepare_exit(t_data *data)
 {
 	int	code;
 
-	code = data->return_code;
+	code = ft_atoi(ft_hash_get(data->vars, LAST_RETURN_CODE));
 	free(data->prompt);
 	free_vars_and_data(data);
 	return (code);
@@ -65,7 +65,7 @@ void	process_line_input_non_interactive(t_data *data)
 	check_alloc(data, data->tree);
 	// print_pretty_tree(data, data->tree, 0, "bef exec", false);
 	code = exec_line(data, data->tree);
-	update_last_return(data, code);
+//	update_last_return(data, code);
 	if (code != EXIT_SUCCESS)
 	{
 		exit(prepare_exit_exec(data));
