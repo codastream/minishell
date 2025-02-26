@@ -65,15 +65,18 @@ BUILD_DIR		:=	.build
 SRCS_FILES:=	main.c\
 				builtins/builtins.c\
 				builtins/first_builtins.c\
+				parsing/split_skip_quotes.c\
 				parsing/lexing/lexer.c\
 				parsing/lexing/sanitize.c\
 				parsing/lexing/tokens_utils.c\
 				parsing/lexing/tokens_utils_clean.c\
+				parsing/lexing/command.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_simple_command.c\
 				parsing/expansion/expand.c\
+				parsing/expansion/trim.c\
 				execution/exec.c\
 				execution/exec_utils.c\
 				execution/heredoc.c\

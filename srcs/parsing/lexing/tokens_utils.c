@@ -110,3 +110,21 @@ void	add_after(t_token *current, t_token *new)
 		new->prev = current;
 	}
 }
+
+bool	is_file(t_token *token)
+{
+	return (token->type == T_INFILE \
+		|| token->type == T_EOF
+		|| token->type == T_OUTFILE_APPEND \
+		|| token->type == T_OUTFILE_TRUNCATE \
+	);
+}
+
+bool	is_redir_operator(t_token *token)
+{
+	return (token->type == T_REDIR_HEREDOC\
+		|| token->type == T_REDIR_IN
+		|| token->type == T_REDIR_APPEND \
+		|| token->type == T_REDIR_TRUNCATE \
+	);
+}

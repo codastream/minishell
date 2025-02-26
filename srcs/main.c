@@ -16,12 +16,6 @@ int	prepare_exit(t_data *data)
 {
 	int	code;
 
-	// if (data->tokens)
-	// 	free_tokens(data->tokens);
-	// if (data->tree)
-	// 	free_tree(data->tree);
-	// if (data->exec)
-	// 	free_exec(data->exec);
 	code = data->return_code;
 	free(data->prompt);
 	free_data(data);
@@ -33,7 +27,7 @@ int	prepare_exit_exec(t_data *data)
 	int	code;
 
 	if (data->tokens)
-		free_tokens(data->tokens);
+		free(data->tokens);
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)
@@ -67,8 +61,6 @@ void	process_line_input_non_interactive(t_data *data)
 	{
 		exit(prepare_exit(data));
 	}
-	// print_tokens(data->tokens);
-	//ft_put_green("after tokenize\n");
 	data->tree = make_tree(*(data->tokens));
 	check_alloc(data, data->tree);
 	// print_pretty_tree(data, data->tree, 0, "bef exec", false);
@@ -78,10 +70,13 @@ void	process_line_input_non_interactive(t_data *data)
 	{
 		exit(prepare_exit_exec(data));
 	}
-	//ft_put_green("after exec_line\n");
-	//printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+	if (PRINT == 1)
+	{
+		ft_put_green("after exec_line\n");
+		printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+	}
 	free_after_exec(data);
-	free_data(data);
+	exit(prepare_exit(data));
 }
 
 int	empty_line(char *prompt)
@@ -108,7 +103,6 @@ void	process_line_input_interactive(t_data *data)
 			exit(prepare_exit(data));
 		if (empty_line(data->line))
 		{
-		// ft_put_green("after add history\n");
 			add_history(data->line);
 			code = check_closing_quotes(data, data->line);
 			if (code != EXIT_SUCCESS)
@@ -116,12 +110,18 @@ void	process_line_input_interactive(t_data *data)
 			code = tokenize(data, data->line);
 			if (code != EXIT_SUCCESS)
 				continue ;
-			// ft_put_green("after tokenize\n");
+			if (PRINT == 1)
+				ft_put_green("after tokenize\n");
 			data->tree = make_tree(*(data->tokens));
+			if (PRINT == 1)
+				print_pretty_tree(data, data->tree, 0, "after build tree", false);
 			check_alloc(data, data->tree);
 			code = exec_line(data, data->tree);
-			// ft_put_green("after exec_line\n");
-			// printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+			if (PRINT == 1)
+			{
+				ft_put_green("after exec_line\n");
+				printf("code from exec %s%d%s\n", P_PINK, code, P_NOC);
+			}
 			update_last_return(data, code);
 		}
 		free_after_exec(data);

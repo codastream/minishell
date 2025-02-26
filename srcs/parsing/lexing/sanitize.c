@@ -1,18 +1,23 @@
 #include "shell.h"
 
-void	add_after_splitted_on_space(t_data *data, t_token *token, int index_space)
+/*
+ * splits next token string at split_index
+ * appends a new token in between
+ * ex : "<" "infile cat -e" becomes "<" "infile" "cat -e"
+ */
+void	split_append_token(t_data *data, t_token *token, int split_index, t_tokentype filetype)
 {
-	char	*string1;
+	char	*filepath;
 	char	*string2;
 	t_token	*new;
 
-	string1 = ft_substr(token->next->string, 0, index_space);
-	check_alloc(data, string1);
-	new = new_token(data, T_FILE, token->index, "toto");
+	filepath = ft_substr(token->next->string, 0, split_index);
+	check_alloc(data, filepath);
+	new = new_token(data, filetype, token->index, "");
 	check_alloc(data, new);
 	free(new->string);
-	new->string = string1;
-	string2 = ft_substr(token->next->string, index_space + 1, \
+	new->string = filepath;
+	string2 = ft_substr(token->next->string, split_index + 1, \
 		ft_strlen(token->next->string));
 	check_alloc(data, string2);
 	free(token->next->string);

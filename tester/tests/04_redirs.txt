@@ -1,4 +1,6 @@
 echo a > ./files/outfile.txt
-< ./files/infile.txt cat
+echo a > ./files/inexistent
+< inexistent.txt cat -e
+< ./files/infile.txt cat -e
 < ./files/badperm.txt
-echo a > ./files/outfile.txt | echo b >> ./files/outfile.txt
+< ./files/infile.txt cat -e > ./files/outfile.txt

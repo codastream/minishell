@@ -20,6 +20,8 @@
 # include "colors.h"
 # include "../libft/includes/libft.h"
 
+# define PRINT 0
+
 typedef	struct s_env
 {
 	char	**vars;
@@ -33,17 +35,23 @@ typedef struct s_fds
 
 typedef enum e_token
 {
-	T_COMMAND,
-	T_WORD,				// default
+	T_AND,
+	T_OR,
 	T_PIPE,				// |
-	T_LITERAL_SINGLE,
-	T_LITERAL_DOUBLE,
+	T_COMMAND,
+	T_OPENING_PARENTHESIS,
+	T_CLOSING_PARENTHESIS,
 	T_REDIR_HEREDOC,
-	T_EOF,
 	T_REDIR_IN,
 	T_REDIR_APPEND,
-	T_REDIR_OUT,
-	T_FILE,				// during syntax checking
+	T_REDIR_TRUNCATE,
+	T_WORD,				// default
+	T_EOF,
+	T_INFILE,
+	T_OUTFILE_APPEND,
+	T_OUTFILE_TRUNCATE,				// during syntax checking
+	T_LITERAL_SINGLE,
+	T_LITERAL_DOUBLE,
 	T_VAR
 }	t_tokentype;
 
@@ -53,10 +61,10 @@ typedef struct s_command
 	char		*command_name;
 	char		*pathname;
 	char		**command_args; // command name of path + options - null ended for execve
-	char		*redir_in;
-	char		*heredoc;
-	char		*redir_out_truncate;
-	char		*redir_out_append;
+	t_list		*redir_in;
+	t_list		*heredoc;
+	t_list		*redir_out_truncate;
+	t_list		*redir_out_append;
 	bool		has_invalid_redir;
 }	t_command;
 
