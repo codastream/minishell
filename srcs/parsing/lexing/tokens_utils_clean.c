@@ -11,7 +11,10 @@ void	merge_with_next(t_data *data, t_token **tokens, t_token *token)
 	tab[1] = ft_strdup(token->next->string);
 	check_alloc(data, tab[1]);
 	tab[2] = NULL;
-	newstr = ft_multistrjoin(2, tab, " ");
+	if (token->next->type == T_LITERAL_DOUBLE || token->next->type == T_LITERAL_SINGLE || token->type == T_LITERAL_DOUBLE || token->type == T_LITERAL_SINGLE)
+		newstr = ft_multistrjoin(2, tab, "");
+	else
+		newstr = ft_multistrjoin(2, tab, " ");
 	check_alloc(data, newstr);
 	ft_free_2d_char_null_ended(tab);
 	delete_token(tokens, token->next);

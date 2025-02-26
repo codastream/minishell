@@ -13,17 +13,35 @@ void	printerr_syntax(char *tokenstr)
 	ft_printfd(2, "%ssyntax error near unexpected token `%s'%s\n", P_RED, tokenstr, P_NOC);
 }
 
-// should also handle free_after_exec ? + exit with custom code
-// void	handle_skippable_error(t_data *data, char *msg, int code)
-// {
-
-// }
-
 void	handle_fatal_error(t_data *data, char *msg, int code)
 {
 	printerr(msg);
 	free_all_data(data);
 	exit(code);
+}
+
+void	handle_builtin_error(t_data *data, t_command *command, char *msg, int code)
+{
+	ft_printfd(2, "%s%s: %s%s\n", P_RED, command->command_name, msg, P_NOC);
+	free_all_data(data);
+	exit(code);
+}
+
+void	build_wrongvar_msg(t_data *data, char *wrong_var, char *msg)
+{
+	char	*full_msg;
+	char	**tabs;
+
+	tabs = ft_calloc(4, sizeof(char *));
+	check_alloc(data, tabs);
+	tabs[0] = "";
+	tabs[1] = wrong_var;
+	tabs[2] = ": ";
+	tabs[3] = msg;
+
+	full_msg = ft_multistrjoin(4, tabs, "");
+	check_alloc(data, full_msg);
+	data->exec->error_msg = full_msg;
 }
 
 void  handle_child_error(t_data *data, t_command *command)

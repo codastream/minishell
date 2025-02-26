@@ -63,6 +63,7 @@ void	process_line_input_non_interactive(t_data *data)
 	}
 	data->tree = make_tree(*(data->tokens));
 	check_alloc(data, data->tree);
+	// print_pretty_tree(data, data->tree, 0, "bef exec", false);
 	code = exec_line(data, data->tree);
 	update_last_return(data, code);
 	if (code != EXIT_SUCCESS)

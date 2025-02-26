@@ -1,5 +1,6 @@
 echo
 echo tata toto
+echo a                     b c            d
 echo tata
 echo "tata"
 echo 'tata'
@@ -38,7 +39,6 @@ unset WRONGVAR
 unset SHELL
 unset PATH
 env
-env a
 exit 123 124
 exit tata
 exit "tata"
@@ -48,4 +48,4 @@ exit "+100"
 exit "-100"
 exit
 exit 123
-exit 257
+exit 258

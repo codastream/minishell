@@ -32,6 +32,7 @@ int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 char		*get_checked_pathmame(t_data *data, t_command *command);
+int			merge_word_with_next_words_and_make_command(t_data *data, t_token **tokens, t_token *token);
 int			check_simple_command(t_data *data, t_token **tokens, t_token *token);
 
 // command
