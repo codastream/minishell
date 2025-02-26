@@ -3,4 +3,3 @@ cat -e tata
 cat ./files/infile.txt
 cat -wrongopt
 wrongcmd
-

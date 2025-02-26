@@ -89,7 +89,6 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 	{
 		*newline = '\0';
 	}
-
 	if (ret_b != 0)
 	{
 		bash_with_prompt = ft_strstr(buff_b, ": line ");
@@ -100,6 +99,13 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 				bash_with_prompt++;
 			bash_with_prompt += 2;
 			buff_b = bash_with_prompt;
+		}
+		if (ft_strstr(buff_b, "syntax error near unexpected token"))
+		{
+			if (ft_strstr(buff_m, "syntax error near unexpected token"))
+				return (true);
+			else
+				return (false);
 		}
 		if (ft_strstr(buff_m, buff_b))
 			return (true);
@@ -179,7 +185,7 @@ bool	is_identical_outfile(void)
 	return (true);
 }
 
-void	do_tests_for_file(int fd, int *test_index, int *ok_count)
+void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output)
 {
 	char	*test;
 	int		ret_system;
@@ -253,7 +259,7 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 			printf("❌");
 		}
 		printf("\t%s%50s%s\n", P_YELLOW, test, P_NOC);
-		if (!is_same_output)
+		if (!is_same_output || print_output)
 		{
 			printf("❕ sortie\nbash:%s\nmini:%s\n", buff_b, buff_m);
 		}
@@ -280,6 +286,22 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count)
 	free(test);
 }
 
+void	fill_test_files(char **test_files, char **av)
+{
+	if (!ft_strcmp("syntax", av[1]))
+		test_files[0] = "tests/00_syntax.txt";
+	else if (!ft_strcmp("builtins", av[1]))
+		test_files[0] = "tests/01_builtins.txt";
+	else if (!ft_strcmp("vars", av[1]))
+		test_files[0] = "tests/02_vars.txt";
+	else if (!ft_strcmp("commands", av[1]))
+		test_files[0] = "tests/03_commands.txt";
+	else if (!ft_strcmp("redirs", av[1]))
+		test_files[0] = "tests/04_redirs.txt";
+	else if (!ft_strcmp("pipes", av[1]))
+		test_files[0] = "tests/05_pipes.txt";
+}
+
 int main(int ac, char **av)
 {
 	char	**test_files;
@@ -287,7 +309,9 @@ int main(int ac, char **av)
 	int		fd;
 	int		ok_count;
 	int		test_count;
+	bool	print_output;
 
+	print_output = false;
 	ok_count = 0;
 	test_count = 0;
 	test_files = ft_calloc(10, sizeof(char *));
@@ -303,18 +327,13 @@ int main(int ac, char **av)
 	}
 	else if (ac == 2)
 	{
-		if (!ft_strcmp("syntax", av[1]))
-			test_files[0] = "tests/00_syntax.txt";
-		else if (!ft_strcmp("builtins", av[1]))
-			test_files[0] = "tests/01_builtins.txt";
-		else if (!ft_strcmp("vars", av[1]))
-			test_files[0] = "tests/02_vars.txt";
-		else if (!ft_strcmp("commands", av[1]))
-			test_files[0] = "tests/03_commands.txt";
-		else if (!ft_strcmp("redirs", av[1]))
-			test_files[0] = "tests/04_redirs.txt";
-		else if (!ft_strcmp("pipes", av[1]))
-			test_files[0] = "tests/05_pipes.txt";
+		fill_test_files(test_files, av);
+	}
+	else if (ac == 3)
+	{
+		fill_test_files(test_files, av);
+		if (av[2][0] == 'p')
+			print_output = true;
 	}
 	else
 	{
@@ -329,7 +348,7 @@ int main(int ac, char **av)
 		fd = open(test_files[i], O_RDONLY, 0666);
 		if (fd < 0)
 			ft_printfd(2, "%sErreur d'ouverture du fichier %s%s\n", P_RED, test_files[i], P_NOC);
-		do_tests_for_file(fd, &test_count, &ok_count);
+		do_tests_for_file(fd, &test_count, &ok_count, print_output);
 		close(fd);
 		i++;
 	}

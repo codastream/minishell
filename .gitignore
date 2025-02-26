@@ -6,6 +6,7 @@ libft.a
 *.o
 *.d
 .nfs*
+tester/tester
 
 # directories
 libft

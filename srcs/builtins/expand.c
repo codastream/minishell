@@ -41,7 +41,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	{
 		value = ft_hash_get(data->vars, ++prefixedkey);
 		if (!value)
-			return (ft_strdup(s));
+			return (s);
 		expanded = ft_subst(s, --prefixedkey, value);
 		check_alloc(data, expanded);
 		free(prefixedkey);
@@ -49,7 +49,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 	else
 	{
-		return (ft_strdup(s));
+		return (s);
 	}
 }
 
@@ -106,8 +106,6 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	}
 	return (EXIT_SUCCESS);
 }
-
-
 
 /*int	expand_in_double_literals(t_data *data, t_token **tokens, t_token *token)*/
 /*{*/

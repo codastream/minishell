@@ -20,13 +20,13 @@ void	free_command(t_command *command)
 	if (command->pathname)
 		reset(command->pathname);
 	if (command->redir_in)
-		reset(command->redir_in);
+		ft_lstclear(&command->redir_in, free);
 	if (command->redir_out_append)
-		reset(command->redir_out_append);
+		ft_lstclear(&command->redir_out_append, free);
 	if (command->redir_out_truncate)
-		reset(command->redir_out_truncate);
+		ft_lstclear(&command->redir_out_truncate, free);
 	if (command->heredoc)
-		reset(command->heredoc);
+		ft_lstclear(&command->heredoc, free);
 	reset(command);
 }
 
@@ -122,4 +122,19 @@ void  free_all_data(t_data *data)
     pop_all_fd(&data->fds);
   free_after_exec(data);
   free(data);
+}
+
+void	free_delimiters(t_delimiter **delims)
+{
+	int		i;
+
+	i = 0;
+	while (delims[i])
+	{
+		free(delims[i]->opening);
+		free(delims[i]->closing);
+		free(delims[i]);
+		i++;
+	}
+	free(delims);
 }
