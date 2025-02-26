@@ -17,7 +17,6 @@ void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
 	(*tree)->value->out = out;
 	fd_push_back(&(data->fds), in);
 	fd_push_back(&(data->fds), out);
-//  printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
 }
 
