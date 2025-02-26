@@ -78,56 +78,6 @@ int	check_redir(t_data *data, t_token **tokens, t_token *token, t_tokentype file
 	return (EXIT_SUCCESS);
 }
 
-// int	check_redirin(t_data *data, t_token *token)
-// {
-// 	int		code;
-
-// 	code = check_has_next_word
-
-// 	if (token->next && token->next->type == T_WORD)
-// 	{
-// 		index_space = ft_strchri(token->next->string, ' ');
-// 		if (index_space != -1)
-// 			split_append_token(data, token, index_space);
-// 		token->next->type = T_FILE;
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-// int	check_redirout(t_data *data, t_token *token)
-// {
-// 	if (!token->next)
-// 	{
-// 		handle_syntax_error(data, "newline");
-// 		return (EXIT_SYNTAX_ERROR);
-// 	}
-// 	if (token->next->type != T_WORD)
-// 	{
-// 		handle_syntax_error(data, token->next->string);
-// 		return (EXIT_SYNTAX_ERROR);
-// 	}
-// 	else
-// 		token->next->type = T_FILE;
-// 	return (EXIT_SUCCESS);
-// }
-
-// int	check_append(t_data *data, t_token *token)
-// {
-// 	if (!token->next)
-// 	{
-// 		handle_syntax_error(data, "newline");
-// 		return (EXIT_SYNTAX_ERROR);
-// 	}
-// 	if (token->next->type != T_WORD)
-// 	{
-// 		handle_syntax_error(data, token->next->string);
-// 		return (EXIT_SYNTAX_ERROR);
-// 	}
-// 	else
-// 		token->next->type = T_FILE;
-// 	return (EXIT_SUCCESS);
-// }
-
 int	check_redirection(t_data *data, t_token **tokens, t_token *token)
 {
 	int	code;
