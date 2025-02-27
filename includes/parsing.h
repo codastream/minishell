@@ -45,7 +45,8 @@ void		add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *
 void		add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *command);
 void		add_command_to_token(t_data *data, t_token **tokens, t_token *token);
 void		add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token);
-int			add_command(t_data *data, t_token **tokens, t_token *token);
+int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
+int			add_command_from_redirop(t_data *data, t_token **tokens, t_token *token);
 
 // expand
 int		expand_vars(t_data *data, t_token **tokens, t_token *token);

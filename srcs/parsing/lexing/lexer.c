@@ -131,10 +131,17 @@ int	check_tokens(t_data *data, t_token **tokens)
 	ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
 	if (code != EXIT_SUCCESS)
-	return (code);
+		return (code);
 	if (PRINT == 1)
-	ft_put_yellow("add command\n");
-	code = do_for_tokens(data, tokens, add_command);
+		ft_put_yellow("add command from word\n");
+	code = do_for_tokens(data, tokens, add_command_from_word);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("add command from redirop\n");
+	code = do_for_tokens(data, tokens, add_command_from_redirop);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	if (PRINT == 1)
 		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);

@@ -113,6 +113,8 @@ void	add_after(t_token *current, t_token *new)
 
 bool	is_file(t_token *token)
 {
+	if (!token)
+		return (false);
 	return (token->type == T_INFILE \
 		|| token->type == T_EOF
 		|| token->type == T_OUTFILE_APPEND \
@@ -122,6 +124,8 @@ bool	is_file(t_token *token)
 
 bool	is_redir_operator(t_token *token)
 {
+	if (!token)
+		return (false);
 	return (token->type == T_REDIR_HEREDOC\
 		|| token->type == T_REDIR_IN
 		|| token->type == T_REDIR_APPEND \
