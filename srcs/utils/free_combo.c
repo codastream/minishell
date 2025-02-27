@@ -11,7 +11,6 @@ void	free_before_parsing(t_data *data)
 void	free_after_parsing(t_data *data)
 {
 	free_before_parsing(data);
-	ft_hash_remove(data->vars, LAST_RETURN_CODE);
 	if (data->tokens)
 		free_tokens(data->tokens);
 }

@@ -222,5 +222,7 @@ void	exec_line(t_data *data, t_tree *tree)
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));
+	if (PRINT == 1)
+		printf("code after wait %d\n", code);
 	update_last_return(data, code);
 }
