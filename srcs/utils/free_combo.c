@@ -39,8 +39,6 @@ void	free_vars_and_data(t_data *data) // can be replaced with free_all_data
 
 void  free_all_data(t_data *data)
 {
-	// if (data->fds)
-	// 	pop_all_fd(&data->fds);
 	free_after_exec(data);
 	free_vars_and_data(data);
 }

@@ -94,17 +94,23 @@ void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid = 1;
 
-	if (tree->value->command->has_invalid_redir == false)
-	{
+	// if (tree->value->command->has_invalid_redir == false)
+	// {
 		child_pid = safe_fork(data);
 		if (child_pid == 0)
 		{
-			redir_data(data, &tree);
+			if (tree->value->command->has_invalid_redir)
+			{
+				close(data->exec->fds[1]);
+				close(data->exec->fds[0]);
+				free_all_data(data);
+				exit(EXIT_FAILURE);
+			}
 			child_exec(data, tree->value->command, tree->value);
 		}
 		else
 			data->exec->last_pid = child_pid;
-	}
+	// }
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
@@ -141,20 +147,24 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 void	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
-	int		code = 0;
+	int		code;
 
 	exec = init_exec(data, tree);
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		redir_data(data, &tree);
+		// redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return ;
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-	if (heredoc(data, &tree) != 0)
+	code = heredoc(data, &tree);
+	if (code != 0)
 		return ;
+	if (PRINT == 1)
+		ft_put_yellow("check redir files\n");
+	do_for_tokens(data, data->tokens, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));

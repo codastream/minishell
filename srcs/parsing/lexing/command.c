@@ -15,10 +15,15 @@ void	update_command_from_string(t_data *data, t_command *command, char *string)
 	seps[0] = " ";
 	seps[1] = NULL;
 	delimiters = init_quote_delimiters(data);
-	name_with_args = ft_split_skip(string, seps, delimiters);
-	check_alloc(data, name_with_args);
-	free(seps);
-	free_delimiters(delimiters);
+	if (string)
+	{
+		name_with_args = ft_split_skip(string, seps, delimiters);
+		check_alloc(data, name_with_args);
+		free(seps);
+		free_delimiters(delimiters);
+	}
+	else
+		name_with_args = NULL;
 	command->command_args = name_with_args;
 	command->command_name = ft_strdup(name_with_args[0]); // TODO delete and use command_args[0] when needed
 	check_alloc(data, command->command_name);
@@ -128,10 +133,22 @@ void	add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token
 }
 int	add_command(t_data *data, t_token **tokens, t_token *token)
 {
-	if (token->type != T_WORD)
+
+	if (token->type != T_WORD && !is_redir_operator(token))
 		return (EXIT_IGNORE);
-	add_command_to_token(data, tokens, token);
-	add_previous_redirect_to_command(data, tokens, token);
-	add_following_redirect_to_command(data, tokens, token);
-	return (EXIT_SUCCESS);
+	if (is_redir_operator(token))
+	{
+		add_empty_command_with_redir(data, tokens, token);
+		token = token->prev;
+		add_previous_redirect_to_command(data, tokens, token);
+		add_following_redirect_to_command(data, tokens, token);
+		return (CURRENT_TOKEN_DELETED);
+	}
+	else
+	{
+		add_command_to_token(data, tokens, token);
+		add_previous_redirect_to_command(data, tokens, token);
+		add_following_redirect_to_command(data, tokens, token);
+		return (EXIT_SUCCESS);
+	}
 }

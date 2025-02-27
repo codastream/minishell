@@ -58,7 +58,7 @@ void  skip_single_quote(char **string)
 
 bool	next_expand(char *string, char marker)
 {
-	if (!*string)
+	if (!string || !*string)
 		return (false);
 	while (*string)
 	{
@@ -88,7 +88,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 
 	(void) tokens;
 	s = token->string;
-	if (token->type != T_COMMAND)
+	if (token->type != T_COMMAND || !s)
 		return (EXIT_IGNORE);
 	while (next_expand(s, '$'))
 	{

@@ -26,6 +26,24 @@ int	safe_fork(t_data *data)
 	return (child_pid);
 }
 
+void  put_fd_token(t_data *data, t_token *token, int in, int out)
+{
+	token->out = out;
+	if (PRINTFD == 1)
+		printf("-> %d\n-> %d\n\n", in, out);
+	if (token->type == T_COMMAND && token->command->heredoc)
+		fd_push_back(&(data->fds), in);
+	else
+	{
+		token->in = in;
+		fd_push_back(&(data->fds), in);
+	}
+	fd_push_back(&(data->fds), out);
+	if (PRINTFD == 1)
+		printf("in--> %d\n out-->%d\n\n", in, out);
+	(void)data;
+}
+
 void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->out = out;

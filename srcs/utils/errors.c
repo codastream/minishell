@@ -138,7 +138,7 @@ void	handle_non_interactive_end(t_data *data, char *step)
 	}
 	else if (!strcmp(step, "afterexec"))
 	{
-		free_after_exec(data);
+		free_all_data(data);
 	}
 	exit(code);
 }

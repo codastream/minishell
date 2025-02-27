@@ -4,15 +4,11 @@
 >> ./files/outfile.txt
 >> ./files/inexistent
 >> ./files/badperm.txt
-echo a > ./files/outfile.txt
-echo a > ./files/inexistent
-echo a > ./files/badperm.txt
-echo a >> ./files/outfile.txt
-echo a >> ./files/inexistent
-echo a >> ./files/badperm.txt
 < ./files/infile.txt
 < ./files/inexistent
 < ./files/badperm.txt
+< ./files/infile.txt > ./files/outfile.txt
+cat -e < ./files/infile.txt
 < ./files/infile.txt cat -e
 < ./files/inexistent.txt cat -e
 < ./files/badperm.txt cat -e
@@ -20,3 +16,10 @@ echo a >> ./files/badperm.txt
 < ./files/badperm.txt < ./files/infile.txt cat -e
 < ./files/infile.txt < inexistent cat -e
 < ./files/infile.txt cat -e > ./files/outfile.txt
+< ./files/infile.txt cat -e > ./files/inexistent
+< ./files/infile.txt cat -e > ./files/badperm.txt
+echo a > ./files/outfile.txt
+echo a > ./files/inexistent
+echo a > ./files/badperm.txt
+< ./files/infile echo
+< ./files/inexistent echo
