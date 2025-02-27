@@ -21,6 +21,7 @@
 # include "../libft/includes/libft.h"
 
 # define PRINT 0
+# define PRINTFD 0
 
 typedef	struct s_env
 {

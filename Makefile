@@ -78,6 +78,7 @@ SRCS_FILES:=	main.c\
 				parsing/expansion/expand.c\
 				parsing/expansion/trim.c\
 				execution/exec.c\
+				execution/exec_redir.c\
 				execution/exec_utils.c\
 				execution/heredoc.c\
 				execution/fds.c\

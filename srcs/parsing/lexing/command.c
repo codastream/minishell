@@ -87,7 +87,8 @@ void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *c
 			redir_list = get_redir_list_from_operator(command_token->prev->prev, command_token);
 			add_redirect_file_to_command(data, tokens, redir_list, command_token->prev);
 		}
-		print_tokens(tokens);
+		if (PRINT == 1)
+			print_tokens(tokens);
 	}
 }
 

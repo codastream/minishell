@@ -63,18 +63,6 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	return (exec);
 }
 
-void  close_all(t_tree *tree)
-{
-  if (tree->value->in < 0)
-    close(tree->value->in);
-  if (tree->value->out < 0)
-    close(tree->value->out);
-  if (tree->left)
-    close_all(tree->left);
-  if (tree->right)
-    close_all(tree->right);
-}
-
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
@@ -99,61 +87,6 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		command->command_args, env_local);
 	}
 	handle_child_error(data, command);
-}
-
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->out = out;
-	//	printf("-> %d\n-> %d\n\n", in, out)
-	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
-		fd_push_back(&(data->fds), in);
-	else
-	{
-		(*tree)->value->in = in;
-		fd_push_back(&(data->fds), in);
-  	}
-	fd_push_back(&(data->fds), out);
-//	printf("in--> %d\n out-->%d\n\n", in, out);
-	(void)data;
-}
-
-void	do_redirs(t_data *data, t_tree *tree, t_list *redir_list, int opening_flag)
-{
-	int					fd;
-	t_list			*current;
-	const char	*redir_file;
-
-	if (!redir_list)
-		return ;
-	current = redir_list;
-	while (current)
-	{
-		redir_file = (const char *) current->content;
-		fd = open(redir_file, opening_flag, 0644);
-		if (fd < 0)
-		{
-			tree->value->command->has_invalid_redir = true;
-			handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
-		}
-		else
-		{
-			if (opening_flag == O_RDONLY) // if redirin
-				put_fd(data, &tree, fd, tree->value->out);
-			else
-				put_fd(data, &tree, tree->value->in, fd);
-		}
-		current = current->next;
-	}
-}
-
-void  redir_data(t_data *data, t_tree **tree_p)
-{
-	t_tree	*tree;
-
-	tree = *tree_p;
-	do_redirs(data, tree, tree->value->command->redir_in, O_RDONLY);
-	do_redirs(data, tree, tree->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
-	do_redirs(data, tree, tree->value->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
