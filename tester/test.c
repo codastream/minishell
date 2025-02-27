@@ -128,6 +128,7 @@ void	init_redir(void)
 
 void	reset_redir(void)
 {
+	remove("./files/inexistent");
 	chmod("./files/badperm.txt", 0755);
 	rmdir(OUTDIR_MINI);
 	rmdir(OUTDIR_BASH);
@@ -185,7 +186,7 @@ bool	is_identical_outfile(void)
 	return (true);
 }
 
-void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output, char *filename)
+void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output, bool print_only_failed, char *filename)
 {
 	char	*test;
 	int		ret_system;
@@ -202,6 +203,7 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 	bool	is_same_return = false;
 	bool	is_same_output = false;
 	bool	is_same_outfile = false;
+	bool	is_passed = false;
 
 	test = get_next_line(fd);
 	if (test && ft_strlen(test) > 0)
@@ -249,19 +251,24 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 			is_same_outfile = true;
 
 		// ===== DISPLAY
-		printf("%d : ", *test_index);
+
 		is_same_return = have_same_return(ret_b, ret_m);
 		is_same_output = have_same_output(ret_b, ret_m, buff_b, buff_m);
-		if ((is_same_return && is_same_output && is_same_outfile))
+		is_passed = is_same_return && is_same_output && is_same_outfile;
+		if (!print_only_failed || (print_only_failed && !is_passed))
+			printf("%d : ", *test_index);
+		if (is_passed)
 		{
-			printf("✅");
+			if (!print_only_failed)
+				printf("✅");
 			(*ok_count)++;
 		}
 		else
 		{
 			printf("❌");
 		}
-		printf("\t%s%50s%s\n", P_YELLOW, test, P_NOC);
+		if (!print_only_failed)
+			printf("\t%s%50s%s\n", P_YELLOW, test, P_NOC);
 		if (!is_same_output || print_output)
 		{
 			printf("❕ sortie\nbash:%s\nmini:%s\n", buff_b, buff_m);
@@ -278,7 +285,8 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 			printf("mini:\n");
 			print_file(OUTFILE_MINI);
 		}
-		printf("%s------------------------------------------------------------%s\n", P_BLACK, P_NOC);
+		if (!print_only_failed || (print_only_failed && !is_passed))
+			printf("%s------------------------------------------------------------%s\n", P_BLACK, P_NOC);
 
 		// ===== CLEANUP
 		reset_redir();
@@ -314,8 +322,10 @@ int main(int ac, char **av)
 	int		ok_count;
 	int		test_count;
 	bool	print_output;
+	bool	print_only_failed;
 
 	print_output = false;
+	print_only_failed = false;
 	ok_count = 0;
 	test_count = 0;
 	test_files = ft_calloc(10, sizeof(char *));
@@ -338,11 +348,16 @@ int main(int ac, char **av)
 		fill_test_files(test_files, av);
 		if (av[2][0] == 'p')
 			print_output = true;
+		if (av[2][0] == 'f')
+		{
+			print_only_failed = true;
+		}
 	}
 	else
 	{
-		printf("usage ./tester without arguments or with one of:\n \
-			syntax - builtins - vars - commands - redirs - pipes\n");
+		printf("usage : \n./tester\n \
+			./tester <filename (one of syntax - builtins - vars - commands - redirs - pipes)>\n \
+			./tester <filename> <print (one of 'p' : print all tests and all result (whether test is passed or failed) - 'f' : print only failed tests)\n");
 		return (1);
 	}
 
@@ -352,7 +367,7 @@ int main(int ac, char **av)
 		fd = open(test_files[i], O_RDONLY, 0666);
 		if (fd < 0)
 			ft_printfd(2, "%sErreur d'ouverture du fichier %s%s\n", P_RED, test_files[i], P_NOC);
-		do_tests_for_file(fd, &test_count, &ok_count, print_output, test_files[i]);
+		do_tests_for_file(fd, &test_count, &ok_count, print_output, print_only_failed, test_files[i]);
 		close(fd);
 		i++;
 	}
