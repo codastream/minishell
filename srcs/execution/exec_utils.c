@@ -4,7 +4,6 @@ void	safe_dup2(t_data *data, int fdfrom, int fdto)
 {
 	int	code;
 
-	// printf("redir de %d -> %d\n", fdfrom, fdto);
 	code = dup2(fdfrom, fdto);
 	handle_and_exit_if_negative(data, code, "dup error");
 	pop_fd(&data->fds, fdfrom);

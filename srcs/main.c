@@ -11,21 +11,6 @@ bool	is_empty_line(char *line)
 	return (false);
 }
 
-// int	prepare_exit_exec(t_data *data)
-// {
-// 	int	code;
-
-// 	if (data->tokens)
-// 		free(data->tokens);
-// 	if (data->tree)
-// 		free_tree(data->tree);
-// 	if (data->exec)
-// 		free_exec(data->exec);
-// 	if (data->line)
-// 		free(data->line);
-// 	return (code);
-// }
-
 void	process_line_input_non_interactive(t_data *data)
 {
 	int	code;
