@@ -267,19 +267,19 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 		{
 			printf("❌");
 		}
-		if (!print_only_failed)
+		if (!print_only_failed || (print_only_failed && !is_passed))
 			printf("\t%s%50s%s\n", P_YELLOW, test, P_NOC);
 		if (!is_same_output || print_output)
 		{
-			printf("❕ sortie\nbash:%s\nmini:%s\n", buff_b, buff_m);
+			printf("❕\tsortie\nbash:%s\nmini:%s\n", buff_b, buff_m);
 		}
 		if (!is_same_return)
 		{
-			printf("❕ valeurs de retour\nbash: %d\nmini:%d\n", ret_b, ret_m);
+			printf("⏹️\tvaleurs de retour\nbash: %d\nmini:%d\n", ret_b, ret_m);
 		}
 		if (!is_same_outfile)
 		{
-			printf("❕ outfile.txt\n");
+			printf("📁\toutfile.txt\n");
 			printf("bash:\n");
 			print_file(OUTFILE_BASH);
 			printf("mini:\n");
