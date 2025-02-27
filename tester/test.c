@@ -122,13 +122,26 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 void	init_redir(void)
 {
 	chmod("./files/badperm.txt", 0);
+	FILE *filestream = fopen("./files/outfile.txt", "w");
+	if (!filestream)
+		printf("error creating outfile.txt\n");
+	fclose(filestream);
 	mkdir(OUTDIR_MINI, 0755);
 	mkdir(OUTDIR_BASH, 0755);
 }
 
 void	reset_redir(void)
 {
-	remove("./files/inexistent");
+	int	code;
+
+	if (access("./files/inexistent", F_OK))
+	{
+		code = remove("./files/inexistent");
+		printf("code remove inexistent %d\n", code);
+	}
+	code = remove("./files/outfile.txt");
+	if (code != 0)
+		printf("code remove outfile %d\n", code);
 	chmod("./files/badperm.txt", 0755);
 	rmdir(OUTDIR_MINI);
 	rmdir(OUTDIR_BASH);
@@ -275,7 +288,7 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 		}
 		if (!is_same_return)
 		{
-			printf("⏹️\tvaleurs de retour\nbash: %d\nmini:%d\n", ret_b, ret_m);
+			printf("⏹️\tvaleurs de retour\nbash: %d\nmini: %d\n", ret_b, ret_m);
 		}
 		if (!is_same_outfile)
 		{
@@ -355,9 +368,7 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		printf("usage : \n./tester\n \
-			./tester <filename (one of syntax - builtins - vars - commands - redirs - pipes)>\n \
-			./tester <filename> <print (one of 'p' : print all tests and all result (whether test is passed or failed) - 'f' : print only failed tests)\n");
+		printf("usage : \n./tester\n./tester <filename (one of syntax - builtins - vars - commands - redirs - pipes)>\n./tester <filename> <print (one of 'p' : print all tests and all result (whether test is passed or failed) - 'f' : print only failed tests)\n");
 		return (1);
 	}
 
