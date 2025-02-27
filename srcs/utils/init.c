@@ -8,7 +8,7 @@ t_data *init_data(char **env)
 	if (!data)
 		return (NULL);
 	data->prompt = NULL;
-	data->return_code = EXIT_SUCCESS;
+	// data->return_code = EXIT_SUCCESS;
 	init_vars(data, env);
 	return (data);
 }

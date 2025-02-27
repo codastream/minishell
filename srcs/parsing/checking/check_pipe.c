@@ -1,7 +1,5 @@
 #include "shell.h"
 
-
-
 /*
  * checks that pipe integrates into following patterns
  * <word> OR <redir file> | <word> OR <redir file>
@@ -22,11 +20,3 @@ int	check_pipe(t_data *data, t_token **tokens, t_token *token)
 		handle_syntax_error(data, token->next->string);
 	return (EXIT_SUCCESS);
 }
-
-	// if (token->prev->type == T_WORD)
-	// 	add_command_to_token(data, tokens, token->prev, true);
-	// else if (token->prev->type == T_FILE)
-	// 	add_empty_command_with_redir(data, tokens, token, true);
-	// if (token->next->type == T_WORD)
-	// 	add_command_to_token(data, tokens, token->next, false);
-

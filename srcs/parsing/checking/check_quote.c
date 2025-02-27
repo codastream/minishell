@@ -27,8 +27,8 @@ int	check_closing_quotes(t_data *data, char *input)
 {
 	char	*line;
 
-	if (!input)
-		return (EXIT_SYNTAX_ERROR);
+	// if (!input)
+	// 	return (EXIT_SYNTAX_ERROR);
 	line = input;
 	while (*line)
 	{

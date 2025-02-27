@@ -14,4 +14,3 @@ t_tree	*new_tree_node(void)
 	return (new_node);
 }
 
-

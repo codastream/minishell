@@ -129,7 +129,6 @@ int	add_command(t_data *data, t_token **tokens, t_token *token)
 {
 	if (token->type != T_WORD)
 		return (EXIT_IGNORE);
-	// TODO expand in quotes or in previous iteration
 	add_command_to_token(data, tokens, token);
 	add_previous_redirect_to_command(data, tokens, token);
 	add_following_redirect_to_command(data, tokens, token);
