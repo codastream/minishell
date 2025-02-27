@@ -119,8 +119,6 @@ void	handle_non_interactive_end(t_data *data, char *step)
 		printf("handle noninter end code %d\n", code);
 	if (!strcmp(step, "beforeexec"))
 	{
-		// if (data->line)
-		// 	free(data->line);
 		free_vars_and_data(data);
 	}
 	else if (!strcmp(step, "afterexec"))

@@ -89,18 +89,3 @@ int	merge_word_with_next_word_or_literal(t_data *data, t_token **tokens, t_token
 	}
 	return (EXIT_SUCCESS);
 }
-
-// int	merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token)
-// {
-// 	char	*trimmed;
-
-// 	while (token->type == T_WORD && token->next && token->next->type == T_LITERAL_SINGLE)
-// 	{
-// 		trimmed = ft_strtrim(token->next->string, "'");
-// 		check_alloc(data, trimmed);
-// 		free(token->next->string);
-// 		token->next->string = trimmed;
-// 		merge_with_next(data, tokens, token);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }

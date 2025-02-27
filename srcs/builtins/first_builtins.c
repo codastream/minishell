@@ -161,8 +161,6 @@ void	ft_cd(t_data *data, t_token *token)
 	if (chdir(path) < 0)
 	{
 		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
-		// build_wrongvar_msg(data, command->command_args[1], MSG_NO_SUCH_FILE_OR_DIRECTORY);
-		// handle_builtin_error(data, command, data->exec->error_msg, EXIT_FAILURE);
 	}
 	free(path);
 }
