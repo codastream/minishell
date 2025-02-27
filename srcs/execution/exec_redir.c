@@ -29,7 +29,7 @@ void	do_redirs(t_data *data, t_tree *tree, t_list *redir_list, int opening_flag)
 	}
 }
 
-void  redir_data(t_data *data, t_tree **tree_p)
+void redir_data(t_data *data, t_tree **tree_p)
 {
 	t_tree	*tree;
 

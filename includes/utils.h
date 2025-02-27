@@ -8,17 +8,22 @@ char	*read_from_secondary(t_data *data, char *prompt, char closing, char *line);
 // errors.c
 void	printerr(char *msg);
 void	check_alloc(t_data *data, void *allocated);
-void	handle_syntax_error(t_data *data, char *token_str);
-void	handle_builtin_error(t_data *data, t_command *command, char *msg, int code);
 void	handle_and_exit_if_negative(t_data *data, int code, char *msg);
-void	handle_child_error(t_data *data, t_command *command);
-void	handle_quote_error(t_data *data);
-void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code);
-char	*build_wrongvar_msg(t_data *data, char *error_source, char *wrong_var, char *msg);
+
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit);
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit);
+void	handle_custom_error_source(t_data *data, char *error_source, int code, bool should_exit);
+
+// void	handle_child_error(t_data *data, t_command *command);
+void	handle_quote_error(t_data *data);
+void	handle_command_not_found(t_data *data, char *msg, char *cmd, int code);
+void	handle_builtin_error(t_data *data, t_command *command, char *msg, int code);
+void	handle_syntax_error(t_data *data, char *token_str);
+
 void	handle_end_of_loop(t_data *data);
 void	handle_non_interactive_end(t_data *data, char *step);
+
+char	*build_wrongvar_msg(t_data *data, char *error_source, char *wrong_var, char *msg);
 
 // free.c
 void	reset(void *allocated);

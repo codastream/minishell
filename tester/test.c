@@ -137,7 +137,8 @@ void	reset_redir(void)
 	if (access("./files/inexistent", F_OK))
 	{
 		code = remove("./files/inexistent");
-		printf("code remove inexistent %d\n", code);
+		if (code != 0)
+			printf("code remove inexistent %d\n", code);
 	}
 	code = remove("./files/outfile.txt");
 	if (code != 0)

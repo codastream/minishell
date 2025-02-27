@@ -66,6 +66,7 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
+	int		exec_code;
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
@@ -76,17 +77,17 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
-	if (command->pathname && command->has_invalid_redir == false)
+	if (command->pathname)
 	{
-		// printf(" before exec\n");
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
 		free_vars_and_data(data);
-		execve((const char *) command->pathname, \
+		exec_code = execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
-	handle_child_error(data, command);
+	else if (command->command_name)
+		handle_strerror(data, command->command_name, EXIT_CMD_NOT_FOUND, true);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
@@ -97,7 +98,10 @@ void	exec_command(t_data *data, t_tree *tree)
 	{
 		child_pid = safe_fork(data);
 		if (child_pid == 0)
+		{
+			redir_data(data, &tree);
 			child_exec(data, tree->value->command, tree->value);
+		}
 		else
 			data->exec->last_pid = child_pid;
 	}
@@ -130,7 +134,6 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	}
 	else if (tree->value->type == T_COMMAND )
 	{
-		redir_data(data, &tree);
 		exec_command(data, tree);
 	}
 }
