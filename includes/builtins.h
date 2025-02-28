@@ -27,4 +27,8 @@ void	ft_cd(t_data *data, t_token *token);
 void	ft_unset(t_data *data, t_token *token);
 void  ft_export(t_data *data, t_token *token);
 
+char  **split_export_cmd(char *cmd);
+void  append_export(t_data *data, char **cmd);
+void  supress_export(t_data *data, char **cmd);
+
 #endif

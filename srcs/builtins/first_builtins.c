@@ -57,7 +57,7 @@ void	ft_echo(t_data *data, t_token *token)
 	i = 1;
 	command = token->command;
 	if (!(command->command_args)[0])
-		return ;
+	return ;
 	if (!ft_strcmp((command->command_args)[i], "-n"))
 		i++;
 	while ((command->command_args)[i])
@@ -178,6 +178,28 @@ void	ft_unset(t_data *data, t_token *token)
 
 void  ft_export(t_data *data, t_token *token)
 {
+	char **cmd;
+
+	if (!token->command->command_args[1])
+		return ;
+	if (token->command->command_args[2])
+		return ;
+	cmd = split_export_cmd(token->command->command_args[1]);
+	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
+		append_export(data, cmd);
+	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
+		supress_export(data, cmd);
+	else
+	{
+		ft_printfd(2, "export: '%s': not a valid indentifier\n", token->command->command_args[1]);
+		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+	}
+	ft_free_2d_char_null_ended(cmd);
+}
+
+/*
+void  ft_export(t_data *data, t_token *token)
+{
 	int   i;
 	char **var;
 	char *content;
@@ -185,7 +207,10 @@ void  ft_export(t_data *data, t_token *token)
 	i = 1;
 	content = NULL;
 	if (!token->command->command_args[1])
+	{
+		ft_print_env_in_order(data);
 		return ;
+	}
 	var = ft_split(token->command->command_args[1], '=');
 	while (var[i])
 	{
@@ -206,7 +231,7 @@ void  ft_export(t_data *data, t_token *token)
 	if (content)
 		free(content);
 	ft_free_2d_char_null_ended(var);
-}
+}*/
 
 void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command)
 {
