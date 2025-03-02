@@ -97,6 +97,7 @@ void	free_after_parsing(t_data *data)
 void	free_after_exec(t_data *data)
 {
 	data->fds = NULL;
+	free(data->tokens);
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)

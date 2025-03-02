@@ -22,7 +22,7 @@ void	ft_exit(t_data *data, t_token *token)
 	int	code;
 
 	return_code = EXIT_SUCCESS;
-	if (token->command->command_args[2])
+	if (token->command->command_args[1] && token->command->command_args[2])
 		handle_builtin_error(data, token->command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (token->command->command_args[1])
 	{
