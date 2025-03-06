@@ -141,7 +141,7 @@ void	reset_redir(void)
 {
 	int	code;
 
-	if (access("./files/inexistent", F_OK))
+	if (access("./files/inexistent", F_OK) == 0)
 	{
 		code = remove("./files/inexistent");
 		if (code != 0)
@@ -335,6 +335,16 @@ void	fill_test_files(char **test_files, char **av)
 		test_files[0] = "tests/05_pipes.txt";
 }
 
+void	fill_all_test_files(char **test_files)
+{
+	test_files[0] = "tests/00_syntax.txt";
+	test_files[1] = "tests/01_builtins.txt";
+	test_files[2] = "tests/02_vars.txt";
+	test_files[3] = "tests/03_commands.txt";
+	test_files[4] = "tests/04_redirs.txt";
+	test_files[5] = "tests/05_pipes.txt";
+}
+
 int main(int ac, char **av)
 {
 	char	**test_files;
@@ -353,12 +363,7 @@ int main(int ac, char **av)
 
 	if (ac == 1)
 	{
-		test_files[0] = "tests/00_syntax.txt";
-		test_files[1] = "tests/01_builtins.txt";
-		test_files[2] = "tests/02_vars.txt";
-		test_files[3] = "tests/03_commands.txt";
-		test_files[4] = "tests/04_redirs.txt";
-		test_files[5] = "tests/05_pipes.txt";
+		fill_all_test_files(test_files);
 	}
 	else if (ac == 2)
 	{
@@ -366,7 +371,12 @@ int main(int ac, char **av)
 	}
 	else if (ac == 3)
 	{
-		fill_test_files(test_files, av);
+		if (ft_strcmp(av[1], "all"))
+			fill_test_files(test_files, av);
+		else
+		{
+			fill_all_test_files(test_files);
+		}
 		if (av[2][0] == 'p')
 			print_output = true;
 		if (av[2][0] == 'f')
