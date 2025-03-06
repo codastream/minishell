@@ -149,7 +149,7 @@ int	add_command_from_redirop(t_data *data, t_token **tokens, t_token *token)
 	token = token->prev;
 	add_previous_redirect_to_command(data, tokens, token);
 	add_following_redirect_to_command(data, tokens, token);
-	return (CURRENT_TOKEN_DELETED);
+	return (EXIT_SUCCESS);
 }
 
 
