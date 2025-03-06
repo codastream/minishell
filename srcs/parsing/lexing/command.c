@@ -77,24 +77,43 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, t_list **redir
 	ft_lstadd_back(redir_list, redir_file);
 	delete_token(tokens, file_token->prev);
 	delete_token(tokens, file_token);
+	if (PRINT == 1)
+	{
+		ft_put_yellow("after add redirect\n");
+		print_tokens(tokens);
+	}
 }
 
 void	add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *command_token)
 {
 	t_list	**redir_list;
+	t_token	*current;
+	t_token	*tmp;
 
 	if (PRINT == 1)
 		printf("adding previous\n");
-	while (command_token && command_token->prev && command_token->prev->prev && command_token->prev->type != T_PIPE)
+	current = command_token;
+	while (current && current->prev && current->prev->type != T_PIPE)
+		current = current->prev;
+	while (current && is_redir_operator(current) && current->next && is_file(current->next))
 	{
-		if (is_file(command_token->prev) && is_redir_operator(command_token->prev->prev))
-		{
-			redir_list = get_redir_list_from_operator(command_token->prev->prev, command_token);
-			add_redirect_file_to_command(data, tokens, redir_list, command_token->prev);
-		}
-		if (PRINT == 1)
-			print_tokens(tokens);
+		if (current->next->next)
+			tmp = current->next->next;
+		redir_list = get_redir_list_from_operator(current, command_token);
+		add_redirect_file_to_command(data, tokens, redir_list, current->next);
+		current = tmp;
 	}
+
+	// while (command_token && command_token->prev && command_token->prev->prev && command_token->prev->type != T_PIPE)
+	// {
+	// 	if (is_file(command_token->prev) && is_redir_operator(command_token->prev->prev))
+	// 	{
+	// 		redir_list = get_redir_list_from_operator(command_token->prev->prev, command_token);
+	// 		add_redirect_file_to_command(data, tokens, redir_list, command_token->prev);
+	// 	}
+	if (PRINT == 1)
+		print_tokens(tokens);
+	// }
 }
 
 void	add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *command_token)
@@ -146,9 +165,13 @@ int	add_command_from_redirop(t_data *data, t_token **tokens, t_token *token)
 	if (!is_redir_operator(token))
 		return (EXIT_IGNORE);
 	add_empty_command_with_redir(data, tokens, token);
-	token = token->prev;
-	add_previous_redirect_to_command(data, tokens, token);
-	add_following_redirect_to_command(data, tokens, token);
+	// add_previous_redirect_to_command(data, tokens, token->prev);
+	// if (PRINT == 1)
+	// 	print_tokens(tokens);
+	add_following_redirect_to_command(data, tokens, token->prev);
+	if (PRINT == 1)
+		print_tokens(tokens);
+	*token = *(token->prev);
 	return (EXIT_SUCCESS);
 }
 
