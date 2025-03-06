@@ -180,19 +180,14 @@ void	ft_unset(t_data *data, t_token *token)
 void  ft_export(t_data *data, t_token *token)
 {
 	char **cmd;
-
-	if (!token->command->command_args[1])
-		return ;
-	if (token->command->command_args[2])
-		return ;
-	cmd = split_export_cmd(token->command->command_args[1]);
+	cd: oken->command->command_args[1]);
 	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
 	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
 	else
 	{
-		ft_printfd(2, "export: '%s': not a valid identifier\n", token->command->command_args[1]);
+		ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[1]);
 		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
 	}
 	ft_free_2d_char_null_ended(cmd);
