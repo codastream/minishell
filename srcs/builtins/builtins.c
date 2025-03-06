@@ -39,6 +39,8 @@ bool	is_builtin(t_data *data, t_command *command)
 	int	i;
 
 	i = 0;
+	if (!command->command_name)
+		return (false);
 	while (data->exec->builtins[i])
 	{
 		if (!ft_strcmp((command->command_args)[0], data->exec->builtins[i]))

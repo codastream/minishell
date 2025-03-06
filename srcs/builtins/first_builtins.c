@@ -18,12 +18,14 @@ bool	ft_isalnumstr(char *s)
 
 void	ft_exit(t_data *data, t_token *token)
 {
-	int	return_code;
-	int	code;
+	int		return_code;
+	int		code;
+	int		arg_count;
 	char	*msg;
 
+	arg_count = ft_count_2dchar_null_ended(token->command->command_args);
 	return_code = EXIT_SUCCESS;
-	if (token->command && token->command->command_args[2])
+	if (arg_count > 2)
 		handle_builtin_error(data, token->command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (token->command->command_args[1])
 	{

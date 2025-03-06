@@ -63,21 +63,10 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	return (exec);
 }
 
-void  close_all(t_tree *tree)
-{
-  if (tree->value->in < 0)
-    close(tree->value->in);
-  if (tree->value->out < 0)
-    close(tree->value->out);
-  if (tree->left)
-    close_all(tree->left);
-  if (tree->right)
-    close_all(tree->right);
-}
-
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
+	int		exec_code;
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
@@ -88,86 +77,40 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
-	if (command->pathname && command->has_invalid_redir == false)
+	if (command->pathname)
 	{
-		// printf(" before exec\n");
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
 		free_vars_and_data(data);
-		execve((const char *) command->pathname, \
+		exec_code = execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
-	handle_child_error(data, command);
-}
-
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->out = out;
-	//	printf("-> %d\n-> %d\n\n", in, out)
-	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
-		fd_push_back(&(data->fds), in);
-	else
-	{
-		(*tree)->value->in = in;
-		fd_push_back(&(data->fds), in);
-  	}
-	fd_push_back(&(data->fds), out);
-//	printf("in--> %d\n out-->%d\n\n", in, out);
-	(void)data;
-}
-
-void	do_redirs(t_data *data, t_tree *tree, t_list *redir_list, int opening_flag)
-{
-	int					fd;
-	t_list			*current;
-	const char	*redir_file;
-
-	if (!redir_list)
-		return ;
-	current = redir_list;
-	while (current)
-	{
-		redir_file = (const char *) current->content;
-		fd = open(redir_file, opening_flag, 0644);
-		if (fd < 0)
-		{
-			tree->value->command->has_invalid_redir = true;
-			handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
-		}
-		else
-		{
-			if (opening_flag == O_RDONLY) // if redirin
-				put_fd(data, &tree, fd, tree->value->out);
-			else
-				put_fd(data, &tree, tree->value->in, fd);
-		}
-		current = current->next;
-	}
-}
-
-void  redir_data(t_data *data, t_tree **tree_p)
-{
-	t_tree	*tree;
-
-	tree = *tree_p;
-	do_redirs(data, tree, tree->value->command->redir_in, O_RDONLY);
-	do_redirs(data, tree, tree->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
-	do_redirs(data, tree, tree->value->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
+	else if (command->command_name)
+		handle_strerror(data, command->command_name, EXIT_CMD_NOT_FOUND, true);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid = 1;
 
-	if (tree->value->command->has_invalid_redir == false)
-	{
+	// if (tree->value->command->has_invalid_redir == false)
+	// {
 		child_pid = safe_fork(data);
 		if (child_pid == 0)
+		{
+			if (tree->value->command->has_invalid_redir)
+			{
+				close(data->exec->fds[1]);
+				close(data->exec->fds[0]);
+				free_all_data(data);
+				exit(EXIT_FAILURE);
+			}
 			child_exec(data, tree->value->command, tree->value);
+		}
 		else
 			data->exec->last_pid = child_pid;
-	}
+	// }
 }
 
 void  exec_pipe(t_data *data, t_tree *tree)
@@ -197,7 +140,6 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	}
 	else if (tree->value->type == T_COMMAND )
 	{
-		redir_data(data, &tree);
 		exec_command(data, tree);
 	}
 }
@@ -205,20 +147,24 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 void	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
-	int		code = 0;
+	int		code;
 
 	exec = init_exec(data, tree);
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		redir_data(data, &tree);
+		// redir_data(data, &tree);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return ;
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-	if (heredoc(data, &tree) != 0)
+	code = heredoc(data, &tree);
+	if (code != 0)
 		return ;
+	if (PRINT == 1)
+		ft_put_yellow("check redir files\n");
+	do_for_tokens(data, data->tokens, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));

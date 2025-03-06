@@ -107,7 +107,10 @@ int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **,
 		code = f(data, tokens, current);
 		if (code != EXIT_SUCCESS)
 			return (code);
-		current = current->next;
+		if (current)
+			current = current->next;
+		else
+			current = *tokens;
 	}
 	if (PRINT == 1)
 		print_tokens(tokens);
@@ -120,18 +123,25 @@ int	check_tokens(t_data *data, t_token **tokens)
 
 	code = EXIT_SUCCESS;
 	if (PRINT == 1)
-		ft_put_yellow("check redir\n");
+		ft_put_yellow("check redir syntax\n");
 	code = do_for_tokens(data, tokens, check_redirection);
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
-		ft_put_yellow("check pipe\n");
+	ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
-		ft_put_yellow("check pipe\n");
-	code = do_for_tokens(data, tokens, add_command);
+		ft_put_yellow("add command from word\n");
+	code = do_for_tokens(data, tokens, add_command_from_word);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("add command from redirop\n");
+	code = do_for_tokens(data, tokens, add_command_from_redirop);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	if (PRINT == 1)
 		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);

@@ -8,6 +8,7 @@ libft.a
 .nfs*
 tester/tester
 tester/files/inexistent
+tester/files/permanentbadperm.txt
 
 # directories
 libft

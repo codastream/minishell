@@ -29,8 +29,11 @@ void split(t_token **tokens, t_token **left, t_token **right)
 
 	current = get_central_token(tokens);
 	current = current->prev;
-	*right = current->next->next;
-	(*right)->prev = NULL;
+	if (current->next && current->next->next)
+	{
+		*right = current->next;
+		(*right)->prev = NULL;
+	}
 	current->next = NULL;
 	while (current->prev)
 		current = current->prev;

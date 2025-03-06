@@ -35,11 +35,26 @@ void	update_last_error(t_data *data, int code)
 	ft_hash_update(data->vars, LAST_RETURN_CODE, code_str);
 	free(code_str);
 }
-
+/*
+ * should exit only for fatal errors (ex : failed malloc)
+ * or within a forked process
+ */
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 {
 	if (msg)
 		printerr(msg);
+	update_last_error(data, code);
+	if (should_exit)
+	{
+		free_all_data(data);
+		exit(code);
+	}
+}
+
+void	handle_custom_error_source(t_data *data, char *error_source, int code, bool should_exit)
+{
+	if (code == EXIT_CMD_NOT_FOUND)
+		ft_printfd(2, "%s%s: %s\n%s", P_RED, error_source, MSG_CMD_NOT_FOUND, P_NOC);
 	update_last_error(data, code);
 	if (should_exit)
 	{
@@ -123,7 +138,7 @@ void	handle_non_interactive_end(t_data *data, char *step)
 	}
 	else if (!strcmp(step, "afterexec"))
 	{
-		free_after_exec(data);
+		free_all_data(data);
 	}
 	exit(code);
 }
@@ -142,17 +157,17 @@ void	handle_syntax_error(t_data *data, char *token_str)
 	free_after_parsing(data);
 }
 
-void	handle_child_error(t_data *data, t_command *command)
-{
-	if (command->has_invalid_redir)
-	{
-		free_all_data(data);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		printerr_source(command->command_name, MSG_CMD_NOT_FOUND);
-		free_all_data(data);
-		exit(EXIT_CMD_NOT_FOUND);
-	}
-}
+// void	handle_child_error(t_data *data, t_command *command)
+// {
+// 	if (command->has_invalid_redir)
+// 	{
+// 		free_all_data(data);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else
+// 	{
+// 		printerr_source(command->command_name, MSG_CMD_NOT_FOUND);
+// 		free_all_data(data);
+// 		exit(EXIT_CMD_NOT_FOUND);
+// 	}
+// }
