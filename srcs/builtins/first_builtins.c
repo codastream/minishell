@@ -180,7 +180,10 @@ void	ft_unset(t_data *data, t_token *token)
 void  ft_export(t_data *data, t_token *token)
 {
 	char **cmd;
-	cd: oken->command->command_args[1]);
+
+	if (!token->command->command_args[1] && token->command->command_args[2])
+		return ;
+	cmd = split_export_cmd(token->command->command_args[1]);
 	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
 	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
