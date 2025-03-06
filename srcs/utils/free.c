@@ -97,15 +97,21 @@ void	free_after_parsing(t_data *data)
 void	free_after_exec(t_data *data)
 {
 	data->fds = NULL;
-	free(data->tokens);
+	if (data->tokens)
+		free(data->tokens);
 	if (data->tree)
 		free_tree(data->tree);
 	if (data->exec)
 		free_exec(data->exec);
 	if (data->varstab)
 		ft_free_2d_char_null_ended(data->varstab);
-	reset(data->line);
+	free(data->line);
 	free(data->prompt);
+	data->tokens = NULL;
+	data->tree = NULL;
+	data->exec = NULL;
+	data->varstab = NULL;
+	data->line = NULL;
 	data->prompt = NULL;
 }
 

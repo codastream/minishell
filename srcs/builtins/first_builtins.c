@@ -191,7 +191,7 @@ void  ft_export(t_data *data, t_token *token)
 		supress_export(data, cmd);
 	else
 	{
-		ft_printfd(2, "export: '%s': not a valid indentifier\n", token->command->command_args[1]);
+		ft_printfd(2, "export: '%s': not a valid identifier\n", token->command->command_args[1]);
 		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
 	}
 	ft_free_2d_char_null_ended(cmd);
