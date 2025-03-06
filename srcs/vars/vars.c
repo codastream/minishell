@@ -82,7 +82,6 @@ void	init_vars(t_data *data, char **env)
 		i++;
 	}
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
-	// ft_print_hashstr(vars);
 	data->vars = vars;
 }
 void	update_last_return(t_data *data, int code)
@@ -92,4 +91,14 @@ void	update_last_return(t_data *data, int code)
 	code_s = ft_itoa(code);
 	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s);
 	free(code_s);
+}
+
+int	get_last_return(t_data *data)
+{
+	int		code;
+	char	*code_str;
+
+	code_str = ft_hash_get(data->vars, LAST_RETURN_CODE);
+	code = ft_atoi(code_str);
+	return (code);
 }

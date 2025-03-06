@@ -26,6 +26,3 @@ cat >>>
 cat >> <<
 cat >> > >> << >>
 cat <<
-echo "cf manual test for 'tata <<<< toto'"
-echo "cf manual test for '<<<<<<<<<<<<<<<<'"
-echo "cf manual test for '<>>'"

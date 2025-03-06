@@ -3,6 +3,8 @@
 
 # include "shell.h"
 
+# define CURRENT_TOKEN_DELETED 100
+
 // lexer.c
 int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *));
 int			tokenize(t_data *data, char *line);
@@ -30,6 +32,7 @@ bool	is_redir_operator(t_token *token);
 // checking and tagging
 int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
+int			check_redirection_files(t_data *data, t_token **tokens, t_token *token);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 char		*get_checked_pathmame(t_data *data, t_command *command);
 int			merge_word_with_next_words_and_make_command(t_data *data, t_token **tokens, t_token *token);
@@ -42,7 +45,8 @@ void		add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *
 void		add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *command);
 void		add_command_to_token(t_data *data, t_token **tokens, t_token *token);
 void		add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token);
-int			add_command(t_data *data, t_token **tokens, t_token *token);
+int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
+int			add_command_from_redirop(t_data *data, t_token **tokens, t_token *token);
 
 // expand
 int		expand_vars(t_data *data, t_token **tokens, t_token *token);

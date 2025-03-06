@@ -64,11 +64,14 @@ void	print_command(t_command *command)
 
 	printf("\t\t%scommand name\t:%s%s\n", P_PINK, command->command_name, P_NOC);
 	printf("\t\t%sargs\t\t:%s", P_PINK, P_NOC);
-	i = 0;
-	while (command->command_args[i])
+	if (command->command_args)
 	{
-		printf("%s%s|%s", P_PINK, command->command_args[i], P_NOC);
-		i++;
+		i = 0;
+		while (command->command_args[i])
+		{
+			printf("%s%s|%s", P_PINK, command->command_args[i], P_NOC);
+			i++;
+		}
 	}
 	printf("\n");
 }

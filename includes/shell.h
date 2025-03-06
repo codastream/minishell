@@ -21,6 +21,7 @@
 # include "../libft/includes/libft.h"
 
 # define PRINT 0
+# define PRINTFD 0
 
 typedef	struct s_env
 {
@@ -66,6 +67,7 @@ typedef struct s_command
 	t_list		*redir_out_truncate;
 	t_list		*redir_out_append;
 	bool		has_invalid_redir;
+	bool		is_empty_command;
 }	t_command;
 
 typedef struct s_token

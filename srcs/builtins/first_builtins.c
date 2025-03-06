@@ -18,11 +18,14 @@ bool	ft_isalnumstr(char *s)
 
 void	ft_exit(t_data *data, t_token *token)
 {
-	int	return_code;
-	int	code;
+	int		return_code;
+	int		code;
+	int		arg_count;
+	char	*msg;
 
+	arg_count = ft_count_2dchar_null_ended(token->command->command_args);
 	return_code = EXIT_SUCCESS;
-	if (token->command->command_args[1] && token->command->command_args[2])
+	if (arg_count > 2)
 		handle_builtin_error(data, token->command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (token->command->command_args[1])
 	{
@@ -38,12 +41,11 @@ void	ft_exit(t_data *data, t_token *token)
 		}
 		else
 		{
-			build_wrongvar_msg(data, token->command->command_args[1], MSG_NUMERIC_ARGUMENT_REQUIRED);
-			handle_builtin_error(data, token->command, data->exec->error_msg, EXIT_SYNTAX_ERROR);
+			msg = build_wrongvar_msg(data, token->command->command_name, token->command->command_args[1], MSG_NUMERIC_ARGUMENT_REQUIRED);
+			handle_custom_error(data, msg, EXIT_SYNTAX_ERROR, false);
+			free(msg);
 		}
 	}
-	// if (token->out == 1)
-	// 	ft_printfd(token->out, "exit\n");
 	free_all_data(data);
 	exit(return_code);
 }
@@ -160,8 +162,7 @@ void	ft_cd(t_data *data, t_token *token)
 	check_alloc(data, path);
 	if (chdir(path) < 0)
 	{
-		ft_printfd(2, "cd: %s: No such file or directory\n", command->command_args[1]);
-		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
 	}
 	free(path);
 }

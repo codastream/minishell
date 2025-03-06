@@ -29,8 +29,11 @@ void split(t_token **tokens, t_token **left, t_token **right)
 
 	current = get_central_token(tokens);
 	current = current->prev;
-	*right = current->next->next;
-	(*right)->prev = NULL;
+	if (current->next && current->next->next)
+	{
+		*right = current->next;
+		(*right)->prev = NULL;
+	}
 	current->next = NULL;
 	while (current->prev)
 		current = current->prev;
@@ -70,22 +73,21 @@ int iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *))
 	return (*count);
 }
 
-t_tree	*make_tree(t_token *tokens)
+t_tree	*make_tree(t_data *data, t_token *tokens)
 {
 	t_tree	*tree;
 	t_token	*left;
 	t_token *right;
 
 	tree = new_tree_node();
-	if (!tree)
-		return (NULL);
+	check_alloc(data, tree);
 	tree->value = get_central_token(&tokens);
 	//printf("-> %d\n", get_tokens_nb(&tokens));
 	if (get_tokens_nb(&tokens) > 2)
 	{
 		split(&tokens, &left, &right);
-		tree->left = make_tree(left);
-		tree->right = make_tree(right);
+		tree->left = make_tree(data, left);
+		tree->right = make_tree(data, right);
 	}
 	return (tree);
 }
