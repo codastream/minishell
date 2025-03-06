@@ -35,6 +35,15 @@ void	update_last_error(t_data *data, int code)
 	ft_hash_update(data->vars, LAST_RETURN_CODE, code_str);
 	free(code_str);
 }
+
+void	handle_custom_error_exit(t_data *data, char *error_source, char *msg, int code)
+{
+	if (msg && error_source)
+		printerr_source(error_source, msg);
+	update_last_error(data, code);
+	free_all_data(data);
+	exit(code);
+}
 /*
  * should exit only for fatal errors (ex : failed malloc)
  * or within a forked process
