@@ -73,5 +73,7 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 		handle_quote_in_arg(data, &name_with_args[i]);
 		i++;
 	}
+	if (ft_strcmp(token->command->command_args[0], token->command->command_name))
+		handle_quote_in_arg(data, &token->command->command_name);
 	return (EXIT_SUCCESS);
 }

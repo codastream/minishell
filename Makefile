@@ -65,6 +65,7 @@ BUILD_DIR		:=	.build
 SRCS_FILES:=	main.c\
 				builtins/builtins.c\
 				builtins/first_builtins.c\
+				builtins/env_var.c \
 				parsing/split_skip_quotes.c\
 				parsing/lexing/lexer.c\
 				parsing/lexing/sanitize.c\

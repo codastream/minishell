@@ -82,7 +82,8 @@ t_tree	*make_tree(t_data *data, t_token *tokens)
 	tree = new_tree_node();
 	check_alloc(data, tree);
 	tree->value = get_central_token(&tokens);
-	if (get_tokens_nb(&tokens) >= 2)
+	//printf("-> %d\n", get_tokens_nb(&tokens));
+	if (get_tokens_nb(&tokens) > 2)
 	{
 		split(&tokens, &left, &right);
 		tree->left = make_tree(data, left);

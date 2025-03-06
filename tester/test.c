@@ -107,6 +107,13 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 			else
 				return (false);
 		}
+		if (ft_strstr(buff_b, "No such file or directory"))
+		{
+			if (ft_strstr(buff_m, "No such file or directory"))
+				return (true);
+			else
+				return (false);
+		}
 		if (ft_strstr(buff_m, buff_b))
 			return (true);
 		else
