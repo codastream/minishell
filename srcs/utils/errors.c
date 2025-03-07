@@ -107,7 +107,7 @@ char	*build_wrongvar_msg(t_data *data, char *command_name, char *wrong_var, char
 	tabs[3] = ": ";
 	tabs[4] = msg;
 
-	full_msg = ft_multistrjoin(4, tabs, "");
+	full_msg = ft_multistrjoin(5, tabs, "");
 	check_alloc(data, full_msg);
 	return (full_msg);
 }
