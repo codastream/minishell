@@ -8,6 +8,8 @@ minishell
 tester/tester
 tester/files/inexistent
 tester/files/permanentbadperm.txt
+libft.a
 
 # directories
 .vscode
+libft
