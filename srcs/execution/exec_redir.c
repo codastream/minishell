@@ -30,23 +30,14 @@ int	do_redirs(t_data *data, t_token *token, t_list *redir_list, int opening_flag
 	}
 	return (EXIT_SUCCESS);
 }
-
-// int redir_data(t_data *data, t_tree **tree_p)
-// {
-// 	t_tree	*tree;
-// 	int		code;
-
-// 	tree = *tree_p;
-
-// 	code = do_redirs(data, tree, tree->value->command->redir_in, O_RDONLY);
-// 	if (code != EXIT_SUCCESS)
-// 		return (code);
-// 	code = do_redirs(data, tree, tree->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
-// 	if (code != EXIT_SUCCESS)
-// 		return (code);
-// 	code = do_redirs(data, tree, tree->value->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
-// 		return (code);
-// }
+/*
+int redir_data(t_data *data, t_tree **tree_p)
+ {
+ 	code = do_redirs(data, tree, tree->value->command->redir_in, O_RDONLY);
+ 	code = do_redirs(data, tree, tree->value->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
+ 	code = do_redirs(data, tree, tree->value->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
+	return (code);
+}*/
 
 int	check_redirection_files(t_data *data, t_token **tokens, t_token *token)
 {
