@@ -1,6 +1,11 @@
 ## vars
 
-## pipes
+############################################## pipes
 # messages dans ordre différent de bash
 wrongcmd | echo 'abc'
 
+# pb de single quotes en mode non interactif
+printf 'Hello World' | cat -
+
+# single quotes
+echo 'cat Makefile | cat > $USER'
