@@ -94,24 +94,34 @@ void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid = 1;
 
-	// if (tree->value->command->has_invalid_redir == false)
-	// {
-		child_pid = safe_fork(data);
-		if (child_pid == 0)
+
+	if (PRINT == 1)
+		print_pretty_tree(data, data->tree, 0, "root", true);
+	child_pid = safe_fork(data);
+	if (child_pid == 0)
+	{
+		if (tree->value->command->has_invalid_redir)
 		{
-			if (tree->value->command->has_invalid_redir)
-			{
-				close(data->exec->fds[1]);
-				close(data->exec->fds[0]);
-				free_all_data(data);
-				exit(EXIT_FAILURE);
-			}
-			child_exec(data, tree->value->command, tree->value);
+			close(data->exec->fds[1]);
+			close(data->exec->fds[0]);
+			free_all_data(data);
+			exit(EXIT_FAILURE);
 		}
-		else
-			data->exec->last_pid = child_pid;
-	// }
+		child_exec(data, tree->value->command, tree->value);
+	}
+	else
+		data->exec->last_pid = child_pid;
 }
+bool	has_redirin(t_tree *tree)
+{
+	return (tree->value->type == T_COMMAND && tree->value->command->redir_in);
+}
+
+bool	has_redirout(t_tree *tree)
+{
+	return (tree->value->type == T_COMMAND && (tree->value->command->redir_out_append || tree->value->command->redir_out_truncate));
+}
+
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
@@ -120,20 +130,20 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	safe_pipe(data, fds);
 	tree->value->pipe_read = fds[0];
 	tree->value->pipe_write = fds[1];
-	if (!tree->left->value->command->redir_in)
+	if (!has_redirin(tree->left))
 		put_fd(data, &(tree->left), tree->value->in, fds[1]);
 	else
 		put_fd(data, &(tree->left), tree->left->value->in, fds[1]);
-	if (!tree->right->value->command->redir_out_append && !tree->right->value->command->redir_out_truncate)
+	if (!has_redirout(tree->right))
 		put_fd(data, &(tree->right), fds[0], tree->value->out);
 	else
 		put_fd(data, &(tree->right), fds[0], tree->right->value->out);
 	exec_tree_node(data, tree->left);
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
-	pop_fd(&(data->fds), fds[1]);
+	// pop_fd(&(data->fds), fds[1]);
 	exec_tree_node(data, tree->right);
-	pop_fd(&(data->fds), fds[0]);
+	// pop_fd(&(data->fds), fds[0]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)

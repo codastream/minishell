@@ -8,7 +8,17 @@ echo tata""toto
 echo "tata '"
 echo 'tata "'
 echo -n "tata"
+echo -nnnnnnnnnnnnnn1 salut
 echo "> >> < << * ? [ ] | ; || && ( ) # $ "
+echo ''
+echo ' '
+echo '    '
+echo '        '
+echo " "
+echo "    "
+echo "        "
+echo hello'world'
+echo hello""world"
 cd 123
 cd . tata
 cd

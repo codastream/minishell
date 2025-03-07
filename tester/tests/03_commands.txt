@@ -3,3 +3,12 @@ cat -e tata
 cat ./files/infile.txt
 cat -wrongopt
 wrongcmd
+/bin/ls
+/bin/ls -la
+/bin/ls -l
+/bin/ls -l -a
+/bin/ls -l -a -t
+printf "Hello World"
+printf 'Hello World'
+echo "Hello World"
+echo 'Hello World'
