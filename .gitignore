@@ -2,14 +2,14 @@
 *.out
 out
 minishell
-libft.a
 *.o
 *.d
 .nfs*
 tester/tester
 tester/files/inexistent
 tester/files/permanentbadperm.txt
+libft.a
 
 # directories
-libft
 .vscode
+libft
