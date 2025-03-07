@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	*try_replace_vars(t_data *data, char *s)
+char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 {
 	int		i;
 	int		len;
@@ -14,6 +14,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	{
 		if (s[i] == '$' && ft_ischarforenvvar(s[i + 1]))
 		{
+			*exp_idx = i;
 			len = 0;
 			if (s[i + 1] && s[i + 1] == '?')
 			{
@@ -32,6 +33,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	if (prefixedkey)
 	{
 		value = ft_hash_get(data->vars, ++prefixedkey);
+		*exp_idx += ft_strlen(value);
 //		if (!value)
 //			return (ft_strdup(s));
 		expanded = ft_subst(s, --prefixedkey, value);
@@ -45,38 +47,41 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 }
 
-void  skip_single_quote(char **string)
+void  skip_single_quote(char *string, int *i)
 {
-	char  *str;
+	// char  *str;
 
-	str = *string;
-	str++;
-	while (*str && *str != '\'')
-		str++;
-	*string = str;
+	// str = *string;
+	(*i)++;
+	while (string[*i] && string[*i] != '\'')
+		(*i)++;
+	// *string = str;
 }
 
-bool	next_expand(char *string, char marker)
+bool	next_expand(char *string, char marker, int *i)
 {
-	if (!string || !*string)
+	if (!string || !string[*i])
 		return (false);
-	while (*string)
+	while (string[*i])
 	{
-		if (*string == '\'')
-			skip_single_quote(&string);
-		if (*string == '\"')
+		if (string[*i] == '\'')
+			skip_single_quote(string, i);
+		if (string[*i] == '\"')
 		{
-			string++;
-			while(*string != '\"')
+			(*i)++;
+			while(string[*i] != '\"')
 			{
-				if (*string == marker)
+				if (string[*i] == marker)
 					return(true);
-				string++;
+				(*i)++;
 			}
 		}
-		if (*string == marker)
+		if (string[*i] == marker)
+		{
+			(*i)++;
 			return(true);
-		string++;
+		}
+		(*i)++;
 	}
 	return (false);
 }
@@ -85,16 +90,19 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*expanded;
 	char	*s;
+	int		last_expanded_index;
 
+	last_expanded_index = 0;
 	(void) tokens;
 	s = token->string;
 	if (token->type != T_COMMAND || !s)
 		return (EXIT_IGNORE);
-	while (next_expand(s, '$'))
+	while (next_expand(s, '$', &last_expanded_index))
 	{
-		expanded = try_replace_vars(data, token->string);
+		expanded = try_replace_vars(data, token->string, &last_expanded_index);
 		free(token->string);
 		token->string = expanded;
+		s = expanded;
 	}
 	return (EXIT_SUCCESS);
 }

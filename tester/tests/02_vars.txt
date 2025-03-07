@@ -3,7 +3,7 @@ echo "$USER"
 echo '$USER'
 echo $?
 echo "$"
-echo '$'
+echo $
 echo $?tata
 echo $EMPTY abc
 $EMPTY echo $EMPYT abc
