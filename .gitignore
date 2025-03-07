@@ -9,6 +9,8 @@ tester/tester
 tester/fpetit
 tester/files/inexistent
 tester/files/permanentbadperm.txt
+libft.a
 
 # directories
 .vscode
+libft
