@@ -12,7 +12,7 @@ char	*try_replace_vars(t_data *data, char *s)
 	prefixedkey = NULL;
 	while (s[i])
 	{
-		if (s[i] == '$')
+		if (s[i] == '$' && ft_ischarforenvvar(s[i + 1]))
 		{
 			len = 0;
 			if (s[i + 1] && s[i + 1] == '?')
