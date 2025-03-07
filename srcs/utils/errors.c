@@ -90,7 +90,7 @@ char	*build_wrongvar_msg(t_data *data, char *command_name, char *wrong_var, char
 	char	*full_msg;
 	char	**tabs;
 
-	tabs = ft_calloc(5, sizeof(char *));
+	tabs = ft_calloc(6, sizeof(char *));
 	check_alloc(data, tabs);
 	tabs[0] = command_name;
 	tabs[1] = ": ";
@@ -98,7 +98,7 @@ char	*build_wrongvar_msg(t_data *data, char *command_name, char *wrong_var, char
 	tabs[3] = ": ";
 	tabs[4] = msg;
 
-	full_msg = ft_multistrjoin(4, tabs, "");
+	full_msg = ft_multistrjoin(5, tabs, "");
 	check_alloc(data, full_msg);
 	return (full_msg);
 }
