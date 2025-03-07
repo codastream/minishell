@@ -8,10 +8,10 @@ cat ./files/infile.txt | md5sum
 cat ./files/infile.txt | grep -o pain | tr
 cat /dev/urandom | head -c 15 | wc -c
 cat /dev/urandom | strings | grep -o "[A-Z][0-9]" | tr -d '\n' | head -c 15 | wc -c
-echo a | wc
-echo "Hello World" | cat -e
 printf 'Hello World' | cat -
 printf "Hello World" | cat -e | cat -e
+echo a | wc
+echo "Hello World" | cat -e
 echo "cat Makefile | cat > $USER"
 echo 'cat Makefile | cat > $USER'
 echo hello|cat -e

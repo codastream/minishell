@@ -30,7 +30,7 @@ void  put_fd_token(t_data *data, t_token *token, int in, int out)
 {
 	token->out = out;
 	if (PRINTFD == 1)
-		printf("-> %d\n-> %d\n\n", in, out);
+		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", token->string, in, out);
 	if (token->type == T_COMMAND && token->command->heredoc)
 		fd_push_back(&(data->fds), in);
 	else
@@ -38,9 +38,8 @@ void  put_fd_token(t_data *data, t_token *token, int in, int out)
 		token->in = in;
 		fd_push_back(&(data->fds), in);
 	}
+	token->out = out;
 	fd_push_back(&(data->fds), out);
-	if (PRINTFD == 1)
-		printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
 }
 
@@ -48,7 +47,7 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->out = out;
 	if (PRINTFD == 1)
-		printf("-> %d\n-> %d\n\n", in, out);
+		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", (*tree)->value->string, in, out);
 	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
 		fd_push_back(&(data->fds), in);
 	else
@@ -57,8 +56,6 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 		fd_push_back(&(data->fds), in);
 	}
 	fd_push_back(&(data->fds), out);
-	if (PRINTFD == 1)
-		printf("in--> %d\n out-->%d\n\n", in, out);
 	(void)data;
 }
 

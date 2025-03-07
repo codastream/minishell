@@ -81,7 +81,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	{
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
-		// pop_all_fd(&(data->fds));
+		pop_all_fd(&(data->fds));
 		free_vars_and_data(data);
 		exec_code = execve((const char *) command->pathname, \
 		command->command_args, env_local);
@@ -131,19 +131,19 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	tree->value->pipe_read = fds[0];
 	tree->value->pipe_write = fds[1];
 	if (!has_redirin(tree->left))
-		put_fd(data, &(tree->left), tree->value->in, fds[1]);
+		put_fd_token(data, tree->left->value, tree->value->in, fds[1]);
 	else
-		put_fd(data, &(tree->left), tree->left->value->in, fds[1]);
+		put_fd_token(data, tree->left->value, tree->left->value->in, fds[1]);
 	if (!has_redirout(tree->right))
-		put_fd(data, &(tree->right), fds[0], tree->value->out);
+		put_fd_token(data, tree->right->value, fds[0], tree->value->out);
 	else
-		put_fd(data, &(tree->right), fds[0], tree->right->value->out);
+		put_fd_token(data, tree->right->value, fds[0], tree->right->value->out);
 	exec_tree_node(data, tree->left);
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
-	// pop_fd(&(data->fds), fds[1]);
+	pop_fd(&(data->fds), fds[1]);
 	exec_tree_node(data, tree->right);
-	// pop_fd(&(data->fds), fds[0]);
+	pop_fd(&(data->fds), fds[0]);
 }
 
 void	exec_tree_node(t_data *data, t_tree *tree)
