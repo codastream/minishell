@@ -11,5 +11,4 @@ tester/files/inexistent
 tester/files/permanentbadperm.txt
 
 # directories
-libft
 .vscode
