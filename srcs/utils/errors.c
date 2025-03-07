@@ -99,7 +99,7 @@ char	*build_wrongvar_msg(t_data *data, char *command_name, char *wrong_var, char
 	char	*full_msg;
 	char	**tabs;
 
-	tabs = ft_calloc(5, sizeof(char *));
+	tabs = ft_calloc(6, sizeof(char *));
 	check_alloc(data, tabs);
 	tabs[0] = command_name;
 	tabs[1] = ": ";
