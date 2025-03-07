@@ -5,8 +5,8 @@ echo $?
 echo "$"
 echo '$'
 echo $?tata
-echo $EMPTY
 echo $EMPTY abc
 $EMPTY echo $EMPYT abc
 expr $? + $?
 $
+echo $EMPTY

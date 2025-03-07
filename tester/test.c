@@ -89,6 +89,27 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 	{
 		*newline = '\0';
 	}
+	if (ft_strstr(buff_b, "command not found"))
+	{
+		if (ft_strstr(buff_m, "command not found"))
+			return (true);
+		else
+			return (false);
+	}
+	else if (ft_strstr(buff_b, "syntax error near unexpected token"))
+	{
+		if (ft_strstr(buff_m, "syntax error near unexpected token"))
+			return (true);
+		else
+			return (false);
+	}
+	else if (ft_strstr(buff_b, "No such file or directory"))
+	{
+		if (ft_strstr(buff_m, "No such file or directory"))
+			return (true);
+		else
+			return (false);
+	}
 	if (ret_b != 0)
 	{
 		bash_with_prompt = ft_strstr(buff_b, ": line ");
@@ -99,20 +120,6 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 				bash_with_prompt++;
 			bash_with_prompt += 2;
 			buff_b = bash_with_prompt;
-		}
-		if (ft_strstr(buff_b, "syntax error near unexpected token"))
-		{
-			if (ft_strstr(buff_m, "syntax error near unexpected token"))
-				return (true);
-			else
-				return (false);
-		}
-		if (ft_strstr(buff_b, "No such file or directory"))
-		{
-			if (ft_strstr(buff_m, "No such file or directory"))
-				return (true);
-			else
-				return (false);
 		}
 		if (ft_strstr(buff_m, buff_b))
 			return (true);

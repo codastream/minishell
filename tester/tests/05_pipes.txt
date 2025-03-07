@@ -1,3 +1,4 @@
+wrongcmd | echo 'abc'
 < ./files/infile.txt | cat -e
 < ./files/infile.txt | wc
 <./files/infile.txt cat|wc
@@ -23,5 +24,4 @@ ls -l | cat -e  | ls
 ls | ls |ls | ls| ls |ls| ls|ls | ls | ls | ls | ls
 ls|ls|ls|ls|ls|ls|cat    -e
 ls|ls|ls|ls|ls|ls|ls|ls |ls | ls    | ls | ls | cat    -e
-wrongcmd | echo 'abc'
 wrongcmd | cat
