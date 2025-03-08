@@ -94,11 +94,11 @@ int	do_for_tokens_reverse(t_data *data, t_token **tokens, int (*f)(t_data *, t_t
 	return (EXIT_SUCCESS);
 }
 
-int	do_for_tokens_delete(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *, t_token *))
+int	do_for_tokens_delete(t_data *data, t_token **tokens, t_token *(*f)(t_data *, t_token **, t_token *, t_token *))
 {
 	t_token	*current;
 	t_token *tmp;
-	int		code;
+	// int		code;
 
 	tmp = NULL;
 	if (!tokens)
@@ -106,10 +106,9 @@ int	do_for_tokens_delete(t_data *data, t_token **tokens, int (*f)(t_data *, t_to
 	current = *tokens;
 	while (current)
 	{
-		code = f(data, tokens, current, tmp);
-		if (code != EXIT_SUCCESS)
-			return (code);
-		current = tmp;
+		current = f(data, tokens, current, tmp);
+		// if (code != EXIT_SUCCESS)
+		// 	return (code);
 	}
 	if (PRINT == 1)
 		print_tokens(tokens);

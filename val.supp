@@ -1988,3 +1988,104 @@
    fun:process_line_input
    fun:main
 }
+{
+   Leak1_strdup_textdomain
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:__textdomain
+   fun:textdomain
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak2_strdup_load_locale_from_archive
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nl_load_locale_from_archive
+   fun:_nl_find_locale
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak3_new_composite_name
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:new_composite_name
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak4_set_binding_values
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:set_binding_values.part.0
+   fun:set_binding_values
+   fun:bindtextdomain
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak5_load_locale_from_archive
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nl_load_locale_from_archive
+   fun:_nl_find_locale
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak6_strdup_setlocale
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak7_intern_locale_data
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nl_intern_locale_data
+   fun:_nl_load_locale_from_archive
+   fun:_nl_find_locale
+   fun:setlocale
+   fun:setlocale
+   obj:/usr/bin/printf
+   fun:*
+}
+
+{
+   Leak8_file_doallocate
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_IO_file_doallocate
+   fun:_IO_doallocbuf
+   fun:_IO_file_overflow@@GLIBC_2.2.5
+   obj:/usr/bin/printf
+   obj:/usr/bin/printf
+   fun:*
+}

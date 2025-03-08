@@ -7,7 +7,7 @@
 
 // lexer.c
 int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *));
-int			do_for_tokens_delete(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *, t_token *));
+int			do_for_tokens_delete(t_data *data, t_token **tokens, t_token *(*f)(t_data *, t_token **, t_token *, t_token *));
 int			tokenize(t_data *data, char *line);
 t_delimiter	**init_quote_delimiters(t_data *data);
 
@@ -47,7 +47,7 @@ void		add_following_redirect_to_command(t_data *data, t_token **tokens, t_token 
 void		add_command_to_token(t_data *data, t_token **tokens, t_token *token);
 void		add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token);
 int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
-int			add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next);
+t_token		*add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next);
 int			delete_redirops_and_files(t_data *data, t_token **tokens, t_token *token);
 
 // expand

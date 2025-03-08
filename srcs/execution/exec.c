@@ -71,7 +71,12 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	check_alloc(data, env_local);
 	data->varstab = env_local;
 	if (!command->command_name) // empty command with redir
+	{
+		close(token->in);
+		free_after_exec(data);
+		free_vars_and_data(data);
 		exit(EXIT_SUCCESS);
+	}
 	if (ft_strlen(command->command_name) == 0)
 		handle_custom_error_source_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
 	try_exec_builtin(data, token, command);

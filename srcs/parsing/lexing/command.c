@@ -172,13 +172,14 @@ int	delete_redirops_and_files(t_data *data, t_token **tokens, t_token *token)
 	return (EXIT_IGNORE);
 }
 
-int	add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next)
+t_token	*add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next)
 {
 	t_token *command_token;
 	t_token	*current;
 
+	(void) next;
 	if (!is_redir_operator(token))
-		return (EXIT_IGNORE);
+		return (token->next);
 	add_empty_command_with_redir(data, tokens, token);
 	command_token = token->prev;
 	// add_previous_redirect_to_command(data, tokens, token->prev);
@@ -187,16 +188,14 @@ int	add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_t
 	add_following_redirect_to_command(data, tokens, command_token);
 	if (PRINT == 1)
 		print_tokens(tokens);
-	next = NULL;
 	current = *tokens;
 	while (current)
 	{
 		if (is_redir_operator(current))
 		{
-			next = current;
-			break ;
+			return (current);
 		}
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (NULL);
 }
