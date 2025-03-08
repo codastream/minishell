@@ -1,12 +1,15 @@
-## vars
-
+############################################## builtins
+export
+env
+############################################## vars
+############################################## commands
+printf 'Hello World'
 ############################################## pipes
 # messages dans ordre différent de bash
 wrongcmd | echo 'abc'
 
 # pb de single quotes en mode non interactif
 printf 'Hello World' | cat -
-printf 'Hello World'
 
 # single quotes
 echo 'cat Makefile | cat > $USER'
