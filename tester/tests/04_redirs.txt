@@ -13,7 +13,6 @@ cat -e < ./files/infile.txt
 < ./files/inexistent.txt cat -e
 < ./files/badperm.txt cat -e
 < ./files/inexistent < ./files/infile.txt cat -e
-< ./files/badperm.txt < ./files/infile.txt cat -e
 < ./files/infile.txt < inexistent cat -e
 < ./files/infile.txt cat -e > ./files/outfile.txt
 < ./files/infile.txt cat -e > ./files/inexistent

@@ -1,15 +1,17 @@
 ############################################## builtins
 export
 env
+
 ############################################## vars
+
 ############################################## commands
 printf 'Hello World'
+
+
+############################################## redirs
+< ./files/badperm.txt < ./files/infile.txt cat -e
+
 ############################################## pipes
-# messages dans ordre différent de bash
 wrongcmd | echo 'abc'
-
-# pb de single quotes en mode non interactif
 printf 'Hello World' | cat -
-
-# single quotes
 echo 'cat Makefile | cat > $USER'
