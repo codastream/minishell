@@ -87,7 +87,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		command->command_args, env_local);
 	}
 	else if (command->command_name)
-		handle_strerror(data, command->command_name, EXIT_CMD_NOT_FOUND, true);
+		handle_custom_error(data, "command not found", 127, true);	
 }
 
 void	exec_command(t_data *data, t_tree *tree)

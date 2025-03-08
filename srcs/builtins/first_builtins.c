@@ -180,23 +180,31 @@ void	ft_unset(t_data *data, t_token *token)
 
 void  ft_export(t_data *data, t_token *token)
 {
+	int	i;
 	char **cmd;
 
-	if (!token->command->command_args[1] || token->command->command_args[2])
-		return ;
-	cmd = split_export_cmd(token->command->command_args[1]);
-	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
-		append_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
-		supress_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
-		 (void)NULL; //futur truck
-	else
+	i = 1;
+	if (!token->command->command_args[1])
 	{
-		ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[1]);
-		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+		ft_print_export(data, token);
+		return ;
 	}
-	ft_free_2d_char_null_ended(cmd);
+	while (token->command->command_args[i])
+	{
+		cmd = split_export_cmd(token->command->command_args[i++]);
+		if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
+			append_export(data, cmd);
+		else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
+			supress_export(data, cmd);
+		else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
+			 ft_hash_insert(data->expvar, cmd[0], NULL);
+		else
+		{
+			ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[1]);
+			ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+		}
+		ft_free_2d_char_null_ended(cmd);
+	}
 }
 
 /*

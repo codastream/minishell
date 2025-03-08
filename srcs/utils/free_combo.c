@@ -40,6 +40,8 @@ void	free_vars_and_data(t_data *data) // can be replaced with free_all_data
 {
 	if (data->vars)
 		ft_free_hashtable(data->vars);
+	if (data->expvars)
+		ft_free_hashtable(data->expvars);
 	reset(data);
 }
 

@@ -31,7 +31,10 @@ char	*try_replace_vars(t_data *data, char *s)
 	}
 	if (prefixedkey)
 	{
-		value = ft_hash_get(data->vars, ++prefixedkey);
+//		if (++prefixedkey[0] == '?')
+//			value = ft_hash_get(data->vars, LAST_RETURN_CODE);
+//		else
+			value = ft_hash_get(data->vars, ++prefixedkey);
 //		if (!value)
 //			return (ft_strdup(s));
 		expanded = ft_subst(s, --prefixedkey, value);

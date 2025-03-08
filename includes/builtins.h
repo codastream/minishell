@@ -30,5 +30,6 @@ void 	ft_export(t_data *data, t_token *token);
 char  **split_export_cmd(char *cmd);
 void  append_export(t_data *data, char **cmd);
 void  supress_export(t_data *data, char **cmd);
+void  ft_print_export(t_data *data, t_token *token);
 
 #endif
