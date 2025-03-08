@@ -74,8 +74,9 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	if (!command->command_name) // empty command with redir
 		exit(EXIT_SUCCESS);
 	if (ft_strlen(command->command_name) == 0)
-		handle_custom_error_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
+		handle_custom_error_source_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
 	try_exec_builtin(data, token, command);
+	try_navigation(data, token);
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
 	{
@@ -87,7 +88,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		command->command_args, env_local);
 	}
 	else if (command->command_name)
-		handle_custom_error_exit(data, command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
+		handle_custom_error_source_exit(data, command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
 }
 
 void	exec_command(t_data *data, t_tree *tree)

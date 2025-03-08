@@ -6,6 +6,7 @@ wrongcmd | echo 'abc'
 
 # pb de single quotes en mode non interactif
 printf 'Hello World' | cat -
+printf 'Hello World'
 
 # single quotes
 echo 'cat Makefile | cat > $USER'
