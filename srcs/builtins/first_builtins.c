@@ -197,7 +197,7 @@ void  ft_export(t_data *data, t_token *token)
 		else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
 			supress_export(data, cmd);
 		else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
-			 ft_hash_insert(data->expvar, cmd[0], NULL);
+			 ft_hash_insert(data->expvars, cmd[0], NULL);
 		else
 		{
 			ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[1]);
