@@ -26,3 +26,9 @@ jobs:
       run: cd ./tester && ./tester builtins
     - name: test vars
       run: cd ./tester && ./tester vars
+    - name: test commands
+      run: cd ./tester && ./tester commands
+    - name: test redirs
+      run: cd ./tester && ./tester redirs
+    - name: test pipes
+      run: cd ./tester && ./tester pipes
