@@ -89,9 +89,9 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 	{
 		*newline = '\0';
 	}
-	if (ft_strstr(buff_b, "command not found"))
+	if (ft_strstr(buff_b, "not found"))
 	{
-		if (ft_strstr(buff_m, "command not found"))
+		if (ft_strstr(buff_m, "not found"))
 			return (true);
 		else
 			return (false);

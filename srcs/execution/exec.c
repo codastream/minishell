@@ -72,9 +72,9 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	check_alloc(data, env_local);
 	data->varstab = env_local;
 	if (!command->command_name) // empty command with redir
-	{
 		exit(EXIT_SUCCESS);
-	}
+	if (ft_strlen(command->command_name) == 0)
+		handle_custom_error_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
 	try_exec_builtin(data, token, command);
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
