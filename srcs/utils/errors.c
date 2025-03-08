@@ -13,6 +13,11 @@ void	printerr_source(char *error_source, char *msg)
 	ft_printfd(2, "%s%s: %s%s\n", P_RED, error_source, msg, P_NOC);
 }
 
+void	printerr_command_notfound(char *command_name)
+{
+	ft_printfd(2, "%sCommand '%s' not found%s\n", P_RED, command_name, P_NOC);
+}
+
 void	printerr_syntax(char *tokenstr)
 {
 	ft_printfd(2, "%ssyntax error near unexpected token `%s'%s\n", P_RED, tokenstr, P_NOC);
@@ -35,6 +40,17 @@ void	update_last_error(t_data *data, int code)
 	ft_hash_update(data->vars, LAST_RETURN_CODE, code_str);
 	free(code_str);
 }
+
+void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg, int code)
+{
+	if (code == EXIT_CMD_NOT_FOUND)
+		printerr_command_notfound(error_source);
+	else if (msg && error_source)
+		printerr_source(error_source, msg);
+	update_last_error(data, code);
+	free_all_data(data);
+	exit(code);
+}
 /*
  * should exit only for fatal errors (ex : failed malloc)
  * or within a forked process
@@ -51,16 +67,10 @@ void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 	}
 }
 
-void	handle_custom_error_source(t_data *data, char *error_source, int code, bool should_exit)
+void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code)
 {
-	if (code == EXIT_CMD_NOT_FOUND)
-		ft_printfd(2, "%s%s: %s\n%s", P_RED, error_source, MSG_CMD_NOT_FOUND, P_NOC);
+	printerr_source(error_source, msg);
 	update_last_error(data, code);
-	if (should_exit)
-	{
-		free_all_data(data);
-		exit(code);
-	}
 }
 
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit)

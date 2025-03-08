@@ -66,16 +66,16 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
-	int		exec_code;
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
 	data->varstab = env_local;
 	if (!command->command_name) // empty command with redir
-	{
 		exit(EXIT_SUCCESS);
-	}
+	if (ft_strlen(command->command_name) == 0)
+		handle_custom_error_source_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
 	try_exec_builtin(data, token, command);
+	try_navigation(data, token);
 	command->pathname = get_checked_pathmame(data, command);
 	if (command->pathname)
 	{
@@ -83,35 +83,45 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
 		free_vars_and_data(data);
-		exec_code = execve((const char *) command->pathname, \
+		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
 	else if (command->command_name)
-		handle_strerror(data, command->command_name, EXIT_CMD_NOT_FOUND, true);
+		handle_custom_error_source_exit(data, command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid = 1;
 
-	// if (tree->value->command->has_invalid_redir == false)
-	// {
-		child_pid = safe_fork(data);
-		if (child_pid == 0)
+
+	if (PRINT == 1)
+		print_pretty_tree(data, data->tree, 0, "root", true);
+	child_pid = safe_fork(data);
+	if (child_pid == 0)
+	{
+		if (tree->value->command->has_invalid_redir)
 		{
-			if (tree->value->command->has_invalid_redir)
-			{
-				close(data->exec->fds[1]);
-				close(data->exec->fds[0]);
-				free_all_data(data);
-				exit(EXIT_FAILURE);
-			}
-			child_exec(data, tree->value->command, tree->value);
+			close(data->exec->fds[1]);
+			close(data->exec->fds[0]);
+			free_all_data(data);
+			exit(EXIT_FAILURE);
 		}
-		else
-			data->exec->last_pid = child_pid;
-	// }
+		child_exec(data, tree->value->command, tree->value);
+	}
+	else
+		data->exec->last_pid = child_pid;
 }
+bool	has_redirin(t_tree *tree)
+{
+	return (tree->value->type == T_COMMAND && tree->value->command->redir_in);
+}
+
+bool	has_redirout(t_tree *tree)
+{
+	return (tree->value->type == T_COMMAND && (tree->value->command->redir_out_append || tree->value->command->redir_out_truncate));
+}
+
 
 void  exec_pipe(t_data *data, t_tree *tree)
 {
@@ -120,8 +130,14 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	safe_pipe(data, fds);
 	tree->value->pipe_read = fds[0];
 	tree->value->pipe_write = fds[1];
-	put_fd(data, &(tree->left), tree->value->in, fds[1]);
-	put_fd(data, &(tree->right), fds[0], tree->value->out);
+	if (!has_redirin(tree->left))
+		put_fd_token(data, tree->left->value, tree->value->in, fds[1]);
+	else
+		put_fd_token(data, tree->left->value, tree->left->value->in, fds[1]);
+	if (!has_redirout(tree->right))
+		put_fd_token(data, tree->right->value, fds[0], tree->value->out);
+	else
+		put_fd_token(data, tree->right->value, fds[0], tree->right->value->out);
 	exec_tree_node(data, tree->left);
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);

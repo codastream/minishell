@@ -50,6 +50,18 @@ void	pop_front_fd(t_fds **head)
   tmp = NULL;
 }
 
+void print_fd(t_data *data)
+{
+	t_fds *fd;
+
+	fd = data->fds;
+	while (fd)
+	{
+		printf("fd %d\n", fd->fd);
+		fd = fd->next;
+	}
+}
+
 void  pop_fd(t_fds **fds, int fd)
 {
   t_fds *tmp;

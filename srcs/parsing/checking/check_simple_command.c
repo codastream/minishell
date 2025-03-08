@@ -35,6 +35,8 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 		return (NULL);
 	splitted_paths = ft_split(path, ':');
 	check_alloc(data, splitted_paths);
+	// if (ft_strlen(command->command_name) == 0)
+	// 	return (NULL);
 	pathname = find_in_paths(data, splitted_paths, command->command_name);
 	ft_free_2d_char_null_ended(splitted_paths);
 	return (pathname);

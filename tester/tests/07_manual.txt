@@ -1,0 +1,17 @@
+############################################## builtins
+export
+env
+
+############################################## vars
+
+############################################## commands
+printf 'Hello World'
+
+
+############################################## redirs
+< ./files/badperm.txt < ./files/infile.txt cat -e
+
+############################################## pipes
+wrongcmd | echo 'abc'
+printf 'Hello World' | cat -
+echo 'cat Makefile | cat > $USER'

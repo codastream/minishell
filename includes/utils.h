@@ -12,7 +12,10 @@ void	handle_and_exit_if_negative(t_data *data, int code, char *msg);
 
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit);
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit);
+void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg, int code);
+void	handle_custom_error_exit(t_data *data, char *error_source, char *msg, int code);
 void	handle_custom_error_source(t_data *data, char *error_source, int code, bool should_exit);
+void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code);
 
 // void	handle_child_error(t_data *data, t_command *command);
 void	handle_quote_error(t_data *data);

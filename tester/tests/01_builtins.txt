@@ -8,7 +8,17 @@ echo tata""toto
 echo "tata '"
 echo 'tata "'
 echo -n "tata"
+echo -nnnnnnnnnnnnnn1 salut
 echo "> >> < << * ? [ ] | ; || && ( ) # $ "
+echo ''
+echo ' '
+echo '    '
+echo '        '
+echo " "
+echo "    "
+echo "        "
+echo hello'world'
+echo hello""world"
 cd 123
 cd . tata
 cd
@@ -22,7 +32,6 @@ cd /wrongdir
 cd /libft/srcs
 pwd
 pwd tata
-export
 export mavar
 export MAVAR=123
 export M@VAR=123
@@ -38,7 +47,6 @@ unset HOME
 unset WRONGVAR
 unset SHELL
 unset PATH
-env
 exit 123 124
 exit tata
 exit "tata"
