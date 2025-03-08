@@ -21,8 +21,8 @@ jobs:
     - name: build tester
       run: cd ./tester && make
     - name: test syntax
-      run: ./tester syntax
+      run: tester syntax
     - name: test builtins
-      run: ./tester builtins
+      run: tester builtins
     - name: test vars
-      run: ./tester vars
+      run: tester vars
