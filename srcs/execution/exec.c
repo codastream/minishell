@@ -66,7 +66,6 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
-	int		exec_code;
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
@@ -83,7 +82,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
 		free_vars_and_data(data);
-		exec_code = execve((const char *) command->pathname, \
+		execve((const char *) command->pathname, \
 		command->command_args, env_local);
 	}
 	else if (command->command_name)
