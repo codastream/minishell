@@ -9,6 +9,5 @@ wrongcmd
 /bin/ls -l -a
 /bin/ls -l -a -t
 printf "Hello World"
-printf 'Hello World'
 echo "Hello World"
 echo 'Hello World'

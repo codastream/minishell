@@ -1,5 +1,9 @@
-## vars
-
+############################################## builtins
+export
+env
+############################################## vars
+############################################## commands
+printf 'Hello World'
 ############################################## pipes
 # messages dans ordre différent de bash
 wrongcmd | echo 'abc'
