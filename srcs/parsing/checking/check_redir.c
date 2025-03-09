@@ -1,45 +1,9 @@
 #include "shell.h"
-// void	add_command_with_heredoc(t_data *data, t_token **tokens, t_token *token)
-// {
-// 	t_command	*command;
-// 	t_token		*current;
-
-// 	if (token->next->next && token->next->next->type == T_WORD)
-// 	{
-// 		merge_word_with_next_words(data, tokens, token->next->next);
-// 		command = new_command(data, token->next->next->string);
-// 		check_alloc(data, command);
-// 		free(token->string);
-// 		token->string = ft_strdup(token->next->next->string);
-// 		check_alloc(data, token->string);
-// 		delete_token(tokens, token->next->next);
-// 	}
-// 	else if (token->prev && token->prev->type == T_WORD)
-// 	{
-// 		current = get_first_of_consecutive(token->prev);
-// 		merge_word_with_next_words(data, tokens, current);
-// 		command = new_command(data, token->prev->string);
-// 		check_alloc(data, command);
-// 		free(token->string);
-// 		token->string = ft_strdup(token->prev->string);
-// 		check_alloc(data, token->string);
-// 		delete_token(tokens, token->prev);
-// 	}
-// 	else
-// 	{
-// 		command = new_command(data, NULL);
-// 		check_alloc(data, command);
-// 	}
-// 	command->heredoc = ft_strdup(token->next->string);
-// 	delete_token(tokens, token->next);
-// 	token->command = command;
-// 	token->type = T_COMMAND;
-// }
 
 /*
  * checks syntax errors on the next token (inexistant, incompatible)
  */
-int	check_has_next_word(t_data *data, t_token *token)
+static int	check_has_next_word(t_data *data, t_token *token)
 {
 	if (!token->next)
 	{
@@ -54,7 +18,8 @@ int	check_has_next_word(t_data *data, t_token *token)
 	return (EXIT_SUCCESS);
 }
 
-void	add_file_after_redir(t_data *data, t_token **tokens, t_token *token, t_tokentype filetype)
+static void	add_file_after_redir(t_data *data, t_token **tokens, \
+		t_token *token, t_tokentype filetype)
 {
 	int		index_space;
 
@@ -67,7 +32,8 @@ void	add_file_after_redir(t_data *data, t_token **tokens, t_token *token, t_toke
 	token->next->type = filetype;
 }
 
-int	check_redir(t_data *data, t_token **tokens, t_token *token, t_tokentype filetype)
+static int	check_redir(t_data *data, t_token **tokens, t_token *token, \
+		t_tokentype filetype)
 {
 	int		code;
 

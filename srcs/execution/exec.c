@@ -75,8 +75,9 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	if (!command->command_name || !command->command_args[0]) // empty command with redir
 	{
 		close(token->in);
-		free_after_exec(data);
-		free_vars_and_data(data);
+		free_all_data(data);
+		// free_after_exec(data);
+		// free_vars_and_data(data);
 		exit(EXIT_SUCCESS);
 	}
 	if (ft_strlen(command->command_name) == 0)

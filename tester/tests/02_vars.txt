@@ -10,3 +10,5 @@ $EMPTY echo $EMPYT abc
 expr $? + $?
 echo $EMPTY
 $
+$EMPTY
+$PWD
