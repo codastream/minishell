@@ -36,7 +36,7 @@ void	free_after_exec(t_data *data)
 	data->varstab = NULL;
 }
 
-void	free_vars_and_data(t_data *data) // can be replaced with free_all_data
+void	free_vars_and_data(t_data *data)
 {
 	if (data->vars)
 		ft_free_hashtable(data->vars);
