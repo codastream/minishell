@@ -1,9 +1,9 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-// prompt.c
+// loop.c
 void	update_prompt(t_data *data);
-char	*read_from_secondary(t_data *data, char *prompt, char closing, char *line);
+void	process_line_input(t_data *data);
 
 // errors.c
 void	printerr(char *msg);

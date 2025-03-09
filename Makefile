@@ -66,7 +66,6 @@ SRCS_FILES:=	main.c\
 				builtins/builtins.c\
 				builtins/first_builtins.c\
 				builtins/env_var.c \
-				parsing/split_skip_quotes.c\
 				parsing/lexing/lexer.c\
 				parsing/lexing/sanitize.c\
 				parsing/lexing/tokens_utils.c\
@@ -91,7 +90,7 @@ SRCS_FILES:=	main.c\
 				utils/free.c\
 				utils/free_combo.c\
 				utils/init.c\
-				utils/prompt.c\
+				utils/loop.c\
 				vars/vars.c\
 				debug.c\
 
