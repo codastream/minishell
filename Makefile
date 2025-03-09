@@ -84,17 +84,25 @@ SRCS_FILES:=	main.c\
 				execution/heredoc.c\
 				execution/navigation.c\
 				execution/fds.c\
+				errors/errors.c\
+				errors/errors_custom.c\
+				errors/errors_utils.c\
+				errors/errors_print.c\
+				errors/errors_print_custom.c\
 				signal/signal.c\
-				tree/tree.c\
-				tree/tree_struct.c\
-				utils/errors.c\
+				utils/tree.c\
+				utils/tree_utils.c\
 				utils/free.c\
+				utils/free_utils.c\
 				utils/free_combo.c\
 				utils/init.c\
 				utils/loop.c\
+				utils/string_utils.c\
+				utils/debug.c\
+				utils/debug_utils.c\
 				vars/vars.c\
+				vars/return_code.c\
 				vars/expand.c\
-				debug.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

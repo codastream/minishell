@@ -3,25 +3,25 @@
 
 # include "shell.h"
 
-# define CURRENT_TOKEN_DELETED 100
-
 // lexer.c
-int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *));
+int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, \
+				t_token **, t_token *));
 int			tokenize(t_data *data, char *line);
 
 // token utils
-int		get_tokens_nb(t_token **tokens);
-t_token	*get_last(t_token **tokens);
-bool	is_file(t_token *token);
-bool	is_redir_operator(t_token *token);
-void	delete_token(t_token **tokens, t_token *token);
+int			get_tokens_nb(t_token **tokens);
+t_token		*get_last(t_token **tokens);
+bool		is_file(t_token *token);
+bool		is_redir_operator(t_token *token);
+void		delete_token(t_token **tokens, t_token *token);
 
 // token utils create
-t_token	*new_token(t_data *data, t_tokentype type, int index, char *string);
-void	add_token_back(t_token **tokens, t_token *new);
-void	add_before(t_token **tokens, t_token *current, t_token *new);
-void	add_after(t_token *current, t_token *new);
-void	split_append_token(t_data *data, t_token *token, int index_space, t_tokentype filetype);
+t_token		*new_token(t_data *data, t_tokentype type, int index, char *string);
+void		add_token_back(t_token **tokens, t_token *new);
+void		add_before(t_token **tokens, t_token *current, t_token *new);
+void		add_after(t_token *current, t_token *new);
+void		split_append_token(t_data *data, t_token *token, int index_space, \
+				t_tokentype filetype);
 
 // split utils
 char		**init_separators_for_operators(t_data *data);
@@ -34,19 +34,24 @@ int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
 
 // command utils
-void		update_command_from_string(t_data *data, t_command *command, char *string);
+void		update_command_from_string(t_data *data, t_command *command, \
+				char *string);
 t_command	*new_command(t_data *data, char *string);
-t_list		**get_redir_list_from_operator(t_token *operator_token, t_token *command_token);
-void		add_redirect_file_to_command(t_data *data, t_token **tokens, t_list **redir_list, t_token *file_token);
+t_list		**get_redir_list_from_operator(t_token *operator_token, \
+				t_token *command_token);
+void		add_redirect_file_to_command(t_data *data, t_token **tokens, \
+				t_list **redir_list, t_token *file_token);
 
 void		add_command_to_token(t_data *data, t_token **tokens, \
 			t_token *token);
 
 // command
-int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
-t_token		*add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next);
+int			add_command_from_word(t_data *data, t_token **tokens, \
+				t_token *token);
+t_token		*add_command_from_redirop(t_data *data, t_token **tokens, \
+				t_token *token, t_token *next);
 
 // trim
-int		handle_quotes(t_data *data, t_token **tokens, t_token *token);
+int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
 
 #endif

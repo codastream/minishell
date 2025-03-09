@@ -1,15 +1,12 @@
 #include "shell.h"
 
-char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
+static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
+		char *prefixedkey)
 {
 	int		i;
 	int		len;
-	char	*prefixedkey;
-	char	*value;
-	char	*expanded;
 
 	i = 0;
-	prefixedkey = NULL;
 	while (s[i])
 	{
 		if (s[i] == '$' && ft_ischarforenvvar(s[i + 1]))
@@ -30,12 +27,23 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 		}
 		i++;
 	}
+	return (prefixedkey);
+}
+
+static char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
+{
+	int		i;
+	char	*prefixedkey;
+	char	*value;
+	char	*expanded;
+
+	i = 0;
+	prefixedkey = NULL;
+	prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
 	if (prefixedkey)
 	{
 		value = ft_hash_get(data->vars, ++prefixedkey);
 		*exp_idx += ft_strlen(value);
-//		if (!value)
-//			return (ft_strdup(s));
 		expanded = ft_subst(s, --prefixedkey, value);
 		check_alloc(data, expanded);
 		free(prefixedkey);
@@ -47,18 +55,7 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 	}
 }
 
-void  skip_single_quote(char *string, int *i)
-{
-	// char  *str;
-
-	// str = *string;
-	(*i)++;
-	while (string[*i] && string[*i] != '\'')
-		(*i)++;
-	// *string = str;
-}
-
-bool	next_expand(char *string, char marker, int *i)
+static bool	next_expand(char *string, char marker, int *i)
 {
 	if (!string || !string[*i])
 		return (false);
@@ -69,17 +66,17 @@ bool	next_expand(char *string, char marker, int *i)
 		if (string[*i] == '\"')
 		{
 			(*i)++;
-			while(string [*i] && string[*i] != '\"')
+			while (string [*i] && string[*i] != '\"')
 			{
 				if (string[*i] == marker)
-					return(true);
+					return (true);
 				(*i)++;
 			}
 		}
 		if (string[*i] == marker)
 		{
 			(*i)++;
-			return(true);
+			return (true);
 		}
 		if (string[*i])
 			(*i)++;

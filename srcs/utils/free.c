@@ -1,14 +1,5 @@
 #include "shell.h"
 
-void	reset(void *allocated)
-{
-	if (allocated)
-	{
-		free(allocated);
-		allocated = NULL;
-	}
-}
-
 void	free_command(t_command *command)
 {
 	if (!command)
@@ -59,7 +50,6 @@ void	free_tokens(t_token **tokens)
 
 	if (!tokens)
 		return ;
-	// print_tokens(tokens);
 	if (*tokens)
 	{
 		current = tokens[0];
@@ -83,19 +73,4 @@ void	free_tree(t_tree *tree)
 		free_tree(tree->left);
 	free_token(tree->value);
 	reset(tree);
-}
-
-void	free_delimiters(t_delimiter **delims)
-{
-	int		i;
-
-	i = 0;
-	while (delims[i])
-	{
-		free(delims[i]->opening);
-		free(delims[i]->closing);
-		free(delims[i]);
-		i++;
-	}
-	free(delims);
 }

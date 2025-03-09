@@ -1,6 +1,6 @@
 #include "shell.h"
 
-t_data *init_data(char **env)
+t_data	*init_data(char **env)
 {
 	t_data	*data;
 
@@ -8,7 +8,48 @@ t_data *init_data(char **env)
 	if (!data)
 		return (NULL);
 	data->prompt = NULL;
-	// data->return_code = EXIT_SUCCESS;
 	init_vars(data, env);
 	return (data);
+}
+
+void	init_builtins(t_data *data, t_exec *exec)
+{
+	char		**builtins;
+	t_builtin	*builtin_f;
+
+	builtins = ft_calloc(8, sizeof(char *));
+	check_alloc(data, builtins);
+	builtins[0] = "cd";
+	builtins[1] = "echo";
+	builtins[2] = "exit";
+	builtins[3] = "env";
+	builtins[4] = "pwd";
+	builtins[5] = "unset";
+	builtins[6] = "export";
+	exec->builtins = builtins;
+	builtin_f = ft_calloc(8, sizeof(t_builtin *));
+	check_alloc(data, builtin_f);
+	builtin_f[0] = ft_cd;
+	builtin_f[1] = ft_echo;
+	builtin_f[2] = ft_exit;
+	builtin_f[3] = ft_env;
+	builtin_f[4] = ft_pwd;
+	builtin_f[5] = ft_unset;
+	builtin_f[6] = ft_export;
+	exec->builtin_ptrs = builtin_f;
+}
+
+t_exec	*init_exec(t_data *data, t_tree *tree)
+{
+	t_exec		*exec;
+	int			count;
+
+	exec = ft_calloc(1, sizeof(t_exec));
+	check_alloc(data, exec);
+	init_builtins(data, exec);
+	count = 0;
+	iter_tree_count(tree, &count, count_if_command);
+	exec->commands_nb = count;
+	exec->current_cmd_index = 0;
+	return (exec);
 }
