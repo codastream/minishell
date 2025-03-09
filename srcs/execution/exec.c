@@ -7,6 +7,7 @@ int		wait_all(t_data *data, t_exec *exec)
 	int		code;
 	int 	i;
 
+	(void) data;
 	code = EXIT_SUCCESS;
 	i = 0;
 	while (i < exec->commands_nb)
@@ -16,8 +17,8 @@ int		wait_all(t_data *data, t_exec *exec)
 			code = WEXITSTATUS(status);
 		i++;
 	}
-	if (data->return_code && data->return_code != 0)
-		code = data->return_code;
+	// if (data->return_code && data->return_code != 0)
+	// 	code = data->return_code;
 	return (code);
 }
 
@@ -66,11 +67,12 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 void	child_exec(t_data *data, t_command *command, t_token *token)
 {
 	char	**env_local;
+	int		exec_code;
 
 	env_local = hashtab_to_tab(data, data->vars);
 	check_alloc(data, env_local);
 	data->varstab = env_local;
-	if (!command->command_name) // empty command with redir
+	if (!command->command_name || !command->command_args[0]) // empty command with redir
 	{
 		close(token->in);
 		free_after_exec(data);
@@ -87,9 +89,16 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		safe_dup2(data, token->in, STDIN_FILENO);
 		safe_dup2(data, token->out, STDOUT_FILENO);
 		pop_all_fd(&(data->fds));
-		free_vars_and_data(data);
-		execve((const char *) command->pathname, \
+		// free_vars_and_data(data);
+		exec_code = execve((const char *) command->pathname, \
 		command->command_args, env_local);
+		if (exec_code != EXIT_SUCCESS)
+		{
+			handle_custom_error_source_exit(data, command->command_name, strerror(errno), EXIT_FAILURE);
+			// perror("execve");
+
+		}
+		exit(EXIT_FAILURE);
 	}
 	else if (command->command_name)
 		handle_custom_error_source_exit(data, command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);

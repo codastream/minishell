@@ -10,6 +10,12 @@ void	update_command_from_string(t_data *data, t_command *command, char *string)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
 		free(command->command_name);
+	if (!string || ft_isemptystr(string))
+	{
+		command->command_args = ft_calloc(1, sizeof(char *));
+		command->command_name = ft_calloc(1, sizeof(char));
+		return ;
+	}
 	seps = ft_calloc(2, sizeof(char *));
 	check_alloc(data, seps);
 	seps[0] = " ";
