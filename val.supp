@@ -2089,3 +2089,61 @@
    obj:/usr/bin/printf
    fun:*
 }
+{
+   Memory Leak in Readline Library
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:readline_internal_char
+   fun:readline
+   obj:/path/to/your/binary
+   fun:process_line_input_interactive
+}
+
+{
+   Memory Leak in Readline Library
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:tsearch
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:readline_internal_char
+   fun:readline
+   obj:/path/to/your/binary
+   fun:process_line_input_interactive
+}
+
+{
+   Memory Leak in Readline Library
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_doalloc
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:readline_internal_char
+   fun:readline
+   obj:/path/to/your/binary
+   fun:process_line_input_interactive
+}
+
+{
+   Memory Leak in Readline Library
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:readline_internal_char
+   fun:readline
+   obj:/path/to/your/binary
+   fun:process_line_input_interactive
+}

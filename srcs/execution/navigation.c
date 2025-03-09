@@ -8,7 +8,7 @@ int	try_navigation(t_data *data, t_token *token)
 
 	path = token->command->command_args[0];
 	code = stat(path, &stats);
-	if (S_ISDIR(stats.st_mode))
+	if (code == 0 && S_ISDIR(stats.st_mode))
 		handle_custom_error_source_exit(data, path, MSG_IS_DIRECTORY, EXIT_PERMISSION_DENIED);
 	if (token->type != T_COMMAND || token->command->command_args[0][0] != '.')
 		return (EXIT_IGNORE);
