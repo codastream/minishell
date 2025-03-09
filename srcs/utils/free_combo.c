@@ -43,7 +43,7 @@ void	free_vars_and_data(t_data *data)
 	reset(data);
 }
 
-void  free_all_data(t_data *data)
+void	free_all_data(t_data *data)
 {
 	free_after_exec(data);
 	free_vars_and_data(data);
