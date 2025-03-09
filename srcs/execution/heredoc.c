@@ -25,6 +25,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
 	char	*eof;
+	char	*expanded;
 
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
@@ -35,6 +36,12 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 		input = ft_strjoinfree(input, "\n");
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
+		while (next_expand(input, '$'))
+		{
+			expanded = try_replace_vars(data, input);
+			free(input);
+			input = expanded;
+		}
 		ft_print_str_fd(fds[1], input);
 		free(input);
 	}
@@ -49,7 +56,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 void	init_heredoc(t_data *data, t_tree **tree)
 {
 	int		fds[2];
-	int		child_pid;
+	int		child_pid = 0;
 
 	if (!(*tree)->value->command->heredoc)
 		return ;
@@ -61,8 +68,8 @@ void	init_heredoc(t_data *data, t_tree **tree)
 		process_input(data, (*tree)->value->command, fds);
 	}
 	close(fds[1]);
-	put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 	waitpid(child_pid, NULL, 0);
+	put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 }
 
 int heredoc_exec(t_data *data, t_tree **tree)

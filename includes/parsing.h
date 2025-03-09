@@ -49,6 +49,8 @@ int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
 int			add_command_from_redirop(t_data *data, t_token **tokens, t_token *token);
 
 // expand
+char	*try_replace_vars(t_data *data, char *input);
+bool	next_expand(char *input, char c);
 int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	**split_skip_quotes(char *line);
 int		handle_quotes(t_data *data, t_token **tokens, t_token *token);

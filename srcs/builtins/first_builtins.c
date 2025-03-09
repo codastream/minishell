@@ -170,12 +170,13 @@ void	ft_cd(t_data *data, t_token *token)
 
 void	ft_unset(t_data *data, t_token *token)
 {
+	int			i;
 	t_command	*command;
 
 	command = token->command;
-	if (!(command->command_args)[1])
-			return ;
-	ft_hash_remove(data->vars, (command->command_args)[1]);
+	i = 1;
+	while(command->command_args[i])
+		ft_hash_remove(data->vars, (command->command_args)[i++]);
 }
 
 void  ft_export(t_data *data, t_token *token)
