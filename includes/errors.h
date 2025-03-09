@@ -16,5 +16,6 @@
 # define MSG_TOO_MANY_ARGUMENTS "too many arguments"
 # define MSG_NUMERIC_ARGUMENT_REQUIRED "numeric argument required"
 # define MSG_NOT_VALID_IDENTIFIER "not a valid identifier"
+# define MSG_IS_DIRECTORY "Is a directory"
 
 #endif

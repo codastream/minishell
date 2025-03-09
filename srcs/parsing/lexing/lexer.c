@@ -94,6 +94,27 @@ int	do_for_tokens_reverse(t_data *data, t_token **tokens, int (*f)(t_data *, t_t
 	return (EXIT_SUCCESS);
 }
 
+int	do_for_tokens_delete(t_data *data, t_token **tokens, t_token *(*f)(t_data *, t_token **, t_token *, t_token *))
+{
+	t_token	*current;
+	t_token *tmp;
+	// int		code;
+
+	tmp = NULL;
+	if (!tokens)
+		return (EXIT_FAILURE);
+	current = *tokens;
+	while (current)
+	{
+		current = f(data, tokens, current, tmp);
+		// if (code != EXIT_SUCCESS)
+		// 	return (code);
+	}
+	if (PRINT == 1)
+		print_tokens(tokens);
+	return (EXIT_SUCCESS);
+}
+
 int	do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *))
 {
 	t_token	*current;
@@ -139,9 +160,14 @@ int	check_tokens(t_data *data, t_token **tokens)
 		return (code);
 	if (PRINT == 1)
 		ft_put_yellow("add command from redirop\n");
-	code = do_for_tokens(data, tokens, add_command_from_redirop);
+	code = do_for_tokens_delete(data, tokens, add_command_from_redirop);
 	if (code != EXIT_SUCCESS)
 		return (code);
+	// if (PRINT == 1)
+	// 	ft_put_yellow("delete redirop and files\n");
+	// code = do_for_tokens(data, tokens, delete_redirops_and_files);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	if (PRINT == 1)
 		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);

@@ -10,6 +10,12 @@ void	update_command_from_string(t_data *data, t_command *command, char *string)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
 		free(command->command_name);
+	if (!string || ft_isemptystr(string))
+	{
+		command->command_args = ft_calloc(1, sizeof(char *));
+		command->command_name = ft_calloc(1, sizeof(char));
+		return ;
+	}
 	seps = ft_calloc(2, sizeof(char *));
 	check_alloc(data, seps);
 	seps[0] = " ";
@@ -71,7 +77,8 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, t_list **redir
 		ft_put_yellow("add redirect\n");
 		print_tokens(tokens);
 	}
-	redir_file_str = ft_strdup(file_token->string);
+	redir_file_str = ft_subst(file_token->string, "\"", "");
+	check_alloc(data, redir_file_str);
 	redir_file = ft_lstnew(redir_file_str);
 	check_alloc(data, redir_file);
 	ft_lstadd_back(redir_list, redir_file);
@@ -160,19 +167,41 @@ int	add_command_from_word(t_data *data, t_token **tokens, t_token *token)
 	return (EXIT_SUCCESS);
 }
 
-int	add_command_from_redirop(t_data *data, t_token **tokens, t_token *token)
+int	delete_redirops_and_files(t_data *data, t_token **tokens, t_token *token)
 {
+	(void) data;
+	if (is_redir_operator(token) || is_file(token))
+	{
+		delete_token(tokens, token);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_IGNORE);
+}
+
+t_token	*add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next)
+{
+	t_token *command_token;
+	t_token	*current;
+
+	(void) next;
 	if (!is_redir_operator(token))
-		return (EXIT_IGNORE);
+		return (token->next);
 	add_empty_command_with_redir(data, tokens, token);
+	command_token = token->prev;
 	// add_previous_redirect_to_command(data, tokens, token->prev);
 	// if (PRINT == 1)
 	// 	print_tokens(tokens);
-	add_following_redirect_to_command(data, tokens, token->prev);
+	add_following_redirect_to_command(data, tokens, command_token);
 	if (PRINT == 1)
 		print_tokens(tokens);
-	*token = *(token->prev);
-	return (EXIT_SUCCESS);
+	current = *tokens;
+	while (current)
+	{
+		if (is_redir_operator(current))
+		{
+			return (current);
+		}
+		current = current->next;
+	}
+	return (NULL);
 }
-
-

@@ -51,9 +51,14 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	{
 		if ((*arg)[i] == '\"')
 			i = handle_pair_of_quotes(data, arg, i, '"');
+		if (i < 0)
+			break ;
 		if ((*arg)[i] == '\'')
 			i = handle_pair_of_quotes(data, arg, i, '\'');
-		i++;
+		if (i < 0)
+			break ;
+		if ((*arg)[i])
+			i++;
 	}
 }
 
@@ -63,10 +68,12 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	char	**name_with_args;
 
 	(void) tokens;
-	if (token->type != T_COMMAND || !token->string)
+	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
 	update_command_from_string(data, token->command, token->string);
 	name_with_args = token->command->command_args;
+	if (!name_with_args[0])
+		return (EXIT_IGNORE);
 	i = 0;
 	while (name_with_args[i])
 	{

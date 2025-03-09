@@ -69,7 +69,7 @@ bool	next_expand(char *string, char marker, int *i)
 		if (string[*i] == '\"')
 		{
 			(*i)++;
-			while(string[*i] != '\"')
+			while(string [*i] && string[*i] != '\"')
 			{
 				if (string[*i] == marker)
 					return(true);
@@ -81,7 +81,8 @@ bool	next_expand(char *string, char marker, int *i)
 			(*i)++;
 			return(true);
 		}
-		(*i)++;
+		if (string[*i])
+			(*i)++;
 	}
 	return (false);
 }

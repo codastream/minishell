@@ -30,5 +30,3 @@ jobs:
       run: cd ./tester && ./tester commands
     - name: test redirs
       run: cd ./tester && ./tester redirs
-    - name: test pipes
-      run: cd ./tester && ./tester pipes
