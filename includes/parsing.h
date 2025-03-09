@@ -30,14 +30,11 @@ void	merge_with_next(t_data *data, t_token **tokens, t_token *token);
 bool	is_file(t_token *token);
 bool	is_redir_operator(t_token *token);
 
-// checking and tagging
+// checking
+char		*get_checked_pathmame(t_data *data, t_command *command);
+int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
-int			check_redirection_files(t_data *data, t_token **tokens, t_token *token);
-int			check_pipe(t_data *data, t_token **tokens, t_token *token);
-char		*get_checked_pathmame(t_data *data, t_command *command);
-int			merge_word_with_next_words_and_make_command(t_data *data, t_token **tokens, t_token *token);
-int			check_simple_command(t_data *data, t_token **tokens, t_token *token);
 
 // command
 t_command	*new_command(t_data *data, char *string);
@@ -50,6 +47,7 @@ int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
 t_token		*add_command_from_redirop(t_data *data, t_token **tokens, t_token *token, t_token *next);
 int			delete_redirops_and_files(t_data *data, t_token **tokens, t_token *token);
 
+int			check_redirection_files(t_data *data, t_token **tokens, t_token *token);
 // expand
 int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	**split_skip_quotes(char *line);
