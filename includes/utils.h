@@ -42,6 +42,9 @@ void	free_after_parsing(t_data *data);
 void	free_delimiters(t_delimiter **delims);
 void	free_before_parsing(t_data *data);
 
+// string_utils
+void  skip_single_quote(char *string, int *i);
+
 // init.c
 t_data *init_data(char **env);
 

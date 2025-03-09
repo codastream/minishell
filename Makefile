@@ -92,7 +92,9 @@ SRCS_FILES:=	main.c\
 				utils/free_combo.c\
 				utils/init.c\
 				utils/loop.c\
+				utils/string_utils.c\
 				vars/vars.c\
+				vars/return_code.c\
 				vars/expand.c\
 				debug.c\
 
