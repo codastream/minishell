@@ -67,16 +67,17 @@ SRCS_FILES:=	main.c\
 				builtins/first_builtins.c\
 				builtins/env_var.c \
 				parsing/lexing/lexer.c\
-				parsing/lexing/sanitize.c\
+				parsing/lexing/split_utils.c\
 				parsing/lexing/tokens_utils.c\
-				parsing/lexing/tokens_utils_clean.c\
+				parsing/lexing/tokens_utils_create.c\
 				parsing/lexing/command.c\
+				parsing/lexing/command_utils.c\
+				parsing/lexing/command_utils_add.c\
+				parsing/lexing/trim.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_path.c\
-				parsing/expansion/expand.c\
-				parsing/expansion/trim.c\
 				execution/exec.c\
 				execution/exec_redir.c\
 				execution/exec_utils.c\
@@ -92,6 +93,7 @@ SRCS_FILES:=	main.c\
 				utils/init.c\
 				utils/loop.c\
 				vars/vars.c\
+				vars/expand.c\
 				debug.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))

@@ -15,6 +15,8 @@ int		heredoc(t_data *data, t_tree **tree);
 void	close_all(t_tree *tree);
 int		try_navigation(t_data *data, t_token *token);
 
+int		check_redirection_files(t_data *data, t_token **tokens, t_token *token);
+
 // int		redir_data(t_data *data, t_tree **tree_p);
 
 #endif
