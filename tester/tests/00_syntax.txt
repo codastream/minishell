@@ -14,7 +14,9 @@
 |
 | tata
 | | |
+| $
 >>|><
+""
 """
 echo > <
 echo tata > > toto
@@ -26,3 +28,11 @@ cat >>>
 cat >> <<
 cat >> > >> << >>
 cat <<
+cat    <| ls
+echo hi | >
+echo hi | > >>
+echo hi | < |
+echo hi |   |
+. | . | .
+./files/badperm.txt
+

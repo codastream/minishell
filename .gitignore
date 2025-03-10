@@ -6,6 +6,7 @@ minishell
 *.d
 .nfs*
 tester/tester
+tester/fpetit
 tester/files/inexistent
 tester/files/permanentbadperm.txt
 libft.a
@@ -13,3 +14,5 @@ libft.a
 # directories
 .vscode
 libft
+minishell_tester
+m_tester

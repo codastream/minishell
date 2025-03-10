@@ -50,6 +50,7 @@ void	pop_front_fd(t_fds **head)
   tmp = NULL;
 }
 
+
 void  pop_fd(t_fds **fds, int fd)
 {
   t_fds *tmp;

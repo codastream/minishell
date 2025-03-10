@@ -1,10 +1,11 @@
 #include "shell.h"
 
-void	remove_quotes(t_data *data, char **arg, int start_quote_index, int end_quote_index)
+static void	remove_quotes(t_data *data, char **arg, \
+		int start_quote_index, int end_quote_index)
 {
-	int	  i;
-	int	  j;
-	char  *trimmed;
+	int		i;
+	int		j;
+	char	*trimmed;
 
 	i = 0;
 	j = 0;
@@ -23,9 +24,9 @@ void	remove_quotes(t_data *data, char **arg, int start_quote_index, int end_quot
 	*arg = trimmed;
 }
 
-int  handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
+static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 {
-	int	  start_quote_index;
+	int	start_quote_index;
 
 	start_quote_index = i;
 	if ((*arg)[i])
@@ -42,7 +43,7 @@ int  handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 	return (i);
 }
 
-void	handle_quote_in_arg(t_data *data, char **arg)
+static void	handle_quote_in_arg(t_data *data, char **arg)
 {
 	int	i;
 
@@ -51,9 +52,14 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	{
 		if ((*arg)[i] == '\"')
 			i = handle_pair_of_quotes(data, arg, i, '"');
+		if (i < 0)
+			break ;
 		if ((*arg)[i] == '\'')
 			i = handle_pair_of_quotes(data, arg, i, '\'');
-		i++;
+		if (i < 0)
+			break ;
+		if ((*arg)[i])
+			i++;
 	}
 }
 
@@ -63,17 +69,20 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	char	**name_with_args;
 
 	(void) tokens;
-	if (token->type != T_COMMAND || !token->string)
+	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
 	update_command_from_string(data, token->command, token->string);
 	name_with_args = token->command->command_args;
+	if (!name_with_args[0])
+		return (EXIT_IGNORE);
 	i = 0;
 	while (name_with_args[i])
 	{
 		handle_quote_in_arg(data, &name_with_args[i]);
 		i++;
 	}
-	if (ft_strcmp(token->command->command_args[0], token->command->command_name))
+	if (ft_strcmp(token->command->command_args[0], \
+			token->command->command_name))
 		handle_quote_in_arg(data, &token->command->command_name);
 	return (EXIT_SUCCESS);
 }

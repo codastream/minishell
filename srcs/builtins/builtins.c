@@ -2,11 +2,15 @@
 
 void	try_exec_builtin(t_data *data, t_token *token, t_command *command)
 {
+	int	code;
+
 	try_exec_single_builtin(data, token, command);
 	if (is_builtin(data, command))
 	{
+		code = get_last_return(data);
 		pop_all_fd(&data->fds);
-		ft_exit(data, token);
+		free_after_exec(data);
+		exit(code);
 	}
 }
 
