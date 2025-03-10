@@ -26,7 +26,9 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	char	*input;
 	char	*eof;
 	char	*expanded;
+	int		last_expanded_index;
 
+	last_expanded_index = 0;
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
 	check_alloc(data, eof);
@@ -36,9 +38,9 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 		input = ft_strjoinfree(input, "\n");
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
-		while (next_expand(input, '$'))
+		while (next_expand(input, '$', &last_expanded_index))
 		{
-			expanded = try_replace_vars(data, input);
+			expanded = try_replace_vars(data, NULL, &last_expanded_index);
 			free(input);
 			input = expanded;
 		}

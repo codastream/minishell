@@ -19,9 +19,9 @@ bool	ft_isalnumstr(char *s)
 void	ft_exit(t_data *data, t_token *token)
 {
 	int		return_code;
-	int		code;
 	int		arg_count;
 	char	*msg;
+	char	*codestr;
 
 	arg_count = ft_count_2dchar_null_ended(token->command->command_args);
 	return_code = EXIT_SUCCESS;
@@ -29,15 +29,13 @@ void	ft_exit(t_data *data, t_token *token)
 		handle_builtin_error(data, token->command, MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 	if (token->command->command_args[1])
 	{
-		if (is_atoi_str(token->command->command_args[1]))
+		codestr = token->command->command_args[1];
+		if (is_atoll_str(codestr))
 		{
-			code = ft_atoi(token->command->command_args[1]);
-			if (code > 255)
-				return_code = EXIT_SYNTAX_ERROR;
-			else if (code <= 255)
-				return_code = ft_atoi(token->command->command_args[1]);
+			if (codestr[0] == '-')
+				return_code = ft_atol(codestr) % 256;
 			else
-				return_code = EXIT_FAILURE + ft_atoi(token->command->command_args[1]) % 255;
+				return_code = ft_atoull(codestr) % 256;
 		}
 		else
 		{

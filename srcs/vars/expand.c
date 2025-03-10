@@ -30,7 +30,7 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 	return (prefixedkey);
 }
 
-static char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
+char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 {
 	int		i;
 	char	*prefixedkey;
@@ -55,7 +55,7 @@ static char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 	}
 }
 
-static bool	next_expand(char *string, char marker, int *i)
+bool	next_expand(char *string, char marker, int *i)
 {
 	if (!string || !string[*i])
 		return (false);
