@@ -25,6 +25,8 @@ void handle_sigint(int sig)
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
+		else
+			g_signal = 2;
 	}
 }
 

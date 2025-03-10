@@ -42,7 +42,6 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
-	(void) data;
 	exit(132 - g_signal);
 }
 
@@ -62,7 +61,10 @@ void	init_heredoc(t_data *data, t_tree **tree)
 	}
 	close(fds[1]);
 	waitpid(child_pid, NULL, 0);
-	put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
+	if (g_signal != 0)
+		close(fds[0]);
+	else
+		put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 }
 
 int heredoc_exec(t_data *data, t_tree **tree)
