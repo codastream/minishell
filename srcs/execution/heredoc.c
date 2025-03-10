@@ -2,15 +2,6 @@
 
 int g_signal = 0;
 
-char *ft_strjoinfree(char *s1, char *s2)
-{
-  char  *str;
-
-  str = ft_strjoin(s1, s2);
-  free(s1);
-  return(str);
-}
-
 void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->in = in;
@@ -33,7 +24,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	while (true)
 	{
 		input = readline("> ");
-		input = ft_strjoinfree(input, "\n");
+		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
 		while (next_expand(input, '$'))
