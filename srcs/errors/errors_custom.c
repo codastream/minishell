@@ -4,6 +4,8 @@ void	handle_end_of_loop(t_data *data)
 {
 	int	code;
 
+	if (isatty(STDIN_FILENO))
+		printf("exit\n");
 	code = get_last_return(data);
 	free(data->prompt);
 	free_vars_and_data(data);
