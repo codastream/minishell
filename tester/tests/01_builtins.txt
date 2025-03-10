@@ -231,7 +231,6 @@ export MAVAR=123
 export tata = bonjour
 export tata =bonjour
 export tata-=bonjour
-
 export tata=bon&jour
 export tata=bonjour | cat -e | cat -e
 unset
@@ -258,6 +257,7 @@ unset SHELL
 unset sudo
 unset TAT_A
 unset TAT-A
+unset TAT;A
 unset TAT!A
 unset TAT?A
 unset TAT?A TAT.A
@@ -267,6 +267,7 @@ unset TAT{A
 unset TAT}A
 unset TAT@
 unset TAT*A
+unset TAT\\\\A
 unset TAT\~A
 unset TAT#A
 unset TAT^A
