@@ -4,7 +4,7 @@ static bool	is_empty_line(char *line)
 {
 	if (!line)
 		return (true);
-	while (*line && *line == ' ')
+	while (*line && ft_isemptychar(*line))
 		line++;
 	if (!*line)
 		return (true);
