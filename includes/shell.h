@@ -114,6 +114,7 @@ typedef struct s_exec
 typedef struct s_data
 {
 	t_hash		*vars;
+	t_hash		*expvars;
 	char		**varstab;
 	t_token		**tokens;
 	t_tree		*tree;

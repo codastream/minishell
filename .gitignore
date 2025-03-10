@@ -14,3 +14,5 @@ libft.a
 # directories
 .vscode
 libft
+minishell_tester
+m_tester

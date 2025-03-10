@@ -2,15 +2,6 @@
 
 int g_signal = 0;
 
-char *ft_strjoinfree(char *s1, char *s2)
-{
-  char  *str;
-
-  str = ft_strjoin(s1, s2);
-  free(s1);
-  return(str);
-}
-
 void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->in = in;
@@ -25,16 +16,25 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
 	char	*eof;
+	char	*expanded;
+	int		last_expanded_index;
 
+	last_expanded_index = 0;
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
 	check_alloc(data, eof);
 	while (true)
 	{
 		input = readline("> ");
-		input = ft_strjoinfree(input, "\n");
+		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
+		while (next_expand(input, '$', &last_expanded_index))
+		{
+			expanded = try_replace_vars(data, NULL, &last_expanded_index);
+			free(input);
+			input = expanded;
+		}
 		ft_print_str_fd(fds[1], input);
 		free(input);
 	}
@@ -42,14 +42,13 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
-	(void) data;
 	exit(132 - g_signal);
 }
 
 void	init_heredoc(t_data *data, t_tree **tree)
 {
 	int		fds[2];
-	int		child_pid;
+	int		child_pid = 0;
 
 	if (!(*tree)->value->command->heredoc)
 		return ;
@@ -61,8 +60,11 @@ void	init_heredoc(t_data *data, t_tree **tree)
 		process_input(data, (*tree)->value->command, fds);
 	}
 	close(fds[1]);
-	put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 	waitpid(child_pid, NULL, 0);
+	if (g_signal != 0)
+		close(fds[0]);
+	else
+		put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 }
 
 int heredoc_exec(t_data *data, t_tree **tree)

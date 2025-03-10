@@ -64,8 +64,14 @@ BUILD_DIR		:=	.build
 # no duplicates
 SRCS_FILES:=	main.c\
 				builtins/builtins.c\
-				builtins/first_builtins.c\
-				builtins/env_var.c \
+				builtins/cd.c\
+				builtins/echo.c\
+				builtins/env.c\
+				builtins/exit.c\
+				builtins/export.c\
+				builtins/hash_export.c\
+				builtins/pwd.c\
+				builtins/unset.c\
 				parsing/lexing/lexer.c\
 				parsing/lexing/split_utils.c\
 				parsing/lexing/tokens_utils.c\
