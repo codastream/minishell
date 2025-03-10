@@ -89,6 +89,27 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 	{
 		*newline = '\0';
 	}
+	if (ft_strstr(buff_b, "not found"))
+	{
+		if (ft_strstr(buff_m, "not found"))
+			return (true);
+		else
+			return (false);
+	}
+	else if (ft_strstr(buff_b, "syntax error near unexpected token"))
+	{
+		if (ft_strstr(buff_m, "syntax error near unexpected token"))
+			return (true);
+		else
+			return (false);
+	}
+	else if (ft_strstr(buff_b, "No such file or directory"))
+	{
+		if (ft_strstr(buff_m, "No such file or directory"))
+			return (true);
+		else
+			return (false);
+	}
 	if (ret_b != 0)
 	{
 		bash_with_prompt = ft_strstr(buff_b, ": line ");
@@ -99,20 +120,6 @@ bool	have_same_output(int ret_b, int ret_m, char *buff_b, char *buff_m)
 				bash_with_prompt++;
 			bash_with_prompt += 2;
 			buff_b = bash_with_prompt;
-		}
-		if (ft_strstr(buff_b, "syntax error near unexpected token"))
-		{
-			if (ft_strstr(buff_m, "syntax error near unexpected token"))
-				return (true);
-			else
-				return (false);
-		}
-		if (ft_strstr(buff_b, "No such file or directory"))
-		{
-			if (ft_strstr(buff_m, "No such file or directory"))
-				return (true);
-			else
-				return (false);
 		}
 		if (ft_strstr(buff_m, buff_b))
 			return (true);
@@ -141,7 +148,7 @@ void	reset_redir(void)
 {
 	int	code;
 
-	if (access("./files/inexistent", F_OK))
+	if (access("./files/inexistent", F_OK) == 0)
 	{
 		code = remove("./files/inexistent");
 		if (code != 0)
@@ -335,6 +342,16 @@ void	fill_test_files(char **test_files, char **av)
 		test_files[0] = "tests/05_pipes.txt";
 }
 
+void	fill_all_test_files(char **test_files)
+{
+	test_files[0] = "tests/00_syntax.txt";
+	test_files[1] = "tests/01_builtins.txt";
+	test_files[2] = "tests/02_vars.txt";
+	test_files[3] = "tests/03_commands.txt";
+	test_files[4] = "tests/04_redirs.txt";
+	test_files[5] = "tests/05_pipes.txt";
+}
+
 int main(int ac, char **av)
 {
 	char	**test_files;
@@ -353,12 +370,7 @@ int main(int ac, char **av)
 
 	if (ac == 1)
 	{
-		test_files[0] = "tests/00_syntax.txt";
-		test_files[1] = "tests/01_builtins.txt";
-		test_files[2] = "tests/02_vars.txt";
-		test_files[3] = "tests/03_commands.txt";
-		test_files[4] = "tests/04_redirs.txt";
-		test_files[5] = "tests/05_pipes.txt";
+		fill_all_test_files(test_files);
 	}
 	else if (ac == 2)
 	{
@@ -366,7 +378,12 @@ int main(int ac, char **av)
 	}
 	else if (ac == 3)
 	{
-		fill_test_files(test_files, av);
+		if (ft_strcmp(av[1], "all"))
+			fill_test_files(test_files, av);
+		else
+		{
+			fill_all_test_files(test_files);
+		}
 		if (av[2][0] == 'p')
 			print_output = true;
 		if (av[2][0] == 'f')

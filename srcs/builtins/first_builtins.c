@@ -43,11 +43,12 @@ void	ft_exit(t_data *data, t_token *token)
 		{
 			msg = build_wrongvar_msg(data, token->command->command_name, token->command->command_args[1], "numeric argument required");
 			handle_custom_error(data, msg, EXIT_SYNTAX_ERROR, false);
-			return_code = 2;
+			return_code = EXIT_SYNTAX_ERROR;
 			free(msg);
 		}
 	}
 	free_all_data(data);
+	// return_code = get_last_return(data);
 	exit(return_code);
 }
 

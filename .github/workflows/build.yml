@@ -18,5 +18,15 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y build-essential && sudo apt-get install -y libreadline-dev
     - name: build project
       run: make
-    - name: test
-      run: cd ./tester && make && ./tester
+    - name: build tester
+      run: cd ./tester && make
+    - name: test syntax
+      run: cd ./tester && ./tester syntax
+    - name: test builtins
+      run: cd ./tester && ./tester builtins
+    - name: test vars
+      run: cd ./tester && ./tester vars
+    - name: test commands
+      run: cd ./tester && ./tester commands
+    - name: test redirs
+      run: cd ./tester && ./tester redirs

@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
+static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 {
 	int		i;
 	char	*pathname;
@@ -38,28 +38,4 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	pathname = find_in_paths(data, splitted_paths, command->command_name);
 	ft_free_2d_char_null_ended(splitted_paths);
 	return (pathname);
-}
-
-void	add_simple_command_to_token(t_data *data, t_token **tokens, t_token *token)
-{
-	t_command	*command;
-
-	if (token->type != T_WORD)
-		return ;
-	while (token->next && token->next->type == T_WORD)
-		merge_with_next(data, tokens, token);
-	command = new_command(data, token->string);
-	token->command = command;
-	token->type = T_COMMAND;
-	add_previous_redirect_to_command(data, tokens, token);
-	add_following_redirect_to_command(data, tokens, token);
-}
-
-int	merge_word_with_next_words_and_make_command(t_data *data, t_token **tokens, t_token *token)
-{
-	if (token->type == T_WORD)
-		add_simple_command_to_token(data, tokens, token);
-	else
-		return (EXIT_IGNORE);
-	return (EXIT_SUCCESS);
 }

@@ -1,20 +1,45 @@
 #include "shell.h"
+#include "var.h"
 
-// TODO check alloc
-void	get_keyval(char	*s, char **key, char **value)
+void	get_keyval(t_data *data, char	*s, char **key, char **value)
 {
 	char	**splitted;
 
 	splitted = ft_split(s, '=');
+	check_alloc(data, splitted);
 	if (!splitted)
 		return ;
 	if (splitted[0])
+	{
 		*key = ft_strdup(splitted[0]);
+		check_alloc(data, *key);
+	}
 	if (splitted[1])
+	{
 		*value = ft_strdup(splitted[1]);
+		check_alloc(data, *value);
+	}
 	else
 		*value = NULL;
 	ft_free_2d_char_null_ended(splitted);
+}
+
+static void	add_keyval_to_tab(t_data *data, t_keyval *current, \
+		char **tab, int *i_tab)
+{
+	char		*to_join[2];
+
+	if (current->key)
+		to_join[0] = current->key;
+	else
+		to_join[0] = "";
+	if (current->value)
+		to_join[1] = current->value;
+	else
+		to_join[1] = "";
+	tab[*i_tab] = ft_multistrjoin(2, to_join, "=");
+	check_alloc(data, tab[*i_tab]);
+	(*i_tab)++;
 }
 
 char	**hashtab_to_tab(t_data *data, t_hash *hash)
@@ -24,7 +49,6 @@ char	**hashtab_to_tab(t_data *data, t_hash *hash)
 	int			i;
 	int			i_tab;
 	t_keyval	*current;
-	char		*to_join[2];
 
 	elem_nb = hash->elements_nb;
 	tab = ft_calloc(elem_nb + 1, sizeof(char *));
@@ -38,18 +62,8 @@ char	**hashtab_to_tab(t_data *data, t_hash *hash)
 			current = hash->keyvals[i];
 			while (current)
 			{
-				if (current->key)
-					to_join[0] = current->key;
-				else
-					to_join[0] = "";
-				if (current->value)
-					to_join[1] = current->value;
-				else
-					to_join[1] = "";
-				tab[i_tab] = ft_multistrjoin(2, to_join, "=");
-				check_alloc(data, tab[i_tab]);
+				add_keyval_to_tab(data, current, tab, &i_tab);
 				current = current->next;
-				i_tab++;
 			}
 		}
 		i++;
@@ -73,7 +87,7 @@ void	init_vars(t_data *data, char **env)
 	i = 0;
 	while (i < env_var_nb)
 	{
-		get_keyval(env[i], &key, &value);
+		get_keyval(data, env[i], &key, &value);
 		if (key && value)
 		{
 			ft_hash_insert(vars, key, value);
@@ -92,22 +106,4 @@ void	init_vars(t_data *data, char **env)
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
 	data->vars = vars;
 	data->expvars = expvars;
-}
-void	update_last_return(t_data *data, int code)
-{
-	char	*code_s;
-
-	code_s = ft_itoa(code);
-	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s);
-	free(code_s);
-}
-
-int	get_last_return(t_data *data)
-{
-	int		code;
-	char	*code_str;
-
-	code_str = ft_hash_get(data->vars, LAST_RETURN_CODE);
-	code = ft_atoi(code_str);
-	return (code);
 }

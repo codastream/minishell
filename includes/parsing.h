@@ -3,57 +3,55 @@
 
 # include "shell.h"
 
-# define CURRENT_TOKEN_DELETED 100
-
 // lexer.c
-int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, t_token **, t_token *));
+int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, \
+				t_token **, t_token *));
 int			tokenize(t_data *data, char *line);
-t_delimiter	**init_quote_delimiters(t_data *data);
-
-// sanitize
-void	split_append_token(t_data *data, t_token *token, int index_space, t_tokentype filetype);
-int		merge_word_with_next_literal(t_data *data, t_token **tokens, t_token *token);
-void	merge_word_with_next_words(t_data *data, t_token **tokens, t_token *token);
-int		merge_command_with_next_word(t_data *data, t_token **tokens, t_token *token);
-t_token	*get_first_of_consecutive(t_token *token);
 
 // token utils
-int		get_tokens_nb(t_token **tokens);
-t_token	*new_token(t_data *data, t_tokentype type, int index, char *string);
-void	add_before(t_token **tokens, t_token *current, t_token *new);
-void	add_after(t_token *current, t_token *new);
-void	add_token_back(t_token **tokens, t_token *new);
-t_token	*get_last(t_token **tokens);
-void	delete_token(t_token **tokens, t_token *token);
-void	merge_with_next(t_data *data, t_token **tokens, t_token *token);
-bool	is_file(t_token *token);
-bool	is_redir_operator(t_token *token);
+int			get_tokens_nb(t_token **tokens);
+t_token		*get_last(t_token **tokens);
+bool		is_file(t_token *token);
+bool		is_redir_operator(t_token *token);
+void		delete_token(t_token **tokens, t_token *token);
 
-// checking and tagging
+// token utils create
+t_token		*new_token(t_data *data, t_tokentype type, int index, char *string);
+void		add_token_back(t_token **tokens, t_token *new);
+void		add_before(t_token **tokens, t_token *current, t_token *new);
+void		add_after(t_token *current, t_token *new);
+void		split_append_token(t_data *data, t_token *token, int index_space, \
+				t_tokentype filetype);
+
+// split utils
+char		**init_separators_for_operators(t_data *data);
+t_delimiter	**init_quote_delimiters(t_data *data);
+
+// checking
+char		*get_checked_pathmame(t_data *data, t_command *command);
+int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
-int			check_redirection_files(t_data *data, t_token **tokens, t_token *token);
-int			check_pipe(t_data *data, t_token **tokens, t_token *token);
-char		*get_checked_pathmame(t_data *data, t_command *command);
-int			merge_word_with_next_words_and_make_command(t_data *data, t_token **tokens, t_token *token);
-int			check_simple_command(t_data *data, t_token **tokens, t_token *token);
+
+// command utils
+void		update_command_from_string(t_data *data, t_command *command, \
+				char *string);
+t_command	*new_command(t_data *data, char *string);
+t_list		**get_redir_list_from_operator(t_token *operator_token, \
+				t_token *command_token);
+void		add_redirect_file_to_command(t_data *data, t_token **tokens, \
+				t_list **redir_list, t_token *file_token);
+
+void		add_command_to_token(t_data *data, t_token **tokens, \
+			t_token *token);
 
 // command
-t_command	*new_command(t_data *data, char *string);
-void		update_command_from_string(t_data *data, t_command *command, char *string);
-void		add_previous_redirect_to_command(t_data *data, t_token **tokens, t_token *command);
-void		add_following_redirect_to_command(t_data *data, t_token **tokens, t_token *command);
-void		add_command_to_token(t_data *data, t_token **tokens, t_token *token);
-void		add_empty_command_with_redir(t_data *data, t_token **tokens, t_token *token);
-int			add_command_from_word(t_data *data, t_token **tokens, t_token *token);
-int			add_command_from_redirop(t_data *data, t_token **tokens, t_token *token);
+int			add_command_from_word(t_data *data, t_token **tokens, \
+				t_token *token);
+t_token		*add_command_from_redirop(t_data *data, t_token **tokens, \
+				t_token *token, t_token *next);
 
-// expand
-char	*try_replace_vars(t_data *data, char *input);
-bool	next_expand(char *input, char c);
-int		expand_vars(t_data *data, t_token **tokens, t_token *token);
-char	**split_skip_quotes(char *line);
-int		handle_quotes(t_data *data, t_token **tokens, t_token *token);
-
+// trim
+int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
 
 #endif

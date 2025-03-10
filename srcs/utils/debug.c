@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void	debug_fd(t_data *data, t_exec *exec)
+void	print_fd(t_data *data, t_exec *exec)
 {
 	(void) data;
 	printf("\t---fds\n");
@@ -8,43 +8,24 @@ void	debug_fd(t_data *data, t_exec *exec)
 	printf("\tfuture_redirin %d\n", exec->future_redirin);
 	printf("\tfds read end %d\n", exec->fds[0]);
 	printf("\tfds write end %d\n", exec->fds[1]);
-	printf("\toriginal in %d and out %d\n", exec->original_in, exec->original_out);
+	printf("\toriginal in %d and out %d\n", exec->original_in, \
+		exec->original_out);
 	printf("\t---\n");
 }
 
-char	*get_token_type(t_tokentype type)
+void	print_datafds(t_data *data)
 {
-	if (type == T_WORD)
-		return ("word");
-	else if (type == T_PIPE)
-		return ("pipe");
-	else if (type == T_LITERAL_SINGLE)
-		return ("single quote literal");
-	else if (type == T_LITERAL_DOUBLE)
-		return ("double quote literal");
-	else if (type == T_REDIR_HEREDOC)
-		return ("redirect heredoc");
-	else if (type == T_REDIR_IN)
-		return ("redirect infile");
-	else if (type == T_REDIR_TRUNCATE)
-		return ("redirect outfile");
-	else if (type == T_REDIR_APPEND)
-		return ("redirect append");
-	else if (type == T_EOF)
-		return ("eof");
-	else if (type == T_INFILE)
-		return ("infile");
-	else if (type == T_OUTFILE_APPEND)
-		return ("outfile >>");
-	else if (type == T_OUTFILE_TRUNCATE)
-		return ("outfile >");
-	else if (type == T_COMMAND)
-		return ("command");
-	else
-		return ("unknown");
+	t_fds	*fd;
+
+	fd = data->fds;
+	while (fd)
+	{
+		printf("fd %d\n", fd->fd);
+		fd = fd->next;
+	}
 }
 
-void	print_redirs(char *redirtype, t_list *redirlist)
+static void	print_redirs(char *redirtype, t_list *redirlist)
 {
 	t_list	*current;
 
@@ -58,7 +39,7 @@ void	print_redirs(char *redirtype, t_list *redirlist)
 	printf("\n");
 }
 
-void	print_command(t_command *command)
+static void	print_command(t_command *command)
 {
 	int	i;
 
@@ -97,21 +78,4 @@ void	print_tokens(t_token **tokens)
 		current = current->next;
 	}
 	printf("\n");
-}
-
-void	print_tree(t_tree *root)
-{
-	t_tree	*current;
-
-	if (!root)
-		return ;
-	current = root;
-	print_tree(current->left);
-	if (current->left)
-		printf("->");
-	if (current->value)
-		printf("%s%s%s (%s)", P_BLUE, current->value->string, P_NOC, get_token_type(current->value->type));
-	if (current->left)
-		printf("->");
-	print_tree(current->right);
 }

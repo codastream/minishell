@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-void	check_quote(char **line, char quote)
+static void	go_till_matching_quote(char **line, char quote)
 {
 	char	*new_line;
 
@@ -27,15 +27,13 @@ int	check_closing_quotes(t_data *data, char *input)
 {
 	char	*line;
 
-	// if (!input)
-	// 	return (EXIT_SYNTAX_ERROR);
 	line = input;
 	while (*line)
 	{
 		if (*line == '\"')
-			check_quote(&line, '\"');
+			go_till_matching_quote(&line, '\"');
 		else if (*line == '\'')
-			check_quote(&line, '\'');
+			go_till_matching_quote(&line, '\'');
 		if (!*line)
 		{
 			handle_quote_error(data);
