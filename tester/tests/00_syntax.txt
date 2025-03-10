@@ -1,38 +1,52 @@
->
-<
->>
-<<
-<>
-<>>
->>>>>
->>>>>>>>>>>>>>>
-<<<<<<<<<<<<<<<<
-<<<<<
-> > > >
->> >> >> >>
->>>> >> >> >>
-|
-| tata
-| | |
-| $
->>|><
-""
-"""
-echo > <
-echo tata > > toto
-echo tata < < toto
-echo tata >>> toto
-echo tata <<<<< toto
-cat >>
-cat >>>
-cat >> <<
-cat >> > >> << >>
-cat <<
-cat    <| ls
-echo hi | >
-echo hi | > >>
-echo hi | < |
-echo hi |   |
+
+-
+:
+!
 . | . | .
 ./files/badperm.txt
-
+'
+""
+"""
+""e"'c'ho 't'"a"ta"to"'t'o"
+"e"'c'ho 't'"a"ta"to"'t'o
+/
+/.
+/./../../../../..
+//
+///////
+\t\t\t\t
+<
+<
+<<
+<<<<<
+<<<<<<<<<<<<<<<<
+<>
+>
+> > > >
+>>
+>> >> >> >>
+>>>> >> >> >>
+>>>>>
+>>>>>>>>>>>>>>>
+>>|><
+|
+| | |
+| $
+| tata
+cat    <| ls
+cat <<
+cat >>
+cat >> <<
+cat >> > >> << >>
+cat >>>
+echo 'tata
+echo > <
+echo hi |   |
+echo hi | < |
+echo hi | >
+echo hi | > >>
+echo tata < < toto
+echo tata <<<<< toto
+echo tata > > toto
+echo tata >>> toto
+tata'

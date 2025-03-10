@@ -252,7 +252,6 @@ void	do_tests_for_file(int fd, int *test_index, int *ok_count, bool print_output
 		{
 			rename("./files/outfile.txt", OUTFILE_BASH);
 		}
-
 		instruction_m = build_instruction('m', test, "system");
 		ret_system = system(instruction_m);
 		ret_m = get_return_status(ret_system);

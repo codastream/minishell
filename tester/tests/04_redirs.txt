@@ -1,24 +1,21 @@
-> ./files/outfile.txt
-> ./files/inexistent
-> ./files/badperm.txt
->> ./files/outfile.txt
->> ./files/inexistent
->> ./files/badperm.txt
-< ./files/infile.txt
-< ./files/inexistent
-< ./files/badperm.txt
-< ./files/infile.txt > ./files/outfile.txt
+< pwd
+<a cat <b <c
 cat -e < ./files/infile.txt
-< ./files/infile.txt cat -e
-< ./files/inexistent.txt cat -e
-< ./files/badperm.txt cat -e
-< ./files/inexistent < ./files/infile.txt cat -e
-< ./files/infile.txt < inexistent cat -e
-< ./files/infile.txt cat -e > ./files/outfile.txt
-< ./files/infile.txt cat -e > ./files/inexistent
-< ./files/infile.txt cat -e > ./files/badperm.txt
-echo a > ./files/outfile.txt
-echo a > ./files/inexistent
+cat < ls
+cat < ls > ls
+cat <../pwd
+cat <pwd
+cat <srcs/pwd
+cat >>
+cat >> <<
+cat >> > >> << >>
+cat >>>
 echo a > ./files/badperm.txt
-< ./files/infile echo
-< ./files/inexistent echo
+echo a > ./files/inexistent
+echo a > ./files/outfile.txt
+echo tata < < ./files/outfile
+echo tata <<< toto
+echo tata <<<< toto
+echo tata <<<<< toto
+echo tata > > ./files/outfile
+echo tata >>> ./files/outfile

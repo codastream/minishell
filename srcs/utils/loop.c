@@ -46,6 +46,7 @@ static void	process_line_input_non_interactive(t_data *data)
 	int	code;
 	int	len;
 
+	// rl_outstream = stderr;
 	data->line = get_next_line(STDIN_FILENO);
 	len = ft_strlen(data->line);
 	data->line[len - 1] = '\0';

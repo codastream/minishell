@@ -1,14 +1,59 @@
-echo $USER
-echo "$USER"
-echo '$USER'
-echo $?
-echo "$"
-echo $
-echo $?tata
-echo $EMPTY abc
-$EMPTY echo $EMPYT abc
-expr $? + $?
-echo $EMPTY
+?$HOME
+"$HOMEdskjhfkdshfsd"
 $
+$?
+$?$?
 $EMPTY
+$HOME
+$HOMEdskjhfkdshfsd
+$HOMEdskjhfkdshfsd'
+$LESS$VAR
 $PWD
+4ABC=tata
+ABC=tata
+echo -nnnn $tata
+echo '' $HOME
+echo ''$HOME
+echo '$'''
+echo '$HO''ME'
+echo '$HO'ME
+echo "'$HO''ME'"
+echo "" $HOME
+echo ""$HOME
+echo "$"""
+echo "$"HOME
+echo "$EMPTY" "Makefile"
+echo "$EMPTY""Makefile"
+echo "$EMPTY"Makefile
+echo "$HO""ME"
+echo "$HO"ME
+echo \$HOME
+echo $
+echo $?
+echo $?$
+echo $''HOME
+echo $'HO''ME'
+echo $'HOME'
+echo $'tata'
+echo $""
+echo $""HOME
+echo $"HO""ME"
+echo $"HOME"
+echo $"tata"
+echo $*
+echo $=HOME
+echo $9HOME
+echo $EMPTY tata
+echo $HOME
+echo $HOME*
+echo $HOME%
+echo $HOME9
+echo $tata*
+echo $tata*
+echo $UID
+echo $UID$HOME
+echo $USER$var\$USER$USER\$USERtest$USER
+echo Le path de mon HOME est $HOME
+echo my terminal is [$TERM]
+echo my terminal is [$TERM4
+echo my terminal is [$TERM4]

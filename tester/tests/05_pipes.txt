@@ -1,24 +1,78 @@
-< ./files/infile.txt | cat -e
-< ./files/infile.txt | wc
-<./files/infile.txt cat|wc
-cat ./files/infile.txt | wc
-cat ./files/infile.txt | grep pain
+/bin/ls | /usr/bin/cat -e
+|echo -n tata
+|echo|
 cat ./files/infile.txt | cat /dev/urandom | ls | wc -w
-cat ./files/infile.txt | md5sum
 cat ./files/infile.txt | grep -o pain | tr
+cat ./files/infile.txt | grep pain
+cat ./files/infile.txt | md5sum
+cat ./files/infile.txt | wc
 cat /dev/urandom | head -c 15 | wc -c
 cat /dev/urandom | strings | grep -o "[A-Z][0-9]" | tr -d '\n' | head -c 15 | wc -c
-printf "Hello World" | cat -e | cat -e
-echo a | wc
-echo "Hello World" | cat -e
+cat | cat | cat | ls
+cat Makefile | cat -e | cat -e
+cat Makefile | grep pr | head -n 5 | cd file_not_exist
+cat Makefile | grep pr | head -n 5 | hello
+cat Makefile | grep srcs | cat -e
+cat Makefile | grep srcs | grep srcs | cat -e
+cd .. | echo "tata"
+cd .. | pwd
+cd / | echo "tata"
+echo           | cat -e
+echo         hello        |               cat -e
+echo ' $ ' | cat -e
+echo "         " | cat -e
+echo " $ " | cat -e
 echo "cat Makefile | cat > $USER"
-echo hello|cat -e
+echo "Hello World" | cat -e
+echo | echo
+echo $:$= | cat -e
+echo $? | echo $? | echo $?
+echo a | wc
 echo hello      |cat -e
 echo hello|               cat -e
-echo         hello        |               cat -e
-/bin/ls | /usr/bin/cat -e
+echo hello|cat -e
+echo tata | cat
+echo tata | cat -e
+echo tata | cat -e | cat -e | cat -e
+echo tata | cat | cat | cat | cat | cat | grep tata
+echo tata | echo toto | echo tutu | grep tata
+echo tata | echo toto | echo tutu | grep toto
+echo tata | echo toto | echo tutu | grep tutu
+echo tata | echo toto tutu
+echo tata |cat
+echo tata| cat
+echo tata|cat
+echo test.c | cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e|cat -e|cat -e|cat -e
+env | echo tata
+env|"wc "-l
+env|"wc" -l
+exit | ls
+exit | sleep 2
+export tata | unset tata | echo $?
+ifconfig | grep ":"
+ifconfig | grep tata
 ls -l | cat -e  | ls
+ls -la | grep "."
+ls -la | grep "'.'"
+ls | exit
+ls | exit 42
+ls | ls | echo tata | rev
+ls | ls | tata
+ls | ls | tata | rev
 ls | ls |ls | ls| ls |ls| ls|ls | ls | ls | ls | ls
+ls | ls tata
+ls | tata
+ls | tata | ls
+ls tata
 ls|ls|ls|ls|ls|ls|cat    -e
 ls|ls|ls|ls|ls|ls|ls|ls |ls | ls    | ls | ls | cat    -e
+"ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls
+|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls"
+printf "Hello World" | cat -e | cat -e
+pwd | echo tata
+sleep 2 | exit
+sleep 2 | sleep 2
+time sleep 2 | sleep 2
+unset tata | cat -e
+whoami | grep $USER
 wrongcmd | cat
