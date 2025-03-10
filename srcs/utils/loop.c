@@ -46,7 +46,7 @@ static void	process_line_input_non_interactive(t_data *data)
 	int	code;
 	int	len;
 
-	rl_outstream = stderr;
+	// rl_outstream = stderr;
 	data->line = get_next_line(STDIN_FILENO);
 	len = ft_strlen(data->line);
 	data->line[len - 1] = '\0';
@@ -102,7 +102,6 @@ static void	process_line_input_interactive(t_data *data)
 
 void	process_line_input(t_data *data)
 {
-	// process_line_input_interactive(data);
 	if (isatty(STDIN_FILENO))
 		process_line_input_interactive(data);
 	else
