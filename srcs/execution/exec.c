@@ -57,7 +57,6 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 		{
 			handle_custom_error_source_exit(data, command->command_name, strerror(errno), EXIT_FAILURE);
 			// perror("execve");
-
 		}
 		exit(EXIT_FAILURE);
 	}
