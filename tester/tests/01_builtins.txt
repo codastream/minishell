@@ -37,7 +37,6 @@ cd "../.."
 cd ""
 cd "$PWD/srcs"
 cd "srcs"
-cd *
 cd /
 "cd //
 pwd"

@@ -1,5 +1,12 @@
 #include "shell.h"
 
+bool	is_path(char *s)
+{
+	if (ft_strncmp(s, "/", 1) == 0 || ft_strncmp(s, "./", 2) == 0 || ft_strncmp(s, "../", 3) == 0)
+		return (true);
+	return (false);
+}
+
 static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 {
 	int		i;
@@ -30,6 +37,8 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 
 	if (access(command->command_name, X_OK) == 0)
 		return (ft_strdup(command->command_name));
+	if (is_path(command->command_name))
+		return (NULL);
 	path = ft_hash_get(data->vars, "PATH");
 	if (!path)
 		return (NULL);

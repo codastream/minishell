@@ -32,6 +32,7 @@ char		*get_checked_pathmame(t_data *data, t_command *command);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
+bool		is_path(char *s);
 
 // command utils
 void		update_command_from_string(t_data *data, t_command *command, \
