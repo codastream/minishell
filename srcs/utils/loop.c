@@ -19,20 +19,22 @@ void	update_prompt(t_data *data)
 	char	*username;
 	char	**elems;
 	char	*prompt;
+	char	*wd;
 
 	username = getenv("USER");
 	if (!username)
 		username = "user";
+	wd = ft_hash_get(data->vars, "PWD");
 	elems = ft_calloc(10, sizeof(char *));
 	check_alloc(data, elems);
 	elems[0] = P_TEAL_BOLD_PROMPT;
 	elems[1] = username;
 	elems[2] = P_TEAL_LIGHT_PROMPT;
-	elems[3] = "@";
-	elems[4] = P_TEAL_BOLD_PROMPT;
-	elems[5] = "C_shell";
+	elems[3] = "@cshell ";
+	elems[4] = P_PINK;
+	elems[5] = wd;
 	elems[6] = P_GREEN_PROMPT;
-	elems[7] = " >";
+	elems[7] = " ▶ ";
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
 	prompt = ft_multistrjoin(9, elems, "");
@@ -44,15 +46,11 @@ void	update_prompt(t_data *data)
 static void	process_line_input_non_interactive(t_data *data)
 {
 	int	code;
-	// int	len;
 
 	rl_outstream = stderr;
 	if (!isatty(0))
 		rl_prep_term_function = 0;
 	data->line = readline(NULL);
-	// data->line = get_next_line(STDIN_FILENO);
-	// len = ft_strlen(data->line);
-	// data->line[len - 1] = '\0';
 	if (PRINT == 1)
 		printf("line -> %s\n", data->line);
 	if (!data->line)
