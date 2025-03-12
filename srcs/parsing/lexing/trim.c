@@ -58,7 +58,7 @@ static void	handle_quote_in_arg(t_data *data, char **arg)
 			i = handle_pair_of_quotes(data, arg, i, '\'');
 		if (i < 0)
 			break ;
-		if ((*arg)[i])
+		if ((*arg)[i] && (*arg)[i] != '\'' && (*arg)[i] != '"')
 			i++;
 	}
 }
