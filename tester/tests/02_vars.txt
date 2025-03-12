@@ -27,7 +27,6 @@ echo "$EMPTY""Makefile"
 echo "$EMPTY"Makefile
 echo "$HO""ME"
 echo "$HO"ME
-echo \$HOME
 echo $
 echo $?
 echo $?$
@@ -48,8 +47,6 @@ echo $HOME
 echo $HOME*
 echo $HOME%
 echo $HOME9
-echo $tata*
-echo $tata*
 echo $UID
 echo $UID$HOME
 echo $USER$var\$USER$USER\$USERtest$USER

@@ -7,3 +7,4 @@ echo *t tata
 echo *Z
 echo D*
 echo tata*tata *
+echo $tata*
