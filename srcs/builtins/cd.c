@@ -67,7 +67,7 @@ void	ft_cd(t_data *data, t_token *token)
 	free(oldpwd);
 	path = build_path(data, command->command_args);
 	if (chdir(path) < 0)
-	handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
+		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
 	free(path);
 	path = getpwd(data);
 	if (command->command_args && command->command_args[1] && !ft_strcmp("-", command->command_args[1]))
