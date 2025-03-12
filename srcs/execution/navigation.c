@@ -21,12 +21,11 @@ int	check_executable(t_data *data, t_token *token)
 		code = stat(path, &stats);
 		if (code == 0 && S_ISDIR(stats.st_mode))
 			handle_custom_error_source_exit(data, path, MSG_IS_DIRECTORY, EXIT_PERMISSION_DENIED);
-// 		handle_and_exit_if_negative(data, code, strerror(errno));
+		if (!is_absolute_path(path) && access(path, X_OK) != 0)
+			handle_custom_error_source_exit(data, path, strerror(errno), EXIT_PERMISSION_DENIED);
 	}
 	token->command->pathname = get_checked_pathmame(data, token->command);
 	if (!token->command->pathname)
 		handle_custom_error_source_exit(data, token->command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
-	if (access(token->command->pathname, X_OK) != 0)
-		handle_custom_error_source_exit(data, path, strerror(errno), EXIT_PERMISSION_DENIED);
 	return (EXIT_SUCCESS);
 }
