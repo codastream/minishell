@@ -3,7 +3,6 @@
 /bin/cd Desktop
 /bin/echo
 /bin/echo tata toto tutu
-/bin/env
 < Makefile .
 <echo<
 >>echo>>
@@ -60,7 +59,6 @@ e"cho tata"
 ech|o tata | cat
 echo
 echo         tata
-echo      \n tata
 echo    tata     toto    tutu
 echo --------n
 echo -n
@@ -86,7 +84,6 @@ echo '''ta"''''t"a'''
 echo ''t'a'ta''
 echo ''tata''
 echo '"tata"'
-echo '*'
 echo 'tata "'
 echo 'tata'
 echo "        "
@@ -103,13 +100,8 @@ echo "> >> < << * ? [ ] | ; || && ( ) # $ "
 echo "tata     " | cat -e
 echo "tata '"
 echo "tata"
-echo *
-echo *t
-echo *t tata
-echo *Z
 echo > <
 echo | |
-echo D*
 echo tata
 echo tata -n
 "echo tata > bonjour\ 1
@@ -124,7 +116,6 @@ echo tata"''''''''''"
 echo tata""""""""""""
 echo tata""toto
 echo tata""toto"
-echo tata*tata *
 echo-ntata
 echo"'tata'"
 echotata

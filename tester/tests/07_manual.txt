@@ -1,6 +1,8 @@
 ############################################## builtins
 export
 env
+/bin/env
+echo      \n tata
 export tata=bon()jour
 export tata=bon(jour
 
