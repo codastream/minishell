@@ -37,7 +37,7 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 		if ((*arg)[i])
 		{
 			remove_quotes(data, arg, start_quote_index, i);
-			i = i - 2;
+			i = i - 1;
 		}
 	}
 	return (i);

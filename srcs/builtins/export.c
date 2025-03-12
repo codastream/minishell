@@ -61,7 +61,7 @@ void	ft_print_export(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				ft_printfd(token->out, "declare -x %s=%s\n", current->key, \
+				ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
 					current->value);
 				current = current->next;
 			}
@@ -83,8 +83,8 @@ void	pars_export(t_data *data, t_token *token, int i)
 		ft_hash_insert(data->expvars, cmd[0], NULL);
 	else
 	{
-		ft_printfd(2, "export: `%s': not a valid identifier\n", \
-		token->command->command_args[i]);
+		ft_printfd(2, "export: `%s%s%s': not a valid identifier\n", \
+		cmd[0], cmd[1], cmd[2]);
 		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
 	}
 	ft_free_2d_char_null_ended(cmd);
