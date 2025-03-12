@@ -11,6 +11,17 @@ static bool	is_empty_line(char *line)
 	return (false);
 }
 
+char	*adjust_color_to_last_return(t_data *data)
+{
+	int	last_return;
+
+	last_return = get_last_return(data);
+	if (last_return == 0)
+		return (P_GREEN_PROMPT);
+	else
+		return (P_RED_PROMPT);
+}
+
 /*
  * generates prompt string with format $USERNAME@shellname>
  */
@@ -33,7 +44,7 @@ void	update_prompt(t_data *data)
 	elems[3] = "@cshell ";
 	elems[4] = P_PINK;
 	elems[5] = wd;
-	elems[6] = P_GREEN_PROMPT;
+	elems[6] = adjust_color_to_last_return(data);
 	elems[7] = " ▶ ";
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;

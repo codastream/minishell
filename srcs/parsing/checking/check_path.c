@@ -1,8 +1,18 @@
 #include "shell.h"
 
+bool	is_absolute_path(char *s)
+{
+	if (ft_strncmp(s, "/", 1) == 0)
+		return (true);
+	return (false);
+}
+
 bool	is_path(char *s)
 {
-	if (ft_strncmp(s, "/", 1) == 0 || ft_strncmp(s, "./", 2) == 0 || ft_strncmp(s, "../", 3) == 0)
+	if (ft_strncmp(s, "/", 1) == 0 \
+		|| ft_strncmp(s, "./", 2) == 0 \
+		|| ft_strncmp(s, "../", 3) == 0 \
+	)
 		return (true);
 	return (false);
 }
