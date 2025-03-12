@@ -9,6 +9,7 @@ tester/tester
 tester/fpetit
 tester/files/inexistent
 tester/files/permanentbadperm.txt
+tester/1
 libft.a
 
 # directories

@@ -39,6 +39,7 @@ void	check_alloc(t_data *data, void *allocated);
 // error
 void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code);
 void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg, int code);
+void	handle_custom_error_source_builtin(t_data *data, char *error_source, char *msg, int code);
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit);
 void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit);
 void	handle_and_exit_if_negative(t_data *data, int code, char *msg);

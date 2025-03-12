@@ -12,10 +12,10 @@ static bool	are_valid_cd_args(t_data *data, char **command_args)
 		return (true);
 	if (arg_count > 2)
 	{
-		handle_custom_error_source_noexit(data, "cd", MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
+		handle_custom_error_source_builtin(data, "cd", MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 		return (false);
 	}
-	if (!ft_strcmp(command_args[1], "---"))
+	if (!ft_strncmp(command_args[1], "---", 3))
 	{
 		update_last_error(data, EXIT_SYNTAX_ERROR);
 		return (false);
@@ -39,7 +39,7 @@ static char	*build_path(t_data *data, char **path_args)
 {
 	char	*path;
 
-	if (!path_args[1])
+	if (!path_args[1] || !ft_strcmp(path_args[1], "--"))
 		path = ft_strdup(ft_hash_get(data->vars, "HOME"));
 	else if (!ft_strcmp(path_args[1], "-"))
 		path = ft_strdup(ft_hash_get(data->vars, "OLDPWD"));
@@ -63,7 +63,8 @@ void	ft_cd(t_data *data, t_token *token)
 	if (!are_valid_cd_args(data, command->command_args))
 		return ;
 	oldpwd = getpwd(data);
-	ft_hash_update(data->vars, "OLDPWD", oldpwd);
+	if (ft_strcmp(ft_hash_get(data->vars, "PWD"), oldpwd))
+		ft_hash_update(data->vars, "OLDPWD", oldpwd);
 	free(oldpwd);
 	path = build_path(data, command->command_args);
 	if (chdir(path) < 0)
