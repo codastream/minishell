@@ -32,12 +32,10 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 
 char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 {
-	int		i;
 	char	*prefixedkey;
 	char	*value;
 	char	*expanded;
 
-	i = 0;
 	prefixedkey = NULL;
 	prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
 	if (prefixedkey)
