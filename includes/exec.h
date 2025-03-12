@@ -13,7 +13,7 @@ void	put_fd(t_data *data, t_tree **tree, int in, int out);
 void	put_fd_token(t_data *data, t_token *token, int in, int out);
 int		heredoc(t_data *data, t_tree **tree);
 void	close_all(t_tree *tree);
-int		try_navigation(t_data *data, t_token *token);
+int		check_executable(t_data *data, t_token *token);
 
 int		check_redirection_files(t_data *data, t_token **tokens, t_token *token);
 

@@ -79,7 +79,7 @@ int heredoc_exec(t_data *data, t_tree **tree)
 		if (heredoc(data, &(*tree)->right) != 0)
 			return (130);
 	}
-	if ((*tree)->value->type == T_COMMAND)
+	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
 		init_heredoc(data, tree);
 	return (g_signal);
 }

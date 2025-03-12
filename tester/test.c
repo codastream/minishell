@@ -30,7 +30,7 @@ char	*build_instruction(char shell_type, char *test, char *run_mode)
 	if (!ft_strcmp(run_mode, "system"))
 		ins_parts[4] = " 2> /dev/null 1> /dev/null";
 	else
-		ins_parts[4] = " 2>&1";
+		ins_parts[4] = " 2>1";
 	instruction = ft_multistrjoin(5, ins_parts, "");
 	return (instruction);
 }
