@@ -9,7 +9,7 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && (ft_ischarforenvvar(s[i + 1]) || s[i + 1] == '"'))
+		if (s[i] && s[i] == '$' && (ft_ischarforenvvar(s[i + 1]) || s[i + 1] == '"'))
 		{
 			*exp_idx = i;
 			len = 0;
@@ -69,6 +69,9 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 
 bool	next_expand(char *string, char marker, int *i)
 {
+	bool	is_opened_double_quote;
+	is_opened_double_quote = false;
+
 	if (!string || !string[*i])
 		return (false);
 	while (string[*i])
@@ -77,11 +80,18 @@ bool	next_expand(char *string, char marker, int *i)
 			skip_single_quote(string, i);
 		if (string[*i] == '\"')
 		{
+			if (is_opened_double_quote)
+				is_opened_double_quote = true;
+			else
+				is_opened_double_quote = false;
 			(*i)++;
 			while (string [*i] && string[*i] != '\"')
 			{
 				if (string[*i] == marker)
-					return (true);
+				{
+					if (string[*i + 1] && string[*i + 1] != '"')
+						return (true);
+				}
 				(*i)++;
 			}
 		}

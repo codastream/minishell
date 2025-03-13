@@ -33,6 +33,9 @@ echo $'HO''ME'
 echo $'HOME'
 echo $'tata'
 echo $""
+echo ""$""""
+echo """$"""
+echo ""tata$""
 echo $""HOME
 echo $"HO""ME"
 echo $"HOME"
