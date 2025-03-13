@@ -48,9 +48,7 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 		return (expanded);
 	}
 	else
-	{
-		return (ft_strdup(s));
-	}
+		return (ft_subst(s, "$", NULL));
 }
 
 bool	next_expand(char *string, char marker, int *i)
