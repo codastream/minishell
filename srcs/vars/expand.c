@@ -9,10 +9,16 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && ft_ischarforenvvar(s[i + 1]))
+		if (s[i] == '$' && (ft_ischarforenvvar(s[i + 1]) || s[i + 1] == '"'))
 		{
 			*exp_idx = i;
 			len = 0;
+			if (len == 0 && s[i + 1] && s[i + 1] == '"')
+			{
+				prefixedkey = ft_substr(s, i, 1);
+				check_alloc(data, prefixedkey);
+				break ;
+			}
 			if (s[i + 1] && s[i + 1] == '?')
 			{
 				prefixedkey = ft_substr(s, i, len + 2);
@@ -38,18 +44,26 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 
 	prefixedkey = NULL;
 	prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
-	if (prefixedkey)
+	if (prefixedkey && ft_strcmp(prefixedkey, "$"))
 	{
 		value = ft_hash_get(data->vars, ++prefixedkey);
 		*exp_idx += ft_strlen(value);
-		expanded = ft_subst(s, --prefixedkey, value);
+		expanded = ft_subst_first(s, --prefixedkey, value);
+		check_alloc(data, expanded);
+		free(prefixedkey);
+		return (expanded);
+	}
+	else if (!ft_strcmp(prefixedkey, "$"))
+	{
+		expanded = ft_subst_first(s, "$", "");
 		check_alloc(data, expanded);
 		free(prefixedkey);
 		return (expanded);
 	}
 	else
 	{
-		return (ft_strdup(s));
+		expanded = ft_strdup(s);
+		return (expanded);
 	}
 }
 
