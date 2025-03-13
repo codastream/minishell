@@ -14,6 +14,8 @@ printf 'Hello World'
 
 ############################################## redirs
 < ./files/badperm.txt < ./files/infile.txt cat -e
+# loop
+<"./test_files/file name with spaces" cat
 
 ############################################## pipes
 wrongcmd | echo 'abc'

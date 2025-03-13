@@ -31,3 +31,7 @@ pwd tata toto tutu
 tata
 tata toto tutu
 wrongcmd
+./missing.out
+files
+./dsadsa
+/root/bin/no_perms

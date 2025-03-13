@@ -60,7 +60,6 @@ void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid = 1;
 
-
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
 	child_pid = safe_fork(data);

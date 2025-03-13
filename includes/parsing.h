@@ -36,6 +36,8 @@ bool		is_path(char *s);
 bool		is_absolute_path(char *s);
 
 // command utils
+int			update_command_from_extra_words_before_pipe(t_data *data, \
+				t_token **tokens, t_token *token);
 void		update_command_from_string(t_data *data, t_command *command, \
 				char *string);
 t_command	*new_command(t_data *data, char *string);

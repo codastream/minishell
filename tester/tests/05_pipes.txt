@@ -76,3 +76,37 @@ time sleep 1 | sleep 1
 unset tata | cat -e
 whoami | grep $USER
 wrongcmd | cat
+cat ./test_files/infile_big | grep oi
+cat minishell.h | grep ");"$
+export GHOST=123 | env | grep GHOST
+ls | ls
+ls | 				ls
+ls 					| ls
+ls 				| 				ls
+ls             			|               					ls
+ls | echo $PATH
+ls | echo $USER
+ls | echo "$USER"
+ls | echo "'$USER'"
+ls | echo '"'$USER'"'
+ls | echo ""$USER""
+ls | echo ''$USER''
+ls | echo '"$USER"'
+ls | echo $PATH | cat
+ls | echo $USER | cat
+ls | echo "$USER" | cat
+ls | echo "'$USER'" | cat
+ls | echo '"'$USER'"' | cat
+ls | echo ""$USER"" | cat
+ls | echo ''$USER'' | cat
+ls | echo '"$USER"' | cat
+echo $PATH | cat
+echo $USER | cat
+echo "$USER" | cat
+echo "'$USER'" | cat
+echo '"'$USER'"' | cat
+echo ""$USER"" | cat
+echo ''$USER'' | cat
+echo '"$USER"' | cat
+export test="echo b" | $test
+echo hi |  "|"

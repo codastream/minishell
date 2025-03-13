@@ -105,7 +105,6 @@ echo | |
 echo tata
 echo tata -n
 "echo tata > bonjour\ 1
-ls
 cat bonjour\ 1"
 echo tata toto
 echo tata toto tutu

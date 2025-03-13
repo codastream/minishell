@@ -10,3 +10,4 @@ echo $UID
 echo $UID$HOME
 history
 echo tata <<< toto
+env | sort | grep -v SHLVL | grep -v ^_
