@@ -22,6 +22,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	last_expanded_index = 0;
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
+	handle_quote_in_arg(data, &eof);
 	check_alloc(data, eof);
 	while (true)
 	{

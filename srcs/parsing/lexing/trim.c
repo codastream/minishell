@@ -43,7 +43,7 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 	return (i);
 }
 
-static void	handle_quote_in_arg(t_data *data, char **arg)
+void	handle_quote_in_arg(t_data *data, char **arg)
 {
 	int	i;
 
