@@ -32,14 +32,47 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 	return (prefixedkey);
 }
 
-char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
+static char	*extract_prefixed_key_without_quote(t_data *data, char *s, int *exp_idx, \
+		char *prefixedkey)
+{
+	int		i;
+	int		len;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '$' && ft_ischarforenvvar(s[i + 1]))
+		{
+			*exp_idx = i;
+			len = 0;
+			if (s[i + 1] && s[i + 1] == '?')
+			{
+				prefixedkey = ft_substr(s, i, len + 2);
+				check_alloc(data, prefixedkey);
+				break ;
+			}
+			while (ft_ischarforenvvar(s[i + len + 1]))
+				len++;
+			prefixedkey = ft_substr(s, i, len + 1);
+			check_alloc(data, prefixedkey);
+			break ;
+		}
+		i++;
+	}
+	return (prefixedkey);
+}
+
+char	*try_replace_vars(t_data *data, char *s, int *exp_idx, int mode)
 {
 	char	*prefixedkey;
 	char	*value;
 	char	*expanded;
 
 	prefixedkey = NULL;
-	prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
+	if (mode == 0)
+		prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
+	else
+		prefixedkey = extract_prefixed_key_without_quote(data, s, exp_idx, prefixedkey);
 	if (prefixedkey)
 	{
 		if (++prefixedkey)
@@ -98,7 +131,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 		return (EXIT_IGNORE);
 	while (next_expand(s, '$', &last_expanded_index))
 	{
-		expanded = try_replace_vars(data, token->string, &last_expanded_index);
+		expanded = try_replace_vars(data, token->string, &last_expanded_index, 0);
 		free(token->string);
 		token->string = expanded;
 		s = expanded;

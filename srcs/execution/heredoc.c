@@ -31,7 +31,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 			break ;
 		while (next_expand(input, '$', &last_expanded_index))
 		{
-			expanded = try_replace_vars(data, NULL, &last_expanded_index);
+			expanded = try_replace_vars(data, input, &last_expanded_index, 1);
 			free(input);
 			input = expanded;
 		}
