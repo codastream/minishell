@@ -25,6 +25,8 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *exp_idx, \
 			check_alloc(data, prefixedkey);
 			break ;
 		}
+		else if (s[i] == '$' && (s[i + 1] == '\'' || s[i + 1] == '\"'))
+			return(ft_strdup("$"));
 		i++;
 	}
 	return (prefixedkey);
@@ -40,7 +42,10 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 	prefixedkey = extract_prefixed_key(data, s, exp_idx, prefixedkey);
 	if (prefixedkey)
 	{
-		value = ft_hash_get(data->vars, ++prefixedkey);
+		if (++prefixedkey)
+			value = ft_hash_get(data->vars, prefixedkey);
+		else
+			value = NULL;
 		*exp_idx += ft_strlen(value);
 		expanded = ft_subst(s, --prefixedkey, value);
 		check_alloc(data, expanded);
@@ -48,7 +53,7 @@ char	*try_replace_vars(t_data *data, char *s, int *exp_idx)
 		return (expanded);
 	}
 	else
-		return (ft_subst(s, "$", NULL));
+		return (ft_strdup(s));
 }
 
 bool	next_expand(char *string, char marker, int *i)
