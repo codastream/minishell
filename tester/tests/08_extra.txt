@@ -9,3 +9,4 @@ echo $USER$var\$USER$USER\$USERtest$USER
 echo $UID
 echo $UID$HOME
 history
+echo tata <<< toto

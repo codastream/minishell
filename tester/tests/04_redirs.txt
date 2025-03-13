@@ -14,7 +14,6 @@ echo a > ./files/badperm.txt
 echo a > ./files/inexistent
 echo a > ./files/outfile.txt
 echo tata < < ./files/outfile
-echo tata <<< toto
 echo tata <<<< toto
 echo tata <<<<< toto
 echo tata > > ./files/outfile
