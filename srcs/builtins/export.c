@@ -80,7 +80,10 @@ void	pars_export(t_data *data, t_token *token, int i)
 	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
 	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
+	{
 		ft_hash_insert(data->expvars, cmd[0], NULL);
+		ft_hash_update(data->vars, LAST_RETURN_CODE, "0");
+	}
 	else
 	{
 		ft_printfd(2, "export: `%s%s%s': not a valid identifier\n", \
