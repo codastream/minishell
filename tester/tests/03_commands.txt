@@ -1,6 +1,6 @@
 .
 ..
-./Makefile
+../Makefile
 "tata"
 /bin/ls
 /bin/ls -l
@@ -15,7 +15,6 @@ echo 'Hello World'
 echo "Hello World"
 expr $? + $?
 expr 1 + 1
-Makefile
 printf "Hello World"
 pwd
 pwd -- p
