@@ -2,3 +2,9 @@
 :
 !
 echo \$HOME
+echo $9HOME
+4ABC=tata
+ABC=tata
+echo $USER$var\$USER$USER\$USERtest$USER
+echo $UID
+echo $UID$HOME
