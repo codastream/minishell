@@ -25,7 +25,7 @@ int	check_executable(t_data *data, t_token *token)
 			handle_custom_error_source_exit(data, path, strerror(errno), EXIT_PERMISSION_DENIED);
 	}
 	token->command->pathname = get_checked_pathmame(data, token->command);
-	if (!token->command->pathname)
+	if (!token->command->pathname || !ft_strcmp(path, ".."))
 		handle_custom_error_source_exit(data, token->command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
 	return (EXIT_SUCCESS);
 }

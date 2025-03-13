@@ -8,3 +8,4 @@ ABC=tata
 echo $USER$var\$USER$USER\$USERtest$USER
 echo $UID
 echo $UID$HOME
+history

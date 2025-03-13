@@ -10,7 +10,7 @@ export tata=bon(jour
 
 ############################################## commands
 printf 'Hello World'
-
+./minishell
 
 ############################################## redirs
 < ./files/badperm.txt < ./files/infile.txt cat -e
