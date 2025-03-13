@@ -88,6 +88,11 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
+		ft_put_yellow("merge words\n");
+	code = do_for_tokens(data, tokens, update_command_from_extra_words_before_pipe);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
 		ft_put_yellow("add command from word\n");
 	code = do_for_tokens(data, tokens, add_command_from_word);
 	if (code != EXIT_SUCCESS)

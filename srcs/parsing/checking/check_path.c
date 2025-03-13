@@ -44,11 +44,19 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	char		*path;
 	char		**splitted_paths;
 	char		*pathname;
+	struct		stat stats;
+	int			code;
 
-	if (access(command->command_name, X_OK) == 0)
-		return (ft_strdup(command->command_name));
-	if (is_path(command->command_name))
+	code = stat(command->command_args[0], &stats);
+	if (code == 0 && S_ISDIR(stats.st_mode))
 		return (NULL);
+	code = access(command->command_name, X_OK);
+	if (code == 0)
+		return (ft_strdup(command->command_name));
+	else if (code != 0 && !ft_strncmp(command->command_name, "./", 2))
+		return (NULL);
+	else if (code != 0 && is_path(command->command_name))
+		handle_custom_error_source_exit(data, command->command_name, NULL, EXIT_PERMISSION_DENIED);
 	path = ft_hash_get(data->vars, "PATH");
 	if (!path)
 		return (NULL);

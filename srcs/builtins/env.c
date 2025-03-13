@@ -8,7 +8,7 @@ void	ft_env(t_data *data, t_token *token)
 	t_hash		*hash;
 
 	(void) token;
-	hash = data->vars;
+	hash = data->expvars;
 	keyvals = hash->keyvals;
 	i = 0;
 	if (token->command->command_args[1])

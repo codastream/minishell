@@ -60,8 +60,14 @@ int	add_command_from_word(t_data *data, t_token **tokens, t_token *token)
 	if (token->type != T_WORD)
 		return (EXIT_IGNORE);
 	add_command_to_token(data, tokens, token);
+	if (PRINT == 1)
+		print_tokens(tokens);
 	add_previous_redirect_to_command(data, tokens, token);
+	if (PRINT == 1)
+		print_tokens(tokens);
 	add_following_redirect_to_command(data, tokens, token);
+	if (PRINT == 1)
+		print_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 

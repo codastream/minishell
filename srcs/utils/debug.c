@@ -65,7 +65,7 @@ void	print_tokens(t_token **tokens)
 	while (current)
 	{
 		printf("token #%d\t", current->index);
-		printf("%s%*s%s", P_BLUE, 15, current->string, P_NOC);
+		printf("%s%*s%s", P_BLUE, 21, current->string, P_NOC);
 		printf("\t\ttype %s\n", get_token_type(current->type));
 		if (current->type == T_COMMAND)
 		{

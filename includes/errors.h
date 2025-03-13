@@ -17,6 +17,7 @@
 # define MSG_NUMERIC_ARGUMENT_REQUIRED "numeric argument required"
 # define MSG_NOT_VALID_IDENTIFIER "not a valid identifier"
 # define MSG_IS_DIRECTORY "Is a directory"
+# define MSG_PERMISSION_DENIED "Permission denied"
 # define MSG_USAGE_NO_OPTS_NO_ARGS "usage : no OPTS and no ARGS"
 
 // error_print

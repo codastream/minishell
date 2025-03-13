@@ -1,7 +1,6 @@
 .
 ..
-./Makefile
-./minishell
+../Makefile
 "tata"
 /bin/ls
 /bin/ls -l
@@ -16,8 +15,6 @@ echo 'Hello World'
 echo "Hello World"
 expr $? + $?
 expr 1 + 1
-history
-Makefile
 printf "Hello World"
 pwd
 pwd -- p
@@ -33,3 +30,7 @@ pwd tata toto tutu
 tata
 tata toto tutu
 wrongcmd
+./missing.out
+files
+./dsadsa
+/root/bin/no_perms
