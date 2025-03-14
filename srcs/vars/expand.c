@@ -119,23 +119,26 @@ bool	next_expand(char *string, char marker, int *i)
 		if (string[*i] == '\"')
 		{
 			if (is_opened_double_quote)
-				is_opened_double_quote = true;
-			else
 				is_opened_double_quote = false;
+			else
+				is_opened_double_quote = true;
 			(*i)++;
 			while (string [*i] && string[*i] != '\"')
 			{
-				if (string[*i] == marker)
+				if (is_opened_double_quote && string[*i] == marker)
 				{
 					if (string[*i + 1] && string[*i + 1] != '"')
+					{
 						return (true);
+					}
 				}
 				(*i)++;
 			}
 		}
-		if (string[*i] == marker)
+		if (string[*i] == marker && string[*i + 1])
 		{
-			(*i)++;
+			if (!ft_ischarforenvvar(string[*i + 1]) && !is_quote(string[*i + 1]))
+				(*i)++;
 			return (true);
 		}
 		if (string[*i])
