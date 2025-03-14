@@ -42,7 +42,15 @@ static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 {
 	int			code;
+	struct		stat stats;
+	int			statcode;
 
+	statcode = stat(arg, &stats);
+	if (statcode == 0 && S_ISDIR(stats.st_mode))
+	{
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+		return (NULL);
+	}
 	code = access(arg, F_OK);
 	if (code != 0)
 		return (NULL);
