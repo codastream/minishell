@@ -24,7 +24,8 @@ static void	add_file_after_redir(t_data *data, t_token **tokens, \
 	int		index_space;
 
 	(void) tokens;
-	index_space = ft_strchri(token->next->string, ' ');
+
+	index_space = find_index_of_space_out_of_quotes(token->next->string);
 	if (index_space != -1)
 	{
 		split_append_token(data, token, index_space, filetype);

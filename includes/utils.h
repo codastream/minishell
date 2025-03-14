@@ -22,6 +22,7 @@ void	free_all_data(t_data *data);
 // free_utils
 void	reset(void *allocated);
 void	free_delimiters(t_delimiter **delims);
+int		find_index_of_space_out_of_quotes(char *s);
 
 // string_utils
 void  skip_single_quote(char *string, int *i);
