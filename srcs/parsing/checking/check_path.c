@@ -43,6 +43,9 @@ static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 {
 	int			code;
 
+	code = access(arg, F_OK);
+	if (code != 0)
+		return (NULL);
 	code = access(arg, X_OK);
 	if (code != 0 || !arg[1] || !ft_isalnum(arg[1]))
 	{

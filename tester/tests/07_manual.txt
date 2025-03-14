@@ -9,6 +9,8 @@ export tata=bon(jour
 ############################################## vars
 
 ############################################## commands
+# sur bash renvoie 126
+/root/bin/no_perms
 printf 'Hello World'
 ./minishell
 
