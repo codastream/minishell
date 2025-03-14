@@ -81,10 +81,7 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 		prefixedkey = extract_prefixed_key_without_quote(data, s, i, prefixedkey);
 	if (prefixedkey && ft_strcmp(prefixedkey, "$"))
 	{
-		if (++prefixedkey)
-			value = ft_hash_get(data->vars, prefixedkey);
-		else
-			value = NULL;
+		value = ft_hash_get(data->vars, ++prefixedkey);
 		*i += ft_strlen(value);
 		expanded = ft_subst_first(s, --prefixedkey, value);
 		check_alloc(data, expanded);
@@ -106,11 +103,16 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 	}
 }
 
-bool	next_expand(char *string, char marker, int *i)
+void	toggle_quote_status(bool *in_dquote)
 {
-	bool	is_opened_double_quote;
-	is_opened_double_quote = false;
+	if (*in_dquote)
+		*in_dquote = false;
+	else
+		*in_dquote = true;
+}
 
+bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
+{
 	if (!string || !string[*i])
 		return (false);
 	while (string[*i])
@@ -119,32 +121,29 @@ bool	next_expand(char *string, char marker, int *i)
 			skip_single_quote(string, i);
 		if (string[*i] == '\"')
 		{
-			// if (is_opened_double_quote)
-			// 	is_opened_double_quote = false;
-			// else
-			// 	is_opened_double_quote = true;
+			toggle_quote_status(in_dquote);
 			(*i)++;
 			while (string [*i] && string[*i] != '\"')
 			{
 				if (string[*i] == marker)
 				{
 					if (string[*i + 1] && string[*i + 1] != '"')
-					{
 						return (true);
-					}
 				}
 				(*i)++;
 			}
-			// is_opened_double_quote = false;
 		}
 		if (string[*i] == marker && string[*i + 1])
 		{
-			// if (!ft_ischarforenvvar(string[*i + 1]) && !is_quote(string[*i + 1]))
-			// 	(*i)++;
-			return (true);
+			if (*in_dquote == false || (*in_dquote && string[*i + 1] != '"'))
+				return (true);
 		}
 		if (string[*i])
+		{
+			if (string[*i] == '"')
+				toggle_quote_status(in_dquote);
 			(*i)++;
+		}
 	}
 	return (false);
 }
@@ -154,13 +153,15 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	char	*expanded;
 	char	*s;
 	int		last_expanded_index;
+	bool	in_dquote;
 
 	(void) tokens;
 	last_expanded_index = 0;
+	in_dquote = false;
 	s = token->string;
 	if (token->type != T_COMMAND || !s)
 		return (EXIT_IGNORE);
-	while (next_expand(s, '$', &last_expanded_index))
+	while (next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, token->string, &last_expanded_index, 0);
 		free(token->string);
