@@ -7,7 +7,7 @@ int	update_command_from_extra_words_before_pipe(t_data *data, t_token **tokens, 
 	char	*joined;
 	t_token	*tmp;
 
-	if (!token->next)
+	if (!token->next || token->type != T_COMMAND)
 		return (EXIT_IGNORE);
 	current = token->next;
 	while (current && current->type != T_PIPE)
