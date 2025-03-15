@@ -33,4 +33,3 @@ wrongcmd
 ./missing.out
 files
 ./dsadsa
-/root/bin/no_perms
