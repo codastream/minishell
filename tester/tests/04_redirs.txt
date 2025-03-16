@@ -1,6 +1,6 @@
 < pwd
 <a cat <b <c
-cat -e < ./files/infile.txt
+cat -e < ./files/infile
 cat < ls
 cat < ls > ls
 cat <../pwd
@@ -18,7 +18,7 @@ echo tata <<<< toto
 echo tata <<<<< toto
 echo tata > > ./files/outfile
 echo tata >>> ./files/outfile
-"<infile" <         ./files/infile.txt grep hi
+"<infile" <         ./files/infile grep hi
 <"./files/name with spaces" cat
 cat <"./files/file name with spaces"
 ls >"./outfiles/outfile with spaces"
@@ -26,12 +26,12 @@ cat -e < "./files/missing" | ls
 cat -e < "./files/missing"> ./outfiles/outfile01 | ls
 < ./files/infile grep hi
 < ./files/infile echo hi bye bye
-<./files/infile_big <./test_files/infile grep hi
+<./files/infile_big <./files/infile grep hi
 <"./files/infile" echo "bonjour       42"
-<./files/infile_big ./test_files/infile cat
+<./files/infile_big ./files/infile cat
 <"./files/infile" cat
-<"./files/infile_big" echo | <"./test_files/infile" cat
-<"./files/infile_big" echo | "./test_files/infile" cat
+<"./files/infile_big" echo | <"./files/infile" cat
+<"./files/infile_big" echo | "./files/infile" cat
 echo hi | <"./files/infile" cat
 echo hi | "./files/infile" cat
 <"./files/infile" cat | echo hi
@@ -103,7 +103,7 @@ echo hi | "./outfiles/outfile" ls
 >>./files/invalid_permission ls | echo oi
 >>./files/invalid_permission ls | >>"./outfiles/outfile" ls
 >>./outfiles/123 >>./outfiles/456 echo hi | echo 42
-< ./files/infile < ./test_files/infile cat -e < ./test_files/infile < ./test_files/infile_big > "./outfiles/outfile"
+< ./files/infile < ./files/infile cat -e < ./files/infile < ./files/infile_big > "./outfiles/outfile"
 ls | ls >./outfiles/outfile > ./outfiles/outfile2
 ls | ls >./outfiles/outfile >> ./outfiles/outfile2
 ls | ls >>./outfiles/outfile > ./outfiles/outfile2

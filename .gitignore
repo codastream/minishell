@@ -5,8 +5,11 @@ minishell
 *.o
 *.d
 .nfs*
+files
+
 tester/tester
 tester/fpetit
+tester/outfiles
 tester/files/inexistent
 tester/files/permanentbadperm.txt
 tester/1
