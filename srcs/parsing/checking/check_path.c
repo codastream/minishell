@@ -39,6 +39,16 @@ static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 	return (pathname);
 }
 
+void	check_existing_file(t_data *data, t_command *command)
+{
+	int	code;
+
+	code = access(command->command_name, R_OK);
+	if (code != 0 && is_path(command->command_name))
+		handle_custom_error_source_exit(data, command->command_name, NULL, 127);
+
+}
+
 char	*get_checked_pathmame(t_data *data, t_command *command)
 {
 	char		*path;
@@ -50,6 +60,7 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	code = stat(command->command_args[0], &stats);
 	if (code == 0 && S_ISDIR(stats.st_mode))
 		return (NULL);
+	check_existing_file(data, command);
 	code = access(command->command_name, X_OK);
 	if (code == 0)
 		return (ft_strdup(command->command_name));

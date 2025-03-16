@@ -28,8 +28,11 @@ void	ft_exit(t_data *data, t_token *token)
 	if (token->command->command_args[1])
 		return_code = handle_return_code(data, token);
 	if (arg_count > 2 && return_code != 2)
+	{
 		handle_custom_error_source_builtin(data, token->command->command_name, \
 		MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
+		return_code = 1;
+	}
 	free_all_data(data);
 	exit(return_code);
 }
