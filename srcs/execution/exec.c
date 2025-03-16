@@ -134,7 +134,8 @@ void	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		do_for_tokens(data, data->tokens, check_redirection_files);
+		iter_tree_token(data, tree, check_redirection_files);
+		// do_for_tokens(data, data->tokens, check_redirection_files);
 		try_exec_single_builtin(data, tree->value, tree->value->command);
 		return ;
 	}
@@ -145,7 +146,8 @@ void	exec_line(t_data *data, t_tree *tree)
 		return ;
 	if (PRINT == 1)
 		ft_put_yellow("check redir files\n");
-	do_for_tokens(data, data->tokens, check_redirection_files);
+	// do_for_tokens(data, data->tokens, check_redirection_files);
+	iter_tree_token(data, tree, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	pop_all_fd(&(data->fds));

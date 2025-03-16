@@ -38,5 +38,6 @@ t_tree	*make_tree(t_data *data, t_token *list);
 // tree_util
 int		iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *));
 void	count_if_command(t_tree *tree, int *nb);
+int		iter_tree_token(t_data *data, t_tree *tree, int (*f)(t_data *data, t_token *token));
 
 #endif

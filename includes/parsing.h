@@ -54,6 +54,7 @@ int			add_command_from_word(t_data *data, t_token **tokens, \
 				t_token *token);
 t_token		*add_command_from_redirop(t_data *data, t_token **tokens, \
 				t_token *token, t_token *next);
+t_token		*remove_extra_command(t_data *data, t_token **tokens, t_token *token, t_token *next);
 
 // trim
 void	handle_quote_in_arg(t_data *data, char **arg);

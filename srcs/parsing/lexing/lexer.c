@@ -98,6 +98,11 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
+		ft_put_yellow("remove extra commands\n");
+	code = do_for_tokens_delete(data, tokens, remove_extra_command);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
 		ft_put_yellow("add command from redirop\n");
 	code = do_for_tokens_delete(data, tokens, add_command_from_redirop);
 	if (code != EXIT_SUCCESS)
