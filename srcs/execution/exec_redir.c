@@ -22,7 +22,9 @@ int	do_redirs(t_data *data, t_token *token, t_list *redir_list, int opening_flag
 		else
 		{
 			if (opening_flag == O_RDONLY) // if redirin
+			{
 				put_fd_token(data, token, fd, token->out);
+			}
 			else
 				put_fd_token(data, token, token->in, fd);
 		}
