@@ -63,7 +63,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
 	if (check_redirection_files(data, data->tokens, tree->value) == 0)
-	child_pid = safe_fork(data);
+		child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
 		if (tree->value->command->has_invalid_redir)
