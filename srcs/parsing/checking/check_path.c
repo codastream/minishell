@@ -39,6 +39,16 @@ static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 	return (pathname);
 }
 
+void	check_existing_file(t_data *data, char *args)
+{
+	int	code;
+
+	code = access(args, R_OK);
+	if (code != 0 && is_path(args))
+		handle_custom_error_source_exit(data, args, NULL, 127);
+
+}
+
 static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 {
 	int			code;
@@ -76,6 +86,7 @@ static char	*get_pathname_for_relative_patharg(t_data *data, char *arg)
 		handle_custom_error_source_exit(data, arg, MSG_IS_DIRECTORY, EXIT_PERMISSION_DENIED);
 		return (NULL);
 	}
+  check_existing_file(data, arg);
 	code = access(arg, X_OK);
 	if (code == 0)
 	{

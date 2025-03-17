@@ -13,7 +13,7 @@ void	ft_env(t_data *data, t_token *token)
 	i = 0;
 	if (token->command->command_args[1])
 		handle_custom_error_source_exit(data, token->command->command_name, \
-		MSG_USAGE_NO_OPTS_NO_ARGS, EXIT_SYNTAX_ERROR);
+		MSG_USAGE_NO_OPTS_NO_ARGS, 127);
 	while (i < hash->capacity)
 	{
 		if (keyvals[i++])
