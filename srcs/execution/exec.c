@@ -134,8 +134,8 @@ void	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		do_for_tokens(data, data->tokens, check_redirection_files);
-		try_exec_single_builtin(data, tree->value, tree->value->command);
+		if (!do_for_tokens(data, data->tokens, check_redirection_files))
+			try_exec_single_builtin(data, tree->value, tree->value->command);
 		return ;
 	}
 	tree->value->in = 0;
