@@ -14,24 +14,69 @@
 
 // # define MINISHELL_PATH "./minishell"
 
+char	*escape_quotes(char *s)
+{
+	char	*s1;
+	char	*s2;
+	char	*s3;
+
+	s1 = ft_subst(s, "\"", "\\");
+	s2 = ft_subst(s1, "'", "\\'");
+	s3 = ft_subst(s2, "$", "\\$");
+	return (s3);
+}
+
+char	*build_test_part_for_single(char *test)
+{
+	char **ins_part;
+	char *test_part;
+
+	ins_part = ft_calloc(4, sizeof(char *));
+	ins_part[0] = "echo \"\"\"";
+	ins_part[1] = test;
+	ins_part[2] = " \"\"\" | ";
+	ins_part[3] = NULL;
+	test_part = ft_multistrjoin(3, ins_part, "");
+	free(ins_part);
+	return (test_part);
+}
+
+char	*build_test_part(char *test)
+{
+	char **ins_part;
+	char *test_part;
+
+	ins_part = ft_calloc(4, sizeof(char *));
+	ins_part[0] = "echo '";
+	ins_part[1] = test;
+	ins_part[2] = "' | ";
+	ins_part[3] = NULL;
+	test_part = ft_multistrjoin(3, ins_part, "");
+	free(ins_part);
+	return (test_part);
+}
+
 char	*build_instruction(char shell_type, char *test, char *run_mode)
 {
 	char **ins_parts;
 	char *instruction;
 
-	ins_parts = ft_calloc(6, sizeof(char *));
-	ins_parts[0] = "echo '";
-	ins_parts[1] = test;
-	ins_parts[2] = "' | ";
+	ins_parts = ft_calloc(4, sizeof(char *));
+	if (ft_strchr(test, '"'))
+		ins_parts[0] = build_test_part(test);
+	else
+		ins_parts[0] = build_test_part_for_single(test);
 	if (shell_type == 'm')
-		ins_parts[3] = MINISHELL_PATH;
+		ins_parts[1] = MINISHELL_PATH;
 	else
-		ins_parts[3] = "bash";
+		ins_parts[1] = "bash";
 	if (!ft_strcmp(run_mode, "system"))
-		ins_parts[4] = " 2> /dev/null 1> /dev/null";
+		ins_parts[2] = " 2> /dev/null 1> /dev/null";
 	else
-		ins_parts[4] = " 2>1";
-	instruction = ft_multistrjoin(5, ins_parts, "");
+		ins_parts[2] = " 2>1";
+	ins_parts[3] = NULL;
+	instruction = ft_multistrjoin(3, ins_parts, "");
+	free(ins_parts);
 	return (instruction);
 }
 

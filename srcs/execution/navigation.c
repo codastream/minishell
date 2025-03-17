@@ -25,8 +25,6 @@ int	check_executable(t_data *data, t_token *token)
 		handle_custom_error_source_exit(data, path, MSG_FILENAME_ARGUMENT_REQUIRED, EXIT_SYNTAX_ERROR);
 	if (!ft_strcmp(path, ".."))
 		handle_custom_error_source_exit(data, token->command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);
-	if (ft_strstr(path, "/"))
-		check_navigation(data, path);
 	token->command->pathname = get_checked_pathmame(data, token->command);
 	if (!token->command->pathname)
 		handle_custom_error_source_exit(data, token->command->command_name, MSG_CMD_NOT_FOUND, EXIT_CMD_NOT_FOUND);

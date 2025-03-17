@@ -39,39 +39,85 @@ static char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 	return (pathname);
 }
 
-void	check_existing_file(t_data *data, t_command *command)
+void	check_existing_file(t_data *data, char *args)
 {
 	int	code;
 
-	code = access(command->command_name, R_OK);
-	if (code != 0 && is_path(command->command_name))
-		handle_custom_error_source_exit(data, command->command_name, NULL, 127);
+	code = access(args, R_OK);
+	if (code != 0 && is_path(args))
+		handle_custom_error_source_exit(data, args, NULL, 127);
 
+}
+
+static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
+{
+	int			code;
+	struct		stat stats;
+	int			statcode;
+
+	statcode = stat(arg, &stats);
+	if (statcode == 0 && S_ISDIR(stats.st_mode))
+	{
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+		return (NULL);
+	}
+	code = access(arg, F_OK);
+	if (code != 0)
+		return (NULL);
+	code = access(arg, X_OK);
+	if (code != 0 || !arg[1] || !ft_isalnum(arg[1]))
+	{
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+		return (NULL);
+	}
+	else
+		return (ft_strdup(arg));
+}
+
+static char	*get_pathname_for_relative_patharg(t_data *data, char *arg)
+{
+	struct		stat stats;
+	int			statcode;
+	int			code;
+
+	statcode = stat(arg, &stats);
+	if (statcode == 0 && S_ISDIR(stats.st_mode))
+	{
+		handle_custom_error_source_exit(data, arg, MSG_IS_DIRECTORY, EXIT_PERMISSION_DENIED);
+		return (NULL);
+	}
+  check_existing_file(data, arg);
+	code = access(arg, X_OK);
+	if (code == 0)
+	{
+		return (ft_strdup(arg));
+	}
+	else if (!ft_strncmp(arg, "../", 3))
+	{
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+		return (NULL);
+	}
+	else if (code != 0 && statcode == 0)
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+	return (NULL);
 }
 
 char	*get_checked_pathmame(t_data *data, t_command *command)
 {
-	char		*path;
+	char		*arg;
+	char		*paths;
 	char		**splitted_paths;
 	char		*pathname;
-	struct		stat stats;
-	int			code;
 
-	code = stat(command->command_args[0], &stats);
-	if (code == 0 && S_ISDIR(stats.st_mode))
+	arg = command->command_args[0];
+	if (is_absolute_path(arg))
+		return (get_pathname_for_absolute_patharg(data, arg));
+	else if (ft_strstr(arg, "./"))
+		return (get_pathname_for_relative_patharg(data, arg));
+	paths = ft_hash_get(data->vars, "PATH");
+	if (!paths)
 		return (NULL);
-	check_existing_file(data, command);
-	code = access(command->command_name, X_OK);
-	if (code == 0)
-		return (ft_strdup(command->command_name));
-	else if (code != 0 && !ft_strncmp(command->command_name, "./", 2))
-		return (NULL);
-	else if (code != 0 && is_path(command->command_name))
-		handle_custom_error_source_exit(data, command->command_name, NULL, EXIT_PERMISSION_DENIED);
-	path = ft_hash_get(data->vars, "PATH");
-	if (!path)
-		return (NULL);
-	splitted_paths = ft_split(path, ':');
+	splitted_paths = ft_split(paths, ':');
 	check_alloc(data, splitted_paths);
 	pathname = find_in_paths(data, splitted_paths, command->command_name);
 	ft_free_2d_char_null_ended(splitted_paths);
