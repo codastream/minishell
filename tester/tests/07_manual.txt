@@ -7,8 +7,12 @@ export tata=bon()jour
 export tata=bon(jour
 
 ############################################## vars
+echo $'42$"HOME"'
+echo $"42$'HOME'"
 
 ############################################## commands
+# sur bash renvoie 126
+/root/bin/no_perms
 printf 'Hello World'
 ./minishell
 

@@ -1,3 +1,4 @@
+echo $'42$'
 ?$HOME
 "$HOMEdskjhfkdshfsd"
 $
@@ -35,7 +36,6 @@ echo $'tata'
 echo $""
 echo ""$""""
 echo """$"""
-echo "$"$
 echo ""tata$""
 echo "$USER'"$USER"'"
 echo '"$USER'$USER'"tata'
@@ -59,11 +59,15 @@ echo my terminal is [$TERM4]
 "./$USER"
 ./'$USER'
 echo "xd" $USER "$USER" '''"'$USER'"'
-echo $"42$'HOME'"
 echo $'42$'
 echo $'42$x'
 echo a$'42$'
 echo a$'42$x'
 echo $'HOME'$USER
 echo $'HOM'E$USER
-echo $'42$"HOME"'
+echo "$"$
+echo "$"$""
+echo "$"$"$"
+echo "$USER$"
+echo "$USER $"
+echo $USER_$USER
