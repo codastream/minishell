@@ -5,8 +5,8 @@ static bool	is_correct_option(char *option)
 	int	i;
 
 	i = 0;
-	if (option[i] != '-')
-		return (false);
+	// if (option[i] != '-')
+	// 	return (false);
 	i++;
 	while(option[i])
 	{
@@ -29,7 +29,7 @@ void	ft_echo(t_data *data, t_token *token)
 	if (!(command->command_args)[0])
 	return ;
 	i = 1;
-	while (command->command_args[i] && is_correct_option(command->command_args[i]))
+	while (command->command_args[i] && command->command_args[i][0] == '-' && is_correct_option(command->command_args[i]))
 	{
 		should_print_newline = false;
 		i++;
@@ -43,5 +43,5 @@ void	ft_echo(t_data *data, t_token *token)
 	}
 	if (should_print_newline)
 		ft_printfd(token->out, "\n");
-	ft_hash_update(data->vars, LAST_RETURN_CODE, EXIT_SUCCESS);
+	update_last_error(data, EXIT_SUCCESS);
 }
