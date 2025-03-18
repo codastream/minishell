@@ -25,13 +25,13 @@ int	iter_tree_token(t_data *data, t_tree *tree, int (*f)(t_data *data, t_token *
 	if (!tree)
 		return (EXIT_IGNORE);
 	code = iter_tree_token(data, tree->left, f);
-	if (code != EXIT_SUCCESS)
-		return (code);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	code = f(data, tree->value);
-	if (code != EXIT_SUCCESS)
-		return (code);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	code = iter_tree_token(data, tree->right, f);
-	if (code != EXIT_SUCCESS)
-		return (code);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	return (EXIT_SUCCESS);
 }
