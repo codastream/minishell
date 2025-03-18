@@ -6,7 +6,7 @@ minishell
 *.d
 .nfs*
 files
-
+outfiles
 tester/tester
 tester/fpetit
 tester/outfiles
