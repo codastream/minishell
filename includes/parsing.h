@@ -35,6 +35,11 @@ int			check_redirection(t_data *data, t_token **tokens, t_token *token);
 bool		is_path(char *s);
 bool		is_absolute_path(char *s);
 
+// check files
+
+bool	is_elf_executable(t_data *data, char *path);
+bool	is_script(t_data *data, char *path);
+
 // command utils
 int			update_command_from_extra_words_before_pipe(t_data *data, \
 				t_token **tokens, t_token *token);

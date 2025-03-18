@@ -55,7 +55,11 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 		return (NULL);
 	code = access(command->command_name, X_OK);
 	if (code == 0)
-		return (ft_strdup(command->command_name));
+	{
+		if (is_elf_executable(data, command->command_name) || is_script(data, command->command_name))
+			return (ft_strdup(command->command_name));
+		return (NULL);
+	}
 	else if (code != 0 && !ft_strncmp(command->command_name, "./", 2))
 		// return (NULL);
 		handle_custom_error_source_exit(data, command->command_name, NULL, EXIT_PERMISSION_DENIED);
