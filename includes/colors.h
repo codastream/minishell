@@ -17,6 +17,7 @@
 # define P_TEAL_BOLD_PROMPT "\001\033[1;36m\002"
 # define P_TEAL_LIGHT_PROMPT "\001\033[0;36m\002"
 # define P_GREEN_PROMPT "\001\033[0;32m\002"
+# define P_PINK_PROMPT "\001\033[0;35m\002"
 # define P_BLACK_PROMPT "\001\033[0;30m\002"
 # define P_RED_PROMPT "\001\033[0;31m\002"
 # define P_NOC "\033[0m"

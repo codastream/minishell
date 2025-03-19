@@ -42,12 +42,12 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	}
 	if (ft_strlen(command->command_name) == 0)
 		handle_custom_error_source_exit(data, "", NULL, EXIT_CMD_NOT_FOUND);
-	try_exec_builtin(data, token, command);
+	try_exec_builtin_in_fork(data, token, command);
 	check_executable(data, token);
 	safe_dup2(data, token->in, STDIN_FILENO);
 	safe_dup2(data, token->out, STDOUT_FILENO);
 	pop_all_fd(&(data->fds));
-	// free_vars_and_data(data);
+	free_vars_and_data(data);
 	exec_code = execve((const char *) command->pathname, \
 	command->command_args, env_local);
 	if (exec_code != EXIT_SUCCESS)
@@ -152,7 +152,7 @@ void	exec_line(t_data *data, t_tree *tree)
 		code = iter_tree_token(data, tree, check_redirection_files);
 		// do_for_tokens(data, data->tokens, check_redirection_files);
 		if (!tree->value->command->has_invalid_redir)
-			try_exec_single_builtin(data, tree->value, tree->value->command);
+			try_exec_builtin(data, tree->value, tree->value->command);
 		return ;
 	}
 	tree->value->in = 0;

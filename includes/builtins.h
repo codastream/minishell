@@ -13,8 +13,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+void	try_exec_builtin_in_fork(t_data *data, t_token *token, t_command *command);
 void	try_exec_builtin(t_data *data, t_token *token, t_command *command);
-void	try_exec_single_builtin(t_data *data, t_token *token, t_command *command);
 bool	is_builtin(t_data *data, t_command *command);
 
 void	ft_cd(t_data *data, t_token *token);
