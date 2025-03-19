@@ -97,13 +97,12 @@ void	ft_export(t_data *data, t_token *token)
 	int		i;
 
 	i = 1;
-	ft_hash_update(data->vars, LAST_RETURN_CODE, "0");
+	update_last_return(data, EXIT_SUCCESS);
 	if (!token->command->command_args[1])
 	{
 		ft_print_export(data, token);
 		return ;
 	}
-	ft_hash_update(data->vars, LAST_RETURN_CODE, "0");
 	while (token->command->command_args[i])
 		pars_export(data, token, i++);
 }

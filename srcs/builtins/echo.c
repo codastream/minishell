@@ -43,5 +43,5 @@ void	ft_echo(t_data *data, t_token *token)
 	}
 	if (should_print_newline)
 		ft_printfd(token->out, "\n");
-	update_last_error(data, EXIT_SUCCESS);
+	update_last_return(data, EXIT_SUCCESS);
 }

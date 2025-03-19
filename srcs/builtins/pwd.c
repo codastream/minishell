@@ -64,4 +64,5 @@ void	ft_pwd(t_data *data, t_token *token)
 	}
 	ft_printfd(token->out, "%s\n", buffer);
 	free(buffer);
+	update_last_return(data, EXIT_SUCCESS);
 }

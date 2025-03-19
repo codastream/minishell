@@ -7,7 +7,7 @@ void	ft_unset(t_data *data, t_token *token)
 
 	command = token->command;
 	i = 1;
-	ft_hash_update(data->vars, LAST_RETURN_CODE, "0");
+	update_last_return(data, EXIT_SUCCESS);
 	while (command->command_args[i])
 	{
 		if ((command->command_args)[i][0] == '-')
