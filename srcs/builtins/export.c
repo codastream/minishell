@@ -96,13 +96,19 @@ void	ft_export(t_data *data, t_token *token)
 {
 	int		i;
 
-	i = 1;
 	update_last_return(data, EXIT_SUCCESS);
 	if (!token->command->command_args[1])
 	{
 		ft_print_export(data, token);
 		return ;
 	}
+	if (!ft_strcmp(token->command->command_args[1], "="))
+	{
+		ft_printfd(2, "export: `%s': not a valid identifier\n", \
+			token->command->command_args[1]);
+		return ;
+	}
+	i = 1;
 	while (token->command->command_args[i])
 		pars_export(data, token, i++);
 }
