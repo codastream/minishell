@@ -18,6 +18,8 @@ export HO\\\\LA=bonjour
 ############################################## vars
 echo $'42$"HOME"'
 echo $"42$'HOME'"
+# ne fonctionne pas dans le testeur?
+echo $USER_$USER
 
 ############################################## commands
 # sur bash renvoie 126

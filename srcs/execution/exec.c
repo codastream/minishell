@@ -104,6 +104,8 @@ void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left)
 		in = tree->value->in;
 	if (has_redirout(tree))
 		out = tree->value->out;
+	fd_push_back(&data->fds, pipenode->value->pipe_read);
+	fd_push_back(&data->fds, pipenode->value->pipe_write);
 	put_fd_token(data, tree->value, in, out);
 }
 

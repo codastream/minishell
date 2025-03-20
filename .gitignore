@@ -1,5 +1,13 @@
 # objects and binaries
 *.out
+a
+b
+c
+bonjour
+bonjour2
+hello
+tata1
+tata2
 out
 minishell
 *.o

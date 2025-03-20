@@ -135,7 +135,7 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 		}
 		if (string[*i] == marker && string[*i + 1])
 		{
-			if (*in_dquote == false || (*in_dquote && string[*i + 1] != '"'))
+			if ((*in_dquote == false && string[*i + 1] != ' ') || (*in_dquote && string[*i + 1] != '"'))
 				return (true);
 		}
 		if (string[*i])
