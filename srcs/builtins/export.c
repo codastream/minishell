@@ -82,14 +82,23 @@ void	pars_export(t_data *data, t_token *token, int i)
 	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
 		ft_hash_insert(data->expvars, cmd[0], NULL);
 	else if (token->command->command_args[i][0] == '-')
-		ft_hash_update(data->vars, LAST_RETURN_CODE, "2");
+		update_last_return(data, EXIT_SYNTAX_ERROR);
 	else
 	{
 		ft_printfd(2, "export: `%s%s%s': not a valid identifier\n", \
-		cmd[0], cmd[1], cmd[2]);
-		ft_hash_update(data->vars, LAST_RETURN_CODE, "1");
+			cmd[0], cmd[1], cmd[2]);
+		update_last_return(data, EXIT_FAILURE);
 	}
 	ft_free_2d_char_null_ended(cmd);
+}
+
+bool	is_valid_identifier(char *arg)
+{
+	if (!arg)
+		return (false);
+	if (arg[0] == '=')
+		return (false);
+	return (true);
 }
 
 void	ft_export(t_data *data, t_token *token)
@@ -102,13 +111,15 @@ void	ft_export(t_data *data, t_token *token)
 		ft_print_export(data, token);
 		return ;
 	}
-	if (!ft_strcmp(token->command->command_args[1], "="))
-	{
-		ft_printfd(2, "export: `%s': not a valid identifier\n", \
-			token->command->command_args[1]);
-		return ;
-	}
 	i = 1;
 	while (token->command->command_args[i])
+	{
+		if (!is_valid_identifier(token->command->command_args[i]))
+		{
+			ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[i]);
+			update_last_return(data, 1);
+			break ;
+		}
 		pars_export(data, token, i++);
+	}
 }
