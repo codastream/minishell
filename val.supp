@@ -2269,9 +2269,55 @@
    fun:function_name
 }
 {
-   nom_suppression_2
-   Memcheck:Addr4
-   fun:fonction_problématique
-   obj:/path/to/another/library.so
+   readline_set_prompt_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+# Suppression for readline's rl_expand_prompt malloc leak
+{
+   readline_expand_prompt_malloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
    ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
+}
+# Suppression for readline's rl_expand_prompt realloc leak
+{
+   readline_expand_prompt_realloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
 }
