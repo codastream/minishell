@@ -156,7 +156,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 
 $(LIBFT_DIR):
 	@ mkdir -p $@
-	@ git clone "https://github.com/codastream/libft.git" ${LIBFT_DIR}
+	@ git clone "git@github.com:codastream/libft.git" ${LIBFT_DIR}
 
 $(LIBFT): $(LIBFT_DIR)
 	@ make -C $(LIBFT_DIR)/
