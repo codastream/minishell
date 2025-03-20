@@ -9,7 +9,7 @@ char  *define_wildcard(char *s, int i)
 		i--;
 	while (s[i + len] && s[i + len] != ' ')
 		len++;
-	return (strndup(&s[i], len));
+	return (ft_strnduup(&s[i], len));
 }
 
 int	next_wildcard(char *s, char **wildcard)
@@ -101,7 +101,7 @@ int	ft_cmp_wildcard(char *rep, char *wildcard)
 
 	i = 0;
 	j = 0;
-	printf("-> %s - %s\n", rep, wildcard);
+//	printf("-> %s - %s\n", rep, wildcard);
 	while (rep[i])
 	{
 		if (wildcard[j] == '*')
@@ -121,10 +121,11 @@ int	ft_cmp_wildcard(char *rep, char *wildcard)
 				j--;
 			continue;
 		}
-		i++;
+		if (rep[i])
+			i++;
 		j++;
 	}
-	printf("end\n");
+//	printf("end\n");
 	return (1);
 }
 
@@ -169,7 +170,6 @@ void  join_wildcard(char **s, char **wildcard)
 	str = NULL; 
 	while (wildcard[i])
 	{
-		printf("-> %s\n", wildcard[i]);
 		str = ft_strjoinfree(str, wildcard[i++], 1);
 		if (wildcard[i])
 			str = ft_strjoinfree(str, " ", 1);
@@ -203,8 +203,8 @@ void  join_wildcard(char **s, char **wildcard)
 	while ((*s)[i + len])
 		result[j++] = (*s)[len + i++];
 	free(*s);
-	free(str);
 	ft_free_2d_char_null_ended(wildcard);
+	free(str);
 	*s = result;
 }
 
