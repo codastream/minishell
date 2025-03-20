@@ -109,6 +109,7 @@ SRCS_FILES:=	main.c\
 				vars/vars.c\
 				vars/return_code.c\
 				vars/expand.c\
+				vars/wildcard.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

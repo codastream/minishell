@@ -15,4 +15,6 @@ int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	*try_replace_vars(t_data *data, char *s, int *exp_idx, int mode);
 bool	next_expand(char *string, char marker, int *i, bool *in_dquote);
 
+int	handle_wilcard(t_data *data, t_token **tokens, t_token *token);
+
 #endif
