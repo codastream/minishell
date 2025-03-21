@@ -16,9 +16,9 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
 	char	*eof;
-	char	*expanded;
-	int		last_expanded_index;
-	bool	in_dquote;
+	// char	*expanded;
+	// int		last_expanded_index;
+	// bool	in_dquote;
 
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
@@ -30,14 +30,14 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
-		in_dquote = false;
-		last_expanded_index = 0;
-		while (next_expand(input, '$', &last_expanded_index, &in_dquote))
-		{
-			expanded = try_replace_vars(data, input, &last_expanded_index, 1);
-			free(input);
-			input = expanded;
-		}
+		// in_dquote = false;
+		// last_expanded_index = 0;
+		// while (next_expand(input, '$', &last_expanded_index, &in_dquote))
+		// {
+		// 	expanded = try_replace_vars(data, input, &last_expanded_index, 1);
+		// 	free(input);
+		// 	input = expanded;
+		// }
 		ft_print_str_fd(fds[1], input);
 		free(input);
 	}

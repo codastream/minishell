@@ -123,8 +123,10 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
 	close(fds[1]);
+	// print_datafds(data);
 	// pop_fd(&(data->fds), fds[1]);
 	exec_tree_node(data, tree->right);
+	// print_datafds(data);
 	close(fds[0]);
 	// pop_fd(&(data->fds), fds[0]);
 }

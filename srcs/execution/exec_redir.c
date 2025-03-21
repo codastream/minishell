@@ -49,11 +49,9 @@ int	check_redirection_files(t_data *data, t_token *token)
 	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
 	code = do_redirs(data, token, token->command->redir_in, O_RDONLY);
-	if (code != EXIT_SUCCESS)
-		return (code);
 	code = do_redirs(data, token, token->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
-	if (code != EXIT_SUCCESS)
-		return (code);
+	// if (code != EXIT_SUCCESS)
+	// 	return (code);
 	code = do_redirs(data, token, token->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND);
 	return (code);
 }
