@@ -25,8 +25,7 @@ void handle_sigint(int sig)
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
-		else
-			g_signal = 2;
+		g_signal = 130;
 	}
 }
 
@@ -47,6 +46,7 @@ void  setup_heredoc_signal(void)
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+//	ft_hash_update(data->vars, LAST_RETURN_CODE, "130");
 }
 
 void	setup_signal(void)

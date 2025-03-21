@@ -73,6 +73,7 @@ void	exec_command(t_data *data, t_tree *tree)
 			free_all_data(data);
 			exit(EXIT_FAILURE);
 		}
+		signal(SIGQUIT, SIG_DFL);
 		child_exec(data, tree->value->command, tree->value);
 	}
 	else
