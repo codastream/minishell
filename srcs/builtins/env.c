@@ -24,7 +24,8 @@ void	ft_env(t_data *data, t_token *token)
 			current = keyvals[i - 1];
 			while (current)
 			{
-				ft_printfd(token->out, "%s=%s\n", current->key, \
+				if (!(ft_is_upper(current->key[0]) && !current->value))
+					ft_printfd(token->out, "%s=%s\n", current->key, \
 					current->value);
 				current = current->next;
 			}

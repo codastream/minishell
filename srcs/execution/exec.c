@@ -65,6 +65,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (tree->value->command->has_invalid_redir)
 		{
 			close(data->exec->fds[1]);
