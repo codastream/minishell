@@ -42,7 +42,7 @@ void	update_prompt(t_data *data)
 	elems[1] = username;
 	elems[2] = P_TEAL_LIGHT_PROMPT;
 	elems[3] = "@cshell ";
-	elems[4] = P_PINK;
+	elems[4] = P_PINK_PROMPT;
 	elems[5] = wd;
 	elems[6] = adjust_color_to_last_return(data);
 	elems[7] = " ▶ ";

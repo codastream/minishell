@@ -1,12 +1,24 @@
 # objects and binaries
 *.out
+a
+b
+c
+bonjour
+bonjour2
+hello
+tata1
+tata2
+trash
 out
 minishell
 *.o
 *.d
 .nfs*
+files
+outfiles
 tester/tester
 tester/fpetit
+tester/outfiles
 tester/files/inexistent
 tester/files/permanentbadperm.txt
 tester/1

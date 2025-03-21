@@ -12,7 +12,7 @@ int	do_redirs(t_data *data, t_token *token, t_list *redir_list, int opening_flag
 	while (current)
 	{
 		redir_file = (const char *) current->content;
-		fd = open(redir_file, opening_flag, 0644);
+		fd = open(redir_file, opening_flag, 0666);
 		if (fd < 0)
 		{
 			token->command->has_invalid_redir = true;
@@ -22,7 +22,9 @@ int	do_redirs(t_data *data, t_token *token, t_list *redir_list, int opening_flag
 		else
 		{
 			if (opening_flag == O_RDONLY) // if redirin
+			{
 				put_fd_token(data, token, fd, token->out);
+			}
 			else
 				put_fd_token(data, token, token->in, fd);
 		}
@@ -39,11 +41,11 @@ int redir_data(t_data *data, t_tree **tree_p)
 	return (code);
 }*/
 
-int	check_redirection_files(t_data *data, t_token **tokens, t_token *token)
+int	check_redirection_files(t_data *data, t_token *token)
 {
 	int	code;
 
-	(void) tokens;
+	// (void) tokens;
 	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
 	code = do_redirs(data, token, token->command->redir_in, O_RDONLY);
@@ -52,6 +54,6 @@ int	check_redirection_files(t_data *data, t_token **tokens, t_token *token)
 	code = do_redirs(data, token, token->command->redir_out_truncate, O_CREAT | O_WRONLY | O_TRUNC);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	code = do_redirs(data, token, token->command->redir_out_append, O_CREAT | O_RDONLY | O_APPEND);
+	code = do_redirs(data, token, token->command->redir_out_append, O_CREAT | O_WRONLY | O_APPEND);
 	return (code);
 }

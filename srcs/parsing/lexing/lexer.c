@@ -103,6 +103,11 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
+		ft_put_yellow("remove extra commands\n");
+	code = do_for_tokens_delete(data, tokens, remove_extra_command);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	if (PRINT == 1)
 		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);
 	if (code != EXIT_SUCCESS)

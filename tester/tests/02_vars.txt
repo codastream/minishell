@@ -69,5 +69,5 @@ echo "$"$
 echo "$"$""
 echo "$"$"$"
 echo "$USER$"
+echo $ USER
 echo "$USER $"
-echo $USER_$USER

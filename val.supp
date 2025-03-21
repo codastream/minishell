@@ -1999,7 +1999,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak2_strdup_load_locale_from_archive
    Memcheck:Leak
@@ -2013,7 +2012,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak3_new_composite_name
    Memcheck:Leak
@@ -2025,7 +2023,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak4_set_binding_values
    Memcheck:Leak
@@ -2037,7 +2034,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak5_load_locale_from_archive
    Memcheck:Leak
@@ -2050,7 +2046,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak6_strdup_setlocale
    Memcheck:Leak
@@ -2062,7 +2057,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak7_intern_locale_data
    Memcheck:Leak
@@ -2076,7 +2070,6 @@
    obj:/usr/bin/printf
    fun:*
 }
-
 {
    Leak8_file_doallocate
    Memcheck:Leak
@@ -2103,7 +2096,6 @@
    obj:/path/to/your/binary
    fun:process_line_input_interactive
 }
-
 {
    Memory Leak in Readline Library
    Memcheck:Leak
@@ -2118,7 +2110,6 @@
    obj:/path/to/your/binary
    fun:process_line_input_interactive
 }
-
 {
    Memory Leak in Readline Library
    Memcheck:Leak
@@ -2133,7 +2124,6 @@
    obj:/path/to/your/binary
    fun:process_line_input_interactive
 }
-
 {
    Memory Leak in Readline Library
    Memcheck:Leak
@@ -2159,7 +2149,6 @@
    ...
    fun:readline
 }
-
 {
    readline_history_entry_leak2
    Memcheck:Leak
@@ -2170,7 +2159,6 @@
    fun:readline_internal_teardown
    fun:readline
 }
-
 {
    readline_history_entry_leak3
    Memcheck:Leak
@@ -2182,7 +2170,6 @@
    fun:readline
    ...
 }
-
 {
    readline_buffer_leak
    Memcheck:Leak
@@ -2195,7 +2182,6 @@
    ...
    fun:readline
 }
-
 {
    readline_history_struct_leak
    Memcheck:Leak
@@ -2224,7 +2210,6 @@
    fun:process_line_input
    fun:main
 }
-
 {
    <readline_tsearch_leak>
    Memcheck:Leak
@@ -2242,7 +2227,6 @@
    fun:process_line_input
    fun:main
 }
-
 {
    <readline_realloc_leak>
    Memcheck:Leak
@@ -2259,7 +2243,6 @@
    fun:process_line_input
    fun:main
 }
-
 {
    <readline_calloc_leak>
    Memcheck:Leak
@@ -2270,6 +2253,136 @@
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
    fun:rl_redisplay
    fun:_rl_internal_char_cleanup
+   fun:readline_internal_char
+   fun:readline
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+{
+   nom_suppression_1
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   ...
+   obj:/path/to/library.so
+   fun:function_name
+}
+{
+   readline_set_prompt_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+# Suppression for readline's rl_expand_prompt malloc leak
+{
+   readline_expand_prompt_malloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
+}
+# Suppression for readline's rl_expand_prompt realloc leak
+{
+   readline_expand_prompt_realloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:process_input
+   fun:init_heredoc
+   fun:heredoc_exec
+   fun:heredoc
+   fun:exec_line
+   fun:process_line_input_interactive
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:xmalloc
+   fun:rl_copy_text
+   fun:rl_delete_text
+   fun:_rl_rubout_char
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_undo
+   fun:rl_insert_text
+   fun:_rl_insert_char
+   fun:rl_insert
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_undo
+   fun:rl_delete_text
+   fun:_rl_rubout_char
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:process_line_input_interactive
+   fun:process_line_input
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_undo
+   fun:rl_delete_text
+   fun:_rl_rubout_char
+   fun:_rl_dispatch_subseq
    fun:readline_internal_char
    fun:readline
    fun:process_line_input_interactive
