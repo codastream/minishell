@@ -61,8 +61,11 @@ void	ft_print_export(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
+				if (current->value)
+					ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
 					current->value);
+				else
+					ft_printfd(token->out, "declare -x %s\n", current->key);
 				current = current->next;
 			}
 		}
