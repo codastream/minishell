@@ -113,6 +113,8 @@ void	toggle_quote_status(bool *in_dquote)
 
 bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 {
+	int	j;
+
 	if (!string || !string[*i])
 		return (false);
 	while (string[*i])
@@ -128,7 +130,16 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 				if (string[*i] == marker)
 				{
 					if (string[*i + 1] && string[*i + 1] != '"' && string[*i + 1] != ' ')
+					{
+						j = *i + 1;
+						if (string[j] == '?')
+							j++;
+						while (ft_ischarforenvvar(string[j]))
+							j++;
+						if (string[j] == '"')
+							toggle_quote_status(in_dquote);
 						return (true);
+					}
 				}
 				(*i)++;
 			}
@@ -159,14 +170,18 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	last_expanded_index = 0;
 	in_dquote = false;
 	s = token->string;
-	if (token->type != T_COMMAND || !s)
+	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
-	while (next_expand(s, '$', &last_expanded_index, &in_dquote))
+
+	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, token->string, &last_expanded_index, 0);
 		free(token->string);
 		token->string = expanded;
 		s = expanded;
 	}
+	// expand_vars_in_redirs(data, token->command->redir_in);
+	// expand_vars_in_redirs(data, token->command->redir_out_append);
+	// expand_vars_in_redirs(data, token->command->redir_out_truncate);
 	return (EXIT_SUCCESS);
 }

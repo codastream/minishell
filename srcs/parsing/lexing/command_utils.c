@@ -69,18 +69,42 @@ t_list	**get_redir_list_from_operator(t_token *operator_token, \
 	return (NULL);
 }
 
+// void	expand_vars_in_redirs(t_data *data, t_list *redirs)
+// {
+// 	char	*expanded;
+// 	t_list	*current;
+// 	int		index;
+// 	bool	in_dquote;
+
+// 	index = 0;
+// 	in_dquote = false;
+// 	current = redirs;
+// 	while (current && next_expand(current->content, '$', &index, &in_dquote))
+// 	{
+// 		expanded = try_replace_vars(data, (char *) current->content, &index, 0);
+// 		free(current->content);
+// 		current->content = expanded;
+// 		current = current->next;
+// 	}
+// }
+
 void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
 	t_list **redir_list, t_token *file_token)
 {
+	char	*redir_file_str_expanded;
 	char	*redir_file_str;
 	t_list	*redir_file;
+	int		index;
 
+	index = 0;
 	if (PRINT == 1)
 	{
 		ft_put_yellow("add redirect\n");
 		print_tokens(tokens);
 	}
-	redir_file_str = ft_subst(file_token->string, "\"", "");
+	redir_file_str_expanded = try_replace_vars(data, (char *) file_token->string, &index, 0);
+	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
+	free(redir_file_str_expanded);
 	check_alloc(data, redir_file_str);
 	redir_file = ft_lstnew(redir_file_str);
 	check_alloc(data, redir_file);
