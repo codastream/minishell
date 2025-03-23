@@ -139,6 +139,7 @@ $(DIRS):
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "\n$(GREEN)Create binaries$(NOC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
+	@cat boti.txt
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
@@ -156,7 +157,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 
 $(LIBFT_DIR):
 	@ mkdir -p $@
-	@ git clone "https://github.com/codastream/libft.git" ${LIBFT_DIR}
+	@ git clone \nhttps://github.com/codastream/libft.git" ${LIBFT_DIR}
 
 $(LIBFT): $(LIBFT_DIR)
 	@ make -C $(LIBFT_DIR)/
