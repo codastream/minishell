@@ -38,10 +38,11 @@ void	free_after_exec(t_data *data)
 
 void	free_vars_and_data(t_data *data)
 {
-	if (data->vars)
-		ft_free_hashtable(data->vars);
+	if (data->localvars)
+		ft_free_hashtable(data->localvars);
 	if (data->expvars)
 		ft_free_hashtable(data->expvars);
+	clear_history();
 	reset(data);
 }
 

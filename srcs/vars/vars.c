@@ -79,6 +79,7 @@ void	init_vars(t_data *data, char **env)
 	t_hash	*expvars;
 	char	*key;
 	char	*value;
+	char	*pwd;
 
 	env_var_nb = ft_count_2dchar_null_ended(env);
 	vars = ft_hash_init(env_var_nb + 100);
@@ -103,7 +104,14 @@ void	init_vars(t_data *data, char **env)
 			free (value);
 		i++;
 	}
+	pwd = getpwd(data);
+	if (env_var_nb == 0)
+	{
+		ft_hash_insert(expvars, "PWD", pwd);
+		ft_hash_insert(expvars, "OLDPWD", NULL);
+	}
+	free(pwd);
 	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
-	data->vars = vars;
+	data->localvars = vars;
 	data->expvars = expvars;
 }

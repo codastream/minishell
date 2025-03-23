@@ -25,7 +25,7 @@
 
 typedef	struct s_env
 {
-	char	**vars;
+	char	**localvars;
 }	t_env;
 
 typedef struct s_fds
@@ -113,7 +113,7 @@ typedef struct s_exec
 
 typedef struct s_data
 {
-	t_hash		*vars;
+	t_hash		*localvars;
 	t_hash		*expvars;
 	char		**varstab;
 	t_token		**tokens;

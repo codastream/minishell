@@ -26,7 +26,7 @@ char	**split_export_cmd(char *cmd)
 	result = ft_calloc(4, sizeof(char *));
 	if (!result)
 		return (NULL);
-	while (ft_isalnum(cmd[i]))
+	while (ft_ischarforenvvar(cmd[i]))
 		i++;
 	code = ft_strndup(&result[0], cmd, 0, i);
 	if (!code)
@@ -75,11 +75,11 @@ void	pars_export(t_data *data, t_token *token, int i)
 	char	**cmd;
 
 	cmd = split_export_cmd(token->command->command_args[i]);
-	if (ft_isalpha(cmd[0][1]) && !ft_strcmp(cmd[1], "+="))
+	if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
+	else if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
+	else if (ft_isenvvarkeystr(cmd[0]) && !cmd[1][0])
 		ft_hash_insert(data->expvars, cmd[0], NULL);
 	else if (token->command->command_args[i][0] == '-')
 		update_last_return(data, EXIT_SYNTAX_ERROR);

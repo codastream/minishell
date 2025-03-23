@@ -116,7 +116,7 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 		return (get_pathname_for_absolute_patharg(data, arg));
 	else if (ft_strstr(arg, "./"))
 		return (get_pathname_for_relative_patharg(data, arg));
-	paths = ft_hash_get(data->vars, "PATH");
+	paths = ft_hash_get(data->localvars, "PATH");
 	if (!paths)
 		return (NULL);
 	splitted_paths = ft_split(paths, ':');
