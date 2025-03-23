@@ -8,7 +8,7 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *i)
 
 	// i = 0;
 	prefixedkey = NULL;
-	if (s[*i] && s[*i] == '$' && (ft_ischarforenvvar(s[*i + 1]) || s[*i + 1] == '"'))
+	if (s[*i] && s[*i] == '$' && (ft_ischarforenvvar(s[*i + 1]) || s[*i + 1] == '"' || s[*i + 1] == '?'))
 	{
 		// *exp_idx = i;
 		len = 0;
