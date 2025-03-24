@@ -6,7 +6,7 @@
 /*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/24 17:07:38 by djo              ###   ########.fr       */
+/*   Updated: 2025/03/24 18:40:54 by djo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,17 @@ void  exit_heredoc(int sig)
 
 void	exit_child(int sig)
 {
-	ft_printfd(2, "-> %d\n", sig); //ne marche pour raison obscure
+	ft_printfd(2, "Quit (core dumped)\n"); //ne marche pas pour raison obscure
+	signal(SIGQUIT, SIG_IGN);
 	(void)sig;
 }
 
 void	setup_child_signal(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = exit_child;
-	sigemptyset(&sa.sa_mask);
-	signal(SIGQUIT, SIG_DFL);
-	sigaction(SIGQUIT, &sa, NULL);
+	struct sigaction	sig;
+	
+	sig.sa_handler = exit_child;
+	sigaction(SIGQUIT, &sig, NULL);
 }
 
 void  setup_heredoc_signal(void)
@@ -61,7 +60,7 @@ void  setup_heredoc_signal(void)
 	sa.sa_handler = exit_heredoc;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 

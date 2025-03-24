@@ -62,11 +62,11 @@ void	exec_command(t_data *data, t_tree *tree)
 
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
+	setup_child_signal();
 	if (check_redirection_files(data, data->tokens, tree->value) == 0)
 		child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
-		setup_child_signal();
 		if (tree->value->command->has_invalid_redir)
 		{
 			close(data->exec->fds[1]);
@@ -151,6 +151,7 @@ void	exec_line(t_data *data, t_tree *tree)
 //	do_for_tokens(data, data->tokens, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
+	signal(SIGQUIT, SIG_IGN);
 	pop_all_fd(&(data->fds));
 	if (PRINT == 1)
 		printf("code after wait %d\n", code);
