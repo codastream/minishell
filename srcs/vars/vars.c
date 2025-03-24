@@ -76,13 +76,13 @@ void	init_vars(t_data *data, char **env)
 	int		env_var_nb;
 	int		i;
 	t_hash	*vars;
-	t_hash	*expvars;
+//	t_hash	*expvars;
 	char	*key;
 	char	*value;
 
 	env_var_nb = ft_count_2dchar_null_ended(env);
 	vars = ft_hash_init(env_var_nb + 100);
-	expvars = ft_hash_init(env_var_nb + 100);
+//	expvars = ft_hash_init(env_var_nb + 100);
 	check_alloc(data, vars);
 	i = 0;
 	while (i < env_var_nb)
@@ -91,19 +91,19 @@ void	init_vars(t_data *data, char **env)
 		if (key && value)
 		{
 			ft_hash_insert(vars, key, value);
-			ft_hash_insert(expvars, key, value);
+//			ft_hash_insert(expvars, key, value);
 		}
 		else if (key)
 		{
 			ft_hash_insert(vars, key, NULL);
-			ft_hash_insert(expvars, key, NULL);
+//			ft_hash_insert(expvars, key, NULL);
 		}
 		free(key);
 		if (value)
 			free (value);
 		i++;
 	}
-	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
+	ft_hash_insert(vars, LAST_RETURN_CODE, "0"); // leaks
 	data->vars = vars;
-	data->expvars = expvars;
+//	data->expvars = expvars;
 }

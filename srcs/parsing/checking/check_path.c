@@ -98,7 +98,10 @@ static char	*get_pathname_for_relative_patharg(t_data *data, char *arg)
 		return (NULL);
 	}
 	else if (code != 0 && statcode == 0)
+	{
+		ft_printfd(2, "%s: Permission denied\n", arg);
 		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+	}
 	return (NULL);
 }
 

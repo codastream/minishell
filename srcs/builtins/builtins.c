@@ -9,7 +9,8 @@ void	try_exec_builtin(t_data *data, t_token *token, t_command *command)
 	{
 		code = get_last_return(data);
 		pop_all_fd(&data->fds);
-		free_after_exec(data);
+		free_all_data(data);
+//		free_after_exec(data);
 		exit(code);
 	}
 }

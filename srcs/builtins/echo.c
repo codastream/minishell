@@ -43,4 +43,5 @@ void	ft_echo(t_data *data, t_token *token)
 	}
 	if (should_print_newline)
 		ft_printfd(token->out, "\n");
+	ft_hash_update(data->vars, LAST_RETURN_CODE, "0");
 }

@@ -48,7 +48,7 @@ void	ft_print_export(t_data *data, t_token *token)
 	t_keyval	*current;
 	t_hash		*hash;
 
-	hash = data->expvars;
+	hash = data->vars;
 	keyvals = hash->keyvals;
 	i = 0;
 	if (token->command->command_args[1])
@@ -78,12 +78,14 @@ void	pars_export(t_data *data, t_token *token, int i)
 	char	**cmd;
 
 	cmd = split_export_cmd(token->command->command_args[i]);
-	if (ft_isalpha(cmd[0][1]) && !ft_strcmp(cmd[1], "+="))
+	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
 	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
 	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
-		ft_hash_insert(data->expvars, cmd[0], NULL);
+	{
+		ft_hash_insert(data->vars, cmd[0], NULL);
+	}
 	else if (token->command->command_args[i][0] == '-')
 		ft_hash_update(data->vars, LAST_RETURN_CODE, "2");
 	else

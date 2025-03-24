@@ -49,7 +49,6 @@ static char	*build_path(t_data *data, char **path_args)
 		path = ft_subst(path_args[1], "~", ft_hash_get(data->vars, "HOME"));
 	else
 		path = build_path_from_directory(data, path_args[1]);
-	check_alloc(data, path);
 	return (path);
 }
 
@@ -67,6 +66,11 @@ void	ft_cd(t_data *data, t_token *token)
 		ft_hash_update(data->vars, "OLDPWD", oldpwd);
 	free(oldpwd);
 	path = build_path(data, command->command_args);
+	if (!path || !path[0])
+	{
+		free(path);
+		return ;
+	}
 	if (chdir(path) < 0)
 		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
 	free(path);
