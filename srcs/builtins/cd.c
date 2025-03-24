@@ -76,7 +76,7 @@ void	ft_cd(t_data *data, t_token *token)
 	if (!are_valid_cd_args(data, command->command_args))
 		return ;
 	oldpwd = getpwd(data);
-	if (ft_strcmp(ft_hash_get(data->localvars, "PWD"), oldpwd))
+	if (ft_strcmp(oldpwd, "") && ft_strcmp(ft_hash_get(data->localvars, "PWD"), oldpwd))
 		ft_hash_update(data->localvars, "OLDPWD", oldpwd);
 	free(oldpwd);
 	path = build_path(data, command->command_args);

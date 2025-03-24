@@ -4,16 +4,21 @@ char	*getpwd(t_data *data)
 {
 	int		size;
 	char	*buffer;
+	char	*result;
 
 	size = 2048;
 	buffer = malloc(size);
 	check_alloc(data, buffer);
-	while (getcwd(buffer, size) == NULL)
-	{
-		free(buffer);
-		size = size * 2;
-		buffer = malloc(size);
-	}
+	result = getcwd(buffer, size);
+	// if (!result)
+	// 	return ();
+	// while (!result)
+	// {
+	// 	free(buffer);
+	// 	size = size * 2;
+	// 	buffer = malloc(size);
+	// 	result = getcwd(buffer, size);
+	// }
 	return (buffer);
 }
 
