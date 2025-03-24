@@ -82,7 +82,9 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 	if (prefixedkey && ft_strcmp(prefixedkey, "$"))
 	{
 		value = ft_hash_get(data->localvars, ++prefixedkey);
-		*i += ft_strlen(value) + 1;
+		// if (!ft_strcmp(value, "\""))
+		// 	value = "'\"'";
+		*i += ft_strlen(value);
 		expanded = ft_subst_first(s, --prefixedkey, value);
 		check_alloc(data, expanded);
 		free(prefixedkey);
@@ -111,43 +113,52 @@ void	toggle_quote_status(bool *in_dquote)
 		*in_dquote = true;
 }
 
-bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
+void	check_if_var_is_followed_by_end_of_double_quotes(char *string, int *i, bool *in_dquote)
 {
 	int	j;
 
+	(void) in_dquote;
+	j = *i + 1;
+	if (string[j] == '?')
+		j++;
+	while (ft_ischarforenvvar(string[j]))
+		j++;
+	// if (string[j] == '"')
+	// 	toggle_quote_status(in_dquote);
+}
+
+bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
+{
 	if (!string || !string[*i])
 		return (false);
 	while (string[*i])
 	{
 		if (string[*i] == '\'' && !*in_dquote)
 			skip_single_quote(string, i);
-		if (string[*i] == '\"')
+		// if (string[*i] == '\"')
+		// {
+		// 	toggle_quote_status(in_dquote);
+		// 	(*i)++;
+		while (*in_dquote && string [*i] && string[*i] != '\"')
 		{
-			toggle_quote_status(in_dquote);
-			(*i)++;
-			while (string [*i] && string[*i] != '\"')
+			if (string[*i] == marker)
 			{
-				if (string[*i] == marker)
+				if (string[*i + 1] && string[*i + 1] != '"' && string[*i + 1] != ' ')
 				{
-					if (string[*i + 1] && string[*i + 1] != '"' && string[*i + 1] != ' ')
-					{
-						j = *i + 1;
-						if (string[j] == '?')
-							j++;
-						while (ft_ischarforenvvar(string[j]))
-							j++;
-						if (string[j] == '"')
-							toggle_quote_status(in_dquote);
-						return (true);
-					}
+					check_if_var_is_followed_by_end_of_double_quotes(string, i, in_dquote);
+					return (true);
 				}
-				(*i)++;
 			}
+			(*i)++;
 		}
+		// }
 		if (string[*i] == marker && string[*i + 1])
 		{
 			if ((*in_dquote == false && string[*i + 1] != ' ' && string[*i + 1] != '$') || (*in_dquote && string[*i + 1] != '"'))
+			{
+				check_if_var_is_followed_by_end_of_double_quotes(string, i, in_dquote);
 				return (true);
+			}
 		}
 		if (string[*i])
 		{
@@ -176,6 +187,11 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, token->string, &last_expanded_index, 0);
+		if (expanded[last_expanded_index] == '"')
+		{
+			toggle_quote_status(&in_dquote);
+			last_expanded_index++;
+		}
 		free(token->string);
 		token->string = expanded;
 		s = expanded;

@@ -12,6 +12,8 @@ void	skip_single_quote(char *string, int *i)
 	(*i)++;
 	while (string[*i] && string[*i] != '\'')
 		(*i)++;
+	if (string[*i] == '\'')
+		(*i)++;
 }
 
 bool	is_quote(char c)
