@@ -82,7 +82,7 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 	if (prefixedkey && ft_strcmp(prefixedkey, "$"))
 	{
 		value = ft_hash_get(data->localvars, ++prefixedkey);
-		*i += ft_strlen(value);
+		*i += ft_strlen(value) + 1;
 		expanded = ft_subst_first(s, --prefixedkey, value);
 		check_alloc(data, expanded);
 		free(prefixedkey);
