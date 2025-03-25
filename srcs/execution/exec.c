@@ -80,12 +80,12 @@ void	exec_command(t_data *data, t_tree *tree)
 }
 bool	has_redirin(t_tree *tree)
 {
-	return (tree->value->type == T_COMMAND && tree->value->command->redir_in);
+	return (tree->value->type == T_COMMAND && has_type_of_redir(tree->value->command, T_INFILE));
 }
 
 bool	has_redirout(t_tree *tree)
 {
-	return (tree->value->type == T_COMMAND && (tree->value->command->redir_out_append || tree->value->command->redir_out_truncate));
+	return (tree->value->type == T_COMMAND && (has_type_of_redir(tree->value->command, T_OUTFILE_APPEND) || has_type_of_redir(tree->value->command, T_OUTFILE_TRUNCATE)));
 }
 
 void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left)

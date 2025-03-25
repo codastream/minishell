@@ -25,15 +25,21 @@ void	print_datafds(t_data *data)
 	}
 }
 
-static void	print_redirs(char *redirtype, t_list *redirlist)
+static void	print_redir(t_redir *redir)
+{
+	printf("\t\t%s%s : %s%s\n", P_GREEN, get_token_type(redir->type), redir->string, P_NOC);
+}
+
+static void	print_redirs(t_list *redirlist)
 {
 	t_list	*current;
 
 	current = redirlist;
-	printf("\t\t%s%s : %s", P_GREEN, redirtype, P_NOC);
+	// printf("\t\t%s%s : %s", P_GREEN, (t_redir *) current->content, P_NOC);
 	while (current)
 	{
-		printf("%s %s%s", P_GREEN, (char *)current->content, P_NOC);
+		print_redir((t_redir *) current->content);
+		// printf("%s %s%s", P_GREEN, (char *)current->content, P_NOC);
 		current = current->next;
 	}
 	printf("\n");
@@ -69,10 +75,10 @@ void	print_tokens(t_token **tokens)
 		printf("\t\ttype %s\n", get_token_type(current->type));
 		if (current->type == T_COMMAND)
 		{
-			print_redirs("< in\t\t", current->command->redir_in);
-			print_redirs("<< heredoc\t", current->command->heredoc);
-			print_redirs(">> append\t", current->command->redir_out_append);
-			print_redirs("> truncate\t", current->command->redir_out_truncate);
+			print_redirs(current->command->redirections);
+			// print_redirs("<< heredoc\t", current->command->heredoc);
+			// print_redirs(">> append\t", current->command->redir_out_append);
+			// print_redirs("> truncate\t", current->command->redir_out_truncate);
 			print_command(current->command);
 		}
 		current = current->next;

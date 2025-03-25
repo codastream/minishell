@@ -3,7 +3,7 @@
 static void	add_previous_redirect_to_command(t_data *data, \
 	t_token **tokens, t_token *command_token)
 {
-	t_list	**redir_list;
+	// t_list	**redir_list;
 	t_token	*current;
 	t_token	*tmp;
 
@@ -17,8 +17,8 @@ static void	add_previous_redirect_to_command(t_data *data, \
 	{
 		if (current->next->next)
 			tmp = current->next->next;
-		redir_list = get_redir_list_from_operator(current, command_token);
-		add_redirect_file_to_command(data, tokens, redir_list, current->next);
+		// redir_list = get_redir_list_from_operator(current, command_token);
+		add_redirect_file_to_command(data, tokens, command_token, current->next);
 		current = tmp;
 	}
 	if (PRINT == 1)
@@ -28,7 +28,7 @@ static void	add_previous_redirect_to_command(t_data *data, \
 static void	add_following_redirect_to_command(t_data *data, \
 	t_token **tokens, t_token *command_token)
 {
-	t_list	**redir_list;
+	// t_list	**redir_list;
 
 	while (command_token && command_token->next && command_token->next->next \
 		&& command_token->next->type != T_PIPE)
@@ -36,9 +36,9 @@ static void	add_following_redirect_to_command(t_data *data, \
 		if (is_file(command_token->next->next) \
 		&& is_redir_operator(command_token->next))
 		{
-			redir_list = get_redir_list_from_operator(command_token->next, \
-				command_token);
-			add_redirect_file_to_command(data, tokens, redir_list, \
+			// redir_list = get_redir_list_from_operator(command_token->next, \
+			// 	command_token);
+			add_redirect_file_to_command(data, tokens, command_token, \
 				command_token->next->next);
 		}
 	}

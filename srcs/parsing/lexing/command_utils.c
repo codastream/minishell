@@ -88,27 +88,47 @@ t_list	**get_redir_list_from_operator(t_token *operator_token, \
 // 	}
 // }
 
-void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
-	t_list **redir_list, t_token *file_token)
+t_list	*create_redir(t_data *data, t_token *file_token)
 {
+	t_list	*new;
+	t_redir	*redir;
 	char	*redir_file_str_expanded;
 	char	*redir_file_str;
-	t_list	*redir_file;
 	int		index;
 
 	index = 0;
+	redir_file_str_expanded = try_replace_vars(data, (char *) file_token->string, &index, 0);
+	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
+	free(redir_file_str_expanded);
+	check_alloc(data, redir_file_str);
+	redir = ft_calloc(1, sizeof(t_redir));
+	check_alloc(data, redir);
+	redir->string = redir_file_str;
+	redir->type = file_token->type;
+	new = ft_calloc(1, sizeof(t_list));
+	check_alloc(data, new);
+	new->content = redir;
+	return (new);
+}
+
+void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
+	t_token *command_token, t_token *file_token)
+{
+	// t_list	*redirections;
+	t_list	*redir;
+	// t_list	*redir_file;
+
 	if (PRINT == 1)
 	{
 		ft_put_yellow("add redirect\n");
 		print_tokens(tokens);
 	}
-	redir_file_str_expanded = try_replace_vars(data, (char *) file_token->string, &index, 0);
-	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
-	free(redir_file_str_expanded);
-	check_alloc(data, redir_file_str);
-	redir_file = ft_lstnew(redir_file_str);
-	check_alloc(data, redir_file);
-	ft_lstadd_back(redir_list, redir_file);
+	redir = create_redir(data, file_token);
+	check_alloc(data, redir);
+	ft_lstadd_back(&command_token->command->redirections, redir);
+	// redir_file = ft_lstnew(redir_file_str);
+	// check_alloc(data, redir_file);
+	// ft_lstadd_back(redir_list, redir_file);
 	delete_token(tokens, file_token->prev);
 	delete_token(tokens, file_token);
 	if (PRINT == 1)
@@ -116,4 +136,20 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
 		ft_put_yellow("after add redirect\n");
 		print_tokens(tokens);
 	}
+}
+
+bool	has_type_of_redir(t_command *command, t_tokentype type)
+{
+	t_list	*current;
+	t_redir	*redir;
+
+	current = command->redirections;
+	while (current)
+	{
+		redir = (t_redir *)current->content;
+		if (redir->type == type)
+			return (true);
+		current = current->next;
+	}
+	return (false);
 }

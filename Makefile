@@ -41,6 +41,7 @@ BLUE		= \e[1m\e[38;5;33m
 PURPLE		= \e[1;35m
 CYAN		= \e[1;36m
 WHITE		= \e[1;37m
+SPECIAL		= \e[1m\e[38;5;223m
 
 BLACK_BG 	= \033[0;40m
 RED_BG 		= \033[0;41m
@@ -139,7 +140,7 @@ $(DIRS):
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "\n$(GREEN)Create binaries$(NOC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
-	@echo "\e[1;223m"
+	@echo "$(SPECIAL)"
 	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
 	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
 	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
