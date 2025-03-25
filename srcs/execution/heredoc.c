@@ -20,7 +20,6 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	int		last_expanded_index;
 	bool	in_dquote;
 
-	last_expanded_index = 0;
 	close(fds[0]);
 	eof = ft_strjoin(command->heredoc->content, "\n");
 	handle_quote_in_arg(data, &eof);
@@ -32,6 +31,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
 		in_dquote = false;
+		last_expanded_index = 0;
 		while (next_expand(input, '$', &last_expanded_index, &in_dquote))
 		{
 			expanded = try_replace_vars(data, input, &last_expanded_index, 1);

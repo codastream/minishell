@@ -17,7 +17,7 @@ static bool	are_valid_cd_args(t_data *data, char **command_args)
 	}
 	if (!ft_strncmp(command_args[1], "---", 3))
 	{
-		update_last_error(data, EXIT_SYNTAX_ERROR);
+		update_last_return(data, EXIT_SYNTAX_ERROR);
 		return (false);
 	}
 
@@ -79,4 +79,5 @@ void	ft_cd(t_data *data, t_token *token)
 		ft_printfd(token->out, path);
 	ft_hash_update(data->vars, "PWD", path);
 	free(path);
+	update_last_return(data, EXIT_SUCCESS);
 }

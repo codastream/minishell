@@ -40,8 +40,11 @@ void  exit_heredoc(int sig)
 
 void	exit_child(int sig)
 {
-	ft_printfd(2, "Quit (core dumped)\n"); //ne marche pas pour raison obscure
-	signal(SIGQUIT, SIG_IGN);
+	if (wait(0) != -1)
+	{
+		ft_printfd(2, "Quit (core dumped)\n"); //ne marche pas pour raison obscure
+		setup_signal();
+	}
 	(void)sig;
 }
 
@@ -60,7 +63,7 @@ void  setup_heredoc_signal(void)
 	sa.sa_handler = exit_heredoc;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
 

@@ -1,11 +1,11 @@
 /bin/ls | /usr/bin/cat -e
 |echo -n tata
 |echo|
-cat ./files/infile.txt | cat /dev/urandom | ls | wc -w
-cat ./files/infile.txt | grep -o pain | tr
-cat ./files/infile.txt | grep pain
-cat ./files/infile.txt | md5sum
-cat ./files/infile.txt | wc
+cat ./files/infile | cat /dev/urandom | ls | wc -w
+cat ./files/infile | grep -o pain | tr
+cat ./files/infile | grep pain
+cat ./files/infile | md5sum
+cat ./files/infile | wc
 cat /dev/urandom | head -c 15 | wc -c
 cat /dev/urandom | strings | grep -o "[A-Z][0-9]" | tr -d '\n' | head -c 15 | wc -c
 cat | cat | cat | ls
@@ -76,7 +76,7 @@ time sleep 1 | sleep 1
 unset tata | cat -e
 whoami | grep $USER
 wrongcmd | cat
-cat ./test_files/infile_big | grep oi
+cat ./files/infile_big | grep oi
 cat minishell.h | grep ");"$
 export GHOST=123 | env | grep GHOST
 ls | ls

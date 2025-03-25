@@ -1,6 +1,6 @@
 < pwd
 <a cat <b <c
-cat -e < ./files/infile.txt
+cat -e < ./files/infile
 cat < ls
 cat < ls > ls
 cat <../pwd
@@ -18,48 +18,48 @@ echo tata <<<< toto
 echo tata <<<<< toto
 echo tata > > ./files/outfile
 echo tata >>> ./files/outfile
-"<infile" <         ./files/infile.txt grep hi
-<"./test_files/name with spaces" cat
-cat <"./test_files/file name with spaces"
+"<infile" <         ./files/infile grep hi
+<"./files/name with spaces" cat
+cat <"./files/file name with spaces"
 ls >"./outfiles/outfile with spaces"
-cat -e < "./test_files/missing" | ls
-cat -e < "./test_files/missing"> ./outfiles/outfile01 | ls
-< ./test_files/infile grep hi
-< ./test_files/infile echo hi bye bye
-<./test_files/infile_big <./test_files/infile grep hi
-<"./test_files/infile" echo "bonjour       42"
-<./test_files/infile_big ./test_files/infile cat
-<"./test_files/infile" cat
-<"./test_files/infile_big" echo | <"./test_files/infile" cat
-<"./test_files/infile_big" echo | "./test_files/infile" cat
-echo hi | <"./test_files/infile" cat
-echo hi | "./test_files/infile" cat
-<"./test_files/infile" cat | echo hi
-<"./test_files/infile" cat | grep hello
-<"./test_files/infile_big" cat | echo hi
+cat -e < "./files/missing" | ls
+cat -e < "./files/missing"> ./outfiles/outfile01 | ls
+< ./files/infile grep hi
+< ./files/infile echo hi bye bye
+<./files/infile_big <./files/infile grep hi
+<"./files/infile" echo "bonjour       42"
+<./files/infile_big ./files/infile cat
+<"./files/infile" cat
+<"./files/infile_big" echo | <"./files/infile" cat
+<"./files/infile_big" echo | "./files/infile" cat
+echo hi | <"./files/infile" cat
+echo hi | "./files/infile" cat
+<"./files/infile" cat | echo hi
+<"./files/infile" cat | grep hello
+<"./files/infile_big" cat | echo hi
 <missing cat | cat
 <missing cat | echo oi
-<missing cat | <"./test_files/infile" cat
+<missing cat | <"./files/infile" cat
 <123 <456 echo hi | echo 42
-< ./test_files/infile grep hi > ./outfiles/outfile01
-< ./test_files/infile ls > ./outfiles/outfile01
-< ./test_files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02
-< ./test_files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02
-< ./test_files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02
-< ./test_files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02
-< ./test_files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
-< ./test_files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
-< ./test_files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
-< ./test_files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
-ls | < ./test_files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02
-ls |< ./test_files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02
-ls |< ./test_files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02
-ls |< ./test_files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02
-ls | < ./test_files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
-ls |< ./test_files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
-ls |< ./test_files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
-ls |< ./test_files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
-ls |< ./test_files/infile grep hi | cat -e
+< ./files/infile grep hi > ./outfiles/outfile01
+< ./files/infile ls > ./outfiles/outfile01
+< ./files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02
+< ./files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02
+< ./files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02
+< ./files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02
+< ./files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
+< ./files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
+< ./files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
+< ./files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
+ls | < ./files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02
+ls |< ./files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02
+ls |< ./files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02
+ls |< ./files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02
+ls | < ./files/infile ls > ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
+ls |< ./files/infile ls > ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
+ls |< ./files/infile ls >> ./outfiles/outfile01 > ./outfiles/outfile02 | cat -e
+ls |< ./files/infile ls >> ./outfiles/outfile01 >> ./outfiles/outfile02 | cat -e
+ls |< ./files/infile grep hi | cat -e
 ls | ls >./outfiles/outfile
 ls | ls >./outfiles/outfile | cat -e
 > ./outfiles/outfile echo hi
@@ -78,9 +78,9 @@ echo hi | "./outfiles/outfile" ls
 >"./outfiles/outfile" ls | echo hi
 >"./outfiles/outfile" ls | grep hello
 >"./outfiles/outfile" ls | echo hi
->./test_files/invalid_permission ls | cat
->./test_files/invalid_permission ls | echo oi
->./test_files/invalid_permission ls | >"./outfiles/outfile_big" ls
+>./files/invalid_permission ls | cat
+>./files/invalid_permission ls | echo oi
+>./files/invalid_permission ls | >"./outfiles/outfile_big" ls
 >./outfiles/123 >./outfiles/456 echo hi | echo 42
 ls | ls >>./outfiles/outfile
 ls | ls >>./outfiles/outfile | cat -e
@@ -99,11 +99,11 @@ echo hi | "./outfiles/outfile" ls
 >>"./outfiles/outfile" ls | echo hi
 >>"./outfiles/outfile" ls | grep hello
 >>"./outfiles/outfile" ls | echo hi
->>./test_files/invalid_permission ls | cat
->>./test_files/invalid_permission ls | echo oi
->>./test_files/invalid_permission ls | >>"./outfiles/outfile" ls
+>>./files/invalid_permission ls | cat
+>>./files/invalid_permission ls | echo oi
+>>./files/invalid_permission ls | >>"./outfiles/outfile" ls
 >>./outfiles/123 >>./outfiles/456 echo hi | echo 42
-< ./test_files/infile < ./test_files/infile cat -e < ./test_files/infile < ./test_files/infile_big > "./outfiles/outfile"
+< ./files/infile < ./files/infile cat -e < ./files/infile < ./files/infile_big > "./outfiles/outfile"
 ls | ls >./outfiles/outfile > ./outfiles/outfile2
 ls | ls >./outfiles/outfile >> ./outfiles/outfile2
 ls | ls >>./outfiles/outfile > ./outfiles/outfile2

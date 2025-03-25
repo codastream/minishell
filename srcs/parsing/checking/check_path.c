@@ -86,22 +86,21 @@ static char	*get_pathname_for_relative_patharg(t_data *data, char *arg)
 		handle_custom_error_source_exit(data, arg, MSG_IS_DIRECTORY, EXIT_PERMISSION_DENIED);
 		return (NULL);
 	}
-  check_existing_file(data, arg);
+	code = access(arg, F_OK);
+	if (!ft_strncmp(arg, "./", 2) && code != 0)
+		return (NULL);
 	code = access(arg, X_OK);
 	if (code == 0)
 	{
-		return (ft_strdup(arg));
-	}
-	else if (!ft_strncmp(arg, "../", 3))
-	{
-		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
+		if (is_elf_executable(data, arg) || is_script(data, arg))
+			return (ft_strdup(arg));
 		return (NULL);
 	}
-	else if (code != 0 && statcode == 0)
-	{
-		ft_printfd(2, "%s: Permission denied\n", arg);
+	else if (code != 0 && !ft_strncmp(arg, "./", 2))
+		// return (NULL);
 		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
-	}
+	else if (code != 0 && is_path(arg))
+		handle_custom_error_source_exit(data, arg, NULL, EXIT_PERMISSION_DENIED);
 	return (NULL);
 }
 

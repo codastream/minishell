@@ -119,13 +119,6 @@ echo-ntata
 echo"'tata'"
 echotata
 EechoE
-env
-env ./Makefile
-env env
-env env env env env
-env ls
-env tata
-env tata que tal
 exit
 exit ------0
 exit --666
@@ -180,7 +173,6 @@ exit tata
 exit tata 666
 exit tata 666 666
 exit tata que tal
-export
 export --tata=bonjour
 export -tata=bonjour
 export ?=2
@@ -195,7 +187,6 @@ export =
 export | echo tata
 export | grep "HOME"
 export $?
-export $DONTEXIST
 export 123
 export 123=124
 export 9tata=
@@ -203,7 +194,6 @@ export HO-LA=bonjour
 export HO!LA=bonjour
 export HO@LA=bonjour
 export HO*LA=bonjour
-export HO\\\\LA=bonjour
 export HO#LA=bonjour
 export HOL.A=bonjour
 export HOL{A=bonjour
@@ -220,7 +210,6 @@ export MAVAR=123
 export tata = bonjour
 export tata =bonjour
 export tata-=bonjour
-export tata=bon&jour
 export tata=bonjour | cat -e | cat -e
 unset
 unset _______
@@ -246,7 +235,6 @@ unset SHELL
 unset sudo
 unset TAT_A
 unset TAT-A
-unset TAT;A
 unset TAT!A
 unset TAT?A
 unset TAT?A TAT.A

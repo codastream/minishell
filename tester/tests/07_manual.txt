@@ -2,13 +2,24 @@
 export
 env
 /bin/env
+env env
+env env env env env
+env ./Makefile
+env ls
+env tata
+env tata que tal
 echo      \n tata
+export
+export $DONTEXIST
 export tata=bon()jour
 export tata=bon(jour
+export HO\\\\LA=bonjour
 
 ############################################## vars
 echo $'42$"HOME"'
 echo $"42$'HOME'"
+# ne fonctionne pas dans le testeur?
+echo $USER_$USER
 
 ############################################## commands
 # sur bash renvoie 126

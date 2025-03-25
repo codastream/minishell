@@ -117,7 +117,7 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 		return (false);
 	while (string[*i])
 	{
-		if (string[*i] == '\'')
+		if (string[*i] == '\'' && !*in_dquote)
 			skip_single_quote(string, i);
 		if (string[*i] == '\"')
 		{
@@ -127,7 +127,7 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 			{
 				if (string[*i] == marker)
 				{
-					if (string[*i + 1] && string[*i + 1] != '"')
+					if (string[*i + 1] && string[*i + 1] != '"' && string[*i + 1] != ' ')
 						return (true);
 				}
 				(*i)++;
@@ -135,7 +135,7 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 		}
 		if (string[*i] == marker && string[*i + 1])
 		{
-			if (*in_dquote == false || (*in_dquote && string[*i + 1] != '"'))
+			if ((*in_dquote == false && string[*i + 1] != ' ' && string[*i + 1] != '$') || (*in_dquote && string[*i + 1] != '"'))
 				return (true);
 		}
 		if (string[*i])
