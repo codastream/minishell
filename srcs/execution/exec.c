@@ -91,25 +91,25 @@ bool	has_redirout(t_tree *tree)
 	return (tree->value->type == T_COMMAND && (has_type_of_redir(tree->value->command, T_OUTFILE_APPEND) || has_type_of_redir(tree->value->command, T_OUTFILE_TRUNCATE)));
 }
 
-void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left)
+void	assign_fd(t_data *data, t_tree *tree, bool is_left)
 {
 	int	in;
 	int	out;
 
 	if (is_left)
-		in = pipenode->value->in;
+		in = tree->value->in;
 	else
-		in = pipenode->value->pipe_read;
+		in = tree->value->pipe_read;
 	if (is_left)
-		out = pipenode->value->pipe_write;
+		out = tree->value->pipe_write;
 	else
-		out = pipenode->value->out;
+		out = tree->value->out;
 	if (has_redirin(tree))
 		in = tree->value->in;
 	if (has_redirout(tree))
 		out = tree->value->out;
-	fd_push_back(&data->fds, pipenode->value->pipe_read);
-	fd_push_back(&data->fds, pipenode->value->pipe_write);
+	fd_push_back(&data->fds, tree->value->pipe_read);
+	fd_push_back(&data->fds, tree->value->pipe_write);
 	put_fd_token(data, tree->value, in, out);
 }
 
@@ -118,10 +118,10 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	int	fds[2];
 
 	safe_pipe(data, fds);
-	tree->value->pipe_read = fds[0];
-	tree->value->pipe_write = fds[1];
-	assign_fd(data, tree, tree->left, true);
-	assign_fd(data, tree, tree->right, false);
+	tree->right->value->pipe_read = fds[0];
+	tree->left->value->pipe_write = fds[1];
+	assign_fd(data, tree->left, true);
+	assign_fd(data, tree->right, false);
 	exec_tree_node(data, tree->left);
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
