@@ -18,12 +18,12 @@ int	remove_empty_args(t_data *data, t_token **tokens, t_token *token)
 	while (token->command->command_args[i])
 	{
 		arg = token->command->command_args[i];
-		if (!has_command && ft_strcmp(arg, ""))
+		if (!has_command && arg)
 		{
 			has_command = true;
 			argc++;
 		}
-		else if (has_command && ft_strcmp(arg, ""))
+		else if (has_command && arg)
 			argc++;
 		i++;
 	}
@@ -37,12 +37,12 @@ int	remove_empty_args(t_data *data, t_token **tokens, t_token *token)
 	while (token->command->command_args[i])
 	{
 		arg = token->command->command_args[i];
-		if (!has_command && ft_strcmp(arg, ""))
+		if (!has_command && arg)
 		{
 			has_command = true;
 			new_args[e++] = arg;
 		}
-		else if (has_command && ft_strcmp(arg, ""))
+		else if (has_command && arg)
 			new_args[e++] = arg;
 		else
 			free(arg);

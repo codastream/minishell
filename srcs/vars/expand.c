@@ -164,6 +164,8 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 		{
 			if (string[*i] == '"')
 				toggle_quote_status(in_dquote);
+			if (string[*i] == '\'')
+				skip_single_quote(string, i);
 			(*i)++;
 		}
 	}
@@ -181,6 +183,8 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 	in_dquote = false;
 	s = *arg;
 
+	if (!ft_strstr(*arg, "$"))
+		return ;
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, *arg, &last_expanded_index, 0);
@@ -193,6 +197,8 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 		*arg = expanded;
 		s = expanded;
 	}
+	if (!ft_strcmp(*arg, ""))
+		*arg = NULL;
 	//  return (s);
 }
 
