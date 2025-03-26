@@ -62,6 +62,8 @@ void	exec_command(t_data *data, t_tree *tree)
 
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
+	setup_child_signal();
+//	if (check_redirection_files(data, data->tokens) == 0)
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
@@ -78,6 +80,7 @@ void	exec_command(t_data *data, t_tree *tree)
 	else
 		data->exec->last_pid = child_pid;
 }
+
 bool	has_redirin(t_tree *tree)
 {
 	return (tree->value->type == T_COMMAND && tree->value->command->redir_in);
@@ -169,6 +172,7 @@ void	exec_line(t_data *data, t_tree *tree)
 	code = iter_tree_token(data, tree, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
+	signal(SIGQUIT, SIG_IGN);
 	pop_all_fd(&(data->fds));
 	if (PRINT == 1)
 		printf("code after wait %d\n", code);

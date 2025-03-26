@@ -6,7 +6,7 @@ void	update_last_return(t_data *data, int code)
 
 	code_s = ft_itoa(code);
 	check_alloc(data, code_s);
-	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s);
+	ft_hash_update(data->vars, LAST_RETURN_CODE, code_s); // leaks
 	free(code_s);
 }
 

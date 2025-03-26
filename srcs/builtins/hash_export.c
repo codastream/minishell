@@ -23,6 +23,4 @@ void	supress_export(t_data *data, char **cmd)
 {
 	ft_hash_remove(data->vars, cmd[0]);
 	ft_hash_insert(data->vars, cmd[0], cmd[2]);
-	ft_hash_remove(data->expvars, cmd[0]);
-	ft_hash_insert(data->expvars, cmd[0], cmd[2]);
 }
