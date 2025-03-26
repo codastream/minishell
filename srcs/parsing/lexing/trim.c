@@ -65,10 +65,8 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 
 void	handle_quote_in_command_arg(t_data *data, char **arg)
 {
-	int		i;
 	char	*new_arg;
 
-	i = 0;
 	if (is_surrounded_by_pairofchar(*arg, '\''))
 	{
 		new_arg = ft_strtrim(*arg, "'");
