@@ -1,5 +1,14 @@
 #include "shell.h"
 
+void  free_redir_list(void *content)
+{
+	t_redir *redir;
+
+	redir = (t_redir *)content;
+	free(redir->string);
+	redir->string = NULL;
+}
+
 void	free_command(t_command *command)
 {
 	if (!command)
@@ -10,6 +19,11 @@ void	free_command(t_command *command)
 		reset(command->command_name);
 	if (command->pathname)
 		reset(command->pathname);
+	if (command->redirections)
+	{
+		ft_lstiter(command->redirections, free_redir_list);
+		ft_lstclear(&command->redirections, free);
+	}
 	if (command->redir_in)
 		ft_lstclear(&command->redir_in, free);
 	if (command->redir_out_append)

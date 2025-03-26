@@ -24,7 +24,7 @@ void	ft_env(t_data *data, t_token *token)
 			current = keyvals[i - 1];
 			while (current)
 			{
-				if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
+				if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "%s=%s\n", current->key, \
 					current->value);
 				current = current->next;
