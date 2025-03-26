@@ -66,4 +66,7 @@ t_token		*remove_extra_command(t_data *data, t_token **tokens, t_token *token, t
 void		handle_quote_in_arg(t_data *data, char **arg);
 int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
 
+// args
+int	remove_empty_args(t_data *data, t_token **tokens, t_token *token);
+
 #endif

@@ -81,6 +81,7 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/command_utils.c\
 				parsing/lexing/command_utils_add.c\
 				parsing/lexing/trim.c\
+				parsing/lexing/args.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
