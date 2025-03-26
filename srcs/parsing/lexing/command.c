@@ -36,8 +36,7 @@ static void	add_following_redirect_to_command(t_data *data, \
 		if (is_file(command_token->next->next) \
 		&& is_redir_operator(command_token->next))
 		{
-			// redir_list = get_redir_list_from_operator(command_token->next, \
-			// 	command_token);
+			// redir_list = get_redir_list_from_operator(command_token->next, command_token);
 			add_redirect_file_to_command(data, tokens, command_token, \
 				command_token->next->next);
 		}
