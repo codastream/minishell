@@ -170,31 +170,50 @@ bool	next_expand(char *string, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
-int	expand_vars(t_data *data, t_token **tokens, t_token *token)
+void	expand_vars_in_arg(t_data *data, char **arg)
 {
-	char	*expanded;
 	char	*s;
 	int		last_expanded_index;
 	bool	in_dquote;
+	char	*expanded;
 
-	(void) tokens;
 	last_expanded_index = 0;
 	in_dquote = false;
-	s = token->string;
-	if (token->type != T_COMMAND)
-		return (EXIT_IGNORE);
+	s = *arg;
 
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
-		expanded = try_replace_vars(data, token->string, &last_expanded_index, 0);
+		expanded = try_replace_vars(data, *arg, &last_expanded_index, 0);
 		if (expanded[last_expanded_index] == '"')
 		{
 			toggle_quote_status(&in_dquote);
 			last_expanded_index++;
 		}
-		free(token->string);
-		token->string = expanded;
+		free(*arg);
+		*arg = expanded;
 		s = expanded;
+	}
+	//  return (s);
+}
+
+
+int	expand_vars(t_data *data, t_token **tokens, t_token *token)
+{
+	int	i;
+
+	i = 0;
+	(void) tokens;
+	if (token->type != T_COMMAND || !token->command->command_args)
+		return (EXIT_IGNORE);
+	while (token->command->command_args[i])
+	{
+		expand_vars_in_arg(data, &token->command->command_args[i]);
+		i++;
+	}
+	if (ft_isemptystr(token->command->command_args[0]) && ft_strcmp(token->command->command_name, token->command->command_args[0]))
+	{
+		free(token->command->command_name);
+		token->command->command_name = NULL;
 	}
 	// expand_vars_in_redirs(data, token->command->redir_in);
 	// expand_vars_in_redirs(data, token->command->redir_out_append);

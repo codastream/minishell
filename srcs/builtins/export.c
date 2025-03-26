@@ -21,6 +21,7 @@ char	**split_export_cmd(char *cmd)
 	int		j;
 	int		code;
 	char	**result;
+	char	*trimmed;
 
 	i = 0;
 	result = ft_calloc(4, sizeof(char *));
@@ -38,6 +39,12 @@ char	**split_export_cmd(char *cmd)
 	if (!code)
 		return (NULL);
 	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
+	if (result[2][i] == '\'' && result[2][ft_strlen(result[2]) - 1] == '\'')
+	{
+		trimmed = ft_strtrim(result[2], "'");
+		free(result[2]);
+		result[2] = trimmed;
+	}
 	return (result);
 }
 
