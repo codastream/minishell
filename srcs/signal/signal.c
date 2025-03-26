@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/01/23 18:03:52 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:40:54 by djo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,32 @@ void  exit_heredoc(int sig)
   printf("\n");
   close(0);
   (void)sig;
+}
+
+void	exit_child(int sig)
+{
+	(void) sig;
+	int		result;
+
+	result = wait(0);
+	if (result != -1) {
+        ft_printfd(2, "Quit (core dumped)\n");
+        setup_signal();
+    }
+}
+
+/*
+ * reinitializes sigaction with memset (to prevent unexpected behavior)
+ */
+void	setup_child_signal(void)
+{
+	struct sigaction	sig;
+
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_flags = 0;
+	sigemptyset(&sig.sa_mask);
+	sig.sa_handler = exit_child;
+	sigaction(SIGQUIT, &sig, NULL);
 }
 
 void  setup_heredoc_signal(void)

@@ -62,7 +62,6 @@ static char	*build_path(t_data *data, char **path_args)
 	}
 	else
 		path = build_path_from_directory(data, path_args[1]);
-	check_alloc(data, path);
 	return (path);
 }
 

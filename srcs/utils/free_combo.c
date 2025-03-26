@@ -33,6 +33,7 @@ void	free_after_exec(t_data *data)
 	data->exec = NULL;
 	if (data->varstab)
 		ft_free_2d_char_null_ended(data->varstab);
+
 	data->varstab = NULL;
 }
 

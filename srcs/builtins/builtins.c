@@ -9,8 +9,7 @@ void	try_exec_builtin_in_fork(t_data *data, t_token *token, t_command *command)
 	{
 		code = get_last_return(data);
 		pop_all_fd(&data->fds);
-		free_after_exec(data);
-		free_vars_and_data(data);
+		free_all_data(data);
 		exit(code);
 	}
 }
