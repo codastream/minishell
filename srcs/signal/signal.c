@@ -40,18 +40,26 @@ void  exit_heredoc(int sig)
 
 void	exit_child(int sig)
 {
-	if (wait(0) != -1)
-	{
-		ft_printfd(2, "Quit (core dumped)\n"); //ne marche pas pour raison obscure
-		setup_signal();
-	}
-	(void)sig;
+	(void) sig;
+	int		result;
+
+	result = wait(0);
+	if (result != -1) {
+        ft_printfd(2, "Quit (core dumped)\n");
+        setup_signal();
+    }
 }
 
+/*
+ * reinitializes sigaction with memset (to prevent unexpected behavior)
+ */
 void	setup_child_signal(void)
 {
 	struct sigaction	sig;
-	
+
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_flags = 0;
+	sigemptyset(&sig.sa_mask);
 	sig.sa_handler = exit_child;
 	sigaction(SIGQUIT, &sig, NULL);
 }
