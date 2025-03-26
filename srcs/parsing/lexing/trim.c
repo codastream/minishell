@@ -43,6 +43,22 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 	return (i);
 }
 
+int	remove_extreme_double_quotes(t_data *data, char **s)
+{
+	int	first_quote_index;
+	int	last_quote_index;
+
+	first_quote_index = ft_strchri(*s, '"');
+	last_quote_index = ft_strrchri(*s, '"');
+	while (first_quote_index != -1 && last_quote_index != -1 && first_quote_index != last_quote_index)
+	{
+		remove_quotes(data, s, first_quote_index, last_quote_index);
+		first_quote_index = ft_strchri(*s, '"');
+		last_quote_index = ft_strrchri(*s, '"');
+	}
+	return (-1);
+}
+
 void	handle_quote_in_arg(t_data *data, char **arg)
 {
 	int	i;
@@ -50,7 +66,11 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	i = 0;
 	while ((*arg)[i])
 	{
-		if ((*arg)[i] == '\"')
+		if (arg[0][i] == '"' && check_closing_doublequotes(data, *arg))
+		{
+			i = remove_extreme_double_quotes(data, arg);
+		}
+		else if ((*arg)[i] == '"' && !check_closing_doublequotes(data, *arg))
 			i = handle_pair_of_quotes(data, arg, i, '"');
 		if (i < 0)
 			break ;

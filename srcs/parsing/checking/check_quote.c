@@ -43,3 +43,21 @@ int	check_closing_quotes(t_data *data, char *input)
 	}
 	return (EXIT_SUCCESS);
 }
+int	check_closing_doublequotes(t_data *data, char *input)
+{
+	char	*line;
+
+	(void) data;
+	line = input;
+	while (*line)
+	{
+		if (*line == '\"')
+			go_till_matching_quote(&line, '\"');
+		if (!*line)
+		{
+			return (EXIT_SYNTAX_ERROR);
+		}
+		line++;
+	}
+	return (EXIT_SUCCESS);
+}

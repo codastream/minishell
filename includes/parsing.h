@@ -31,6 +31,7 @@ t_delimiter	**init_quote_delimiters(t_data *data);
 char		*get_checked_pathmame(t_data *data, t_command *command);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
+int			check_closing_doublequotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
 bool		is_path(char *s);
 bool		is_absolute_path(char *s);
