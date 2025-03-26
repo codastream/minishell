@@ -11,6 +11,23 @@ void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
 	(void)data;
 }
 
+char	*get_last_eofmarker(t_command *command)
+{
+	t_list	*current;
+	t_redir	*redir;
+	char	*eof;
+
+	eof = NULL;
+	current = command->redirections;
+	while (current)
+	{
+		redir = (t_redir *) current->content;
+		if (redir->type == T_EOF)
+			eof = redir->string;
+		current = current->next;
+	}
+	return (eof);
+}
 
 void	process_input(t_data *data, t_command *command, int fds[2])
 {
@@ -21,7 +38,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	// bool	in_dquote;
 
 	close(fds[0]);
-	eof = ft_strjoin(command->heredoc->content, "\n");
+	eof = ft_strjoin(get_last_eofmarker(command), "\n");
 	handle_quote_in_arg(data, &eof);
 	check_alloc(data, eof);
 	while (true)
@@ -53,7 +70,7 @@ void	init_heredoc(t_data *data, t_tree **tree)
 	int		fds[2];
 	int		child_pid = 0;
 
-	if (!(*tree)->value->command->heredoc)
+	if (!has_type_of_redir((*tree)->value->command, T_EOF))
 		return ;
 	safe_pipe(data, fds);
 	child_pid = safe_fork(data);

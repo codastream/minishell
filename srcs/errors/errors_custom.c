@@ -22,6 +22,7 @@ void	handle_non_interactive_end(t_data *data, char *step)
 	if (!strcmp(step, "beforeexec"))
 	{
 		free_vars_and_data(data);
+		clear_history();
 	}
 	else if (!strcmp(step, "afterexec"))
 	{
