@@ -83,7 +83,7 @@ void	exec_command(t_data *data, t_tree *tree)
 
 bool	has_redirin(t_tree *tree)
 {
-	return (tree->value->type == T_COMMAND && has_type_of_redir(tree->value->command, T_INFILE));
+	return (tree->value->type == T_COMMAND && (has_type_of_redir(tree->value->command, T_INFILE) || has_type_of_redir(tree->value->command, T_EOF)));
 }
 
 bool	has_redirout(t_tree *tree)
