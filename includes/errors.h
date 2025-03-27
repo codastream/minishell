@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:01:06 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:01:58 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ERRORS_H
 # define ERRORS_H
 
@@ -38,20 +50,21 @@ void	handle_syntax_error(t_data *data, char *token_str);
 void	check_alloc(t_data *data, void *allocated);
 
 // error
-void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code);
-void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg, int code);
-void	handle_custom_error_source_builtin(t_data *data, char *error_source, char *msg, int code);
-void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit);
-void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit);
+void	handle_custom_error_source_noexit(t_data *data, char *error_source, \
+			char *msg, int code);
+void	handle_custom_error_source_exit(t_data *data, char *error_source, \
+			char *msg, int code);
+void	handle_custom_error_source_builtin(t_data *data, char *error_source, \
+			char *msg, int code);
+void	handle_custom_error(t_data *data, char *msg, int code, \
+			bool should_exit);
+void	handle_strerror(t_data *data, char *error_source, int code, \
+			bool should_exit);
 void	handle_and_exit_if_negative(t_data *data, int code, char *msg);
 
-// void	handle_custom_error_exit(t_data *data, char *error_source, char *msg, int code);
-//void	handle_custom_error_source(t_data *data, char *error_source, int code, bool should_exit);
-//void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code);
-// void	handle_child_error(t_data *data, t_command *command);
-
 // error util
-char	*build_wrongvar_msg(t_data *data, char *error_source, char *wrong_var, char *msg);
+char	*build_wrongvar_msg(t_data *data, char *error_source, char *wrong_var, \
+			char *msg);
 void	update_last_error(t_data *data, int code);
 
 #endif

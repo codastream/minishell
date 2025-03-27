@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:37:04 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/02/02 16:19:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:56:42 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	check_closing_quotes(t_data *data, char *input)
 	}
 	return (EXIT_SUCCESS);
 }
+
 int	check_closing_doublequotes(t_data *data, char *input)
 {
 	char	*line;

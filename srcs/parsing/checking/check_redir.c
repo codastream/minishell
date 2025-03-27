@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_redir.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:47:41 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 17:57:28 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 /*
@@ -24,7 +36,6 @@ static void	add_file_after_redir(t_data *data, t_token **tokens, \
 	int		index_space;
 
 	(void) tokens;
-
 	index_space = find_index_of_space_out_of_quotes(token->next->string);
 	if (index_space != -1)
 	{

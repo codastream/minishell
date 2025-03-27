@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:10:57 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:13:32 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	print_tree(t_tree *root)
@@ -19,15 +31,14 @@ void	print_tree(t_tree *root)
 }
 
 void	print_pretty_tree(t_data *data, t_tree *tree, int level, \
-		char *prefix, bool show_pipe_fds)
+		char *prefix)
 {
 	int	i;
 
 	if (tree)
 	{
 		if (tree->right)
-			print_pretty_tree(data, tree->right, level + 1, "┌--", \
-					show_pipe_fds);
+			print_pretty_tree(data, tree->right, level + 1, "┌--");
 		i = 0;
 		while (i < level)
 		{
@@ -36,14 +47,13 @@ void	print_pretty_tree(t_data *data, t_tree *tree, int level, \
 		}
 		printf("%s%s%s%s (in:%d out:%d)", prefix, P_BLUE, tree->value->string, \
 				P_NOC, tree->value->in, tree->value->out);
-		if (show_pipe_fds && tree->value->type == T_PIPE)
+		if (tree->value->type == T_PIPE && tree->value->pipe_read)
 			printf("[%sfds 0:%d 1:%d %s]\n", P_PINK, tree->value->pipe_read, \
 				tree->value->pipe_write, P_NOC);
 		else
 			printf("\n");
 		if (tree->left)
-			print_pretty_tree(data, tree->left, level + 1, "└--", \
-				show_pipe_fds);
+			print_pretty_tree(data, tree->left, level + 1, "└--");
 	}
 }
 
@@ -88,4 +98,16 @@ char	*get_token_type(t_tokentype type)
 		return ("command");
 	else
 		return ("unknown");
+}
+
+void	print_datafds(t_data *data)
+{
+	t_fds	*fd;
+
+	fd = data->fds;
+	while (fd)
+	{
+		printf("fd %d\n", fd->fd);
+		fd = fd->next;
+	}
 }

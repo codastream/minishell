@@ -1,24 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:30:34 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:30:34 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 char	*getpwd(t_data *data)
 {
 	int		size;
 	char	*buffer;
-	// char	*result;
 
 	size = 2048;
 	buffer = malloc(size);
 	check_alloc(data, buffer);
 	getcwd(buffer, size);
-	// if (!result)
-	// 	return ();
-	// while (!result)
-	// {
-	// 	free(buffer);
-	// 	size = size * 2;
-	// 	buffer = malloc(size);
-	// 	result = getcwd(buffer, size);
-	// }
 	return (buffer);
 }
 

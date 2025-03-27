@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_combo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:14:37 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:16:51 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	free_before_parsing(t_data *data)
@@ -33,7 +45,6 @@ void	free_after_exec(t_data *data)
 	data->exec = NULL;
 	if (data->varstab)
 		ft_free_2d_char_null_ended(data->varstab);
-
 	data->varstab = NULL;
 }
 

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/24 18:40:54 by djo              ###   ########.fr       */
+/*   Updated: 2025/03/27 19:06:48 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-extern int g_signal;
+extern int	g_signal;
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	if (sig == 2)
 	{
@@ -30,58 +30,23 @@ void handle_sigint(int sig)
 	}
 }
 
-void  exit_heredoc(int sig)
+void	exit_heredoc(int sig)
 {
-  g_signal = 2;
-  printf("\n");
-  close(0);
-  (void)sig;
+	g_signal = 2;
+	printf("\n");
+	close(0);
+	(void)sig;
 }
 
 void	exit_child(int sig)
 {
-	(void) sig;
 	int		result;
 
+	(void) sig;
 	result = wait(0);
-	if (result != -1) {
-        ft_printfd(2, "Quit (core dumped)\n");
-        setup_signal();
-    }
-}
-
-/*
- * reinitializes sigaction with memset (to prevent unexpected behavior)
- */
-void	setup_child_signal(void)
-{
-	struct sigaction	sig;
-
-	ft_memset(&sig, 0, sizeof(sig));
-	sig.sa_flags = 0;
-	sigemptyset(&sig.sa_mask);
-	sig.sa_handler = exit_child;
-	sigaction(SIGQUIT, &sig, NULL);
-}
-
-void  setup_heredoc_signal(void)
-{
-	struct sigaction  sa;
-
-	sa.sa_handler = exit_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	setup_signal(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);	// permet de modifier ctrl + C avec la fonction handle_sigint
-	signal(SIGQUIT, SIG_IGN);		// permet d'ignorer ctrl + \ avec SIG_IGN
+	if (result != -1)
+	{
+		ft_printfd(2, "Quit\n");
+		setup_signal();
+	}
 }

@@ -66,14 +66,17 @@ BUILD_DIR		:=	.build
 SRCS_FILES:=	main.c\
 				builtins/builtins.c\
 				builtins/cd.c\
+				builtins/cd_utils.c\
 				builtins/echo.c\
 				builtins/env.c\
 				builtins/exit.c\
 				builtins/export.c\
+				builtins/export_utils.c\
 				builtins/hash_export.c\
 				builtins/pwd.c\
 				builtins/unset.c\
 				parsing/lexing/lexer.c\
+				parsing/lexing/lexer_utils.c\
 				parsing/lexing/split_utils.c\
 				parsing/lexing/tokens_utils.c\
 				parsing/lexing/tokens_utils_create.c\
@@ -81,24 +84,31 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/command_utils.c\
 				parsing/lexing/command_utils_add.c\
 				parsing/lexing/trim.c\
+				parsing/lexing/trim_utils.c\
 				parsing/lexing/args.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_path.c\
 				parsing/checking/check_files.c\
+				parsing/checking/path_utils.c\
 				execution/exec.c\
 				execution/exec_redir.c\
 				execution/exec_utils.c\
+				execution/exec_utils2.c\
 				execution/heredoc.c\
+				execution/heredoc_utils.c\
+				execution/redir_utils.c\
 				execution/navigation.c\
 				execution/fds.c\
+				execution/fds_utils.c\
 				errors/errors.c\
 				errors/errors_custom.c\
 				errors/errors_utils.c\
 				errors/errors_print.c\
 				errors/errors_print_custom.c\
 				signal/signal.c\
+				signal/signal_setup.c\
 				utils/tree.c\
 				utils/tree_utils.c\
 				utils/free.c\
@@ -107,11 +117,13 @@ SRCS_FILES:=	main.c\
 				utils/init.c\
 				utils/loop.c\
 				utils/string_utils.c\
+				utils/quote_utils.c\
 				utils/debug.c\
 				utils/debug_utils.c\
 				vars/vars.c\
 				vars/return_code.c\
 				vars/expand.c\
+				vars/expand_utils.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

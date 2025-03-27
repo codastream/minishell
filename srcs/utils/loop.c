@@ -1,15 +1,17 @@
-#include "shell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   loop.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:09:05 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:09:39 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static bool	is_empty_line(char *line)
-{
-	if (!line)
-		return (true);
-	while (*line && ft_isemptychar(*line))
-		line++;
-	if (!*line)
-		return (true);
-	return (false);
-}
+#include "colors.h"
+#include "shell.h"
 
 char	*adjust_color_to_last_return(t_data *data)
 {

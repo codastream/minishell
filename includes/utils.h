@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:00:55 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:16:39 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
@@ -22,15 +34,20 @@ void	free_all_data(t_data *data);
 // free_utils
 void	reset(void *allocated);
 void	free_delimiters(t_delimiter **delims);
-int		find_index_of_space_out_of_quotes(char *s);
+void	free_redir_list(void *content);
 
-// string_utils
+// quote_utils
+int		find_index_of_space_out_of_quotes(char *s);
 void	skip_single_quote(char *string, int *i);
 bool	is_quote(char c);
+
+// string utils 2
+bool	is_empty_line(char *line);
 bool	is_surrounded_by_pairofchar(char *s, char c);
+int		ft_strndup(char **var, char *cmd, int start, int end);
 
 // init.c
-t_data *init_data(char **env);
+t_data	*init_data(char **env);
 void	init_builtins(t_data *data, t_exec *exec);
 t_exec	*init_exec(t_data *data, t_tree *tree);
 
@@ -38,8 +55,10 @@ t_exec	*init_exec(t_data *data, t_tree *tree);
 t_tree	*make_tree(t_data *data, t_token *list);
 
 // tree_util
-int		iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *));
+int		iter_tree_count(t_tree *tree, int *count, \
+			void (*f)(t_tree *, int *));
 void	count_if_command(t_tree *tree, int *nb);
-int		iter_tree_token(t_data *data, t_tree *tree, int (*f)(t_data *data, t_token *token));
+int		iter_tree_token(t_data *data, t_tree *tree, \
+			int (*f)(t_data *data, t_token *token));
 
 #endif
