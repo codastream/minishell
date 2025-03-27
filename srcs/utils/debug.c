@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:11:52 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:13:26 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	print_fd(t_data *data, t_exec *exec)
@@ -13,21 +25,10 @@ void	print_fd(t_data *data, t_exec *exec)
 	printf("\t---\n");
 }
 
-void	print_datafds(t_data *data)
-{
-	t_fds	*fd;
-
-	fd = data->fds;
-	while (fd)
-	{
-		printf("fd %d\n", fd->fd);
-		fd = fd->next;
-	}
-}
-
 static void	print_redir(t_redir *redir)
 {
-	printf("\t\t%s%s : %s%s\n", P_GREEN, get_token_type(redir->type), redir->string, P_NOC);
+	printf("\t\t%s%s : %s%s\n", P_GREEN, get_token_type(redir->type), \
+		redir->string, P_NOC);
 }
 
 static void	print_redirs(t_list *redirlist)
@@ -35,11 +36,9 @@ static void	print_redirs(t_list *redirlist)
 	t_list	*current;
 
 	current = redirlist;
-	// printf("\t\t%s%s : %s", P_GREEN, (t_redir *) current->content, P_NOC);
 	while (current)
 	{
 		print_redir((t_redir *) current->content);
-		// printf("%s %s%s", P_GREEN, (char *)current->content, P_NOC);
 		current = current->next;
 	}
 	printf("\n");
@@ -76,9 +75,6 @@ void	print_tokens(t_token **tokens)
 		if (current->type == T_COMMAND)
 		{
 			print_redirs(current->command->redirections);
-			// print_redirs("<< heredoc\t", current->command->heredoc);
-			// print_redirs(">> append\t", current->command->redir_out_append);
-			// print_redirs("> truncate\t", current->command->redir_out_truncate);
 			print_command(current->command);
 		}
 		current = current->next;

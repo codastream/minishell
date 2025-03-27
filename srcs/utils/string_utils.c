@@ -1,4 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:14:43 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:14:44 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
+
+bool	is_empty_line(char *line)
+{
+	if (!line)
+		return (true);
+	while (*line && ft_isemptychar(*line))
+		line++;
+	if (!*line)
+		return (true);
+	return (false);
+}
 
 bool	is_surrounded_by_pairofchar(char *s, char c)
 {

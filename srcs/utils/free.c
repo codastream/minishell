@@ -1,13 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:14:31 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:16:06 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
-
-void  free_redir_list(void *content)
-{
-	t_redir *redir;
-
-	redir = (t_redir *)content;
-	free(redir->string);
-	redir->string = NULL;
-}
 
 void	free_command(t_command *command)
 {

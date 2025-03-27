@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:10:57 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:13:32 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	print_tree(t_tree *root)
@@ -86,4 +98,16 @@ char	*get_token_type(t_tokentype type)
 		return ("command");
 	else
 		return ("unknown");
+}
+
+void	print_datafds(t_data *data)
+{
+	t_fds	*fd;
+
+	fd = data->fds;
+	while (fd)
+	{
+		printf("fd %d\n", fd->fd);
+		fd = fd->next;
+	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 19:11:13 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 19:11:46 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	count_if_command(t_tree *tree, int *nb)
@@ -18,18 +30,14 @@ int	iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *))
 /*
  * to be used with check redirection files
  */
-int	iter_tree_token(t_data *data, t_tree *tree, int (*f)(t_data *data, t_token *token))
+
+int	iter_tree_token(t_data *data, t_tree *tree, \
+	int (*f)(t_data *data, t_token *token))
 {
 	if (!tree)
 		return (EXIT_IGNORE);
 	iter_tree_token(data, tree->left, f);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
 	f(data, tree->value);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
 	iter_tree_token(data, tree->right, f);
-	// if (code != EXIT_SUCCESS)
-	// 	return (code);
 	return (EXIT_SUCCESS);
 }
