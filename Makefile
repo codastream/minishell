@@ -89,6 +89,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/check_pipe.c\
 				parsing/checking/check_path.c\
 				parsing/checking/check_files.c\
+				parsing/checking/path_utils.c\
 				execution/exec.c\
 				execution/exec_redir.c\
 				execution/exec_utils.c\

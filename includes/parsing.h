@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:08:37 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:53:08 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void		split_append_token(t_data *data, t_token *token, int index_space, \
 char		**init_separators_for_operators(t_data *data);
 t_delimiter	**init_quote_delimiters(t_data *data);
 
+// path utils
+bool		is_path(char *s);
+bool		is_absolute_path(char *s);
+char		*find_in_paths(t_data *data, char **splitted_paths, char *name);
+
 // checking
 char		*get_checked_pathmame(t_data *data, t_command *command);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
@@ -47,8 +52,6 @@ int			check_closing_quotes(t_data *data, char *input);
 int			check_closing_doublequotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, \
 				t_token *token);
-bool		is_path(char *s);
-bool		is_absolute_path(char *s);
 
 // check files
 
