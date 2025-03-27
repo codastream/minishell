@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:01:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 20:38:06 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # include "shell.h"
 
 // lexer utils
-int	do_for_tokens_delete(t_data *data, t_token **tokens, \
+int			do_for_tokens_delete(t_data *data, t_token **tokens, \
 	t_token *(*f)(t_data *, t_token **, t_token *, t_token *));
-int	do_for_tokens(t_data *data, t_token **tokens, \
+int			do_for_tokens(t_data *data, t_token **tokens, \
 		int (*f)(t_data *, t_token **, t_token *));
 
 // lexer.c
@@ -91,11 +91,11 @@ t_token		*remove_extra_command(t_data *data, t_token **tokens, \
 // trim
 void		handle_quote_in_arg(t_data *data, char **arg);
 int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
-void	remove_quotes(t_data *data, char **arg, \
+void		remove_quotes(t_data *data, char **arg, \
 		int start_quote_index, int end_quote_index);
 
 // trim utils
-int	remove_extreme_double_quotes(t_data *data, char **s);
+int			remove_extreme_double_quotes(t_data *data, char **s);
 
 // args
 int			remove_empty_args(t_data *data, t_token **tokens, \

@@ -108,6 +108,7 @@ SRCS_FILES:=	main.c\
 				errors/errors_print.c\
 				errors/errors_print_custom.c\
 				signal/signal.c\
+				signal/signal_setup.c\
 				utils/tree.c\
 				utils/tree_utils.c\
 				utils/free.c\
@@ -122,6 +123,7 @@ SRCS_FILES:=	main.c\
 				vars/vars.c\
 				vars/return_code.c\
 				vars/expand.c\
+				vars/expand_utils.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 
