@@ -76,6 +76,7 @@ SRCS_FILES:=	main.c\
 				builtins/pwd.c\
 				builtins/unset.c\
 				parsing/lexing/lexer.c\
+				parsing/lexing/lexer_utils.c\
 				parsing/lexing/split_utils.c\
 				parsing/lexing/tokens_utils.c\
 				parsing/lexing/tokens_utils_create.c\
@@ -83,6 +84,7 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/command_utils.c\
 				parsing/lexing/command_utils_add.c\
 				parsing/lexing/trim.c\
+				parsing/lexing/trim_utils.c\
 				parsing/lexing/args.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\

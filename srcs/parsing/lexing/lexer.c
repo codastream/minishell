@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 18:11:12 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static void	add_token(t_data *data, t_token **tokens, char **s, int i)
@@ -29,47 +41,24 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 	add_token_back(tokens, token);
 }
 
-static int	do_for_tokens_delete(t_data *data, t_token **tokens, \
-		t_token *(*f)(t_data *, t_token **, t_token *, t_token *))
+static int	add_commands(t_data *data, t_token **tokens)
 {
-	t_token	*current;
-	t_token	*tmp;
+	int	code;
 
-	tmp = NULL;
-	if (!tokens)
-		return (EXIT_FAILURE);
-	current = *tokens;
-	while (current)
-	{
-		current = f(data, tokens, current, tmp);
-	}
+	code = do_for_tokens(data, tokens, \
+		update_command_from_extra_words_before_pipe);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens(data, tokens, add_command_from_word);
+	if (code != EXIT_SUCCESS)
+		return (code);
+	code = do_for_tokens_delete(data, tokens, add_command_from_redirop);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	if (PRINT == 1)
-		print_tokens(tokens);
-	return (EXIT_SUCCESS);
-}
-
-int	do_for_tokens(t_data *data, t_token **tokens, \
-		int (*f)(t_data *, t_token **, t_token *))
-{
-	t_token	*current;
-	int		code;
-
-	if (!tokens)
-		return (EXIT_FAILURE);
-	current = *tokens;
-	while (current)
-	{
-		code = f(data, tokens, current);
-		if (code != EXIT_SUCCESS)
-			return (code);
-		if (current)
-			current = current->next;
-		else
-			current = *tokens;
-	}
-	if (PRINT == 1)
-		print_tokens(tokens);
-	return (EXIT_SUCCESS);
+		ft_put_yellow("remove extra commands\n");
+	code = do_for_tokens_delete(data, tokens, remove_extra_command);
+		return (code);
 }
 
 static int	check_tokens(t_data *data, t_token **tokens)
@@ -77,38 +66,15 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	int	code;
 
 	code = EXIT_SUCCESS;
-	if (PRINT == 1)
-		ft_put_yellow("check redir syntax\n");
 	code = do_for_tokens(data, tokens, check_redirection);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("check pipe\n");
 	code = do_for_tokens(data, tokens, check_pipe);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("merge words\n");
-	code = do_for_tokens(data, tokens, update_command_from_extra_words_before_pipe);
+	code = add_commands(data, tokens);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("add command from word\n");
-	code = do_for_tokens(data, tokens, add_command_from_word);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("add command from redirop\n");
-	code = do_for_tokens_delete(data, tokens, add_command_from_redirop);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("remove extra commands\n");
-	code = do_for_tokens_delete(data, tokens, remove_extra_command);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);
 	if (code != EXIT_SUCCESS)
 		return (code);
@@ -117,8 +83,6 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	code = do_for_tokens(data, tokens, handle_quotes);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	if (PRINT == 1)
-		ft_put_yellow("remove empty args\n");
 	code = do_for_tokens(data, tokens, remove_empty_args);
 	if (code != EXIT_SUCCESS)
 		return (code);

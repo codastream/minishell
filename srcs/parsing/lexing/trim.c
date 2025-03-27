@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trim.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 18:12:02 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-static void	remove_quotes(t_data *data, char **arg, \
+void	remove_quotes(t_data *data, char **arg, \
 		int start_quote_index, int end_quote_index)
 {
 	int		i;
@@ -41,22 +53,6 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 		}
 	}
 	return (i);
-}
-
-int	remove_extreme_double_quotes(t_data *data, char **s)
-{
-	int	first_quote_index;
-	int	last_quote_index;
-
-	first_quote_index = ft_strchri(*s, '"');
-	last_quote_index = ft_strrchri(*s, '"');
-	while (first_quote_index != -1 && last_quote_index != -1 && first_quote_index != last_quote_index)
-	{
-		remove_quotes(data, s, first_quote_index, last_quote_index);
-		first_quote_index = ft_strchri(*s, '"');
-		last_quote_index = ft_strrchri(*s, '"');
-	}
-	return (-1);
 }
 
 void	handle_quote_in_arg(t_data *data, char **arg)
@@ -105,7 +101,6 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
-	// update_command_from_string(data, token->command, token->string);
 	name_with_args = token->command->command_args;
 	if (!name_with_args[0])
 		return (EXIT_IGNORE);
