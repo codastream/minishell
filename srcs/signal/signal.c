@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/27 19:06:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 21:48:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,21 @@ void	handle_sigint(int sig)
 			rl_redisplay();
 		}
 		else
-			g_signal = 2;
+		{
+			g_signal = 128 + sig;
+			exit (g_signal);
+		}
 	}
 }
 
 void	exit_heredoc(int sig)
 {
-	g_signal = 2;
-	printf("\n");
-	close(0);
+	if (sig == 2)
+	{
+		g_signal = 2;
+		printf("\n");
+		close(0);
+	}
 	(void)sig;
 }
 

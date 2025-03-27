@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:32:08 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:07:08 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		heredoc(t_data *data, t_tree **tree);
 
 // heredoc utils
 void	put_fd_heredoc(t_data *data, t_tree **tree, int in, int out);
+char	*get_last_eofmarker(t_command *command);
 
 // void	close_all(t_tree *tree);
 int		check_executable(t_data *data, t_token *token);
