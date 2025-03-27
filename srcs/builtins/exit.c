@@ -17,7 +17,7 @@ int	handle_return_code(t_data *data, t_token *token)
 	int		return_code;
 	char	*msg;
 
-	if (is_atoll_str(token->command->command_args[1]))
+	if (is_atoll_str(token->command->command_args[1]) && ft_strlen(token->command->command_args[1]) < 20)
 		return_code = ft_atoll(token->command->command_args[1]) % 256;
 	else
 	{
