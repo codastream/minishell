@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:11:12 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 18:44:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	add_commands(t_data *data, t_token **tokens)
 	if (PRINT == 1)
 		ft_put_yellow("remove extra commands\n");
 	code = do_for_tokens_delete(data, tokens, remove_extra_command);
-		return (code);
+	return (code);
 }
 
 static int	check_tokens(t_data *data, t_token **tokens)

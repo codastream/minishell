@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:06:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 18:57:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,6 @@ void	update_command_from_string(t_data *data, t_command *command, \
 	update_args_and_name(data, command, string);
 }
 
-t_command	*new_command(t_data *data, char *string)
-{
-	t_command	*command;
-
-	command = ft_calloc(1, sizeof(t_command));
-	check_alloc(data, command);
-	if (string && string[0] != '\0')
-	{
-		update_command_from_string(data, command, string);
-	}
-	else
-	{
-		command->command_name = NULL;
-		command->command_args = NULL;
-	}
-	command->has_invalid_redir = false;
-	return (command);
-}
-
 t_list	**get_redir_list_from_operator(t_token *operator_token, \
 		t_token *command_token)
 {
@@ -90,7 +71,8 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 	int		index;
 
 	index = 0;
-	redir_file_str_expanded = try_replace_vars(data, (char *) file_token->string, &index, 0);
+	redir_file_str_expanded = \
+		try_replace_vars(data, (char *) file_token->string, &index, 0);
 	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
 	free(redir_file_str_expanded);
 	check_alloc(data, redir_file_str);

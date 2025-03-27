@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:11:54 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 19:01:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,16 @@ int			check_redirection(t_data *data, t_token **tokens, \
 bool		is_elf_executable(t_data *data, char *path);
 bool		is_script(t_data *data, char *path);
 
+// command utils add
+t_command	*new_command(t_data *data, char *string);
+t_token		*remove_extra_command(t_data *data, t_token **tokens, \
+	t_token *token, t_token *next);
+
 // command utils
 int			update_command_from_extra_words_before_pipe(t_data *data, \
 				t_token **tokens, t_token *token);
 void		update_command_from_string(t_data *data, t_command *command, \
 				char *string);
-t_command	*new_command(t_data *data, char *string);
 t_list		**get_redir_list_from_operator(t_token *operator_token, \
 				t_token *command_token);
 void		add_redirect_file_to_command(t_data *data, t_token **tokens, \

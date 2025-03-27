@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:11 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:59:12 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 18:59:35 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	add_previous_redirect_to_command(t_data *data, \
 	t_token **tokens, t_token *command_token)
 {
-	// t_list	**redir_list;
 	t_token	*current;
 	t_token	*tmp;
 
@@ -29,8 +28,8 @@ static void	add_previous_redirect_to_command(t_data *data, \
 	{
 		if (current->next->next)
 			tmp = current->next->next;
-		// redir_list = get_redir_list_from_operator(current, command_token);
-		add_redirect_file_to_command(data, tokens, command_token, current->next);
+		add_redirect_file_to_command(data, tokens, command_token, \
+			current->next);
 		current = tmp;
 	}
 	if (PRINT == 1)
@@ -40,15 +39,12 @@ static void	add_previous_redirect_to_command(t_data *data, \
 static void	add_following_redirect_to_command(t_data *data, \
 	t_token **tokens, t_token *command_token)
 {
-	// t_list	**redir_list;
-
 	while (command_token && command_token->next && command_token->next->next \
 		&& command_token->next->type != T_PIPE)
 	{
 		if (is_file(command_token->next->next) \
 		&& is_redir_operator(command_token->next))
 		{
-			// redir_list = get_redir_list_from_operator(command_token->next, command_token);
 			add_redirect_file_to_command(data, tokens, command_token, \
 				command_token->next->next);
 		}
@@ -80,23 +76,6 @@ int	add_command_from_word(t_data *data, t_token **tokens, t_token *token)
 	if (PRINT == 1)
 		print_tokens(tokens);
 	return (EXIT_SUCCESS);
-}
-
-t_token	*remove_extra_command(t_data *data, t_token **tokens, t_token *token, t_token *next)
-{
-	t_token *tmp;
-
-	(void) data;
-	(void) next;
-	if (token->type != T_COMMAND)
-		return (token->next);
-	if (token->next && token->next->type == T_COMMAND)
-	{
-		tmp = token->next->next;
-		delete_token(tokens, token->next);
-		return (tmp);
-	}
-	return (token->next);
 }
 
 t_token	*add_command_from_redirop(t_data *data, t_token **tokens, \
