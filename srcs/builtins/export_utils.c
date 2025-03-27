@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:37:21 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:08:43 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,3 @@ bool	is_valid_identifier(char *arg)
 		return (false);
 	return (true);
 }
-

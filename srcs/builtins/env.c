@@ -6,42 +6,49 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:15 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:31:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:08:35 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_env(t_data *data, t_token *token)
+static void	print_envvar(t_data *data, t_token *token)
 {
-	int			i;
-	t_keyval	**keyvals;
 	t_keyval	*current;
+	t_keyval	**keyvals;
 	t_hash		*hash;
+	int			i;
 
-	(void) token;
-	hash = data->localvars;
 	keyvals = hash->keyvals;
 	i = 0;
-	if (token->command->command_args[1] && ft_strcmp(token->command->command_args[1], "env"))
-	{
-		handle_custom_error_source_builtin(data, token->command->command_name, \
-		MSG_USAGE_NO_OPTS_NO_ARGS, EXIT_SYNTAX_ERROR);
-		return ;
-	}
+	hash = data->localvars;
 	while (i < hash->capacity)
 	{
-		if (keyvals[i++])
+		if (keyvals[i])
 		{
-			current = keyvals[i - 1];
+			current = keyvals[i];
 			while (current)
 			{
-				if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
+				if (current->value[0] && \
+					ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "%s=%s\n", current->key, \
 					current->value);
 				current = current->next;
 			}
 		}
+		i++;
 	}
+}
+
+void	ft_env(t_data *data, t_token *token)
+{
+	if (token->command->command_args[1] && \
+		ft_strcmp(token->command->command_args[1], "env"))
+	{
+		handle_custom_error_source_builtin(data, token->command->command_name, \
+			MSG_USAGE_NO_OPTS_NO_ARGS, EXIT_SYNTAX_ERROR);
+		return ;
+	}
+	print_envvar(data, token);
 	update_last_return(data, EXIT_SUCCESS);
 }
