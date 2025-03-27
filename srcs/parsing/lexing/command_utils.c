@@ -69,25 +69,6 @@ t_list	**get_redir_list_from_operator(t_token *operator_token, \
 	return (NULL);
 }
 
-// void	expand_vars_in_redirs(t_data *data, t_list *redirs)
-// {
-// 	char	*expanded;
-// 	t_list	*current;
-// 	int		index;
-// 	bool	in_dquote;
-
-// 	index = 0;
-// 	in_dquote = false;
-// 	current = redirs;
-// 	while (current && next_expand(current->content, '$', &index, &in_dquote))
-// 	{
-// 		expanded = try_replace_vars(data, (char *) current->content, &index, 0);
-// 		free(current->content);
-// 		current->content = expanded;
-// 		current = current->next;
-// 	}
-// }
-
 t_list	*create_redir(t_data *data, t_token *file_token)
 {
 	t_list	*new;
@@ -114,9 +95,7 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
 	t_token *command_token, t_token *file_token)
 {
-	// t_list	*redirections;
 	t_list	*redir;
-	// t_list	*redir_file;
 
 	if (PRINT == 1)
 	{
@@ -126,9 +105,6 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
 	redir = create_redir(data, file_token);
 	check_alloc(data, redir);
 	ft_lstadd_back(&command_token->command->redirections, redir);
-	// redir_file = ft_lstnew(redir_file_str);
-	// check_alloc(data, redir_file);
-	// ft_lstadd_back(redir_list, redir_file);
 	delete_token(tokens, file_token->prev);
 	delete_token(tokens, file_token);
 	if (PRINT == 1)
@@ -136,20 +112,4 @@ void	add_redirect_file_to_command(t_data *data, t_token **tokens, \
 		ft_put_yellow("after add redirect\n");
 		print_tokens(tokens);
 	}
-}
-
-bool	has_type_of_redir(t_command *command, t_tokentype type)
-{
-	t_list	*current;
-	t_redir	*redir;
-
-	current = command->redirections;
-	while (current)
-	{
-		redir = (t_redir *)current->content;
-		if (redir->type == type)
-			return (true);
-		current = current->next;
-	}
-	return (false);
 }

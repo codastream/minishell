@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:15 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:08:35 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:27:37 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	print_envvar(t_data *data, t_token *token)
 	t_hash		*hash;
 	int			i;
 
-	keyvals = hash->keyvals;
 	i = 0;
 	hash = data->localvars;
+	keyvals = hash->keyvals;
 	while (i < hash->capacity)
 	{
 		if (keyvals[i])

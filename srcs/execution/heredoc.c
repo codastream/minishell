@@ -1,15 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 17:16:31 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-int g_signal = 0;
-
-void  put_fd_heredoc(t_data *data, t_tree **tree, int in, int out)
-{
-	(*tree)->value->in = in;
-	(*tree)->value->out = out;
-	fd_push_back(&(data->fds), in);
-	fd_push_back(&(data->fds), out);
-	(void)data;
-}
+int	g_signal = 0;
 
 char	*get_last_eofmarker(t_command *command)
 {
@@ -33,9 +36,6 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*input;
 	char	*eof;
-	// char	*expanded;
-	// int		last_expanded_index;
-	// bool	in_dquote;
 
 	close(fds[0]);
 	eof = ft_strjoin(get_last_eofmarker(command), "\n");
@@ -47,14 +47,6 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof))
 			break ;
-		// in_dquote = false;
-		// last_expanded_index = 0;
-		// while (next_expand(input, '$', &last_expanded_index, &in_dquote))
-		// {
-		// 	expanded = try_replace_vars(data, input, &last_expanded_index, 1);
-		// 	free(input);
-		// 	input = expanded;
-		// }
 		ft_print_str_fd(fds[1], input);
 		free(input);
 	}
@@ -68,7 +60,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 void	init_heredoc(t_data *data, t_tree **tree)
 {
 	int		fds[2];
-	int		child_pid = 0;
+	int		child_pid;
 
 	if (!has_type_of_redir((*tree)->value->command, T_EOF))
 		return ;
@@ -87,7 +79,7 @@ void	init_heredoc(t_data *data, t_tree **tree)
 		put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
 }
 
-int heredoc_exec(t_data *data, t_tree **tree)
+int	heredoc_exec(t_data *data, t_tree **tree)
 {
 	if ((*tree)->left)
 	{
@@ -99,13 +91,14 @@ int heredoc_exec(t_data *data, t_tree **tree)
 		if (heredoc(data, &(*tree)->right) != 0)
 			return (130);
 	}
-	if ((*tree)->value->type == T_COMMAND && has_type_of_redir((*tree)->value->command, T_EOF))
+	if ((*tree)->value->type == T_COMMAND \
+		&& has_type_of_redir((*tree)->value->command, T_EOF))
 		init_heredoc(data, tree);
 	return (g_signal);
 }
 
-int  heredoc(t_data *data, t_tree **tree)
+int	heredoc(t_data *data, t_tree **tree)
 {
-  g_signal = 0;
-  return (heredoc_exec(data, tree));
+	g_signal = 0;
+	return (heredoc_exec(data, tree));
 }

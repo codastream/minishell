@@ -92,9 +92,13 @@ SRCS_FILES:=	main.c\
 				execution/exec.c\
 				execution/exec_redir.c\
 				execution/exec_utils.c\
+				execution/exec_utils2.c\
 				execution/heredoc.c\
+				execution/heredoc_utils.c\
+				execution/redir_utils.c\
 				execution/navigation.c\
 				execution/fds.c\
+				execution/fds_utils.c\
 				errors/errors.c\
 				errors/errors_custom.c\
 				errors/errors_utils.c\

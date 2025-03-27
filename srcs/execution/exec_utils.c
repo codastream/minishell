@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:35:02 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 17:37:53 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	safe_dup2(t_data *data, int fdfrom, int fdto)
@@ -9,7 +21,7 @@ void	safe_dup2(t_data *data, int fdfrom, int fdto)
 	pop_fd(&data->fds, fdfrom);
 }
 
-void	safe_pipe(t_data *data, int	fds[2])
+void	safe_pipe(t_data *data, int fds[2])
 {
 	int	code;
 
@@ -26,11 +38,12 @@ int	safe_fork(t_data *data)
 	return (child_pid);
 }
 
-void  put_fd_token(t_data *data, t_token *token, int in, int out)
+void	put_fd_token(t_data *data, t_token *token, int in, int out)
 {
 	token->out = out;
 	if (PRINTFD == 1)
-		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", token->string, in, out);
+		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", \
+			token->string, in, out);
 	if (token->type == T_COMMAND && token->command->heredoc)
 		fd_push_back(&(data->fds), in);
 	else
@@ -43,11 +56,12 @@ void  put_fd_token(t_data *data, t_token *token, int in, int out)
 	(void)data;
 }
 
-void  put_fd(t_data *data, t_tree **tree, int in, int out)
+void	put_fd(t_data *data, t_tree **tree, int in, int out)
 {
 	(*tree)->value->out = out;
 	if (PRINTFD == 1)
-		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", (*tree)->value->string, in, out);
+		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", \
+			(*tree)->value->string, in, out);
 	if ((*tree)->value->type == T_COMMAND && (*tree)->value->command->heredoc)
 		fd_push_back(&(data->fds), in);
 	else
@@ -57,16 +71,4 @@ void  put_fd(t_data *data, t_tree **tree, int in, int out)
 	}
 	fd_push_back(&(data->fds), out);
 	(void)data;
-}
-
-void  close_all(t_tree *tree)
-{
-	if (tree->value->in < 0)
-		close(tree->value->in);
-	if (tree->value->out < 0)
-		close(tree->value->out);
-	if (tree->left)
-		close_all(tree->left);
-	if (tree->right)
-	close_all(tree->right);
 }

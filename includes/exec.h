@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:07:15 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 17:32:08 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,38 @@
 
 # include "shell.h"
 
+// exec
 void	exec_line(t_data *data, t_tree *tree);
 void	exec_tree_node(t_data *data, t_tree *tree);
+
+// exec utils
 void	safe_dup2(t_data *data, int fdfrom, int fdto);
 void	safe_pipe(t_data *data, int fds[2]);
 int		safe_fork(t_data *data);
-
 void	put_fd(t_data *data, t_tree **tree, int in, int out);
 void	put_fd_token(t_data *data, t_token *token, int in, int out);
+
+// fds utils
+void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left);
+
+// heredoc
 int		heredoc(t_data *data, t_tree **tree);
-void	close_all(t_tree *tree);
+
+// heredoc utils
+void	put_fd_heredoc(t_data *data, t_tree **tree, int in, int out);
+
+// void	close_all(t_tree *tree);
 int		check_executable(t_data *data, t_token *token);
 
-bool	has_type_of_redir(t_command *command, t_tokentype type);
+// exec redir
 int		check_redirection_files(t_data *data, t_token *token);
+
+// redir utils
+bool	has_type_of_redir(t_command *command, t_tokentype type);
+bool	has_redirin(t_tree *tree);
+bool	has_redirout(t_tree *tree);
+
+// exec utils 2
+int		wait_all(t_data *data, t_exec *exec);
 
 #endif
