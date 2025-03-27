@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/27 21:48:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:23:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 extern int	g_signal;
 
-void	handle_sigint(int sig)
+void	handle_sig_main(int sig)
 {
-	if (sig == 2)
+	if (sig == SIGINT)
 	{
 		if (wait(0) == -1)
 		{
@@ -28,31 +28,31 @@ void	handle_sigint(int sig)
 		else
 		{
 			g_signal = 128 + sig;
-			exit (g_signal);
 		}
 	}
 }
 
-void	exit_heredoc(int sig)
+void	handle_sig_heredoc(int sig)
 {
-	if (sig == 2)
+	if (sig == SIGINT)
 	{
 		g_signal = 2;
 		printf("\n");
 		close(0);
 	}
-	(void)sig;
 }
 
-void	exit_child(int sig)
+void	handle_sig_child(int sig)
 {
 	int		result;
 
-	(void) sig;
-	result = wait(0);
-	if (result != -1)
+	if (sig == SIGQUIT)
 	{
-		ft_printfd(2, "Quit\n");
-		setup_signal();
+		result = wait(0);
+		if (result != -1)
+		{
+			ft_printfd(2, "Quit\n");
+			setup_signal();
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:06:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 21:48:45 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:24:05 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@
  */
 void	setup_child_signal(void)
 {
-	struct sigaction	sig;
+	struct sigaction	sa;
 
-	ft_memset(&sig, 0, sizeof(sig));
-	sig.sa_flags = 0;
-	sigemptyset(&sig.sa_mask);
-	sig.sa_handler = exit_child;
-	sigaction(SIGQUIT, &sig, NULL);
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = handle_sig_child;
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	setup_heredoc_signal(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = exit_heredoc;
+	sa.sa_handler = handle_sig_heredoc;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
@@ -41,7 +41,7 @@ void	setup_signal(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = handle_sigint;
+	sa.sa_handler = handle_sig_main;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
