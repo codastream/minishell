@@ -61,9 +61,8 @@ void	exec_command(t_data *data, t_tree *tree)
 	int	child_pid = 1;
 
 	if (PRINT == 1)
-		print_pretty_tree(data, data->tree, 0, "root", true);
+		print_pretty_tree(data, data->tree, 0, "");
 	setup_child_signal();
-//	if (check_redirection_files(data, data->tokens) == 0)
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
@@ -124,7 +123,7 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	assign_fd(data, tree, tree->right, false);
 	exec_tree_node(data, tree->left);
 	if (PRINT == 1)
-		print_pretty_tree(data, data->tree, 0, "root", true);
+		print_pretty_tree(data, data->tree, 0, "");
 	close(fds[1]);
 	// print_datafds(data);
 	// pop_fd(&(data->fds), fds[1]);

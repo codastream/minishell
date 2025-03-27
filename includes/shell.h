@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 14:22:36 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:13:34 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
 # include <stdlib.h>				// malloc, free, getenv
 # include <fcntl.h>					// open, close
 # include <stdio.h>					// printf
-# include <unistd.h>				// fork, execve, access, dup, dup2, pipe, read, write, unlink, exit, getcwd, chdir
+# include <unistd.h>				// fork, execve, access, dup, dup2, ...
 # include <sys/wait.h>				// waitpid
 # include <sys/types.h>
 # include <sys/stat.h>				// stat, lstat, fstat
@@ -19,28 +31,30 @@
 
 # include "colors.h"
 # include "../libft/includes/libft.h"
+# include "builtins.h"
+# include "parsing.h"
+# include "signals.h"
+# include "utils.h"
+# include "debug.h"
+# include "errors.h"
+# include "exec.h"
+# include "var.h"
+# include "queue.h"
+# include "fds.h"
 
 # define PRINT 0
 # define PRINTFD 0
 
-typedef	struct s_env
+typedef struct s_env
 {
 	char	**localvars;
 }	t_env;
 
 typedef struct s_fds
 {
-  int fd;
-  struct s_fds  *next;
-} t_fds;
-
-// typedef enum e_redirtype
-// {
-// 	R_IN,
-// 	R_HEREDOC,
-// 	R_APPEND,
-// 	R_TRUNCATE
-// }	t_redirtype;
+	int				fd;
+	struct s_fds	*next;
+}	t_fds;
 
 typedef enum e_token
 {
@@ -69,7 +83,7 @@ typedef struct s_command
 	int			index;
 	char		*command_name;
 	char		*pathname;
-	char		**command_args; // command name of path + options - null ended for execve
+	char		**command_args;
 	t_list		*redirections;
 	t_list		*redir_in;
 	t_list		*heredoc;
@@ -99,15 +113,15 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef	struct s_tree
+typedef struct s_tree
 {
 	t_token			*value;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }	t_tree;
 
-typedef struct s_data t_data;
-typedef void	(*t_builtin)(t_data *, t_token *);
+typedef struct s_data	t_data;
+typedef void			(*t_builtin) (t_data *, t_token *);
 
 typedef struct s_exec
 {
@@ -122,8 +136,6 @@ typedef struct s_exec
 	char		**builtins;
 	char		*error_msg;
 	t_builtin	*builtin_ptrs;
-
-	// t_command	**commands;
 }	t_exec;
 
 typedef struct s_data
@@ -134,21 +146,10 @@ typedef struct s_data
 	t_token		**tokens;
 	t_tree		*tree;
 	t_exec		*exec;
-  	t_fds     	*fds;
+	t_fds		*fds;
 	char		*prompt;
 	char		*line;
 	int			return_code;
 }	t_data;
 
-# include "builtins.h"
-# include "parsing.h"
-# include "signals.h"
-# include "utils.h"
-# include "debug.h"
-# include "errors.h"
-# include "exec.h"
-# include "var.h"
-# include "queue.h"
-# include "fds.h"
-
-# endif
+#endif

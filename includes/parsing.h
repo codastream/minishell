@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:08:37 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
 # include "shell.h"
 
 // lexer.c
-int			do_for_tokens(t_data *data, t_token **tokens, int (*f)(t_data *, \
-				t_token **, t_token *));
+int			do_for_tokens(t_data *data, t_token **tokens, \
+				int (*f)(t_data *, t_token **, t_token *));
 int			tokenize(t_data *data, char *line);
 
 // token utils
@@ -16,7 +28,8 @@ bool		is_redir_operator(t_token *token);
 void		delete_token(t_token **tokens, t_token *token);
 
 // token utils create
-t_token		*new_token(t_data *data, t_tokentype type, int index, char *string);
+t_token		*new_token(t_data *data, t_tokentype type, int index, \
+				char *string);
 void		add_token_back(t_token **tokens, t_token *new);
 void		add_before(t_token **tokens, t_token *current, t_token *new);
 void		add_after(t_token *current, t_token *new);
@@ -32,14 +45,15 @@ char		*get_checked_pathmame(t_data *data, t_command *command);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
 int			check_closing_doublequotes(t_data *data, char *input);
-int			check_redirection(t_data *data, t_token **tokens, t_token *token);
+int			check_redirection(t_data *data, t_token **tokens, \
+				t_token *token);
 bool		is_path(char *s);
 bool		is_absolute_path(char *s);
 
 // check files
 
-bool	is_elf_executable(t_data *data, char *path);
-bool	is_script(t_data *data, char *path);
+bool		is_elf_executable(t_data *data, char *path);
+bool		is_script(t_data *data, char *path);
 
 // command utils
 int			update_command_from_extra_words_before_pipe(t_data *data, \
@@ -60,13 +74,15 @@ int			add_command_from_word(t_data *data, t_token **tokens, \
 				t_token *token);
 t_token		*add_command_from_redirop(t_data *data, t_token **tokens, \
 				t_token *token, t_token *next);
-t_token		*remove_extra_command(t_data *data, t_token **tokens, t_token *token, t_token *next);
+t_token		*remove_extra_command(t_data *data, t_token **tokens, \
+				t_token *token, t_token *next);
 
 // trim
 void		handle_quote_in_arg(t_data *data, char **arg);
 int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
 
 // args
-int	remove_empty_args(t_data *data, t_token **tokens, t_token *token);
+int			remove_empty_args(t_data *data, t_token **tokens, \
+				t_token *token);
 
 #endif

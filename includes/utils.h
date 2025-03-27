@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:00:55 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:09:07 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
@@ -30,7 +42,7 @@ bool	is_quote(char c);
 bool	is_surrounded_by_pairofchar(char *s, char c);
 
 // init.c
-t_data *init_data(char **env);
+t_data	*init_data(char **env);
 void	init_builtins(t_data *data, t_exec *exec);
 t_exec	*init_exec(t_data *data, t_tree *tree);
 
@@ -38,8 +50,10 @@ t_exec	*init_exec(t_data *data, t_tree *tree);
 t_tree	*make_tree(t_data *data, t_token *list);
 
 // tree_util
-int		iter_tree_count(t_tree *tree, int *count, void (*f)(t_tree *, int *));
+int		iter_tree_count(t_tree *tree, int *count, \
+			void (*f)(t_tree *, int *));
 void	count_if_command(t_tree *tree, int *nb);
-int		iter_tree_token(t_data *data, t_tree *tree, int (*f)(t_data *data, t_token *token));
+int		iter_tree_token(t_data *data, t_tree *tree, \
+			int (*f)(t_data *data, t_token *token));
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:07:15 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXEC_H
 # define EXEC_H
 
@@ -6,7 +18,7 @@
 void	exec_line(t_data *data, t_tree *tree);
 void	exec_tree_node(t_data *data, t_tree *tree);
 void	safe_dup2(t_data *data, int fdfrom, int fdto);
-void	safe_pipe(t_data *data, int	fds[2]);
+void	safe_pipe(t_data *data, int fds[2]);
 int		safe_fork(t_data *data);
 
 void	put_fd(t_data *data, t_tree **tree, int in, int out);
@@ -17,7 +29,5 @@ int		check_executable(t_data *data, t_token *token);
 
 bool	has_type_of_redir(t_command *command, t_tokentype type);
 int		check_redirection_files(t_data *data, t_token *token);
-
-// int		redir_data(t_data *data, t_tree **tree_p);
 
 #endif
