@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 17:09:30 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 17:12:17 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *msg, int code)
+void	handle_custom_error_source_noexit(t_data *data, char *error_source, \
+			char *msg, int code)
 {
 	if (code == EXIT_CMD_NOT_FOUND)
 		printerr_command_notfound(error_source);
@@ -10,7 +23,8 @@ void	handle_custom_error_source_noexit(t_data *data, char *error_source, char *m
 	free_all_data(data);
 }
 
-void	handle_custom_error_source_builtin(t_data *data, char *error_source, char *msg, int code)
+void	handle_custom_error_source_builtin(t_data *data, char *error_source, \
+			char *msg, int code)
 {
 	if (code == EXIT_CMD_NOT_FOUND)
 		printerr_command_notfound(error_source);
@@ -20,7 +34,8 @@ void	handle_custom_error_source_builtin(t_data *data, char *error_source, char *
 	free_after_exec(data);
 }
 
-void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg, int code)
+void	handle_custom_error_source_exit(t_data *data, char *error_source, \
+			char *msg, int code)
 {
 	if (code == EXIT_CMD_NOT_FOUND)
 		printerr_command_notfound(error_source);
@@ -34,6 +49,7 @@ void	handle_custom_error_source_exit(t_data *data, char *error_source, char *msg
  * should exit only for fatal errors (ex : failed malloc)
  * or within a forked process
  */
+
 void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 {
 	if (msg)
@@ -46,7 +62,8 @@ void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 	}
 }
 
-void	handle_strerror(t_data *data, char *error_source, int code, bool should_exit)
+void	handle_strerror(t_data *data, char *error_source, int code, \
+			bool should_exit)
 {
 	if (!error_source)
 		printerr_strno();
@@ -58,10 +75,4 @@ void	handle_strerror(t_data *data, char *error_source, int code, bool should_exi
 		free_all_data(data);
 		exit(code);
 	}
-}
-
-void	handle_and_exit_if_negative(t_data *data, int code, char *msg)
-{
-	if (code < 0)
-		handle_custom_error(data, msg, code, true);
 }
