@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:09:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/27 15:41:14 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ void	free_all_data(t_data *data);
 // free_utils
 void	reset(void *allocated);
 void	free_delimiters(t_delimiter **delims);
-int		find_index_of_space_out_of_quotes(char *s);
 
-// string_utils
+// quote_utils
+int		find_index_of_space_out_of_quotes(char *s);
 void	skip_single_quote(char *string, int *i);
 bool	is_quote(char c);
+
+// string utils 2
 bool	is_surrounded_by_pairofchar(char *s, char c);
+int		ft_strndup(char **var, char *cmd, int start, int end);
 
 // init.c
 t_data	*init_data(char **env);

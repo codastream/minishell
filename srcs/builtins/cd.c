@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 16:03:17 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 /*
@@ -12,7 +24,8 @@ static bool	are_valid_cd_args(t_data *data, char **command_args)
 		return (true);
 	if (arg_count > 2)
 	{
-		handle_custom_error_source_builtin(data, "cd", MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
+		handle_custom_error_source_builtin(data, "cd", MSG_TOO_MANY_ARGUMENTS, \
+			EXIT_FAILURE);
 		return (false);
 	}
 	if (!ft_strncmp(command_args[1], "---", 3))
@@ -20,7 +33,6 @@ static bool	are_valid_cd_args(t_data *data, char **command_args)
 		update_last_return(data, EXIT_SYNTAX_ERROR);
 		return (false);
 	}
-
 	return (true);
 }
 
@@ -35,12 +47,23 @@ static char	*build_path_from_directory(t_data *data, char *path_arg)
 	return (path);
 }
 
+static char	*get_path_for_tilde(t_data *data, char **path_args, char *home_path)
+{
+	char	*path;
+
+	if (!home_path)
+		path = ft_hash_get(data->localvars, "PWD");
+	else
+		path = ft_subst(path_args[1], "~", home_path);
+	return (path);
+}
+
 static char	*build_path(t_data *data, char **path_args)
 {
 	char	*path;
 	char	*home_path;
-	home_path = ft_hash_get(data->localvars, "HOME");
 
+	home_path = ft_hash_get(data->localvars, "HOME");
 	if (!path_args[1] || !ft_strcmp(path_args[1], "--"))
 	{
 		if (!home_path)
@@ -55,11 +78,7 @@ static char	*build_path(t_data *data, char **path_args)
 	else if (is_path(path_args[1]))
 		path = ft_strdup(path_args[1]);
 	else if (path_args[1][0] == '~')
-	{
-		path = ft_subst(path_args[1], "~", home_path);
-		if (!home_path)
-			path = ft_hash_get(data->localvars, "PWD");
-	}
+		path = get_path_for_tilde(data, path_args, home_path);
 	else
 		path = build_path_from_directory(data, path_args[1]);
 	return (path);
@@ -68,16 +87,12 @@ static char	*build_path(t_data *data, char **path_args)
 void	ft_cd(t_data *data, t_token *token)
 {
 	char		*path;
-	char		*oldpwd;
 	t_command	*command;
 
 	command = token->command;
 	if (!are_valid_cd_args(data, command->command_args))
 		return ;
-	oldpwd = getpwd(data);
-	if (ft_strcmp(oldpwd, "") && ft_strcmp(ft_hash_get(data->localvars, "PWD"), oldpwd))
-		ft_hash_update(data->localvars, "OLDPWD", oldpwd);
-	free(oldpwd);
+	update_oldpwd(data);
 	path = build_path(data, command->command_args);
 	if (!path)
 		path = ft_strdup(ft_hash_get(data->localvars, "PWD"));
@@ -88,7 +103,8 @@ void	ft_cd(t_data *data, t_token *token)
 	}
 	free(path);
 	path = getpwd(data);
-	if (command->command_args && command->command_args[1] && !ft_strcmp("-", command->command_args[1]))
+	if (command->command_args && command->command_args[1] \
+			&& !ft_strcmp("-", command->command_args[1]))
 		ft_printfd(token->out, path);
 	ft_hash_update(data->localvars, "PWD", path);
 	free(path);

@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 15:31:31 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:31:32 by fpetit           ###   ########.fr       */
+/*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:37:21 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	ft_unset(t_data *data, t_token *token)
+bool	is_valid_identifier(char *arg)
 {
-	int			i;
-	t_command	*command;
-
-	command = token->command;
-	i = 1;
-	update_last_return(data, EXIT_SUCCESS);
-	while (command->command_args[i])
-	{
-		if ((command->command_args)[i][0] == '-')
-			ft_hash_update(data->localvars, LAST_RETURN_CODE, "2");
-		ft_hash_remove(data->localvars, (command->command_args)[i++]);
-	}
+	if (!arg)
+		return (false);
+	if (arg[0] == '=')
+		return (false);
+	return (true);
 }
+

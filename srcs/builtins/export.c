@@ -1,19 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:41:57 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
-
-int	ft_strndup(char **var, char *cmd, int start, int end)
-{
-	int		i;
-	char	*result;
-
-	i = 0;
-	result = ft_calloc(end - start + 1, sizeof(char));
-	if (!result)
-		return (0);
-	while (cmd[start] && start != end)
-		result[i++] = cmd[start++];
-	*var = result;
-	return (1);
-}
 
 char	**split_export_cmd(char *cmd)
 {
@@ -21,7 +18,6 @@ char	**split_export_cmd(char *cmd)
 	int		j;
 	int		code;
 	char	**result;
-	// char	*trimmed;
 
 	i = 0;
 	result = ft_calloc(4, sizeof(char *));
@@ -39,13 +35,16 @@ char	**split_export_cmd(char *cmd)
 	if (!code)
 		return (NULL);
 	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
-	// if (result[2][i] == '\'' && result[2][ft_strlen(result[2]) - 1] == '\'')
-	// {
-	// 	trimmed = ft_strtrim(result[2], "'");
-	// 	free(result[2]);
-	// 	result[2] = trimmed;
-	// }
 	return (result);
+}
+
+static void	print_according_to_value_presence(t_keyval *current, t_token *token)
+{
+	if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
+		ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
+		current->value);
+	else if (ft_strcmp(current->key, LAST_RETURN_CODE))
+		ft_printfd(token->out, "declare -x %s\n", current->key);
 }
 
 void	ft_print_export(t_data *data, t_token *token)
@@ -68,11 +67,7 @@ void	ft_print_export(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
-					ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
-					current->value);
-				else if (ft_strcmp(current->key, LAST_RETURN_CODE))
-					ft_printfd(token->out, "declare -x %s\n", current->key);
+				print_according_to_value_presence(current, token);
 				current = current->next;
 			}
 		}
@@ -102,15 +97,6 @@ void	pars_export(t_data *data, t_token *token, int i)
 	ft_free_2d_char_null_ended(cmd);
 }
 
-bool	is_valid_identifier(char *arg)
-{
-	if (!arg)
-		return (false);
-	if (arg[0] == '=')
-		return (false);
-	return (true);
-}
-
 void	ft_export(t_data *data, t_token *token)
 {
 	int		i;
@@ -126,7 +112,8 @@ void	ft_export(t_data *data, t_token *token)
 	{
 		if (!is_valid_identifier(token->command->command_args[i]))
 		{
-			ft_printfd(2, "export: `%s': not a valid identifier\n", token->command->command_args[i]);
+			ft_printfd(2, "export: `%s': not a valid identifier\n", \
+				token->command->command_args[i]);
 			update_last_return(data, 1);
 			break ;
 		}

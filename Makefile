@@ -66,10 +66,12 @@ BUILD_DIR		:=	.build
 SRCS_FILES:=	main.c\
 				builtins/builtins.c\
 				builtins/cd.c\
+				builtins/cd_utils.c\
 				builtins/echo.c\
 				builtins/env.c\
 				builtins/exit.c\
 				builtins/export.c\
+				builtins/export_utils.c\
 				builtins/hash_export.c\
 				builtins/pwd.c\
 				builtins/unset.c\
@@ -107,6 +109,7 @@ SRCS_FILES:=	main.c\
 				utils/init.c\
 				utils/loop.c\
 				utils/string_utils.c\
+				utils/quote_utils.c\
 				utils/debug.c\
 				utils/debug_utils.c\
 				vars/vars.c\

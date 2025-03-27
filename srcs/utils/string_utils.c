@@ -1,21 +1,5 @@
 #include "shell.h"
 
-void	skip_quote(char	*string, int *i, char quote)
-{
-	(*i)++;
-	while (string[*i] && string[*i] != quote)
-		(*i)++;
-}
-
-void	skip_single_quote(char *string, int *i)
-{
-	(*i)++;
-	while (string[*i] && string[*i] != '\'')
-		(*i)++;
-	if (string[*i] == '\'')
-		(*i)++;
-}
-
 bool	is_surrounded_by_pairofchar(char *s, char c)
 {
 	int	len;
@@ -31,24 +15,17 @@ bool	is_surrounded_by_pairofchar(char *s, char c)
 		return (false);
 }
 
-bool	is_quote(char c)
+int	ft_strndup(char **var, char *cmd, int start, int end)
 {
-	return (c == '"' || c == '\'');
-}
-
-int	find_index_of_space_out_of_quotes(char *s)
-{
-	int	i;
+	int		i;
+	char	*result;
 
 	i = 0;
-	while (s[i])
-	{
-		if (is_quote(s[i]))
-			skip_quote(s, &i, s[i]);
-		if (s[i] == ' ')
-			return (i);
-		if (s[i])
-			i++;
-	}
-	return (-1);
+	result = ft_calloc(end - start + 1, sizeof(char));
+	if (!result)
+		return (0);
+	while (cmd[start] && start != end)
+		result[i++] = cmd[start++];
+	*var = result;
+	return (1);
 }

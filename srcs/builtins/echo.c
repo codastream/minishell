@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:31:18 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:43:32 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 static bool	is_correct_option(char *option)
@@ -5,10 +17,8 @@ static bool	is_correct_option(char *option)
 	int	i;
 
 	i = 0;
-	// if (option[i] != '-')
-	// 	return (false);
 	i++;
-	while(option[i])
+	while (option[i])
 	{
 		if (option[i] != 'n')
 			return (false);
@@ -27,13 +37,11 @@ void	ft_echo(t_data *data, t_token *token)
 	command = token->command;
 	should_print_newline = true;
 	if (!(command->command_args)[0])
-	return ;
+		return ;
 	i = 1;
-	while (command->command_args[i] && command->command_args[i][0] == '-' && is_correct_option(command->command_args[i]))
-	{
+	while (command->command_args[i] && command->command_args[i][0] == '-' \
+			&& is_correct_option(command->command_args[i++]))
 		should_print_newline = false;
-		i++;
-	}
 	while ((command->command_args)[i])
 	{
 		ft_printfd(token->out, "%s", (command->command_args)[i]);

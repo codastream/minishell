@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/27 15:31:26 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/27 15:54:22 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
-void	try_exec_builtin_in_fork(t_data *data, t_token *token, t_command *command)
+void	try_exec_builtin_in_fork(t_data *data, t_token *token, \
+		t_command *command)
 {
 	int	code;
 

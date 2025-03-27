@@ -1,3 +1,4 @@
+#include "colors.h"
 #include "shell.h"
 
 static bool	is_empty_line(char *line)
