@@ -117,6 +117,11 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	code = do_for_tokens(data, tokens, handle_quotes);
 	if (code != EXIT_SUCCESS)
 		return (code);
+	if (PRINT == 1)
+		ft_put_yellow("remove empty args\n");
+	code = do_for_tokens(data, tokens, remove_empty_args);
+	if (code != EXIT_SUCCESS)
+		return (code);
 	return (code);
 }
 

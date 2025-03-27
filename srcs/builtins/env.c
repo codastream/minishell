@@ -8,7 +8,7 @@ void	ft_env(t_data *data, t_token *token)
 	t_hash		*hash;
 
 	(void) token;
-	hash = data->vars;
+	hash = data->localvars;
 	keyvals = hash->keyvals;
 	i = 0;
 	if (token->command->command_args[1] && ft_strcmp(token->command->command_args[1], "env"))
@@ -24,7 +24,7 @@ void	ft_env(t_data *data, t_token *token)
 			current = keyvals[i - 1];
 			while (current)
 			{
-				if (current->value)
+				if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "%s=%s\n", current->key, \
 					current->value);
 				current = current->next;

@@ -27,6 +27,7 @@ int		find_index_of_space_out_of_quotes(char *s);
 // string_utils
 void	skip_single_quote(char *string, int *i);
 bool	is_quote(char c);
+bool	is_surrounded_by_pairofchar(char *s, char c);
 
 // init.c
 t_data *init_data(char **env);

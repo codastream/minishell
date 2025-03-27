@@ -29,7 +29,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	char	**env_local;
 	int		exec_code;
 
-	env_local = hashtab_to_tab(data, data->vars);
+	env_local = hashtab_to_tab(data, data->localvars);
 	check_alloc(data, env_local);
 	data->varstab = env_local;
 	if (!command->command_name || !command->command_args[0]) // empty command with redir
@@ -83,12 +83,12 @@ void	exec_command(t_data *data, t_tree *tree)
 
 bool	has_redirin(t_tree *tree)
 {
-	return (tree->value->type == T_COMMAND && tree->value->command->redir_in);
+	return (tree->value->type == T_COMMAND && (has_type_of_redir(tree->value->command, T_INFILE) || has_type_of_redir(tree->value->command, T_EOF)));
 }
 
 bool	has_redirout(t_tree *tree)
 {
-	return (tree->value->type == T_COMMAND && (tree->value->command->redir_out_append || tree->value->command->redir_out_truncate));
+	return (tree->value->type == T_COMMAND && (has_type_of_redir(tree->value->command, T_OUTFILE_APPEND) || has_type_of_redir(tree->value->command, T_OUTFILE_TRUNCATE)));
 }
 
 void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left)
@@ -126,8 +126,10 @@ void  exec_pipe(t_data *data, t_tree *tree)
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "root", true);
 	close(fds[1]);
+	// print_datafds(data);
 	// pop_fd(&(data->fds), fds[1]);
 	exec_tree_node(data, tree->right);
+	// print_datafds(data);
 	close(fds[0]);
 	// pop_fd(&(data->fds), fds[0]);
 }

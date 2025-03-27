@@ -12,6 +12,23 @@ void	skip_single_quote(char *string, int *i)
 	(*i)++;
 	while (string[*i] && string[*i] != '\'')
 		(*i)++;
+	if (string[*i] == '\'')
+		(*i)++;
+}
+
+bool	is_surrounded_by_pairofchar(char *s, char c)
+{
+	int	len;
+
+	if (!s)
+		return (false);
+	len = ft_strlen(s);
+	if (len == 1)
+		return (false);
+	if (s[0] == c && s[len - 1] == c)
+		return (true);
+	else
+		return (false);
 }
 
 bool	is_quote(char c)

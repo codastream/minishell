@@ -41,6 +41,7 @@ BLUE		= \e[1m\e[38;5;33m
 PURPLE		= \e[1;35m
 CYAN		= \e[1;36m
 WHITE		= \e[1;37m
+SPECIAL		= \e[1m\e[38;5;223m
 
 BLACK_BG 	= \033[0;40m
 RED_BG 		= \033[0;41m
@@ -80,6 +81,7 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/command_utils.c\
 				parsing/lexing/command_utils_add.c\
 				parsing/lexing/trim.c\
+				parsing/lexing/args.c\
 				parsing/checking/check_redir.c\
 				parsing/checking/check_quote.c\
 				parsing/checking/check_pipe.c\
@@ -139,6 +141,20 @@ $(DIRS):
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "\n$(GREEN)Create binaries$(NOC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
+	@echo "$(SPECIAL)"
+	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
+	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
+	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
+	@echo " ░███░░███ ░███ ░░███  ███░░   ░███░░███  ███░░███ ░███  ░███     ░███████████ ░░███░░███  ███░░███ ███░░███ ░███ ";
+	@echo " ░███ ░░░  ░███  ░███ ░░█████  ░███ ░███ ░███████  ░███  ░███     ░███░░░░░███  ░███ ░███ ░███ ░███░███████  ░███ ";
+	@echo " ░███      ░███  ░███  ░░░░███ ░███ ░███ ░███░░░   ░███  ░███     ░███    ░███  ░███ ░███ ░███ ░███░███░░░   ░███ ";
+	@echo " █████     █████ █████ ██████  ████ █████░░██████  █████ █████    █████   █████ ████ █████░░███████░░██████  █████";
+	@echo "░░░░░     ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░    ░░░░░   ░░░░░ ░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░ ";
+	@echo "                                                                                           ███ ░███               ";
+	@echo "                                                                                          ░░██████                ";
+	@echo "                                                                                           ░░░░░░                 ";
+	@echo "$(NOC)"
+	# @cat mishell.txt
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal

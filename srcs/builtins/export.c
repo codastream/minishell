@@ -21,12 +21,13 @@ char	**split_export_cmd(char *cmd)
 	int		j;
 	int		code;
 	char	**result;
+	// char	*trimmed;
 
 	i = 0;
 	result = ft_calloc(4, sizeof(char *));
 	if (!result)
 		return (NULL);
-	while (ft_isalnum(cmd[i]))
+	while (ft_ischarforenvvar(cmd[i]))
 		i++;
 	code = ft_strndup(&result[0], cmd, 0, i);
 	if (!code)
@@ -38,6 +39,12 @@ char	**split_export_cmd(char *cmd)
 	if (!code)
 		return (NULL);
 	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
+	// if (result[2][i] == '\'' && result[2][ft_strlen(result[2]) - 1] == '\'')
+	// {
+	// 	trimmed = ft_strtrim(result[2], "'");
+	// 	free(result[2]);
+	// 	result[2] = trimmed;
+	// }
 	return (result);
 }
 
@@ -48,7 +55,7 @@ void	ft_print_export(t_data *data, t_token *token)
 	t_keyval	*current;
 	t_hash		*hash;
 
-	hash = data->vars;
+	hash = data->localvars;
 	keyvals = hash->keyvals;
 	i = 0;
 	if (token->command->command_args[1])
@@ -61,10 +68,10 @@ void	ft_print_export(t_data *data, t_token *token)
 			current = keyvals[i];
 			while (current)
 			{
-				if (current->value)
+				if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
 					current->value);
-				else
+				else if (ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "declare -x %s\n", current->key);
 				current = current->next;
 			}
@@ -78,14 +85,12 @@ void	pars_export(t_data *data, t_token *token, int i)
 	char	**cmd;
 
 	cmd = split_export_cmd(token->command->command_args[i]);
-	if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "+="))
+	if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !ft_strcmp(cmd[1], "="))
+	else if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
-	else if (ft_isalpha(cmd[0][0]) && !cmd[1][0])
-	{
-		ft_hash_insert(data->vars, cmd[0], NULL);
-	}
+	else if (ft_isenvvarkeystr(cmd[0]) && !cmd[1][0])
+		ft_hash_insert(data->localvars, cmd[0], NULL);
 	else if (token->command->command_args[i][0] == '-')
 		update_last_return(data, EXIT_SYNTAX_ERROR);
 	else

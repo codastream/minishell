@@ -43,6 +43,22 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 	return (i);
 }
 
+int	remove_extreme_double_quotes(t_data *data, char **s)
+{
+	int	first_quote_index;
+	int	last_quote_index;
+
+	first_quote_index = ft_strchri(*s, '"');
+	last_quote_index = ft_strrchri(*s, '"');
+	while (first_quote_index != -1 && last_quote_index != -1 && first_quote_index != last_quote_index)
+	{
+		remove_quotes(data, s, first_quote_index, last_quote_index);
+		first_quote_index = ft_strchri(*s, '"');
+		last_quote_index = ft_strrchri(*s, '"');
+	}
+	return (-1);
+}
+
 void	handle_quote_in_arg(t_data *data, char **arg)
 {
 	int	i;
@@ -50,7 +66,11 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	i = 0;
 	while ((*arg)[i])
 	{
-		if ((*arg)[i] == '\"')
+		if (arg[0][i] == '"' && check_closing_doublequotes(data, *arg))
+		{
+			i = remove_extreme_double_quotes(data, arg);
+		}
+		else if ((*arg)[i] == '"' && !check_closing_doublequotes(data, *arg))
 			i = handle_pair_of_quotes(data, arg, i, '"');
 		if (i < 0)
 			break ;
@@ -63,26 +83,37 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	}
 }
 
+void	handle_quote_in_command_arg(t_data *data, char **arg)
+{
+	char	*new_arg;
+
+	if (is_surrounded_by_pairofchar(*arg, '\''))
+	{
+		new_arg = ft_strtrim(*arg, "'");
+		check_alloc(data, new_arg);
+		free(*arg);
+		*arg = new_arg;
+	}
+	handle_quote_in_arg(data, arg);
+}
+
 int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 {
 	int		i;
 	char	**name_with_args;
 
 	(void) tokens;
-	if (token->type != T_COMMAND)
+	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
-	update_command_from_string(data, token->command, token->string);
+	// update_command_from_string(data, token->command, token->string);
 	name_with_args = token->command->command_args;
 	if (!name_with_args[0])
 		return (EXIT_IGNORE);
 	i = 0;
 	while (name_with_args[i])
 	{
-		handle_quote_in_arg(data, &name_with_args[i]);
+		handle_quote_in_command_arg(data, &name_with_args[i]);
 		i++;
 	}
-	if (ft_strcmp(token->command->command_args[0], \
-			token->command->command_name))
-		handle_quote_in_arg(data, &token->command->command_name);
 	return (EXIT_SUCCESS);
 }

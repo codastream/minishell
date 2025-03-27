@@ -25,7 +25,7 @@
 
 typedef	struct s_env
 {
-	char	**vars;
+	char	**localvars;
 }	t_env;
 
 typedef struct s_fds
@@ -33,6 +33,14 @@ typedef struct s_fds
   int fd;
   struct s_fds  *next;
 } t_fds;
+
+// typedef enum e_redirtype
+// {
+// 	R_IN,
+// 	R_HEREDOC,
+// 	R_APPEND,
+// 	R_TRUNCATE
+// }	t_redirtype;
 
 typedef enum e_token
 {
@@ -62,6 +70,7 @@ typedef struct s_command
 	char		*command_name;
 	char		*pathname;
 	char		**command_args; // command name of path + options - null ended for execve
+	t_list		*redirections;
 	t_list		*redir_in;
 	t_list		*heredoc;
 	t_list		*redir_out_truncate;
@@ -69,6 +78,12 @@ typedef struct s_command
 	bool		has_invalid_redir;
 	bool		is_empty_command;
 }	t_command;
+
+typedef struct s_redir
+{
+	t_tokentype		type;
+	char			*string;
+}	t_redir;
 
 typedef struct s_token
 {
@@ -113,7 +128,7 @@ typedef struct s_exec
 
 typedef struct s_data
 {
-	t_hash		*vars;
+	t_hash		*localvars;
 	t_hash		*expvars;
 	char		**varstab;
 	t_token		**tokens;

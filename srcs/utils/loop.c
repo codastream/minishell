@@ -35,7 +35,7 @@ void	update_prompt(t_data *data)
 	username = getenv("USER");
 	if (!username)
 		username = "user";
-	wd = ft_hash_get(data->vars, "PWD");
+	wd = ft_hash_get(data->localvars, "PWD");
 	elems = ft_calloc(10, sizeof(char *));
 	check_alloc(data, elems);
 	elems[0] = P_TEAL_BOLD_PROMPT;

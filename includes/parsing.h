@@ -31,6 +31,7 @@ t_delimiter	**init_quote_delimiters(t_data *data);
 char		*get_checked_pathmame(t_data *data, t_command *command);
 int			check_pipe(t_data *data, t_token **tokens, t_token *token);
 int			check_closing_quotes(t_data *data, char *input);
+int			check_closing_doublequotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, t_token *token);
 bool		is_path(char *s);
 bool		is_absolute_path(char *s);
@@ -49,7 +50,7 @@ t_command	*new_command(t_data *data, char *string);
 t_list		**get_redir_list_from_operator(t_token *operator_token, \
 				t_token *command_token);
 void		add_redirect_file_to_command(t_data *data, t_token **tokens, \
-				t_list **redir_list, t_token *file_token);
+				t_token *command_token, t_token *file_token);
 
 void		add_command_to_token(t_data *data, t_token **tokens, \
 			t_token *token);
@@ -62,7 +63,10 @@ t_token		*add_command_from_redirop(t_data *data, t_token **tokens, \
 t_token		*remove_extra_command(t_data *data, t_token **tokens, t_token *token, t_token *next);
 
 // trim
-void	handle_quote_in_arg(t_data *data, char **arg);
+void		handle_quote_in_arg(t_data *data, char **arg);
 int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
+
+// args
+int	remove_empty_args(t_data *data, t_token **tokens, t_token *token);
 
 #endif

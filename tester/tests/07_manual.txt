@@ -14,6 +14,7 @@ export $DONTEXIST
 export tata=bon()jour
 export tata=bon(jour
 export HO\\\\LA=bonjour
+export | grep "HOME"
 
 ############################################## vars
 echo $'42$"HOME"'
