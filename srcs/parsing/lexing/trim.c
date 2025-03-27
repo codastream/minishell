@@ -81,15 +81,15 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 
 void	handle_quote_in_command_arg(t_data *data, char **arg)
 {
-	char	*new_arg;
+//	char	*new_arg;
 
-	if (is_surrounded_by_pairofchar(*arg, '\''))
-	{
-		new_arg = ft_strtrim(*arg, "'");
-		check_alloc(data, new_arg);
-		free(*arg);
-		*arg = new_arg;
-	}
+//	if (is_surrounded_by_pairofchar(*arg, '\''))
+//	{
+//		new_arg = ft_strtrim(*arg, "'");
+//		check_alloc(data, new_arg);
+//		free(*arg);
+//		*arg = new_arg;
+//	}
 	handle_quote_in_arg(data, arg);
 }
 
