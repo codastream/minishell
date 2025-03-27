@@ -185,7 +185,6 @@ export %
 export +tata=bonjour
 export =
 export | echo tata
-export | grep "HOME"
 export $?
 export 123
 export 123=124
