@@ -1,0 +1,40 @@
+cat <<HEREDOC										# OK
+oi
+HEREDOC
+
+cat <<HERE <<DOC									# OK
+oi
+HERE
+time
+DOC
+
+cat <<HERE | ls										# OK
+oi
+HERE
+
+cat <<HERE											# OK
+$USER
+oi
+HERE
+
+cat <minishell.h <<HERE <missing | ls				# Errro Valgrind
+HERE
+
+cat <minishell.h <<HERE | cat
+HERE
+
+cat <minishell.h <<HERE <missing <<DOC | echo oi
+HERE
+DOC
+
+cat << $
+oi
+$
+
+<< echo oi
+echo
+
+# Heredoc avec quotes vides
+cat <<""HE
+
+cat <<""<<HE

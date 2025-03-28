@@ -394,6 +394,8 @@ void	fill_all_test_files(char **test_files)
 	test_files[3] = "tests/03_commands.txt";
 	test_files[4] = "tests/04_redirs.txt";
 	test_files[5] = "tests/05_pipes.txt";
+	test_files[6] = "tests/02_dollars.txt";
+	test_files[7] = "tests/02_quotes.txt";
 }
 
 int main(int ac, char **av)
