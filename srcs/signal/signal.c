@@ -26,6 +26,8 @@ void	handle_sig_main(int sig)
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
+		else
+			printf("\n");
 	}
 }
 
@@ -34,7 +36,6 @@ void	handle_sig_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		g_signal = 128 + sig;
-		printf("\n");
 		close(0);
 	}
 }
