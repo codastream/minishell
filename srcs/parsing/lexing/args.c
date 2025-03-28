@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:21 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 14:15:47 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:50:27 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	count_valid_args(t_token *token)
 	argc = 0;
 	i = 0;
 	has_command = false;
-	while (token->command->command_args[i])
+	while (i < token->command->argc)
 	{
 		arg = token->command->command_args[i];
 		if (!has_command && arg)
@@ -47,7 +47,7 @@ static void	update_args(t_token *token, char **new_args)
 	i = 0;
 	e = 0;
 	has_command = false;
-	while (token->command->command_args[i])
+	while (i < token->command->argc)
 	{
 		arg = token->command->command_args[i];
 		if (!has_command && arg)
