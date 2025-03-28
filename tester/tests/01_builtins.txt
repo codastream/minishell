@@ -93,6 +93,7 @@ echo "-n" tata
 echo "''t'a'ta''"
 echo "'"t'a'ta"'"
 echo "'tata'"
+echo '" tata "'
 echo ""             tata
 echo "" tata
 echo ""tata
