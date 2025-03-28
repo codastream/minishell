@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:51 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:30:52 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 13:58:01 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_return_code(t_data *data, t_token *token)
 	int		return_code;
 	char	*msg;
 
-	if (is_atoll_str(token->command->command_args[1]) && ft_strlen(token->command->command_args[1]) < 20)
+	if (is_atoll_str(token->command->command_args[1]))
 		return_code = ft_atoll(token->command->command_args[1]) % 256;
 	else
 	{
