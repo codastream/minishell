@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:09:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 15:52:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:54:26 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ static void	process_line_input_interactive(t_data *data)
 			exec_line(data, data->tree);
 		}
 		free_after_exec(data);
-		// g_signal = 0;
 	}
 }
 
