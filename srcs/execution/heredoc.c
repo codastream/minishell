@@ -6,13 +6,13 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 14:28:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 15:33:49 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	g_signal = 0;
+extern int	g_signal;
 
 void	handle_input(char *eof, int fds[2])
 {
@@ -23,9 +23,9 @@ void	handle_input(char *eof, int fds[2])
 	while (true)
 	{
 		input = readline("> ");
-		if (!input)
+		if (!input && g_signal == 0)
 		{
-			ft_printfd(2, msg, P_PINK, eof, P_NOC);
+			ft_printfd(2, msg, P_PINK_LIGHT, eof, P_NOC);
 			break ;
 		}
 		input = ft_strjoinfree(input, "\n", 1);
