@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 16:55:14 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:48:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,18 @@ void	exec_tree_node(t_data *data, t_tree *tree)
 	}
 }
 
+void	check_exec_builtin(t_data *data, t_tree *tree)
+{
+	int	code;
+
+	code = iter_tree_token(data, tree, check_redirection_files);
+	if (code != EXIT_SUCCESS)
+		return ;
+	if (!tree->value->command->has_invalid_redir)
+		try_exec_builtin(data, tree->value, tree->value->command);
+	return ;
+}
+
 void	exec_line(t_data *data, t_tree *tree)
 {
 	t_exec	*exec;
@@ -105,17 +117,17 @@ void	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		code = iter_tree_token(data, tree, check_redirection_files);
-		if (!tree->value->command->has_invalid_redir)
-			try_exec_builtin(data, tree->value, tree->value->command);
+		check_exec_builtin(data, tree);
 		return ;
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
 	code = heredoc(data, &tree);
-	if (code != 0)
+	if (code != EXIT_SUCCESS)
 		return ;
 	code = iter_tree_token(data, tree, check_redirection_files);
+	if (code != EXIT_SUCCESS)
+		return ;
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	signal(SIGQUIT, SIG_IGN);

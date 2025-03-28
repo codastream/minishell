@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:46:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:38:20 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	check_redirection_files(t_data *data, t_token *token)
 {
 	int		code;
 	t_list	*current;
+	t_redir	*redir;
 
 	if (token->type != T_COMMAND)
 		return (EXIT_IGNORE);
@@ -61,7 +62,16 @@ int	check_redirection_files(t_data *data, t_token *token)
 	current = token->command->redirections;
 	while (current)
 	{
+		redir = (t_redir *) current->content;
+		if (ft_isemptystr(redir->string) || !ft_strcmp(redir->string, "''"))
+		{
+			printerr_source("", "No such file or directory");
+			update_last_return(data, EXIT_FAILURE);
+			return (EXIT_FAILURE);
+		}
 		code = do_redir(data, token, current);
+		if (code != EXIT_SUCCESS)
+			return (code);
 		current = current->next;
 	}
 	return (code);
