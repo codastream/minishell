@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 22:06:49 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 14:28:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ int	g_signal = 0;
 
 void	handle_input(char *eof, int fds[2])
 {
-	char *input;
+	char	*input;
+	char	*msg;
 
+	msg = "%swarning: here-document delimited by end-of-file (wanted `%s')%s\n";
 	while (true)
 	{
 		input = readline("> ");
 		if (!input)
 		{
-			ft_printfd(2, "%swarning: here-document delimited by end-of-file \
-				(wanted `%s')%s", P_RED, eof, P_NOC);
+			ft_printfd(2, msg, P_PINK, eof, P_NOC);
 			break ;
 		}
 		input = ft_strjoinfree(input, "\n", 1);
@@ -39,12 +40,14 @@ void	handle_input(char *eof, int fds[2])
 void	process_input(t_data *data, t_command *command, int fds[2])
 {
 	char	*eof;
+	char	*eofnoreturn;
 
 	close(fds[0]);
-	eof = ft_strjoin(get_last_eofmarker(command), "\n");
+	eofnoreturn = get_last_eofmarker(command);
+	eof = ft_strjoin(eofnoreturn, "\n");
 	handle_quote_in_arg(data, &eof);
 	check_alloc(data, eof);
-	handle_input(eof, fds);
+	handle_input(eofnoreturn, fds);
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
