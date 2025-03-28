@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 15:33:49 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:21:31 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_signal;
 
-void	handle_input(char *eof, int fds[2])
+void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 {
 	char	*input;
 	char	*msg;
@@ -25,7 +25,7 @@ void	handle_input(char *eof, int fds[2])
 		input = readline("> ");
 		if (!input && g_signal == 0)
 		{
-			ft_printfd(2, msg, P_PINK_LIGHT, eof, P_NOC);
+			ft_printfd(2, msg, P_PINK_LIGHT, eofnoreturn, P_NOC);
 			break ;
 		}
 		input = ft_strjoinfree(input, "\n", 1);
@@ -47,7 +47,7 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	eof = ft_strjoin(eofnoreturn, "\n");
 	handle_quote_in_arg(data, &eof);
 	check_alloc(data, eof);
-	handle_input(eofnoreturn, fds);
+	handle_input(eof, eofnoreturn, fds);
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
