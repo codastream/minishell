@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 17:45:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:58:35 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,6 @@ int	get_opening_flags(t_redir *redir)
 	return (opening_flags);
 }
 
-bool	is_inputside_redir(t_redir *redir)
-{
-	if (!redir)
-		return (false);
-	return (redir->type == T_INFILE || redir->type == T_EOF);
-}
-
-bool 	is_outputside_redir(t_redir *redir)
-{
-	if (!redir)
-		return (false);
-	return (redir->type == T_OUTFILE_APPEND || redir->type == T_OUTFILE_APPEND);
-}
-
 bool	has_next_of_same_type(t_list *current, t_redir *current_redir)
 {
 	t_redir	*next_redir;
@@ -61,9 +47,10 @@ bool	has_next_of_same_type(t_list *current, t_redir *current_redir)
 		if (next)
 		{
 			next_redir = (t_redir *) next->content;
-			if ((is_inputside_redir(current_redir) && is_inputside_redir(next_redir)) \
-				|| (is_outputside_redir(current_redir) && is_outputside_redir(next_redir)))
-				return(true);
+			if ((is_input_redir(current_redir) && is_input_redir(next_redir)) \
+				|| (is_output_redir(current_redir) \
+					&& is_output_redir(next_redir)))
+				return (true);
 		}
 		current = current->next;
 	}

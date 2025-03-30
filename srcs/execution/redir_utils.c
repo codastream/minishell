@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:18:38 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:40:06 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:58:01 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,18 @@ bool	has_type_of_redir(t_command *command, t_tokentype type)
 		current = current->next;
 	}
 	return (false);
+}
+
+bool	is_input_redir(t_redir *redir)
+{
+	if (!redir)
+		return (false);
+	return (redir->type == T_INFILE || redir->type == T_EOF);
+}
+
+bool	is_output_redir(t_redir *redir)
+{
+	if (!redir)
+		return (false);
+	return (redir->type == T_OUTFILE_APPEND || redir->type == T_OUTFILE_APPEND);
 }
