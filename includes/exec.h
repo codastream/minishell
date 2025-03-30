@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 22:07:08 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:53:08 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	put_fd_token(t_data *data, t_token *token, int in, int out);
 void	assign_fd(t_data *data, t_tree *pipenode, t_tree *tree, bool is_left);
 
 // heredoc
-int		heredoc(t_data *data, t_tree **tree);
+int	init_heredoc(t_data *data, t_list *currentredir, t_redir *redir);
 
 // heredoc utils
 void	put_fd_heredoc(t_data *data, t_tree **tree, int in, int out);

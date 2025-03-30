@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 16:21:31 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:42:18 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,68 +37,44 @@ void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 	free(input);
 }
 
-void	process_input(t_data *data, t_command *command, int fds[2])
+void	process_input(t_data *data, t_redir *redir, int fds[2])
 {
 	char	*eof;
 	char	*eofnoreturn;
 
 	close(fds[0]);
-	(void)command;
-	eofnoreturn = get_last_eofmarker(command);
+	eofnoreturn = redir->string;
 	eof = ft_strjoin(eofnoreturn, "\n");
 	if (!eof)
 		close(fds[1]);
 	check_alloc(data, eof);
-	handle_quote_in_arg(data, &eof);	
+	handle_quote_in_arg(data, &eof);
 	handle_input(eof, eofnoreturn, fds);
 	free(eof);
 	close(fds[1]);
 	free_all_data(data);
-	exit(132 - g_signal);
+	if (g_signal != 0)
+		exit(g_signal);
+	exit(EXIT_SUCCESS);
 }
 
-void	init_heredoc(t_data *data, t_tree **tree)
+int	init_heredoc(t_data *data, t_list *currentredir, t_redir *redir)
 {
 	int		fds[2];
 	int		child_pid;
 
-	if (!has_type_of_redir((*tree)->value->command, T_EOF))
-		return ;
+	(void) currentredir;
 	safe_pipe(data, fds);
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
 		setup_heredoc_signal();
-		process_input(data, (*tree)->value->command, fds);
+		process_input(data, redir, fds);
 	}
 	close(fds[1]);
 	waitpid(child_pid, NULL, 0);
 	if (g_signal != 0)
 		close(fds[0]);
-	else
-		put_fd_heredoc(data, tree, fds[0], (*tree)->value->out);
+	return (fds[0]);
 }
 
-int	heredoc_exec(t_data *data, t_tree **tree)
-{
-	if ((*tree)->left)
-	{
-		if (heredoc(data, &(*tree)->left) != 0)
-			return (130);
-	}
-	if ((*tree)->right)
-	{
-		if (heredoc(data, &(*tree)->right) != 0)
-			return (130);
-	}
-	if ((*tree)->value->type == T_COMMAND \
-		&& has_type_of_redir((*tree)->value->command, T_EOF))
-		init_heredoc(data, tree);
-	return (g_signal);
-}
-
-int	heredoc(t_data *data, t_tree **tree)
-{
-	g_signal = 0;
-	return (heredoc_exec(data, tree));
-}
