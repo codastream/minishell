@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 16:03:17 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:06:43 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ void	ft_cd(t_data *data, t_token *token)
 	}
 	free(path);
 	path = getpwd(data);
-	if (command->command_args && command->command_args[1] \
-			&& !ft_strcmp("-", command->command_args[1]))
-		ft_printfd(token->out, path);
+	print_path_if_needed(command, token, path);
 	ft_hash_update(data->localvars, "PWD", path);
 	free(path);
 	update_last_return(data, EXIT_SUCCESS);
