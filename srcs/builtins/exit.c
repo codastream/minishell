@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:51 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 13:58:01 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:25:19 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_exit(t_data *data, t_token *token)
 	{
 		handle_custom_error_source_builtin(data, token->command->command_name, \
 		MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
-		return_code = 1;
+		return ;
 	}
 	free_all_data(data);
 	exit(return_code);
