@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 19:33:08 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 20:42:25 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	**init_separators_for_operators(t_data *data)
 
 	separators = ft_calloc(10, sizeof(char *));
 	check_alloc(data, separators);
-	separators[1] = "|";
-	separators[2] = "<<";
-	separators[3] = ">>";
-	separators[4] = "<";
-	separators[5] = ">";
-	separators[6] = NULL;
+	separators[0] = "|";
+	separators[1] = "<<";
+	separators[2] = ">>";
+	separators[3] = "<";
+	separators[4] = ">";
+	separators[5] = NULL;
 	return (separators);
 }
 
