@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:27:18 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/27 16:02:37 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:06:51 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	try_exec_builtin(t_data *data, t_token *token, t_command *command);
 bool	is_builtin(t_data *data, t_command *command);
 
 void	ft_cd(t_data *data, t_token *token);
+void	print_path_if_needed(t_command *command, t_token *token, \
+			char *path);
 void	update_oldpwd(t_data *data);
 void	ft_echo(t_data *data, t_token *token);
 void	ft_env(t_data *data, t_token *token);
