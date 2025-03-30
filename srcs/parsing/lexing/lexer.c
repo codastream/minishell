@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 17:21:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:44:17 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 	if (ft_isemptystr(s[i]))
 		return ;
 	else if (!ft_strcmp(s[i], "||"))
-		token = new_token(data, T_AND, i, s[i]);
+		token = new_token(data, T_OR, i, s[i]);
 	else if (!ft_strcmp(s[i], "|"))
 		token = new_token(data, T_PIPE, i, s[i]);
 	else if (!ft_strcmp(s[i], "<<"))
-		token = new_token(data, T_REDIR_HEREDOC, i, s[i]);
+		token = new_token(data, T_EOF, i, s[i]);
 	else if (!ft_strcmp(s[i], "<"))
 		token = new_token(data, T_REDIR_IN, i, s[i]);
 	else if (!ft_strcmp(s[i], ">>"))
