@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:47:29 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:47:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:46:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 int	check_pipe(t_data *data, t_token **tokens, t_token *token)
 {
 	(void) tokens;
+	if (token->type == T_OR)
+	{
+		handle_syntax_error(data, "|");
+		return (EXIT_SYNTAX_ERROR);
+	}
 	if (token->type != T_PIPE)
 		return (EXIT_IGNORE);
 	if (!token->prev || !token->next)
