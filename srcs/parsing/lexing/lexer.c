@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 20:44:17 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:44:37 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	tokenize(t_data *data, char *line)
 	while (splitted[i])
 		add_token(data, data->tokens, splitted, i++);
 	ft_free_2d_char_null_ended(splitted);
+	if (PRINT == 1)
+		print_tokens(data->tokens);
 	code = check_tokens(data, data->tokens);
 	return (code);
 }

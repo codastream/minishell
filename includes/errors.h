@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 17:20:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:44:58 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define EXIT_CMD_NOT_FOUND 127
 # define EXIT_NO_SUCH_FILE_OR_DIRECTORY 127
 # define EXIT_HEREDOC_ERROR 130
+
+# define ERROR_EMPTY_REDIR -1
 
 # define MSG_MEMORY_ERROR "memory error"
 # define MSG_FILENAME_ARGUMENT_REQUIRED "filename argument required"
