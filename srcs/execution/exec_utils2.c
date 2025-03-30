@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:24:47 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:28:06 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,16 @@ int	wait_all(t_data *data, t_exec *exec)
 		i++;
 	}
 	return (code);
+}
+
+void	check_exec_builtin(t_data *data, t_tree *tree)
+{
+	int	code;
+
+	code = iter_tree_token(data, tree, check_redirection_files);
+	if (code != EXIT_SUCCESS)
+		return ;
+	if (!tree->value->command->has_invalid_redir)
+		try_exec_builtin(data, tree->value, tree->value->command);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 18:59:17 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 19:28:19 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ bool	is_output_redir(t_redir *redir);
 
 // exec utils 2
 int		wait_all(t_data *data, t_exec *exec);
+void	check_exec_builtin(t_data *data, t_tree *tree);
 
 #endif
