@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 17:47:55 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:58:55 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ int	init_heredoc(t_data *data, t_list *currentredir, t_redir *redir)
 		close(fds[0]);
 	return (fds[0]);
 }
-

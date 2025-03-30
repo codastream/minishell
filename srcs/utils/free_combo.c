@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 14:40:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:48:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ void	free_all_data(t_data *data)
 {
 	free_after_exec(data);
 	free_vars_and_data(data);
-	clear_history();
+	rl_clear_history();
 }

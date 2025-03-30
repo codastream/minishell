@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:11:13 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 20:43:04 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:56:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ int	iter_tree_token(t_data *data, t_tree *tree, \
 	if (code != EXIT_SUCCESS)
 		return (code);
 	code = iter_tree_token(data, tree->right, f);
-		return (code);
+	return (code);
 }
