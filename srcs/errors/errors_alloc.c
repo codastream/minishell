@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*   errors_alloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 16:23:25 by fpetit           ###   ########.fr       */
+/*   Created: 2025/03/31 17:17:31 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/31 17:20:34 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	wait_all(t_data *data, t_exec *exec)
+void	check_alloc_token(t_data *data, t_token *token, char **s)
 {
-	int		status;
-	pid_t	result;
-	int		code;
-	int		i;
+	if (!token)
+		ft_free_2d_char_null_ended(s);
+	check_alloc(data, token);
+}
 
-	(void) data;
-	code = EXIT_SUCCESS;
-	i = 0;
-	while (i < exec->commands_nb)
-	{
-		result = waitpid(0, &status, 0);
-		if (result == exec->last_pid)
-			code = WEXITSTATUS(status);
-		i++;
-	}
-	return (code);
+void	check_alloc_tokens(t_data *data, t_token **tokens, char **s)
+{
+	if (!tokens)
+		ft_free_2d_char_null_ended(s);
+	check_alloc(data, tokens);
 }

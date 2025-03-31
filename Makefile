@@ -103,6 +103,7 @@ SRCS_FILES:=	main.c\
 				execution/fds.c\
 				execution/fds_utils.c\
 				errors/errors.c\
+				errors/errors_alloc.c\
 				errors/errors_custom.c\
 				errors/errors_utils.c\
 				errors/errors_print.c\

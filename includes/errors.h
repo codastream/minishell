@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:01:58 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:20:48 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 # define MSG_IS_DIRECTORY "Is a directory"
 # define MSG_PERMISSION_DENIED "Permission denied"
 # define MSG_USAGE_NO_OPTS_NO_ARGS "usage : no OPTS and no ARGS"
+
+// errors alloc
+void	check_alloc_token(t_data *data, t_token *token, char **s);
+void	check_alloc_tokens(t_data *data, t_token **tokens, char **s);
 
 // error_print
 void	printerr(char *msg);
