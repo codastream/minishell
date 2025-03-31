@@ -41,6 +41,8 @@ char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 		path_elems[0] = splitted_paths[i];
 		path_elems[1] = name;
 		pathname = ft_multistrjoin(2, path_elems, "/");
+		if (!pathname)
+			ft_free_2d_char_null_ended(splitted_paths);
 		check_alloc(data, pathname);
 		if (access(pathname, X_OK) == 0)
 			break ;
