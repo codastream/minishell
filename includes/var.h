@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:58 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:32:59 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:35:52 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ void	toggle_quote_status(bool *in_dquote);
 void	check_closing_dquotes(char *string, int *i, bool *in_dquote);
 bool	check_in_dquote(char *s, char marker, int *i, bool *in_dquote);
 void	check_out_dquote(char *s, int *i, bool *in_dquote);
+void	reset_arg(char **arg);
+int		compute_sublen(char *s, int *i, int len);
 
 #endif

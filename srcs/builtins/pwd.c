@@ -17,7 +17,8 @@ char	*getpwd(t_data *data)
 	int		size;
 	char	*buffer;
 
-	size = 2048;
+	(void)data;
+	size = 4096;
 	buffer = malloc(size);
 	check_alloc(data, buffer);
 	getcwd(buffer, size);

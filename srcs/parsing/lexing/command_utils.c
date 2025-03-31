@@ -6,35 +6,41 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:57:33 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:31:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-static void	update_args_and_name(t_data *data, t_command *command, char *string)
+static void	update_args(t_data *data, t_command *command, char *string)
 {
 	t_delimiter	**delimiters;
 	char		**name_with_args;
 	char		**seps;
 
 	seps = ft_calloc(2, sizeof(char *));
+	if (!seps)
+		free(command);
 	check_alloc(data, seps);
 	seps[0] = " ";
 	seps[1] = NULL;
 	delimiters = init_quote_delimiters(data);
+	if (!delimiters)
+		free(command);
+	check_alloc(data, delimiters);
+	name_with_args = NULL;
 	name_with_args = ft_split_skip(string, seps, delimiters);
-	check_alloc(data, name_with_args);
 	free(seps);
 	free_delimiters(delimiters);
+	check_alloc(data, name_with_args);
 	command->command_args = name_with_args;
-	command->command_name = ft_strdup(name_with_args[0]);
-	check_alloc(data, command->command_name);
 }
 
 void	update_command_from_string(t_data *data, t_command *command, \
 		char *string)
 {
+	char	*name;
+
 	if (command->command_args)
 		ft_free_2d_char_null_ended(command->command_args);
 	if (command->command_name)
@@ -45,7 +51,12 @@ void	update_command_from_string(t_data *data, t_command *command, \
 		command->command_name = ft_calloc(1, sizeof(char));
 		return ;
 	}
-	update_args_and_name(data, command, string);
+	update_args(data, command, string);
+	name = ft_strdup(command->command_args[0]);
+	if (!name)
+		free_command(command);
+	check_alloc(data, name);
+	command->command_name = name;
 }
 
 t_list	**get_redir_list_from_operator(t_token *operator_token, \
@@ -71,8 +82,12 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 	int		index;
 
 	index = 0;
-	redir_file_str_expanded = \
-		try_replace_vars(data, (char *) file_token->string, &index, 0);
+	if (ft_strstr(file_token->string, "$"))
+		redir_file_str_expanded = \
+			try_replace_vars(data, (char *) file_token->string, &index, 0);
+	else
+		redir_file_str_expanded = ft_strdup(file_token->string);
+	check_alloc(data, redir_file_str_expanded);
 	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
 	free(redir_file_str_expanded);
 	check_alloc(data, redir_file_str);

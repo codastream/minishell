@@ -103,6 +103,7 @@ SRCS_FILES:=	main.c\
 				execution/fds.c\
 				execution/fds_utils.c\
 				errors/errors.c\
+				errors/errors_alloc.c\
 				errors/errors_custom.c\
 				errors/errors_utils.c\
 				errors/errors_print.c\
@@ -124,6 +125,7 @@ SRCS_FILES:=	main.c\
 				vars/return_code.c\
 				vars/expand.c\
 				vars/expand_utils.c\
+				vars/expand_utils2.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 
@@ -166,7 +168,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "                                                                                          ░░██████                ";
 	@echo "                                                                                           ░░░░░░                 ";
 	@echo "$(NOC)"
-	# @cat mishell.txt
+#	@cat bonaive.txt
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal

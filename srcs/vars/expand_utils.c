@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:52:43 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:32:34 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:05:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ void	check_out_dquote(char *s, int *i, bool *in_dquote)
 	if (s[*i] == '\'')
 		skip_single_quote(s, i);
 	(*i)++;
+}
+
+void	reset_arg(char **arg)
+{
+	free(*arg);
+	*arg = NULL;
 }

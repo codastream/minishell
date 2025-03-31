@@ -53,8 +53,8 @@ void	update_prompt(t_data *data)
 	elems[8] = P_NOC_PROMPT;
 	elems[9] = NULL;
 	prompt = ft_multistrjoin(9, elems, "");
-	check_alloc(data, prompt);
 	free(elems);
+	check_alloc(data, prompt);
 	data->prompt = prompt;
 }
 
@@ -109,6 +109,7 @@ static void	process_line_input_interactive(t_data *data)
 			if (PRINT == 1)
 				ft_put_green("after tokenize\n");
 			data->tree = make_tree(data, *(data->tokens));
+			check_alloc(data, data->tree);
 			exec_line(data, data->tree);
 		}
 		free_after_exec(data);

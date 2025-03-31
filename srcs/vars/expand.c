@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 16:49:42 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:39:48 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *i)
 	int		sublen;
 	char	*prefixedkey;
 
+	(void) data;
 	len = 0;
 	prefixedkey = NULL;
 	if (s[*i] && s[*i] == '$' && (ft_ischarforenvvar(s[*i + 1]) \
@@ -28,13 +29,8 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *i)
 		else if (s[*i + 1] && s[*i + 1] == '?')
 			sublen = 2;
 		else
-		{
-			while (ft_ischarforenvvar(s[*i + len + 1]))
-				len++;
-			sublen = len + 1;
-		}
+			sublen = compute_sublen(s, i, len);
 		prefixedkey = ft_substr(s, *i, sublen);
-		check_alloc(data, prefixedkey);
 	}
 	else if (s[*i] == '$' && (s[*i + 1] == '\'' || s[*i + 1] == '\"'))
 		prefixedkey = ft_strdup("$");
@@ -119,7 +115,7 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 		s = expanded;
 	}
 	if (!ft_strcmp(*arg, ""))
-		*arg = NULL;
+		reset_arg(arg);
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)

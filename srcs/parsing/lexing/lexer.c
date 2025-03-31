@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 20:41:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:21:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 		return ;
 	else if (!ft_strcmp(s[i], "||"))
 		token = new_token(data, T_OR, i, s[i]);
-	else if (!ft_strcmp(s[i], "&&"))
-		token = new_token(data, T_WORD, i, s[i]);
 	else if (!ft_strcmp(s[i], "|"))
 		token = new_token(data, T_PIPE, i, s[i]);
 	else if (!ft_strcmp(s[i], "<<"))
@@ -38,6 +36,7 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 		token = new_token(data, T_CLOSING_PARENTHESIS, i, s[i]);
 	else
 		token = new_token(data, T_WORD, i, s[i]);
+	check_alloc_token(data, token, s);
 	add_token_back(tokens, token);
 }
 
@@ -99,15 +98,18 @@ int	tokenize(t_data *data, char *line)
 
 	separators = init_separators_for_operators(data);
 	delimiters = init_quote_delimiters(data);
+	if (!delimiters)
+		free(separators);
+	check_alloc(data, delimiters);
 	splitted = ft_split_skip(line, separators, delimiters);
+	free(separators);
+	free_delimiters(delimiters);
 	check_alloc(data, splitted);
 	data->tokens = ft_calloc(1, sizeof(t_token *));
-	check_alloc(data, data->tokens);
+	check_alloc_tokens(data, data->tokens, splitted);
 	i = 0;
 	while (splitted[i])
 		add_token(data, data->tokens, splitted, i++);
-	free(separators);
-	free_delimiters(delimiters);
 	ft_free_2d_char_null_ended(splitted);
 	if (PRINT == 1)
 		print_tokens(data->tokens);

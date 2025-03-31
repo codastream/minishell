@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:57 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:17:06 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:00:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	free_delimiters(t_delimiter **delims)
 	int		i;
 
 	i = 0;
-	while (delims[i])
+	while (delims && delims[i])
 	{
-		free(delims[i]->opening);
-		free(delims[i]->closing);
+		if (delims[i]->opening)
+			free(delims[i]->opening);
+		if (delims[i]->closing)
+			free(delims[i]->closing);
 		free(delims[i]);
 		i++;
 	}

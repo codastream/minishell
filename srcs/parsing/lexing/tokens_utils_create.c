@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:59:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:12:18 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ t_token	*new_token(t_data *data, t_tokentype type, int index, char *string)
 {
 	t_token	*token;
 
+	(void) data;
 	token = ft_calloc(1, sizeof(t_token));
-	check_alloc(data, token);
+	if (!token)
+		return (NULL);
 	token->index = index;
 	token->type = type;
 	token->prev = NULL;
@@ -28,7 +30,8 @@ t_token	*new_token(t_data *data, t_tokentype type, int index, char *string)
 	if (string)
 	{
 		token->string = ft_strtrim(string, " ");
-		check_alloc(data, token->string);
+		if (!string)
+			return (NULL);
 	}
 	else
 		token->string = NULL;

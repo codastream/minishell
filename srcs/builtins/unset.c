@@ -24,6 +24,8 @@ void	ft_unset(t_data *data, t_token *token)
 	{
 		if ((command->command_args)[i][0] == '-')
 			ft_hash_update(data->localvars, LAST_RETURN_CODE, "2");
-		ft_hash_remove(data->localvars, (command->command_args)[i++]);
+		if ((command->command_args)[i][0] != '?')
+			ft_hash_remove(data->localvars, (command->command_args)[i]);
+		i++;
 	}
 }

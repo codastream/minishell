@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:39:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:02:13 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ void	get_keyval(t_data *data, char	*s, char **key, char **value)
 	if (splitted[0])
 	{
 		*key = ft_strdup(splitted[0]);
+		if (!*key)
+			ft_free_2d_char_null_ended(splitted);
 		check_alloc(data, *key);
 	}
 	if (splitted[1])
 	{
 		*value = ft_strdup(splitted[1]);
-		check_alloc(data, *value);
+		check_alloc_varvalue(data, splitted, key, value);
 	}
 	else
 		*value = NULL;
@@ -99,27 +101,25 @@ void	init_vars(t_data *data, char **env)
 {
 	int		env_var_nb;
 	int		i;
-	t_hash	*vars;
 	char	*key;
 	char	*value;
 
 	env_var_nb = ft_count_2dchar_null_ended(env);
-	vars = ft_hash_init(env_var_nb + 100);
-	check_alloc(data, vars);
+	data->localvars = ft_hash_init(env_var_nb + 100);
+	check_alloc(data, data->localvars);
 	i = 0;
 	while (i < env_var_nb)
 	{
 		get_keyval(data, env[i], &key, &value);
 		if (key && value)
-			ft_hash_insert(vars, key, value);
+			ft_hash_insert(data->localvars, key, value);
 		else if (key)
-			ft_hash_insert(vars, key, NULL);
+			ft_hash_insert(data->localvars, key, NULL);
 		free(key);
 		if (value)
 			free (value);
 		i++;
 	}
-	init_wd(data, vars, env_var_nb);
-	ft_hash_insert(vars, LAST_RETURN_CODE, "0");
-	data->localvars = vars;
+	ft_hash_insert(data->localvars, LAST_RETURN_CODE, "0");
+	init_wd(data, data->localvars, env_var_nb);
 }

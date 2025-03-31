@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:38:21 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:39:42 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 20:55:08 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	fd_push_back(t_fds **head, int fd)
 
 	new_node = create_fds_node(fd);
 	if (!new_node)
-		return ;
+		close(fd);
 	if (*head == NULL)
 	{
 		*head = new_node;
 		return ;
 	}
 	current = *head;
-	while (current->next)
+	while (current->next && new_node)
 		current = current->next;
 	current->next = new_node;
 }

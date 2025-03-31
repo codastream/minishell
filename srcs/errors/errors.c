@@ -54,10 +54,12 @@ void	handle_custom_error(t_data *data, char *msg, int code, bool should_exit)
 {
 	if (msg)
 		printerr(msg);
-	update_last_error(data, code);
+	if (data->localvars)
+		update_last_error(data, code);
 	if (should_exit)
 	{
-		free_all_data(data);
+		if (data)
+			free_all_data(data);
 		exit(code);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:41:57 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:13:09 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,19 @@ char	**split_export_cmd(char *cmd)
 		i++;
 	code = ft_strndup(&result[0], cmd, 0, i);
 	if (!code)
-		return (NULL);
+	{
+		ft_free_2d_char_null_ended(result);
+	}
 	j = i;
 	while (cmd[i] && cmd[i - 1] != '=')
 		i++;
-	code = ft_strndup(&result[1], cmd, j, i);
-	if (!code)
-		return (NULL);
-	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
+	result = generate_export_split(result, cmd, i, j);
 	return (result);
 }
 
 static void	print_according_to_value_presence(t_keyval *current, t_token *token)
 {
-	if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
+	if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
 		ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
 		current->value);
 	else if (ft_strcmp(current->key, LAST_RETURN_CODE))
@@ -80,6 +79,7 @@ void	pars_export(t_data *data, t_token *token, int i)
 	char	**cmd;
 
 	cmd = split_export_cmd(token->command->command_args[i]);
+	check_alloc(data, cmd);
 	if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
 	else if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "="))
