@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:49 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:14:50 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:18:11 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ t_data	*init_data(char **env)
 	return (data);
 }
 
+static void	fill_builtin_names(char **builtins)
+{
+	builtins[0] = "cd";
+	builtins[1] = "echo";
+	builtins[2] = "exit";
+	builtins[3] = "env";
+	builtins[4] = "pwd";
+	builtins[5] = "unset";
+	builtins[6] = "export";
+}
+
 void	init_builtins(t_data *data, t_exec *exec)
 {
 	char		**builtins;
@@ -33,13 +44,7 @@ void	init_builtins(t_data *data, t_exec *exec)
 	if (!builtins)
 		free(exec);
 	check_alloc(data, builtins);
-	builtins[0] = "cd";
-	builtins[1] = "echo";
-	builtins[2] = "exit";
-	builtins[3] = "env";
-	builtins[4] = "pwd";
-	builtins[5] = "unset";
-	builtins[6] = "export";
+	fill_builtin_names(builtins);
 	exec->builtins = builtins;
 	builtin_f = ft_calloc(8, sizeof(t_builtin *));
 	if (!builtin_f)

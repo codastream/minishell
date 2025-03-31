@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:15:54 by fpetit           ###   ########.fr       */
+/*   Created: 2025/03/31 21:34:18 by fpetit            #+#    #+#             */
+/*   Updated: 2025/03/31 21:35:35 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-bool	is_valid_identifier(char *arg)
+int	compute_sublen(char *s, int *i, int len)
 {
-	if (!arg)
-		return (false);
-	if (arg[0] == '=')
-		return (false);
-	return (true);
-}
+	int	sublen;
 
-char	**generate_export_split(char **result, char *cmd, int i, int j)
-{
-	int	code;
-
-	code = ft_strndup(&result[1], cmd, j, i);
-	if (!code)
-		ft_free_2d_char_null_ended(result);
-	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
-	if (!code)
-		ft_free_2d_char_null_ended(result);
-	return (result);
+	while (ft_ischarforenvvar(s[*i + len + 1]))
+		len++;
+	sublen = len + 1;
+	return (sublen);
 }

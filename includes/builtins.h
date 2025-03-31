@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:27:18 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/30 19:20:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:13:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	update_oldpwd(t_data *data);
 void	ft_echo(t_data *data, t_token *token);
 void	ft_env(t_data *data, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
+char	**generate_export_split(char **result, char *cmd, int i, int j);
 void	ft_export(t_data *data, t_token *token);
 bool	is_valid_identifier(char *arg);
 char	*getpwd(t_data *data);

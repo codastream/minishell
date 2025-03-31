@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 19:21:04 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:16:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*build_path_from_directory(t_data *data, char *path_arg)
 {
 	char	*path;
 
-	path = ft_strjoinfree(getpwd(data), "/", 1);	
+	path = ft_strjoinfree(getpwd(data), "/", 1);
 	check_alloc(data, path);
 	path = ft_strjoinfree(path, path_arg, 1);
 	check_alloc(data, path);

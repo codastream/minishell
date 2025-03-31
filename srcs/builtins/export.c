@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:41:57 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:13:09 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,11 @@ char	**split_export_cmd(char *cmd)
 	if (!code)
 	{
 		ft_free_2d_char_null_ended(result);
-		return (NULL);
 	}
 	j = i;
 	while (cmd[i] && cmd[i - 1] != '=')
 		i++;
-	code = ft_strndup(&result[1], cmd, j, i);
-	if (!code)
-	{
-		ft_free_2d_char_null_ended(result);
-		free(result);
-	}
-	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
-	if (!code)
-	{
-		ft_free_2d_char_null_ended(result);
-		free(result);
-	}
+	result = generate_export_split(result, cmd, i, j);
 	return (result);
 }
 

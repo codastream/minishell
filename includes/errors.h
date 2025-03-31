@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 20:48:12 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:41:07 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 // errors alloc
 void	check_alloc_token(t_data *data, t_token *token, char **s);
 void	check_alloc_tokens(t_data *data, t_token **tokens, char **s);
+void	check_alloc_varvalue(t_data *data, char **splitted, char **key, \
+			char **value);
 
 // error_print
 void	printerr(char *msg);

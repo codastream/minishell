@@ -125,6 +125,7 @@ SRCS_FILES:=	main.c\
 				vars/return_code.c\
 				vars/expand.c\
 				vars/expand_utils.c\
+				vars/expand_utils2.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:39:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:02:13 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ void	get_keyval(t_data *data, char	*s, char **key, char **value)
 	if (splitted[1])
 	{
 		*value = ft_strdup(splitted[1]);
-		if (!*value)
-		{
-			ft_free_2d_char_null_ended(splitted);
-			free(*key);
-		}
-		check_alloc(data, *value);
+		check_alloc_varvalue(data, splitted, key, value);
 	}
 	else
 		*value = NULL;
