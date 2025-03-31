@@ -27,14 +27,25 @@ char	**split_export_cmd(char *cmd)
 		i++;
 	code = ft_strndup(&result[0], cmd, 0, i);
 	if (!code)
+	{
+		ft_free_2d_char_null_ended(result);
 		return (NULL);
+	}
 	j = i;
 	while (cmd[i] && cmd[i - 1] != '=')
 		i++;
 	code = ft_strndup(&result[1], cmd, j, i);
 	if (!code)
-		return (NULL);
+	{
+		ft_free_2d_char_null_ended(result);
+		free(result);
+	}
 	code = ft_strndup(&result[2], cmd, i, ft_strlen(cmd));
+	if (!code)
+	{
+		ft_free_2d_char_null_ended(result);
+		free(result);
+	}
 	return (result);
 }
 
@@ -80,6 +91,7 @@ void	pars_export(t_data *data, t_token *token, int i)
 	char	**cmd;
 
 	cmd = split_export_cmd(token->command->command_args[i]);
+	check_alloc(data, cmd);
 	if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "+="))
 		append_export(data, cmd);
 	else if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "="))

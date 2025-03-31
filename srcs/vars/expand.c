@@ -37,7 +37,10 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *i)
 		check_alloc(data, prefixedkey);
 	}
 	else if (s[*i] == '$' && (s[*i + 1] == '\'' || s[*i + 1] == '\"'))
+	{
 		prefixedkey = ft_strdup("$");
+		check_alloc(data, prefixedkey);
+	}
 	return (prefixedkey);
 }
 
@@ -119,7 +122,10 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 		s = expanded;
 	}
 	if (!ft_strcmp(*arg, ""))
+	{
+		free(*arg);
 		*arg = NULL;
+	}
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)

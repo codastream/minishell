@@ -30,15 +30,16 @@ void	fd_push_back(t_fds **head, int fd)
 	t_fds	*current;
 
 	new_node = create_fds_node(fd);
+
 	if (!new_node)
-		return ;
+		close(fd);
 	if (*head == NULL)
 	{
 		*head = new_node;
 		return ;
 	}
 	current = *head;
-	while (current->next)
+	while (current->next && new_node)
 		current = current->next;
 	current->next = new_node;
 }

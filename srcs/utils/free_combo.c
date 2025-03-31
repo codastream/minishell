@@ -40,7 +40,9 @@ void	free_after_exec(t_data *data)
 	free_before_parsing(data);
 	if (data->fds)
 		pop_all_fd(&data->fds);
-	if (data->tokens)
+	if (data->tokens && !data->tree)
+		free_tokens(data->tokens);
+	else if (data->tokens)
 		free(data->tokens);
 	data->tokens = NULL;
 	if (data->tree)

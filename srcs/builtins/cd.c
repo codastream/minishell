@@ -40,7 +40,7 @@ static char	*build_path_from_directory(t_data *data, char *path_arg)
 {
 	char	*path;
 
-	path = ft_strjoinfree(getpwd(data), "/", 1);
+	path = ft_strjoinfree(getpwd(data), "/", 1);	
 	check_alloc(data, path);
 	path = ft_strjoinfree(path, path_arg, 1);
 	check_alloc(data, path);
@@ -71,7 +71,8 @@ static char	*build_path(t_data *data, char **path_args)
 			printerr_source("cd", "HOME not set");
 			return (NULL);
 		}
-		path = home_path;
+		path = ft_strdup(home_path);
+		check_alloc(data, path);
 	}
 	else if (!ft_strcmp(path_args[1], "-"))
 		path = ft_strdup(ft_hash_get(data->localvars, "OLDPWD"));

@@ -29,7 +29,7 @@ void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 			break ;
 		}
 		input = ft_strjoinfree(input, "\n", 1);
-		if (g_signal != 0 || !ft_strcmp(input, eof))
+		if (g_signal != 0 || !ft_strcmp(input, eof) || !input)
 			break ;
 		ft_print_str_fd(fds[1], input);
 		free(input);
@@ -43,10 +43,13 @@ void	process_input(t_data *data, t_command *command, int fds[2])
 	char	*eofnoreturn;
 
 	close(fds[0]);
+	(void)command;
 	eofnoreturn = get_last_eofmarker(command);
 	eof = ft_strjoin(eofnoreturn, "\n");
-	handle_quote_in_arg(data, &eof);
+	if (!eof)
+		close(fds[1]);
 	check_alloc(data, eof);
+	handle_quote_in_arg(data, &eof);	
 	handle_input(eof, eofnoreturn, fds);
 	free(eof);
 	close(fds[1]);

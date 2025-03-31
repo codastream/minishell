@@ -30,6 +30,8 @@ void	init_builtins(t_data *data, t_exec *exec)
 	t_builtin	*builtin_f;
 
 	builtins = ft_calloc(8, sizeof(char *));
+	if (!builtins)
+		free(exec);
 	check_alloc(data, builtins);
 	builtins[0] = "cd";
 	builtins[1] = "echo";
@@ -40,6 +42,11 @@ void	init_builtins(t_data *data, t_exec *exec)
 	builtins[6] = "export";
 	exec->builtins = builtins;
 	builtin_f = ft_calloc(8, sizeof(t_builtin *));
+	if (!builtin_f)
+	{
+		free(builtins);
+		free(exec);
+	}
 	check_alloc(data, builtin_f);
 	builtin_f[0] = ft_cd;
 	builtin_f[1] = ft_echo;
