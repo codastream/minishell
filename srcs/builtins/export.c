@@ -40,7 +40,7 @@ char	**split_export_cmd(char *cmd)
 
 static void	print_according_to_value_presence(t_keyval *current, t_token *token)
 {
-	if (current->value && ft_strcmp(current->key, LAST_RETURN_CODE))
+	if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
 		ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
 		current->value);
 	else if (ft_strcmp(current->key, LAST_RETURN_CODE))
