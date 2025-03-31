@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:09:19 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:09:20 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 18:48:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	handle_non_interactive_end(t_data *data, char *step)
 	code = get_last_return(data);
 	if (PRINT == 1)
 		printf("handle noninter end code %d\n", code);
-	if (!strcmp(step, "beforeexec"))
+	if (!ft_strcmp(step, "beforeexec"))
 	{
 		free_vars_and_data(data);
-		clear_history();
+		rl_clear_history();
 	}
-	else if (!strcmp(step, "afterexec"))
+	else if (!ft_strcmp(step, "afterexec"))
 	{
 		free_all_data(data);
 	}

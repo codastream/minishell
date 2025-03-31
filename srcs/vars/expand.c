@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:34:39 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:49:42 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
+	token->command->argc = \
+		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])
 	{
 		expand_vars_in_arg(data, &token->command->command_args[i]);

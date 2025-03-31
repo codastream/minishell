@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:44:24 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 20:41:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	add_token(t_data *data, t_token **tokens, char **s, int i)
 	if (ft_isemptystr(s[i]))
 		return ;
 	else if (!ft_strcmp(s[i], "||"))
-		token = new_token(data, T_AND, i, s[i]);
-	else if (!ft_strcmp(s[i], "&&"))
 		token = new_token(data, T_OR, i, s[i]);
+	else if (!ft_strcmp(s[i], "&&"))
+		token = new_token(data, T_WORD, i, s[i]);
 	else if (!ft_strcmp(s[i], "|"))
 		token = new_token(data, T_PIPE, i, s[i]);
 	else if (!ft_strcmp(s[i], "<<"))
@@ -109,6 +109,8 @@ int	tokenize(t_data *data, char *line)
 	free(separators);
 	free_delimiters(delimiters);
 	ft_free_2d_char_null_ended(splitted);
+	if (PRINT == 1)
+		print_tokens(data->tokens);
 	code = check_tokens(data, data->tokens);
 	return (code);
 }

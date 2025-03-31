@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:45:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:49:37 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:49:16 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_command
 	char		*command_name;
 	char		*pathname;
 	char		**command_args;
+	int			argc;
 	t_list		*redirections;
 	t_list		*redir_in;
 	t_list		*heredoc;

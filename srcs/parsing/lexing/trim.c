@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 18:12:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:53:57 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,6 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	}
 }
 
-void	handle_quote_in_command_arg(t_data *data, char **arg)
-{
-	char	*new_arg;
-
-	if (is_surrounded_by_pairofchar(*arg, '\''))
-	{
-		new_arg = ft_strtrim(*arg, "'");
-		check_alloc(data, new_arg);
-		free(*arg);
-		*arg = new_arg;
-	}
-	handle_quote_in_arg(data, arg);
-}
-
 int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 {
 	int		i;
@@ -107,7 +93,7 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	i = 0;
 	while (name_with_args[i])
 	{
-		handle_quote_in_command_arg(data, &name_with_args[i]);
+		handle_quote_in_arg(data, &name_with_args[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);

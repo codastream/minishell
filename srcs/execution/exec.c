@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:26:14 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/30 22:28:32 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,22 +105,16 @@ void	exec_line(t_data *data, t_tree *tree)
 	data->exec = exec;
 	if (!tree->left && !tree->right && is_builtin(data, tree->value->command))
 	{
-		code = iter_tree_token(data, tree, check_redirection_files);
-		if (!tree->value->command->has_invalid_redir)
-			try_exec_builtin(data, tree->value, tree->value->command);
+		check_exec_builtin(data, tree);
 		return ;
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-	code = heredoc(data, &tree);
-	if (code != 0)
-		return ;
 	code = iter_tree_token(data, tree, check_redirection_files);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	signal(SIGQUIT, SIG_IGN);
 	pop_all_fd(&(data->fds));
-	if (PRINT == 1)
-		printf("code after wait %d\n", code);
 	update_last_return(data, code);
+	check_for_eof_and_signals(data);
 }

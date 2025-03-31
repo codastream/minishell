@@ -24,6 +24,7 @@ echo "$"HOME
 echo "$EMPTY" "Makefile"
 echo "$EMPTY""Makefile"
 echo "$EMPTY"Makefile
+echo $EMPTY    var
 echo "$HO""ME"
 echo "$HO"ME
 echo $
