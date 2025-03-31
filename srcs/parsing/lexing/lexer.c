@@ -79,6 +79,7 @@ static int	check_tokens(t_data *data, t_token **tokens)
 		return (code);
 	if (PRINT == 1)
 		ft_put_yellow("quotes\n");
+	code = do_for_tokens(data, tokens, handle_wilcard);
 	code = do_for_tokens(data, tokens, handle_quotes);
 	if (code != EXIT_SUCCESS)
 		return (code);

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/28 15:55:58 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/03/31 22:06:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,4 @@ void	handle_sig_child(int sig)
 			g_signal = 128 + sig;
 		}
 	}
-}
-
-void	check_for_eof_and_signals(t_data *data)
-{
-	if (g_signal != 0)
-		update_last_return(data, g_signal);
-	if (!data->line)
-		handle_end_of_loop(data);
-	g_signal = 0;
 }
