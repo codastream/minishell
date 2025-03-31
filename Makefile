@@ -1,4 +1,5 @@
 NAME		:=	minishell
+BONUS_NAME	:=	minishell_bonus
 LIBFT		:=	libft.a
 
 #==============================COMPIL===========================#
@@ -27,6 +28,14 @@ TO_COMP	:=	1
 endif
 
 PERCENT	:= 0
+
+NB_COMP_BONUS := 1
+ifndef RECURSION
+TO_COMP_BONUS := $(shell make bonus RECURSION=1 -n | grep Compiling | wc -l)
+else
+TO_COMP_BONUS := 1
+endif
+
 
 #==============================COLORS==============================#
 NOC			= \e[0m
@@ -127,15 +136,21 @@ SRCS_FILES:=	main.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
 
+SRCS_FILES_BONUS:= 	$(SRCS_FILES)\
+					vars/wildcard_bonus.c\
+
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
+SRCS_BONUS:=	$(addprefix $(SRC_DIR)/$(SRC_BONUS_DIR)/, $(SRCS_FILES_BONUS))
 
 #=============================OBJECTS===========================#
 
 OBJS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o}
+OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/bonus/%.c=$(BUILD_DIR)/bonus/%.o}
 
 #===============================DEPS=============================#
 
 DEPS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.d}
+DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/bonus/%.c=$(BUILD_DIR)/bonus/%.d}
 
 #=============================INCLUDES===========================#
 
@@ -144,12 +159,18 @@ INC:=			-I$(HEADER_DIR) -I$(LIBFT_DIR)
 #================================DIR=============================#
 
 DIRS			:=	$(sort $(shell dirname $(OBJS))) #no duplicates
+DIRS_BONUS		:=	$(sort $(shell dirname $(OBJS_BONUS))) #no duplicates
 
 #===============================RULES============================#
 
 all: $(NAME)
 
+bonus: $(BONUS_NAME)
+
 $(DIRS):
+	@mkdir -p $@
+
+$(DIRS_BONUS):
 	@mkdir -p $@
 
 $(NAME): $(LIBFT) $(OBJS)
@@ -170,6 +191,10 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(NOC)"
 	@cat bonaive.txt
 
+$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
+	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
+
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
@@ -183,6 +208,20 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@echo -n "$(NOC)"
 	@$(CC) $(CFLAGS) $(INC) $< -c -o $@
 	$(eval NB_COMP=$(shell expr $(NB_COMP) + 1))
+
+
+$(BUILD_DIR)/bonus/%.o: $(SRC_DIR)/bonus/%.c | $(DIRS_BONUS)
+	@mkdir -p $(BUILD_DIR)/bonus/
+	@if [ $(NB_COMP_BONUS) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
+	$(eval PERCENT=$(shell expr $(NB_COMP_BONUS)00 "/" $(TO_COMP_BONUS)))
+	@if [ $(PERCENT) -le 30 ]; then echo -n "$(RED)"; elif [ $(PERCENT) -le 66 ]; then echo -n "$(YELLOW)"; elif [ $(PERCENT) -gt 66 ]; then echo -n "$(GREEN)"; fi
+	@echo -n "\r"; for i in $$(seq 1 $$(/usr/bin/tput cols)); do echo -n " "; done
+	@echo -n "\r"; for i in $$(seq 1 25); do if [ $$(expr $$i "*" 4) -le $(PERCENT) ]; then echo -n "█"; else echo -n " "; fi; done; echo -n "";
+	@printf " $(NB_COMP_BONUS)/$(TO_COMP_BONUS) - Compiling $<"
+	@echo -n "$(NOC)"
+	@$(CC) $(CFLAGS) $(INC) $< -c -o $@
+	$(eval NB_COMP_BONUS=$(shell expr $(NB_COMP_BONUS) + 1))
+
 
 $(LIBFT_DIR):
 	@ mkdir -p $@
@@ -201,6 +240,7 @@ clean:
 fclean: clean
 	@echo "$(RED)Remove binary$(NOC)"
 	@rm -f $(NAME)
+	@rm -f $(BONUS_NAME)
 
 re: fclean
 	@make

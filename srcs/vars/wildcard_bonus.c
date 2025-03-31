@@ -1,4 +1,4 @@
-#include "../../includes/shell.h"
+#include "shell.h"
 
 char  *define_wildcard(char *s, int i)
 {
@@ -136,7 +136,7 @@ char  **ft_expand_wildcard(char *str)
 	int	  len;
 	char  **wildcard;
 	char  **current_repository = NULL;
-	
+
 	i = 0;
 	j = 0;
 	len = 0;
@@ -167,7 +167,7 @@ void  join_wildcard(char **s, char **wildcard)
 	char  *result;
 
 	i = 0;
-	str = NULL; 
+	str = NULL;
 	while (wildcard[i])
 	{
 		str = ft_strjoinfree(str, wildcard[i++], 1);
