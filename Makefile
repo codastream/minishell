@@ -168,7 +168,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "                                                                                          ░░██████                ";
 	@echo "                                                                                           ░░░░░░                 ";
 	@echo "$(NOC)"
-#	@cat bonaive.txt
+	@cat bonaive.txt
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
