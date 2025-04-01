@@ -89,6 +89,7 @@ int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 	(void)tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
+	handle_wildcard_files(data, token);
 	i = 0;
 	while (token->command->command_args[i])
 	{

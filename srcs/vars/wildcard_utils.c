@@ -70,3 +70,32 @@ void	join_wildcard(char **s, char **wildcard)
 	ft_free_2d_char_null_ended(wildcard);
 	*s = str;
 }
+
+int	handle_wildcard_files(t_data *data, t_token *token)
+{
+	char	*s;
+	t_list	*current;
+	t_redir	*redir;
+	char	**expand_wildcard;
+
+	if (!token->command->redirections)
+		return (EXIT_IGNORE);
+	current = token->command->redirections;
+	while (current)
+	{
+		redir = (t_redir *) current->content;
+		s = ft_strdup(redir->string);
+		check_alloc(data, s);
+		expand_wildcard = ft_expand_wildcard(s);
+		join_wildcard(&s, expand_wildcard);
+		if (!ft_isemptystr(s))
+		{
+			free(redir->string);
+			redir->string = s;
+		}
+		else
+			free(s);
+		current = current->next;
+	}
+	return (EXIT_SUCCESS);
+}
