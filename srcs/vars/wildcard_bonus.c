@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcard_bonus.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/02 00:29:15 by fpetit            #+#    #+#             */
+/*   Updated: 2025/04/02 00:29:16 by fpetit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 int	cmd_char(char *rep, char *wildcard, int *i, int *j)
@@ -77,6 +89,7 @@ char	**ft_expand_wildcard(char *str)
 		i++;
 	}
 	ft_free_2d_char_null_ended(current_repository);
+	sort_2dchar_null_ended(wildcard);
 	return (wildcard);
 }
 

@@ -1,31 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   wildcard_sort.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 16:55:31 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/01 23:32:03 by fpetit           ###   ########.fr       */
+/*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
+/*   Updated: 2025/04/02 00:29:11 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	main(int ac, char **av, char **env)
+void	swap(int i, int j, char **elems)
 {
-	t_data	*data;
+	char	*tmp;
 
-	(void) av;
-	if (ac == 1)
+	tmp = ft_strdup(elems[i]);
+	free(elems[i]);
+	elems[i] = elems[j];
+	elems[j] = tmp;
+}
+
+void	sort_2dchar_null_ended(char **elems)
+{
+	int	n;
+	int	i;
+	int	cmp;
+
+	n = ft_count_2dchar_null_ended(elems);
+	while (n > 0)
 	{
-		setup_signal();
-		data = init_data(env);
-		if (!data)
-			return (EXIT_FAILURE);
-		process_line_input(data);
+		i = 0;
+		while (i < n - 1)
+		{
+			cmp = ft_strcmp_igncase(elems[i], elems[i + 1]);
+			if (cmp > 0)
+			{
+				swap(i, i + 1, elems);
+			}
+			i++;
+		}
+		n--;
 	}
-	else
-		printerr("launch ./minishell without option\n");
-	return (EXIT_SUCCESS);
 }
