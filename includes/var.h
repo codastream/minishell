@@ -35,4 +35,8 @@ void	check_out_dquote(char *s, int *i, bool *in_dquote);
 void	reset_arg(char **arg);
 int		compute_sublen(char *s, int *i, int len);
 
+char	**recover_current_repository(char hide);
+int		len_wilcard(char *str);
+void	join_wildcard(char **s, char **wildcard);
+
 #endif

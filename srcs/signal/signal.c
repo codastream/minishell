@@ -55,6 +55,7 @@ void	handle_sig_child(int sig)
 		}
 	}
 }
+
 void	check_for_eof_and_signals(t_data *data)
 {
 	if (g_signal != 0)
