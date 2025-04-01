@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:58 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 22:04:29 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/01 15:35:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,5 @@ bool	check_in_dquote(char *s, char marker, int *i, bool *in_dquote);
 void	check_out_dquote(char *s, int *i, bool *in_dquote);
 void	reset_arg(char **arg);
 int		compute_sublen(char *s, int *i, int len);
-
-// wildcard
-int		handle_wilcard(t_data *data, t_token **tokens, t_token *token);
 
 #endif

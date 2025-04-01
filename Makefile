@@ -1,5 +1,5 @@
 NAME		:=	minishell
-BONUS_NAME	:=	minishell_bonus
+BONUS_NAME	:=	minishell
 LIBFT		:=	libft.a
 
 #==============================COMPIL===========================#
@@ -136,21 +136,20 @@ SRCS_FILES:=	main.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
 
-SRCS_FILES_BONUS:= 	$(SRCS_FILES)\
-					vars/wildcard_bonus.c\
+SRCS_FILES_BONUS:= vars/wildcard_bonus.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
-SRCS_BONUS:=	$(addprefix $(SRC_DIR)/$(SRC_BONUS_DIR)/, $(SRCS_FILES_BONUS))
+SRCS_BONUS:=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES_BONUS))
 
 #=============================OBJECTS===========================#
 
 OBJS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o}
-OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/bonus/%.c=$(BUILD_DIR)/bonus/%.o}
+OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/%.c=$(BUILD_DIR)/bonus/%.o}
 
 #===============================DEPS=============================#
 
 DEPS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.d}
-DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/bonus/%.c=$(BUILD_DIR)/bonus/%.d}
+DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/%.c=$(BUILD_DIR)/bonus/%.d}
 
 #=============================INCLUDES===========================#
 
@@ -173,33 +172,33 @@ $(DIRS):
 $(DIRS_BONUS):
 	@mkdir -p $@
 
-$(NAME): $(LIBFT) $(OBJS)
-	@echo "\n$(GREEN)Create binaries$(NOC)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
-	@echo "$(SPECIAL)"
-	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
-	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
-	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
-	@echo " ░███░░███ ░███ ░░███  ███░░   ░███░░███  ███░░███ ░███  ░███     ░███████████ ░░███░░███  ███░░███ ███░░███ ░███ ";
-	@echo " ░███ ░░░  ░███  ░███ ░░█████  ░███ ░███ ░███████  ░███  ░███     ░███░░░░░███  ░███ ░███ ░███ ░███░███████  ░███ ";
-	@echo " ░███      ░███  ░███  ░░░░███ ░███ ░███ ░███░░░   ░███  ░███     ░███    ░███  ░███ ░███ ░███ ░███░███░░░   ░███ ";
-	@echo " █████     █████ █████ ██████  ████ █████░░██████  █████ █████    █████   █████ ████ █████░░███████░░██████  █████";
-	@echo "░░░░░     ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░    ░░░░░   ░░░░░ ░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░ ";
-	@echo "                                                                                           ███ ░███               ";
-	@echo "                                                                                          ░░██████                ";
-	@echo "                                                                                           ░░░░░░                 ";
-	@echo "$(NOC)"
-	@cat bonaive.txt
+# $(NAME): $(LIBFT) $(OBJS)
+# 	@echo "\n$(GREEN)Create binaries$(NOC)"
+# 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
+# 	@echo "$(SPECIAL)"
+# 	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
+# 	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
+# 	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
+# 	@echo " ░███░░███ ░███ ░░███  ███░░   ░███░░███  ███░░███ ░███  ░███     ░███████████ ░░███░░███  ███░░███ ███░░███ ░███ ";
+# 	@echo " ░███ ░░░  ░███  ░███ ░░█████  ░███ ░███ ░███████  ░███  ░███     ░███░░░░░███  ░███ ░███ ░███ ░███░███████  ░███ ";
+# 	@echo " ░███      ░███  ░███  ░░░░███ ░███ ░███ ░███░░░   ░███  ░███     ░███    ░███  ░███ ░███ ░███ ░███░███░░░   ░███ ";
+# 	@echo " █████     █████ █████ ██████  ████ █████░░██████  █████ █████    █████   █████ ████ █████░░███████░░██████  █████";
+# 	@echo "░░░░░     ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░    ░░░░░   ░░░░░ ░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░ ";
+# 	@echo "                                                                                           ███ ░███               ";
+# 	@echo "                                                                                          ░░██████                ";
+# 	@echo "                                                                                           ░░░░░░                 ";
+# 	@echo "$(NOC)"
+# 	@cat bonaive.txt
 
-$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
+$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS) $(OBJS)
 	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
-	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
+	@$(CC) $(CFLAGS) $(OBJS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@mkdir -p $(BUILD_DIR)
-	@if [ $(NB_COMP) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
+	@if [ $(NB_COMP) -eq 1 ]; then echo "\n$(BOLD)Compilation of source files :$(NOC)";fi
 	$(eval PERCENT=$(shell expr $(NB_COMP)00 "/" $(TO_COMP)))
 	@if [ $(PERCENT) -le 30 ]; then echo -n "$(RED)"; elif [ $(PERCENT) -le 66 ]; then echo -n "$(YELLOW)"; elif [ $(PERCENT) -gt 66 ]; then echo -n "$(GREEN)"; fi
 	@echo -n "\r"; for i in $$(seq 1 $$(/usr/bin/tput cols)); do echo -n " "; done
@@ -210,7 +209,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	$(eval NB_COMP=$(shell expr $(NB_COMP) + 1))
 
 
-$(BUILD_DIR)/bonus/%.o: $(SRC_DIR)/bonus/%.c | $(DIRS_BONUS)
+$(BUILD_DIR)/bonus/%.o: $(SRC_DIR)/%.c | $(DIRS_BONUS)
 	@mkdir -p $(BUILD_DIR)/bonus/
 	@if [ $(NB_COMP_BONUS) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
 	$(eval PERCENT=$(shell expr $(NB_COMP_BONUS)00 "/" $(TO_COMP_BONUS)))
@@ -221,7 +220,6 @@ $(BUILD_DIR)/bonus/%.o: $(SRC_DIR)/bonus/%.c | $(DIRS_BONUS)
 	@echo -n "$(NOC)"
 	@$(CC) $(CFLAGS) $(INC) $< -c -o $@
 	$(eval NB_COMP_BONUS=$(shell expr $(NB_COMP_BONUS) + 1))
-
 
 $(LIBFT_DIR):
 	@ mkdir -p $@
@@ -245,6 +243,9 @@ fclean: clean
 re: fclean
 	@make
 
-.PHONY: all clean fclean re
+rebonus: fclean
+	@make bonus
+
+.PHONY: all clean fclean re rebonus
 
 -include $(DEPS)

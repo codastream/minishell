@@ -16,6 +16,8 @@ int	next_wildcard(char *s, char **wildcard)
 {
 	int	i = 0;
 
+	if (!s[0])
+		return (EXIT_IGNORE);
 	while (s[i])
 	{
 		if (s[i] == '*')
@@ -210,26 +212,34 @@ void  join_wildcard(char **s, char **wildcard)
 
 int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 {
-	char  *s;
-	char  *wildcard;
-	char  **expand_wildcard;
+	char	*s;
+	char	*wildcard;
+	char	**expand_wildcard;
+	int		i;
 
-	s = token->string;
 	(void)tokens;
 	(void)data;
-	while (next_wildcard(s, &wildcard))
+	if (token->type != T_COMMAND || !token->command->command_args)
+		return (EXIT_IGNORE);
+	i = 0;
+	while (token->command->command_args[i])
 	{
-		expand_wildcard = ft_expand_wildcard(wildcard);
-		free(wildcard);
-		join_wildcard(&s, expand_wildcard);
+		s = ft_strdup(token->command->command_args[i]);
+		check_alloc(data, s);
+		while (next_wildcard(s, &wildcard))
+		{
+			expand_wildcard = ft_expand_wildcard(wildcard);
+			free(wildcard);
+			join_wildcard(&s, expand_wildcard);
+		}
+		if (!ft_isemptystr(s))
+		{
+			free(token->command->command_args[i]);
+			token->command->command_args[i] = s;
+		}
+		else
+			free(s);
+		i++;
 	}
-	token->string = s;
-	return(0);
+	return(EXIT_SUCCESS);
 }
-
-/*
-int	main(int ac, char **av)
-{
-	handle_wilcard(strdup(av[1]));
-	return(0);
-}*/
