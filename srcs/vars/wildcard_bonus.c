@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 13:52:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:54:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,17 @@ char	**ft_expand_wildcard(t_data *data, char *str)
 
 	i = 0;
 	j = 0;
-	wildcard = ft_calloc(wildcard_count_elem(data, str) + 1, sizeof(char *));
+	wildcard = init_wildcard(data, str);
 	current_repository = recover_current_repository(data, str[0], str);
 	while (current_repository[i])
 	{
 		if (ft_cmp_wildcard(current_repository[i], str))
-			wildcard[j++] = ft_strdup(current_repository[i]);
+		{
+			wildcard[j] = ft_strdup(current_repository[i]);
+			if (!wildcard[j++])
+				free_alloc_wildcardelem(data, wildcard, current_repository, \
+					str);
+		}
 		i++;
 	}
 	ft_free_2d_char_null_ended(current_repository);

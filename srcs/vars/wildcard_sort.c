@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 13:59:04 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:46:52 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,31 @@ void	sort_2dchar_null_ended(char **elems)
 	}
 }
 
-void	add_dir_elems(t_data *data, char **strs, \
-	struct dirent *info_dir, int *i)
+char	**init_strs(t_data *data, char hide, char *s, int *nb)
 {
-	strs[*i] = ft_strdup(info_dir->d_name);
-	check_alloc(data, strs[*i]);
-	(*i)++;
+	char	**strs;
+
+	*nb = nb_files(data, hide);
+	strs = ft_calloc(*nb + 1, sizeof(char *));
+	if (!strs)
+		free(s);
+	check_alloc(data, strs);
+	return (strs);
+}
+
+void	handle_failedadd(t_data *data, char **strs, char *s, DIR *dir)
+{
+	ft_free_2d_char_null_ended(strs);
+	free(s);
+	closedir(dir);
+	check_alloc(data, NULL);
+}
+
+void	free_alloc_wildcardelem(t_data *data, char **wildcard, \
+		char **current_repository, char *str)
+{
+	free(str);
+	ft_free_2d_char_null_ended(wildcard);
+	ft_free_2d_char_null_ended(current_repository);
+	check_alloc(data, NULL);
 }

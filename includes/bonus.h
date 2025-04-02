@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 13:59:17 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:55:15 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,26 @@
 
 int		handle_wilcard(t_data *data, t_token **tokens, t_token *token);
 char	**ft_expand_wildcard(t_data *data, char *str);
+int		wildcard_count_elem(t_data *data, char *str);
 
+// utils
 int		handle_wildcard_files(t_data *data, t_token *token);
 char	**recover_current_repository(t_data *data, char hide, char *s);
-int		len_wilcard(char *str);
 void	join_wildcard(t_data *data, char **s, char **wildcard);
+int		len_wilcard(char *str);
+int		nb_files(t_data *data, char hide);
 
+// free utils
+void	free_joinwildcard(char **s, char **wildcard);
+
+// init
+char	**init_wildcard(t_data *data, char *str);
+
+// sort
 void	sort_2dchar_null_ended(char **elems);
-void	add_dir_elems(t_data *data, char **strs, \
-			struct dirent *info_dir, int *i);
+char	**init_strs(t_data *data, char hide, char *s, int *nb);
+void	handle_failedadd(t_data *data, char **strs, char *s, DIR *dir);
+void	free_alloc_wildcardelem(t_data *data, char **wildcard, \
+			char **current_repository, char *str);
 
 #endif

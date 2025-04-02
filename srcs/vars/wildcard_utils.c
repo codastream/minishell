@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 14:00:28 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:35:36 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ char	**recover_current_repository(t_data *data, char hide, char *s)
 	DIR				*dir;
 	int				nb;
 
-	nb = nb_files(data, hide);
-	strs = ft_calloc(nb + 1, sizeof(char *));
-	if (!strs)
-		free(s);
-	check_alloc(data, strs);
+	strs = init_strs(data, hide, s, &nb);
 	if (nb == 0)
 		return (strs);
 	dir = opendir(".");
@@ -60,7 +56,12 @@ char	**recover_current_repository(t_data *data, char hide, char *s)
 	while (info_dir)
 	{
 		if (info_dir->d_name[0] != '.' || hide == '.')
-			add_dir_elems(data, strs, info_dir, &i);
+		{
+			strs[i] = ft_strdup(info_dir->d_name);
+			if (!strs[i])
+				handle_failedadd(data, strs, s, dir);
+			i++;
+		}
 		info_dir = readdir(dir);
 	}
 	closedir(dir);
@@ -87,9 +88,16 @@ void	join_wildcard(t_data *data, char **s, char **wildcard)
 	while (wildcard[i])
 	{
 		str = ft_strjoinfree(str, wildcard[i++], 1);
+		if (!str)
+			free_joinwildcard(s, wildcard);
 		check_alloc(data, str);
 		if (wildcard[i])
+		{
 			str = ft_strjoinfree(str, " ", 1);
+			if (!str)
+				free_joinwildcard(s, wildcard);
+			check_alloc(data, str);
+		}
 	}
 	free(*s);
 	ft_free_2d_char_null_ended(wildcard);
