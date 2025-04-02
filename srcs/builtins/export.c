@@ -36,7 +36,7 @@ char	**split_export_cmd(char *cmd)
 	result = generate_export_split(result, cmd, i, j);
 	return (result);
 }
-
+/*
 static void	print_according_to_value_presence(t_keyval *current, t_token *token)
 {
 	if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
@@ -44,34 +44,19 @@ static void	print_according_to_value_presence(t_keyval *current, t_token *token)
 		current->value);
 	else if (ft_strcmp(current->key, LAST_RETURN_CODE))
 		ft_printfd(token->out, "declare -x %s\n", current->key);
-}
+}*/
 
 void	ft_print_export(t_data *data, t_token *token)
 {
-	int			i;
-	t_keyval	**keyvals;
-	t_keyval	*current;
-	t_hash		*hash;
+	int	  i;
+	char  **str;
 
-	hash = data->localvars;
-	keyvals = hash->keyvals;
+	(void)token;
 	i = 0;
-	if (token->command->command_args[1])
-		handle_custom_error_source_exit(data, token->command->command_name, \
-		MSG_USAGE_NO_OPTS_NO_ARGS, EXIT_SYNTAX_ERROR);
-	while (i < hash->capacity)
-	{
-		if (keyvals[i])
-		{
-			current = keyvals[i];
-			while (current)
-			{
-				print_according_to_value_presence(current, token);
-				current = current->next;
-			}
-		}
-		i++;
-	}
+	str = hash_table_to_tab(data->localvars);
+	while (str[i])
+		printf("%s\n", str[i++]);
+	
 }
 
 void	pars_export(t_data *data, t_token *token, int i)

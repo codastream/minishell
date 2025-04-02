@@ -38,4 +38,6 @@ void	ft_unset(t_data *data, t_token *token);
 void	append_export(t_data *data, char **cmd);
 void	supress_export(t_data *data, char **cmd);
 
+char **hash_table_to_tab(t_hash *hash);
+
 #endif
