@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 13:41:49 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:00:28 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,32 @@ int	nb_files(t_data *data, char hide)
 	return (i);
 }
 
-char	**recover_current_repository(t_data *data, char hide)
+char	**recover_current_repository(t_data *data, char hide, char *s)
 {
 	int				i;
-	char			**str;
+	char			**strs;
 	struct dirent	*info_dir;
 	DIR				*dir;
 	int				nb;
 
 	nb = nb_files(data, hide);
-	str = ft_calloc(nb + 1, sizeof(char *));
-	check_alloc(data, str);
+	strs = ft_calloc(nb + 1, sizeof(char *));
+	if (!strs)
+		free(s);
+	check_alloc(data, strs);
 	if (nb == 0)
-		return (str);
+		return (strs);
 	dir = opendir(".");
 	i = 0;
 	info_dir = readdir(dir);
 	while (info_dir)
 	{
 		if (info_dir->d_name[0] != '.' || hide == '.')
-		{
-			str[i] = ft_strdup(info_dir->d_name);
-			check_alloc(data, str[i]);
-			i++;
-		}
+			add_dir_elems(data, strs, info_dir, &i);
 		info_dir = readdir(dir);
 	}
 	closedir(dir);
-	return (str);
+	return (strs);
 }
 
 int	len_wilcard(char *str)

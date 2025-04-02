@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 00:29:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 13:59:04 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,12 @@ void	sort_2dchar_null_ended(char **elems)
 		}
 		n--;
 	}
+}
+
+void	add_dir_elems(t_data *data, char **strs, \
+	struct dirent *info_dir, int *i)
+{
+	strs[*i] = ft_strdup(info_dir->d_name);
+	check_alloc(data, strs[*i]);
+	(*i)++;
 }
