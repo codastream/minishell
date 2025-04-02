@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:49 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 17:33:24 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:00:35 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,3 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	exec->current_cmd_index = 0;
 	return (exec);
 }
-

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 17:35:18 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:00:27 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,3 @@ char	**init_strs(t_data *data, char hide, char *s, int *nb)
 	check_alloc(data, strs);
 	return (strs);
 }
-
-

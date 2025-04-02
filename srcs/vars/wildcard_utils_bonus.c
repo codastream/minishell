@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_utils.c                                   :+:      :+:    :+:   */
+/*   wildcard_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 15:58:54 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:58:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,22 @@ int	len_wilcard(char *str)
 	return (len);
 }
 
-void	join_wildcard(t_data *data, char **s, char **wildcard)
+int	adjust_file(t_data *data, t_redir *redir, char **expanded)
 {
-	int		i;
-	char	*str;
-
-	ft_print_tabstr(wildcard);
-	i = 0;
-	str = NULL;
-	while (wildcard && wildcard[i])
+	if (!expanded)
+		return (EXIT_IGNORE);
+	if (expanded[0] && expanded[1])
 	{
-		str = ft_strjoinfree(str, wildcard[i++], 1);
-		if (!str)
-			free_joinwildcard(s, wildcard);
-		check_alloc(data, str);
-		if (wildcard[i])
-		{
-			str = ft_strjoinfree(str, " ", 1);
-			if (!str)
-				free_joinwildcard(s, wildcard);
-			check_alloc(data, str);
-		}
+		ft_free_2d_char_null_ended(expanded);
+		printerr_source(redir->string, "ambiguous redirect");
+		update_last_return(data, EXIT_FAILURE);
+		free_after_exec(data);
+		return (EXIT_FAILURE);
 	}
-	free(*s);
-	if (wildcard)
-		ft_free_2d_char_null_ended(wildcard);
-	*s = str;
+	free(redir->string);
+	redir->string = expanded[0];
+	free(expanded);
+	return (EXIT_SUCCESS);
 }
 
 int	handle_wildcard_files(t_data *data, t_token *token)
@@ -122,12 +112,9 @@ int	handle_wildcard_files(t_data *data, t_token *token)
 		s = ft_strdup(redir->string);
 		check_alloc(data, s);
 		expand_wildcard = ft_expand_wildcard(data, s);
-		join_wildcard(data, &s, expand_wildcard);
-		if (s)
-		{
-			free(redir->string);
-			redir->string = s;
-		}
+		free(s);
+		if (adjust_file(data, redir, expand_wildcard))
+			return (EXIT_FAILURE);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
