@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmassavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/01 20:46:54 by jmassavi         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:25:49 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_cmp_wildcard(char *rep, char *wildcard)
 	return (1);
 }
 
-int	wildcard_count_elem(char *str)
+int	wildcard_count_elem(t_data *data, char *str)
 {
 	int		i;
 	int		len;
@@ -61,7 +61,7 @@ int	wildcard_count_elem(char *str)
 
 	i = 0;
 	len = 0;
-	current_repository = recover_current_repository(str[0]);
+	current_repository = recover_current_repository(data, str[0]);
 	while (current_repository[i])
 	{
 		if (ft_cmp_wildcard(current_repository[i++], str))
@@ -71,7 +71,7 @@ int	wildcard_count_elem(char *str)
 	return (len);
 }
 
-char	**ft_expand_wildcard(char *str)
+char	**ft_expand_wildcard(t_data *data, char *str)
 {
 	int		i;
 	int		j;
@@ -80,8 +80,8 @@ char	**ft_expand_wildcard(char *str)
 
 	i = 0;
 	j = 0;
-	wildcard = ft_calloc(wildcard_count_elem(str) + 1, sizeof(char *));
-	current_repository = recover_current_repository(str[0]);
+	wildcard = ft_calloc(wildcard_count_elem(data, str) + 1, sizeof(char *));
+	current_repository = recover_current_repository(data, str[0]);
 	while (current_repository[i])
 	{
 		if (ft_cmp_wildcard(current_repository[i], str))
@@ -108,8 +108,8 @@ int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 	{
 		s = ft_strdup(token->command->command_args[i]);
 		check_alloc(data, s);
-		expand_wildcard = ft_expand_wildcard(s);
-		join_wildcard(&s, expand_wildcard);
+		expand_wildcard = ft_expand_wildcard(data, s);
+		join_wildcard(data, &s, expand_wildcard);
 		if (!ft_isemptystr(s))
 		{
 			free(token->command->command_args[i]);

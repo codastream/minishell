@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:34 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 15:30:34 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 13:32:11 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*getpwd(t_data *data)
 
 	(void)data;
 	size = 4096;
-	buffer = malloc(size);
+	buffer = ft_calloc(1, size);
 	check_alloc(data, buffer);
 	getcwd(buffer, size);
 	return (buffer);

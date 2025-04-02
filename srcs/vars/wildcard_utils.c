@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmassavi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/01 20:47:34 by jmassavi         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:41:49 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	nb_files(char hide)
+int	nb_files(t_data *data, char hide)
 {
 	int				i;
 	struct dirent	*info_dir;
 	DIR				*dir;
+	char			*cwd;
 
+	cwd = getpwd(data);
+	if (!cwd[0])
+	{
+		free(cwd);
+		return (0);
+	}
 	i = 0;
-	dir = opendir(".");
+	dir = opendir(cwd);
+	free(cwd);
 	info_dir = readdir(dir);
 	while (info_dir)
 	{
@@ -31,14 +39,19 @@ int	nb_files(char hide)
 	return (i);
 }
 
-char	**recover_current_repository(char hide)
+char	**recover_current_repository(t_data *data, char hide)
 {
 	int				i;
 	char			**str;
 	struct dirent	*info_dir;
 	DIR				*dir;
+	int				nb;
 
-	str = ft_calloc(nb_files(hide) + 1, sizeof(char *));
+	nb = nb_files(data, hide);
+	str = ft_calloc(nb + 1, sizeof(char *));
+	check_alloc(data, str);
+	if (nb == 0)
+		return (str);
 	dir = opendir(".");
 	i = 0;
 	info_dir = readdir(dir);
@@ -47,6 +60,7 @@ char	**recover_current_repository(char hide)
 		if (info_dir->d_name[0] != '.' || hide == '.')
 		{
 			str[i] = ft_strdup(info_dir->d_name);
+			check_alloc(data, str[i]);
 			i++;
 		}
 		info_dir = readdir(dir);
@@ -65,7 +79,7 @@ int	len_wilcard(char *str)
 	return (len);
 }
 
-void	join_wildcard(char **s, char **wildcard)
+void	join_wildcard(t_data *data, char **s, char **wildcard)
 {
 	int		i;
 	char	*str;
@@ -75,6 +89,7 @@ void	join_wildcard(char **s, char **wildcard)
 	while (wildcard[i])
 	{
 		str = ft_strjoinfree(str, wildcard[i++], 1);
+		check_alloc(data, str);
 		if (wildcard[i])
 			str = ft_strjoinfree(str, " ", 1);
 	}
@@ -98,8 +113,8 @@ int	handle_wildcard_files(t_data *data, t_token *token)
 		redir = (t_redir *) current->content;
 		s = ft_strdup(redir->string);
 		check_alloc(data, s);
-		expand_wildcard = ft_expand_wildcard(s);
-		join_wildcard(&s, expand_wildcard);
+		expand_wildcard = ft_expand_wildcard(data, s);
+		join_wildcard(data, &s, expand_wildcard);
 		if (!ft_isemptystr(s))
 		{
 			free(redir->string);
