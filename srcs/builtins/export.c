@@ -36,27 +36,32 @@ char	**split_export_cmd(char *cmd)
 	result = generate_export_split(result, cmd, i, j);
 	return (result);
 }
-/*
-static void	print_according_to_value_presence(t_keyval *current, t_token *token)
+
+static void	print_according_to_value_presence(t_data *data, \
+t_token *token, char *str)
 {
-	if (current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
-		ft_printfd(token->out, "declare -x %s=\"%s\"\n", current->key, \
-		current->value);
-	else if (ft_strcmp(current->key, LAST_RETURN_CODE))
-		ft_printfd(token->out, "declare -x %s\n", current->key);
-}*/
+	char	*result;
+
+	result = ft_hash_get(data->localvars, str);
+	if (result && ft_strcmp(str, LAST_RETURN_CODE))
+		ft_printfd(token->out, "declare -x %s=\"%s\"\n", str, \
+		result);
+	else if (ft_strcmp(str, LAST_RETURN_CODE))
+		ft_printfd(token->out, "declare -x %s\n", str);
+}
 
 void	ft_print_export(t_data *data, t_token *token)
 {
-	int	  i;
-	char  **str;
+	int		i;
+	char	**str;
 
 	(void)token;
 	i = 0;
 	str = hash_table_to_tab(data->localvars);
+	sort_2dchar_null_ended(str);
 	while (str[i])
-		printf("%s\n", str[i++]);
-	
+		print_according_to_value_presence(data, token, str[i++]);
+	ft_free_2d_char_null_ended(str);
 }
 
 void	pars_export(t_data *data, t_token *token, int i)

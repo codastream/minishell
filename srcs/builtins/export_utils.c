@@ -14,8 +14,8 @@
 
 int	len_hash_table(t_hash *hash)
 {
-	int	i;
-	int	len;
+	int			i;
+	int			len;
 	t_keyval	**keyvals;
 	t_keyval	*current;
 
@@ -38,11 +38,11 @@ int	len_hash_table(t_hash *hash)
 	return (len);
 }
 
-char **hash_table_to_tab(t_hash *hash)
+char	**hash_table_to_tab(t_hash *hash)
 {
-	int	  i;
-	int	  j;
-	char  **tab;
+	int			i;
+	int			j;
+	char		**tab;
 	t_keyval	**keyvals;
 	t_keyval	*current;
 
