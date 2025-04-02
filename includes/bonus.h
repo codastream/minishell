@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 14:55:15 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:29:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ void	free_joinwildcard(char **s, char **wildcard);
 
 // init
 char	**init_wildcard(t_data *data, char *str);
+
+// args
+char	**adjust_args(t_data *data, t_command *command, int i, \
+			char	**expanded);
 
 // sort
 void	sort_2dchar_null_ended(char **elems);

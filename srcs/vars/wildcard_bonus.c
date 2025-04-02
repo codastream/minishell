@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 14:54:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:28:57 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	**ft_expand_wildcard(t_data *data, char *str)
 	i = 0;
 	j = 0;
 	wildcard = init_wildcard(data, str);
+	if (!wildcard)
+		return (wildcard);
 	current_repository = recover_current_repository(data, str[0], str);
 	while (current_repository[i])
 	{
@@ -102,6 +104,7 @@ int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 {
 	char	*s;
 	char	**expand_wildcard;
+	char	**new_args;
 	int		i;
 
 	(void)tokens;
@@ -114,15 +117,14 @@ int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 		s = ft_strdup(token->command->command_args[i]);
 		check_alloc(data, s);
 		expand_wildcard = ft_expand_wildcard(data, s);
-		join_wildcard(data, &s, expand_wildcard);
-		if (!ft_isemptystr(s))
-		{
-			free(token->command->command_args[i]);
-			token->command->command_args[i] = s;
-		}
-		else
-			free(s);
+		free(s);
+		new_args = adjust_args(data, token->command, i, expand_wildcard);
 		i++;
+	}
+	if (new_args)
+	{
+		free(token->command->command_args);
+		token->command->command_args = new_args;
 	}
 	return (EXIT_SUCCESS);
 }

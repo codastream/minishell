@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 14:35:36 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 15:58:54 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ void	join_wildcard(t_data *data, char **s, char **wildcard)
 	int		i;
 	char	*str;
 
+	ft_print_tabstr(wildcard);
 	i = 0;
 	str = NULL;
-	while (wildcard[i])
+	while (wildcard && wildcard[i])
 	{
 		str = ft_strjoinfree(str, wildcard[i++], 1);
 		if (!str)
@@ -100,7 +101,8 @@ void	join_wildcard(t_data *data, char **s, char **wildcard)
 		}
 	}
 	free(*s);
-	ft_free_2d_char_null_ended(wildcard);
+	if (wildcard)
+		ft_free_2d_char_null_ended(wildcard);
 	*s = str;
 }
 
@@ -121,13 +123,11 @@ int	handle_wildcard_files(t_data *data, t_token *token)
 		check_alloc(data, s);
 		expand_wildcard = ft_expand_wildcard(data, s);
 		join_wildcard(data, &s, expand_wildcard);
-		if (!ft_isemptystr(s))
+		if (s)
 		{
 			free(redir->string);
 			redir->string = s;
 		}
-		else
-			free(s);
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
