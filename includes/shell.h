@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:22:36 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 15:48:10 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:02:21 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # include "fds.h"
 # include "bonus.h"
 
-# define PRINT 1
+# define PRINT 0
 # define PRINTFD 0
 
 #endif

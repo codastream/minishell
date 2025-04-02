@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:51 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 19:25:19 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:06:20 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_exit(t_data *data, t_token *token)
 		MSG_TOO_MANY_ARGUMENTS, EXIT_FAILURE);
 		return ;
 	}
+	if (!data->tree->left && !data->tree->right)
+		ft_printfd(2, "exit\n");
 	free_all_data(data);
 	exit(return_code);
 }
