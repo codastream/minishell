@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 17:29:33 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:35:55 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	free_joinwildcard(char **s, char **wildcard);
 
 // init
 char	**init_wildcard(t_data *data, char *str);
+void	handle_failedadd(t_data *data, char **strs, char *s, DIR *dir);
+void	free_alloc_wildcardelem(t_data *data, char **wildcard, \
+			char **current_repository, char *str);
 
 // args
 char	**adjust_args(t_data *data, t_command *command, int i, \
@@ -37,8 +40,5 @@ char	**adjust_args(t_data *data, t_command *command, int i, \
 // sort
 void	sort_2dchar_null_ended(char **elems);
 char	**init_strs(t_data *data, char hide, char *s, int *nb);
-void	handle_failedadd(t_data *data, char **strs, char *s, DIR *dir);
-void	free_alloc_wildcardelem(t_data *data, char **wildcard, \
-			char **current_repository, char *str);
 
 #endif

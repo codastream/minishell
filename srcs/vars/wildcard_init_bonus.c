@@ -1,59 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_sort.c                                    :+:      :+:    :+:   */
+/*   wildcard_init_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 14:46:52 by fpetit           ###   ########.fr       */
+/*   Created: 2025/04/02 17:33:14 by fpetit            #+#    #+#             */
+/*   Updated: 2025/04/02 17:35:34 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-void	swap(int i, int j, char **elems)
+char	**init_wildcard(t_data *data, char *str)
 {
-	char	*tmp;
+	char	**wildcard;
 
-	tmp = elems[i];
-	elems[i] = elems[j];
-	elems[j] = tmp;
-}
-
-void	sort_2dchar_null_ended(char **elems)
-{
-	int	n;
-	int	i;
-	int	cmp;
-
-	n = ft_count_2dchar_null_ended(elems);
-	while (n > 0)
+	if (!ft_strstr(str, "*"))
 	{
-		i = 0;
-		while (i < n - 1)
-		{
-			cmp = ft_strcmp_igncase(elems[i], elems[i + 1]);
-			if (cmp > 0)
-			{
-				swap(i, i + 1, elems);
-			}
-			i++;
-		}
-		n--;
+		return (NULL);
 	}
-}
-
-char	**init_strs(t_data *data, char hide, char *s, int *nb)
-{
-	char	**strs;
-
-	*nb = nb_files(data, hide);
-	strs = ft_calloc(*nb + 1, sizeof(char *));
-	if (!strs)
-		free(s);
-	check_alloc(data, strs);
-	return (strs);
+	else
+	{
+		wildcard = ft_calloc(wildcard_count_elem(data, str) + 1, \
+			sizeof(char *));
+		if (!wildcard)
+			free(str);
+		check_alloc(data, wildcard);
+	}
+	return (wildcard);
 }
 
 void	handle_failedadd(t_data *data, char **strs, char *s, DIR *dir)

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:49 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 17:30:10 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/02 17:33:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,3 @@ t_exec	*init_exec(t_data *data, t_tree *tree)
 	return (exec);
 }
 
-char	**init_wildcard(t_data *data, char *str)
-{
-	char	**wildcard;
-
-	if (!ft_strstr(str, "*"))
-	{
-		return (NULL);
-	}
-	else
-	{
-		wildcard = ft_calloc(wildcard_count_elem(data, str) + 1, \
-			sizeof(char *));
-		if (!wildcard)
-			free(str);
-		check_alloc(data, wildcard);
-	}
-	return (wildcard);
-}

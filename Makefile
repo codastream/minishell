@@ -135,11 +135,12 @@ SRCS_FILES:=	main.c\
 				vars/expand.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
+				vars/sort.c\
 
 SRCS_FILES_BONUS:=	vars/wildcard_bonus.c\
-					vars/wildcard_utils.c\
-					vars/wildcard_sort.c\
-					vars/wildcard_args.c\
+					vars/wildcard_utils_bonus.c\
+					vars/wildcard_args_bonus.c\
+					vars/wildcard_init_bonus.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 SRCS_BONUS:=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES_BONUS))
