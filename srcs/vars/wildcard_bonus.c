@@ -49,8 +49,6 @@ int	ft_cmp_wildcard(char *rep, char *wildcard)
 	{
 		if (cmd_char(rep, wildcard, &i, &j) == 0)
 			return (0);
-//		if (rep[i] == '\'' || rep[i] == '"')
-//			return (0);
 	}
 	return (1);
 }

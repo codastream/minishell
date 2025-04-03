@@ -37,7 +37,7 @@ int	update_command_from_extra_words_before_pipe(t_data *data, \
 	char	*joined;
 	t_token	*tmp;
 
-	if (!token->next || token->type != T_COMMAND)
+	if (!token->next || (token->type != T_COMMAND && token->type != T_WORD))
 		return (EXIT_IGNORE);
 	current = token->next;
 	while (current && current->type != T_PIPE)
