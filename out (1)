@@ -1,310 +1,0 @@
-⠋ Loading .  ⠙ Loading .. ⠹ Loading ...⠸ Loading .. ⠼ Loading ...⠴ Loading .. [36;1mTest[0m [expr $? + $?] [expr $? + $?] [expr $? + $?][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: [0
-]
-  Bash: [0
-2
-0
-]
-
-[36;1mTest[0m [ /bin/ls -la ][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: [total 248
-drwxr-xr-x  4 fpetit 2024_angouleme   4096 Apr  2 18:06 .
-drwxr-xr-x 15 fpetit 2024_angouleme   4096 Apr  3 23:52 ..
--rw-r--r--  1 fpetit 2024_angouleme   8653 Mar 20 11:18 core.vala
--rw-r--r--  1 fpetit 2024_angouleme    367 Mar 20 11:18 dlopen.vapi
--rwxr-xr-x  1 fpetit 2024_angouleme  16040 Mar 20 11:18 fake_readline.so
--rw-r--r--  1 fpetit 2024_angouleme    572 Mar 20 11:18 fake_readline.vala
--rw-r--r--  1 fpetit 2024_angouleme      0 Mar 20 11:19 file_out
-drwxr-xr-x  8 fpetit 2024_angouleme   4096 Mar 20 11:18 .git
--rw-r--r--  1 fpetit 2024_angouleme  34521 Mar 20 11:18 LICENSE
--rwxr-xr-x  1 fpetit 2024_angouleme     43 Mar 20 11:18 ls
--rw-r--r--  1 fpetit 2024_angouleme  24364 Mar 20 11:18 main.vala
--rw-r--r--  1 fpetit 2024_angouleme    574 Mar 20 11:18 Makefile
--rw-r--r--  1 fpetit 2024_angouleme     96 Apr  3 23:52 out
--rw-r--r--  1 fpetit 2024_angouleme    255 Mar 20 11:18 readline.vapi
--rw-r--r--  1 fpetit 2024_angouleme   1274 Mar 20 11:18 README.md
--rwxr-xr-x  1 fpetit 2024_angouleme 117584 Mar 20 11:18 tester
-drwxr-xr-x  2 fpetit 2024_angouleme   4096 Mar 20 11:19 trash
-]
-  Bash: [total 248
-drwxr-xr-x  4 fpetit 2024_angouleme   4096 Apr  2 18:06 .
-drwxr-xr-x 15 fpetit 2024_angouleme   4096 Apr  3 23:52 ..
--rw-r--r--  1 fpetit 2024_angouleme   8653 Mar 20 11:18 core.vala
--rw-r--r--  1 fpetit 2024_angouleme    367 Mar 20 11:18 dlopen.vapi
--rwxr-xr-x  1 fpetit 2024_angouleme  16040 Mar 20 11:18 fake_readline.so
--rw-r--r--  1 fpetit 2024_angouleme    572 Mar 20 11:18 fake_readline.vala
--rw-r--r--  1 fpetit 2024_angouleme      0 Mar 20 11:19 file_out
-drwxr-xr-x  8 fpetit 2024_angouleme   4096 Mar 20 11:18 .git
--rw-r--r--  1 fpetit 2024_angouleme  34521 Mar 20 11:18 LICENSE
--rwxr-xr-x  1 fpetit 2024_angouleme     43 Mar 20 11:18 ls
--rw-r--r--  1 fpetit 2024_angouleme  24364 Mar 20 11:18 main.vala
--rw-r--r--  1 fpetit 2024_angouleme    574 Mar 20 11:18 Makefile
--rw-r--r--  1 fpetit 2024_angouleme    234 Apr  3 23:52 out
--rw-r--r--  1 fpetit 2024_angouleme    255 Mar 20 11:18 readline.vapi
--rw-r--r--  1 fpetit 2024_angouleme   1274 Mar 20 11:18 README.md
--rwxr-xr-x  1 fpetit 2024_angouleme 117584 Mar 20 11:18 tester
-drwxr-xr-x  2 fpetit 2024_angouleme   4096 Mar 20 11:19 trash
-]
-
-[36;1mTest[0m [ /bin/ls -l ][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: [total 236
--rw-r--r-- 1 fpetit 2024_angouleme   8653 Mar 20 11:18 core.vala
--rw-r--r-- 1 fpetit 2024_angouleme    367 Mar 20 11:18 dlopen.vapi
--rwxr-xr-x 1 fpetit 2024_angouleme  16040 Mar 20 11:18 fake_readline.so
--rw-r--r-- 1 fpetit 2024_angouleme    572 Mar 20 11:18 fake_readline.vala
--rw-r--r-- 1 fpetit 2024_angouleme      0 Mar 20 11:19 file_out
--rw-r--r-- 1 fpetit 2024_angouleme  34521 Mar 20 11:18 LICENSE
--rwxr-xr-x 1 fpetit 2024_angouleme     43 Mar 20 11:18 ls
--rw-r--r-- 1 fpetit 2024_angouleme  24364 Mar 20 11:18 main.vala
--rw-r--r-- 1 fpetit 2024_angouleme    574 Mar 20 11:18 Makefile
--rw-r--r-- 1 fpetit 2024_angouleme     96 Apr  3 23:52 out
--rw-r--r-- 1 fpetit 2024_angouleme    255 Mar 20 11:18 readline.vapi
--rw-r--r-- 1 fpetit 2024_angouleme   1274 Mar 20 11:18 README.md
--rwxr-xr-x 1 fpetit 2024_angouleme 117584 Mar 20 11:18 tester
-drwxr-xr-x 2 fpetit 2024_angouleme   4096 Mar 20 11:19 trash
-]
-  Bash: [total 236
--rw-r--r-- 1 fpetit 2024_angouleme   8653 Mar 20 11:18 core.vala
--rw-r--r-- 1 fpetit 2024_angouleme    367 Mar 20 11:18 dlopen.vapi
--rwxr-xr-x 1 fpetit 2024_angouleme  16040 Mar 20 11:18 fake_readline.so
--rw-r--r-- 1 fpetit 2024_angouleme    572 Mar 20 11:18 fake_readline.vala
--rw-r--r-- 1 fpetit 2024_angouleme      0 Mar 20 11:19 file_out
--rw-r--r-- 1 fpetit 2024_angouleme  34521 Mar 20 11:18 LICENSE
--rwxr-xr-x 1 fpetit 2024_angouleme     43 Mar 20 11:18 ls
--rw-r--r-- 1 fpetit 2024_angouleme  24364 Mar 20 11:18 main.vala
--rw-r--r-- 1 fpetit 2024_angouleme    574 Mar 20 11:18 Makefile
--rw-r--r-- 1 fpetit 2024_angouleme   2555 Apr  3 23:52 out
--rw-r--r-- 1 fpetit 2024_angouleme    255 Mar 20 11:18 readline.vapi
--rw-r--r-- 1 fpetit 2024_angouleme   1274 Mar 20 11:18 README.md
--rwxr-xr-x 1 fpetit 2024_angouleme 117584 Mar 20 11:18 tester
-drwxr-xr-x 2 fpetit 2024_angouleme   4096 Mar 20 11:19 trash
-]
-
-⠦ Loading .  ⠧ Loading .. ⠇ Loading .  ⠏ Loading .. ⠋ Loading .  ⠙ Loading .. ⠹ Loading ...⠸ Loading .. ⠼ Loading ...⠴ Loading .. ⠦ Loading .  ⠧ Loading .. ⠇ Loading .  ⠏ Loading .. ⠋ Loading .  ⠙ Loading .. ⠹ Loading ...⠸ Loading .. ⠼ Loading ...⠴ Loading .. ⠦ Loading .  ⠧ Loading .. ⠇ Loading .  ⠏ Loading .. ⠋ Loading .  ⠙ Loading .. ⠹ Loading ...⠸ Loading .. ⠼ Loading ...⠴ Loading .. ⠦ Loading .  ⠧ Loading .. ⠇ Loading .  ⠏ Loading .. ⠋ Loading .  ⠙ Loading .. ⠹ Loading ...⠸ Loading .. ⠼ Loading ...[36;1mTest[0m [ printf 'Hello World' >trash/$WHOAMI.a.test ] [cat trash/$WHOAMI.a.test -e][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [Hello World]
-
-⠴ Loading .. [36;1mTest[0m [printf 'A' >trash/$WHOAMI.l.test] [echo 'B' >trash/>>trash/$WHOAMI.l.test] [echo 'C' >trash/>trash/$WHOAMI.l.test] [cat trash/$WHOAMI.l.test -e] [cat trash/>trash/$WHOAMI.l.test -e][31;1m[KO][0m
-[91mStatus mismatch:[0m
-  Minishell: [0]
-  Bash: [1]
-
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [A]
-
-[36;1mTest[0m [ >trash/$WHOAMI.b.test printf 'Hello World' >trash/$WHOAMI.c.test ] [cat trash/$WHOAMI.b.test -e] [echo A] [cat trash/$WHOAMI.c.test -e][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [A
-Hello World]
-
-[36;1mTest[0m [printf 'A' >trash/$WHOAMI.m.test] [ >trash/>trash/$WHOAMI.m.test echo 'B'] [>trash/>trash/$WHOAMI.m.test echo 'C'] [cat $WHOAMI.m.test -e][31;1m[KO][0m
-[91mStatus mismatch:[0m
-  Minishell: [0]
-  Bash: [1]
-
-⠦ Loading .  [36;1mTest[0m [printf 'hello ' >trash/$WHOAMI.test2] [printf 'world' >>trash/$WHOAMI.test2] [printf ' ndacunh' >>trash/$WHOAMI.test2] [cat trash/$WHOAMI.test2 -e][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [hello world ndacunh]
-
-[36;1mTest[0m [printf 'hello ' >trash/$WHOAMI.test] [printf 'world' >>trash/$WHOAMI.test] [cat trash/$WHOAMI.test -e][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [hello world]
-
-⠧ Loading .. ⠇ Loading .  ⠏ Loading .. ⠋ Loading .  ⠙ Loading .. [36;1mTest[0m [edsfdsf] [echo error: $?][31;1m[KO][0m
-[91mStatus mismatch:[0m
-  Minishell: [127]
-  Bash: [0]
-
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [error: 127
-]
-
-⠹ Loading ...⠸ Loading .. [36;1mTest[0m [unset LD_PRELOAD] [unset WHOAMI] [unset PWD] [unset LANG] [unset OLDPWD] [unset ARGS] [unset MAKEFLAGS] [unset MFLAGS] [env | grep -v _ | grep -v SHLVL | grep -v SHELL | sort][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [COLORTERM=truecolor
-DISPLAY=:0
-GDMSESSION=ubuntu
-HOME=/nfs/homes/fpetit
-LANGUAGE=en
-LESS=-R
-LOGNAME=fpetit
-LSCOLORS=Gxfxcxdxbxegedabagacad
-PAGER=less
-PATH=/nfs/homes/fpetit/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/nfs/homes/fpetit/bin:/nfs/homes/fpetit/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/nfs/homes/fpetit/.local/bin
-PYTHONPATH=:/nfs/homes/fpetit/.local/lib/python3/dist-packages
-TERM=xterm-256color
-USER=fpetit
-XAUTHORITY=/nfs/homes/fpetit/.Xauthority
-XMODIFIERS=@im=ibus
-ZSH=/nfs/homes/fpetit/.oh-my-zsh
-]
-
-⠼ Loading ...⠴ Loading .. [36;1mTest[0m [unset PWD HERE] [echo $PWD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [
-]
-
-[36;1mTest[0m [export ABC] [env | grep ABC -o] [printf hi] [env | grep ABC][31;1m[KO][0m
-[91mStatus mismatch:[0m
-  Minishell: [0]
-  Bash: [1]
-
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [hi]
-
-[36;1mTest[0m [export NDACUNH=42] [unset NDACUNH | printf hey] [printf : $NDACUNH][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [hey:]
-
-[36;1mTest[0m [export HELLO=123] [printf : $HELLO][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [:]
-
-⠦ Loading .  ⠧ Loading .. ⠇ Loading .  [36;1mTest[0m [export SLS='/bin/ls'] [printf here:] [$SLS][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [here:core.vala
-dlopen.vapi
-fake_readline.so
-fake_readline.vala
-file_out
-LICENSE
-ls
-main.vala
-Makefile
-out
-readline.vapi
-README.md
-tester
-trash
-]
-
-[36;1mTest[0m [export abcd=abcd] [export abcd+=ndacunh] [env | grep abcd][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [abcd=abcdndacunh
-]
-
-⠏ Loading .. [36;1mTest[0m [export ABCD=abcd] [export ABCD +=ndacunh] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=abcd
-]
-
-[36;1mTest[0m [export ABCD=abcd] [export ABCD += ndacunh] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=abcd
-]
-
-[36;1mTest[0m [export ABCD=abcd] [export ABCD+= ndacunh] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=abcd
-]
-
-[36;1mTest[0m [export ABCD= abcd] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=
-]
-
-⠋ Loading .  [36;1mTest[0m [export ABCD=Hello] [export ABCD =abcd] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=Hello
-]
-
-[36;1mTest[0m [export ABCD=Hello] [export ABCD= abcd] [env | grep ABCD][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [ABCD=
-]
-
-⠙ Loading .. [36;1mTest[0m [unset HOME] [echo $HOME][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [
-]
-
-[36;1mTest[0m [unset PATH] [/bin/ls][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [core.vala
-dlopen.vapi
-fake_readline.so
-fake_readline.vala
-file_out
-LICENSE
-ls
-main.vala
-Makefile
-out
-readline.vapi
-README.md
-tester
-trash
-]
-
-[36;1mTest[0m [unset PATH] [ls][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [OOOOOOOH im not a ls]
-
-⠹ Loading ...[36;1mTest[0m [unset PATH] [export PATH='/nfs/homes/fpetit/Cursus/ms/Rendu/minishell_tester'] [ls][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [OOOOOOOH im not a ls]
-
-[36;1mTest[0m [unset PATH] [export PATH='/nfs/homes/fpetit/Cursus/ms/Rendu/minishell_tester'] [/nfs/homes/fpetit/Cursus/ms/Rendu/minishell_tester/ls][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [OOOOOOOH im not a ls]
-
-[36;1mTest[0m [unset PATH] [export PATH='/nfs/homes/fpetit/Cursus/ms/Rendu/minishell_tester'] [/bin/ls][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [core.vala
-dlopen.vapi
-fake_readline.so
-fake_readline.vala
-file_out
-LICENSE
-ls
-main.vala
-Makefile
-out
-readline.vapi
-README.md
-tester
-trash
-]
-
-[36;1mTest[0m [export A='suprapack'] [echo a $A] [unset A] [echo a $A][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [a suprapack
-a
-]
-
-⠸ Loading .. [36;1mTest[0m [export HELLO=abc] [unset HELL] [unset HELLOO] [printf : $HELLO][31;1m[KO][0m
-[91mOutput mismatch:[0m
-  Minishell: []
-  Bash: [:]
-
-⠼ Loading ...⠴ Loading .. ⠦ Loading .  ⠧ Loading .. ⠇ Loading .  
-[35m[Total]: 268 / 299[0m
