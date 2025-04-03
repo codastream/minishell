@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:39:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 21:50:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 	if (prefixedkey && ft_strcmp(prefixedkey, "$"))
 	{
 		value = ft_hash_get(data->localvars, ++prefixedkey);
+		expanded = ft_subst_first_after_i(s, --prefixedkey, value, *i);
 		*i += ft_strlen(value);
-		expanded = ft_subst_first(s, --prefixedkey, value);
 	}
 	else if (prefixedkey && !ft_strcmp(prefixedkey, "$") && mode == 0)
-		expanded = ft_subst_first(s, "$", "");
+		expanded = ft_subst_first_after_i(s, "$", "", *i);
 	else
 	{
 		expanded = ft_strdup(s);

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:52:43 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:05:45 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 20:48:13 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ bool	check_in_dquote(char *s, char marker, int *i, bool *in_dquote)
 {
 	if (s[*i] == marker)
 	{
+		if (s[*i + 1] && s[*i + 1] == '\'')
+		{
+			(*i)++;
+			skip_single_quote(s, i);
+			return (false);
+		}
 		if (s[*i + 1] && s[*i + 1] != '"' \
 			&& s[*i + 1] != ' ')
 		{
