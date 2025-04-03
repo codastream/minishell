@@ -31,3 +31,7 @@ stephanetester
 libft
 minishell_tester
 m_tester
+.github/workflows/build.yml
+eoc
+exec
+outfile
