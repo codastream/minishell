@@ -1,4 +1,5 @@
 NAME		:=	minishell
+BONUS_NAME	:=	minishell_bonus
 LIBFT		:=	libft.a
 
 #==============================COMPIL===========================#
@@ -28,6 +29,14 @@ endif
 
 PERCENT	:= 0
 
+NB_COMP_BONUS := 1
+ifndef RECURSION
+TO_COMP_BONUS := $(shell make bonus RECURSION=1 -n | grep Compiling | wc -l)
+else
+TO_COMP_BONUS := 1
+endif
+
+
 #==============================COLORS==============================#
 NOC			= \e[0m
 BOLD		= \e[1m
@@ -56,6 +65,7 @@ RESET_BG	= \033[0m
 #================================DIRS============================#
 
 SRC_DIR			:=  srcs
+SRC_DIR_BONUS	:=	srcs_bonus
 HEADER_DIR		:=	includes
 LIBFT_DIR		:=	libft
 BUILD_DIR		:=	.build
@@ -126,16 +136,89 @@ SRCS_FILES:=	main.c\
 				vars/expand.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
+				vars/sort.c\
+
+SRCS_FILES_BONUS:=	main_bonus.c\
+					builtins/builtins_bonus.c\
+					builtins/cd_bonus.c\
+					builtins/cd_utils_bonus.c\
+					builtins/echo_bonus.c\
+					builtins/env_bonus.c\
+					builtins/exit_bonus.c\
+					builtins/export_bonus.c\
+					builtins/export_utils_bonus.c\
+					builtins/hash_export_bonus.c\
+					builtins/pwd_bonus.c\
+					builtins/unset_bonus.c\
+					parsing/lexing/lexer_bonus.c\
+					parsing/lexing/lexer_utils_bonus.c\
+					parsing/lexing/split_utils_bonus.c\
+					parsing/lexing/tokens_utils_bonus.c\
+					parsing/lexing/tokens_utils_create_bonus.c\
+					parsing/lexing/command_bonus.c\
+					parsing/lexing/command_utils_bonus.c\
+					parsing/lexing/command_utils_add_bonus.c\
+					parsing/lexing/trim_bonus.c\
+					parsing/lexing/trim_utils_bonus.c\
+					parsing/lexing/args_bonus.c\
+					parsing/checking/check_redir_bonus.c\
+					parsing/checking/check_quote_bonus.c\
+					parsing/checking/check_pipe_bonus.c\
+					parsing/checking/check_path_bonus.c\
+					parsing/checking/check_files_bonus.c\
+					parsing/checking/path_utils_bonus.c\
+					execution/exec_bonus.c\
+					execution/exec_redir_bonus.c\
+					execution/exec_utils_bonus.c\
+					execution/exec_utils2_bonus.c\
+					execution/heredoc_bonus.c\
+					execution/heredoc_utils_bonus.c\
+					execution/redir_utils_bonus.c\
+					execution/navigation_bonus.c\
+					execution/fds_bonus.c\
+					execution/fds_utils_bonus.c\
+					errors/errors_bonus.c\
+					errors/errors_alloc_bonus.c\
+					errors/errors_custom_bonus.c\
+					errors/errors_utils_bonus.c\
+					errors/errors_print_bonus.c\
+					errors/errors_print_custom_bonus.c\
+					signal/signal_bonus.c\
+					signal/signal_setup_bonus.c\
+					utils/tree_bonus.c\
+					utils/tree_utils_bonus.c\
+					utils/free_bonus.c\
+					utils/free_utils_bonus.c\
+					utils/free_combo_bonus.c\
+					utils/init_bonus.c\
+					utils/loop_bonus.c\
+					utils/string_utils_bonus.c\
+					utils/quote_utils_bonus.c\
+					utils/debug_bonus.c\
+					utils/debug_utils_bonus.c\
+					vars/vars_bonus.c\
+					vars/return_code_bonus.c\
+					vars/expand_bonus.c\
+					vars/expand_utils_bonus.c\
+					vars/expand_utils2_bonus.c\
+					vars/sort_bonus.c\
+					vars/wildcard_bonus.c\
+					vars/wildcard_utils_bonus.c\
+					vars/wildcard_args_bonus.c\
+					vars/wildcard_init_bonus.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
+SRCS_BONUS:=	$(addprefix $(SRC_DIR_BONUS)/, $(SRCS_FILES_BONUS))
 
 #=============================OBJECTS===========================#
 
 OBJS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o}
+OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR_BONUS)/%.c=$(BUILD_DIR)/bonus/%.o}
 
 #===============================DEPS=============================#
 
 DEPS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.d}
+DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR_BONUSIR)/%.c=$(BUILD_DIR)/bonus/%.d}
 
 #=============================INCLUDES===========================#
 
@@ -144,12 +227,18 @@ INC:=			-I$(HEADER_DIR) -I$(LIBFT_DIR)
 #================================DIR=============================#
 
 DIRS			:=	$(sort $(shell dirname $(OBJS))) #no duplicates
+DIRS_BONUS		:=	$(sort $(shell dirname $(OBJS_BONUS))) #no duplicates
 
 #===============================RULES============================#
 
 all: $(NAME)
 
+bonus: $(BONUS_NAME)
+
 $(DIRS):
+	@mkdir -p $@
+
+$(DIRS_BONUS):
 	@mkdir -p $@
 
 $(NAME): $(LIBFT) $(OBJS)
@@ -168,13 +257,17 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "                                                                                          ░░██████                ";
 	@echo "                                                                                           ░░░░░░                 ";
 	@echo "$(NOC)"
-#	@cat bonaive.txt
+	@cat bonaive.txt
+
+$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
+	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@mkdir -p $(BUILD_DIR)
-	@if [ $(NB_COMP) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
+	@if [ $(NB_COMP) -eq 1 ]; then echo "\n$(BOLD)Compilation of source files :$(NOC)";fi
 	$(eval PERCENT=$(shell expr $(NB_COMP)00 "/" $(TO_COMP)))
 	@if [ $(PERCENT) -le 30 ]; then echo -n "$(RED)"; elif [ $(PERCENT) -le 66 ]; then echo -n "$(YELLOW)"; elif [ $(PERCENT) -gt 66 ]; then echo -n "$(GREEN)"; fi
 	@echo -n "\r"; for i in $$(seq 1 $$(/usr/bin/tput cols)); do echo -n " "; done
@@ -184,9 +277,22 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@$(CC) $(CFLAGS) $(INC) $< -c -o $@
 	$(eval NB_COMP=$(shell expr $(NB_COMP) + 1))
 
+
+$(BUILD_DIR)/bonus/%.o: $(SRC_DIR_BONUS)/%.c | $(DIRS_BONUS)
+	@mkdir -p $(BUILD_DIR)/bonus/
+	@if [ $(NB_COMP_BONUS) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
+	$(eval PERCENT=$(shell expr $(NB_COMP_BONUS)00 "/" $(TO_COMP_BONUS)))
+	@if [ $(PERCENT) -le 30 ]; then echo -n "$(RED)"; elif [ $(PERCENT) -le 66 ]; then echo -n "$(YELLOW)"; elif [ $(PERCENT) -gt 66 ]; then echo -n "$(GREEN)"; fi
+	@echo -n "\r"; for i in $$(seq 1 $$(/usr/bin/tput cols)); do echo -n " "; done
+	@echo -n "\r"; for i in $$(seq 1 25); do if [ $$(expr $$i "*" 4) -le $(PERCENT) ]; then echo -n "█"; else echo -n " "; fi; done; echo -n "";
+	@printf " $(NB_COMP_BONUS)/$(TO_COMP_BONUS) - Compiling $<"
+	@echo -n "$(NOC)"
+	@$(CC) $(CFLAGS) $(INC) $< -c -o $@
+	$(eval NB_COMP_BONUS=$(shell expr $(NB_COMP_BONUS) + 1))
+
 $(LIBFT_DIR):
 	@ mkdir -p $@
-	@ git clone "https://github.com/codastream/libft.git" ${LIBFT_DIR}
+	@ git clone "git@github.com:codastream/libft.git" ${LIBFT_DIR}
 
 $(LIBFT): $(LIBFT_DIR)
 	@ make -C $(LIBFT_DIR)/
@@ -201,10 +307,14 @@ clean:
 fclean: clean
 	@echo "$(RED)Remove binary$(NOC)"
 	@rm -f $(NAME)
+	@rm -f $(BONUS_NAME)
 
 re: fclean
 	@make
 
-.PHONY: all clean fclean re
+rebonus: fclean
+	@make bonus
+
+.PHONY: all clean fclean re rebonus
 
 -include $(DEPS)

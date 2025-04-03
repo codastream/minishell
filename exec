@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DEST_DIR="./srcs/bonus"
+mkdir -p "$DEST_DIR"
+
+for file in ./srcs/*.c; do
+    if [ -f "$file" ]; then
+        filename=$(basename "$file")
+        base_name="${filename%.*}"
+        cp "$file" "$DEST_DIR/${base_name}_bonus.c"
+        echo "copied $file to $DEST_DIR/${base_name}_bonus.c"
+    fi
+done

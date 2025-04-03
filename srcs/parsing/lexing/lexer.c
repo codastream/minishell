@@ -74,11 +74,9 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	code = add_commands(data, tokens);
 	if (code != EXIT_SUCCESS)
 		return (code);
-	code = do_for_tokens(data, tokens, expand_vars);
-	if (code != EXIT_SUCCESS)
-		return (code);
 	if (PRINT == 1)
 		ft_put_yellow("quotes\n");
+	code = do_for_tokens(data, tokens, expand_vars);
 	code = do_for_tokens(data, tokens, handle_quotes);
 	if (code != EXIT_SUCCESS)
 		return (code);

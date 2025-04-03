@@ -25,6 +25,8 @@ tester/1
 libft.a
 
 # directories
+minitester
+stephanetester
 .vscode
 libft
 minishell_tester
