@@ -208,17 +208,17 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					vars/wildcard_init_bonus.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
-SRCS_BONUS:=	$(addprefix $(SRC_DIR)/, $(SRCS_FILES_BONUS))
+SRCS_BONUS:=	$(addprefix $(SRC_DIR_BONUS)/, $(SRCS_FILES_BONUS))
 
 #=============================OBJECTS===========================#
 
 OBJS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o}
-OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/%.c=$(BUILD_DIR)/bonus/%.o}
+OBJS_BONUS:=	${SRCS_BONUS:$(SRC_DIR_BONUS)/%.c=$(BUILD_DIR)/bonus/%.o}
 
 #===============================DEPS=============================#
 
 DEPS:=			${SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.d}
-DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR)/%.c=$(BUILD_DIR)/bonus/%.d}
+DEPS_BONUS:=	${SRCS_BONUS:$(SRC_DIR_BONUSIR)/%.c=$(BUILD_DIR)/bonus/%.d}
 
 #=============================INCLUDES===========================#
 
@@ -259,9 +259,9 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(NOC)"
 	@cat bonaive.txt
 
-$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS) $(OBJS)
+$(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
 	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
-	@$(CC) $(CFLAGS) $(OBJS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal
@@ -278,7 +278,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	$(eval NB_COMP=$(shell expr $(NB_COMP) + 1))
 
 
-$(BUILD_DIR)/bonus/%.o: $(SRC_DIR)/%.c | $(DIRS_BONUS)
+$(BUILD_DIR)/bonus/%.o: $(SRC_DIR_BONUS)/%.c | $(DIRS_BONUS)
 	@mkdir -p $(BUILD_DIR)/bonus/
 	@if [ $(NB_COMP_BONUS) -eq 1 ]; then echo "$(BOLD)Compilation of source files :$(NOC)";fi
 	$(eval PERCENT=$(shell expr $(NB_COMP_BONUS)00 "/" $(TO_COMP_BONUS)))
