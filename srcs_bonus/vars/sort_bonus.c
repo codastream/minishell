@@ -12,33 +12,6 @@
 
 #include "shell.h"
 
-int	nb_files(t_data *data, char hide)
-{
-	int				i;
-	struct dirent	*info_dir;
-	DIR				*dir;
-	char			*cwd;
-
-	cwd = getpwd(data);
-	if (!cwd[0])
-	{
-		free(cwd);
-		return (0);
-	}
-	i = 0;
-	dir = opendir(cwd);
-	free(cwd);
-	info_dir = readdir(dir);
-	while (info_dir)
-	{
-		if (info_dir->d_name[0] != '.' || hide == '.')
-			i++;
-		info_dir = readdir(dir);
-	}
-	closedir(dir);
-	return (i);
-}
-
 void	swap(int i, int j, char **elems)
 {
 	char	*tmp;

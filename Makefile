@@ -1,5 +1,5 @@
 NAME		:=	minishell
-BONUS_NAME	:=	minishell
+BONUS_NAME	:=	minishell_bonus
 LIBFT		:=	libft.a
 
 #==============================COMPIL===========================#
@@ -65,6 +65,7 @@ RESET_BG	= \033[0m
 #================================DIRS============================#
 
 SRC_DIR			:=  srcs
+SRC_DIR_BONUS	:=	srcs_bonus
 HEADER_DIR		:=	includes
 LIBFT_DIR		:=	libft
 BUILD_DIR		:=	.build
@@ -137,7 +138,71 @@ SRCS_FILES:=	main.c\
 				vars/expand_utils2.c\
 				vars/sort.c\
 
-SRCS_FILES_BONUS:=	vars/wildcard_bonus.c\
+SRCS_FILES_BONUS:=	main_bonus.c\
+					builtins/builtins_bonus.c\
+					builtins/cd_bonus.c\
+					builtins/cd_utils_bonus.c\
+					builtins/echo_bonus.c\
+					builtins/env_bonus.c\
+					builtins/exit_bonus.c\
+					builtins/export_bonus.c\
+					builtins/export_utils_bonus.c\
+					builtins/hash_export_bonus.c\
+					builtins/pwd_bonus.c\
+					builtins/unset_bonus.c\
+					parsing/lexing/lexer_bonus.c\
+					parsing/lexing/lexer_utils_bonus.c\
+					parsing/lexing/split_utils_bonus.c\
+					parsing/lexing/tokens_utils_bonus.c\
+					parsing/lexing/tokens_utils_create_bonus.c\
+					parsing/lexing/command_bonus.c\
+					parsing/lexing/command_utils_bonus.c\
+					parsing/lexing/command_utils_add_bonus.c\
+					parsing/lexing/trim_bonus.c\
+					parsing/lexing/trim_utils_bonus.c\
+					parsing/lexing/args_bonus.c\
+					parsing/checking/check_redir_bonus.c\
+					parsing/checking/check_quote_bonus.c\
+					parsing/checking/check_pipe_bonus.c\
+					parsing/checking/check_path_bonus.c\
+					parsing/checking/check_files_bonus.c\
+					parsing/checking/path_utils_bonus.c\
+					execution/exec_bonus.c\
+					execution/exec_redir_bonus.c\
+					execution/exec_utils_bonus.c\
+					execution/exec_utils2_bonus.c\
+					execution/heredoc_bonus.c\
+					execution/heredoc_utils_bonus.c\
+					execution/redir_utils_bonus.c\
+					execution/navigation_bonus.c\
+					execution/fds_bonus.c\
+					execution/fds_utils_bonus.c\
+					errors/errors_bonus.c\
+					errors/errors_alloc_bonus.c\
+					errors/errors_custom_bonus.c\
+					errors/errors_utils_bonus.c\
+					errors/errors_print_bonus.c\
+					errors/errors_print_custom_bonus.c\
+					signal/signal_bonus.c\
+					signal/signal_setup_bonus.c\
+					utils/tree_bonus.c\
+					utils/tree_utils_bonus.c\
+					utils/free_bonus.c\
+					utils/free_utils_bonus.c\
+					utils/free_combo_bonus.c\
+					utils/init_bonus.c\
+					utils/loop_bonus.c\
+					utils/string_utils_bonus.c\
+					utils/quote_utils_bonus.c\
+					utils/debug_bonus.c\
+					utils/debug_utils_bonus.c\
+					vars/vars_bonus.c\
+					vars/return_code_bonus.c\
+					vars/expand_bonus.c\
+					vars/expand_utils_bonus.c\
+					vars/expand_utils2_bonus.c\
+					vars/sort_bonus.c\
+					vars/wildcard_bonus.c\
 					vars/wildcard_utils_bonus.c\
 					vars/wildcard_args_bonus.c\
 					vars/wildcard_init_bonus.c\
@@ -176,23 +241,23 @@ $(DIRS):
 $(DIRS_BONUS):
 	@mkdir -p $@
 
-# $(NAME): $(LIBFT) $(OBJS)
-# 	@echo "\n$(GREEN)Create binaries$(NOC)"
-# 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
-# 	@echo "$(SPECIAL)"
-# 	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
-# 	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
-# 	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
-# 	@echo " ░███░░███ ░███ ░░███  ███░░   ░███░░███  ███░░███ ░███  ░███     ░███████████ ░░███░░███  ███░░███ ███░░███ ░███ ";
-# 	@echo " ░███ ░░░  ░███  ░███ ░░█████  ░███ ░███ ░███████  ░███  ░███     ░███░░░░░███  ░███ ░███ ░███ ░███░███████  ░███ ";
-# 	@echo " ░███      ░███  ░███  ░░░░███ ░███ ░███ ░███░░░   ░███  ░███     ░███    ░███  ░███ ░███ ░███ ░███░███░░░   ░███ ";
-# 	@echo " █████     █████ █████ ██████  ████ █████░░██████  █████ █████    █████   █████ ████ █████░░███████░░██████  █████";
-# 	@echo "░░░░░     ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░    ░░░░░   ░░░░░ ░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░ ";
-# 	@echo "                                                                                           ███ ░███               ";
-# 	@echo "                                                                                          ░░██████                ";
-# 	@echo "                                                                                           ░░░░░░                 ";
-# 	@echo "$(NOC)"
-# 	@cat bonaive.txt
+$(NAME): $(LIBFT) $(OBJS)
+	@echo "\n$(GREEN)Create binaries$(NOC)"
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INC) -o $@ -lreadline
+	@echo "$(SPECIAL)"
+	@echo " ██████   ██████  ███          █████               ████  ████       █████████                                ████ ";
+	@echo "░░██████ ██████  ░░░          ░░███               ░░███ ░░███      ███░░░░░███                              ░░███ ";
+	@echo " ░███░█████░███  ████   █████  ░███████    ██████  ░███  ░███     ░███    ░███  ████████    ███████  ██████  ░███ ";
+	@echo " ░███░░███ ░███ ░░███  ███░░   ░███░░███  ███░░███ ░███  ░███     ░███████████ ░░███░░███  ███░░███ ███░░███ ░███ ";
+	@echo " ░███ ░░░  ░███  ░███ ░░█████  ░███ ░███ ░███████  ░███  ░███     ░███░░░░░███  ░███ ░███ ░███ ░███░███████  ░███ ";
+	@echo " ░███      ░███  ░███  ░░░░███ ░███ ░███ ░███░░░   ░███  ░███     ░███    ░███  ░███ ░███ ░███ ░███░███░░░   ░███ ";
+	@echo " █████     █████ █████ ██████  ████ █████░░██████  █████ █████    █████   █████ ████ █████░░███████░░██████  █████";
+	@echo "░░░░░     ░░░░░ ░░░░░ ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░ ░░░░░    ░░░░░   ░░░░░ ░░░░ ░░░░░  ░░░░░███ ░░░░░░  ░░░░░ ";
+	@echo "                                                                                           ███ ░███               ";
+	@echo "                                                                                          ░░██████                ";
+	@echo "                                                                                           ░░░░░░                 ";
+	@echo "$(NOC)"
+	@cat bonaive.txt
 
 $(BONUS_NAME): $(LIBFT) $(OBJS_BONUS) $(OBJS)
 	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
