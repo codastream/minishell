@@ -6,29 +6,29 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/02 17:54:44 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:10:20 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-int	cmd_char(char *rep, char *wildcard, int *i, int *j)
+int	cmd_char(char *rep, char *arg, int *i, int *j)
 {
-	if (wildcard[(*j)] == '*')
+	if (arg[(*j)] == '*')
 	{
-		while (wildcard[(*j)] == '*')
+		while (arg[(*j)] == '*')
 			(*j)++;
-		while (rep[(*i)] && (ft_strncmp(&rep[(*i)], &wildcard[(*j)], \
-		len_wilcard(&wildcard[(*j)])) || !wildcard[(*j)]))
+		while (rep[(*i)] && (ft_strncmp(&rep[(*i)], &arg[(*j)], \
+		len_wilcard(&arg[(*j)])) || !arg[(*j)]))
 			(*i)++;
-		if (!rep[(*i)] && wildcard[(*j)])
+		if (!rep[(*i)] && arg[(*j)])
 			return (0);
 	}
-	else if (rep[(*i)] != wildcard[(*j)])
+	else if (rep[(*i)] != arg[(*j)])
 	{
-		if (wildcard[(*j)])
+		if (arg[(*j)])
 			return (0);
-		while ((*j) > 0 && wildcard[(*j)] != '*')
+		while ((*j) > 0 && arg[(*j)] != '*')
 			(*j)--;
 		return (1);
 	}

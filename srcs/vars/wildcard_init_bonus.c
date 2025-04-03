@@ -6,11 +6,12 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:33:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 17:35:34 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:21:53 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
 
 char	**init_wildcard(t_data *data, char *str)
 {
