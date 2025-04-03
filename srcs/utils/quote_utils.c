@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:11:04 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:11:05 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 20:33:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ void	skip_quote(char	*string, int *i, char quote)
 
 void	skip_single_quote(char *string, int *i)
 {
-	(*i)++;
-	while (string[*i] && string[*i] != '\'')
+	while (string[*i] == '\'')
+	{
 		(*i)++;
-	if (string[*i] == '\'')
-		(*i)++;
+		while (string[*i] && string[*i] != '\'')
+			(*i)++;
+		if (string[*i] == '\'')
+			(*i)++;
+	}
 }
 
 bool	is_quote(char c)
