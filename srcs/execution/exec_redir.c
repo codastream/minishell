@@ -76,7 +76,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	if (fd < 0)
 	{
 		token->command->has_invalid_redir = true;
-		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
+//		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
 		return (EXIT_FAILURE);
 	}
 	if (has_next_of_same_type(current, redir))

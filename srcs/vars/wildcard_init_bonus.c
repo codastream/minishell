@@ -16,7 +16,7 @@ char	**init_wildcard(t_data *data, char *str)
 {
 	char	**wildcard;
 
-	if (!ft_strstr(str, "*"))
+	if (!ft_strstr(str, "*") || ft_strstr(str, "\"") || ft_strstr(str, "'") )
 	{
 		return (NULL);
 	}

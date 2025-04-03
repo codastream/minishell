@@ -20,9 +20,11 @@ void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 	char	*msg;
 
 	msg = "%swarning: here-document delimited by end-of-file (wanted `%s')%s\n";
+	input = NULL;
 	while (true)
 	{
-		input = readline("> ");
+		if (g_signal == 0)
+			input = readline("> ");
 		if (!input && g_signal == 0)
 		{
 			ft_printfd(2, msg, P_PINK_LIGHT, eofnoreturn, P_NOC);
@@ -74,6 +76,9 @@ int	init_heredoc(t_data *data, t_list *currentredir, t_redir *redir)
 	close(fds[1]);
 	waitpid(child_pid, NULL, 0);
 	if (g_signal != 0)
-		close(fds[0]);
+	{
+		close (fds[0]);
+		return (-1);
+	}
 	return (fds[0]);
 }
