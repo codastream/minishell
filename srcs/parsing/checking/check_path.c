@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:47:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 23:40:52 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/04 00:21:15 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,16 @@ static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 	struct stat	stats;
 	int			statcode;
 
-	statcode = stat(arg, &stats);	
-	code = access(arg, F_OK);
-	if (code != 0)
-	{
-		printf("existe pas\n");
-		return (NULL);
-	}
+	statcode = stat(arg, &stats);
 	if (statcode == 0 && S_ISDIR(stats.st_mode))
 	{
 		handle_custom_error_source_exit(data, arg, MSG_IS_DIRECTORY, \
 			EXIT_PERMISSION_DENIED);
 		return (NULL);
 	}
+	code = access(arg, F_OK);
+	if (code != 0)
+		return (NULL);
 	code = access(arg, X_OK);
 	if (code != 0 || !arg[1] || !ft_isalnum(arg[1]))
 	{
