@@ -27,16 +27,19 @@ static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 	struct stat	stats;
 	int			statcode;
 
-	statcode = stat(arg, &stats);
+	statcode = stat(arg, &stats);	
+	code = access(arg, F_OK);
+	if (code != 0)
+	{
+		printf("existe pas\n");
+		return (NULL);
+	}
 	if (statcode == 0 && S_ISDIR(stats.st_mode))
 	{
 		handle_custom_error_source_exit(data, arg, NULL, \
 			EXIT_PERMISSION_DENIED);
 		return (NULL);
 	}
-	code = access(arg, F_OK);
-	if (code != 0)
-		return (NULL);
 	code = access(arg, X_OK);
 	if (code != 0 || !arg[1] || !ft_isalnum(arg[1]))
 	{

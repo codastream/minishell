@@ -33,6 +33,9 @@ static void	print_envvar(t_data *data, t_token *token)
 					ft_strcmp(current->key, LAST_RETURN_CODE))
 					ft_printfd(token->out, "%s=%s\n", current->key, \
 					current->value);
+				else if (!current->value[0])
+					ft_printfd(token->out, "%s=\n", current->key, \
+					current->value);
 				current = current->next;
 			}
 		}
