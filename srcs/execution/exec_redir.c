@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 22:26:51 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 22:36:48 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	if (fd < 0)
 	{
 		token->command->has_invalid_redir = true;
-//		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
+		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
 		return (EXIT_FAILURE);
 	}
 	if (has_next_of_same_type(current, redir))
