@@ -6,18 +6,17 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:33:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 16:21:53 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:43:10 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
-
 char	**init_wildcard(t_data *data, char *str)
 {
 	char	**wildcard;
 
-	if (!ft_strstr(str, "*") || ft_strstr(str, "\"") || ft_strstr(str, "'") )
+	if (!ft_strstr(str, "*") || ft_strstr(str, "\"") || ft_strstr(str, "'"))
 	{
 		return (NULL);
 	}

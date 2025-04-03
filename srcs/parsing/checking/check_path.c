@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:47:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 23:28:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:40:52 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static char	*get_pathname_for_absolute_patharg(t_data *data, char *arg)
 			EXIT_PERMISSION_DENIED);
 		return (NULL);
 	}
-	check_access_to_parent_dir(data, arg);
 	code = access(arg, F_OK);
 	if (code != 0)
 		return (NULL);
