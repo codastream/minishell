@@ -32,13 +32,12 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	check_executable(data, token);
 	safe_dup2(data, token->in, STDIN_FILENO);
 	safe_dup2(data, token->out, STDOUT_FILENO);
-	pop_all_fd(&(data->fds));
-	free_vars_and_data(data);
 	exec_code = execve((const char *) command->pathname, \
 	command->command_args, env_local);
 	if (exec_code != EXIT_SUCCESS)
-		handle_custom_error_source_exit(data, command->command_name, \
-			strerror(errno), EXIT_FAILURE);
+		printerr_source(command->command_name, strerror(errno));
+	free_after_exec(data);
+	exit(exec_code);
 }
 
 void	exec_command(t_data *data, t_tree *tree)
