@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 17:13:39 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/05 10:28:46 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	i = 0;
 	while ((*arg)[i])
 	{
-		if (arg[0][i] == '"' && check_closing_doublequotes(data, *arg))
-		{
-			i = remove_extreme_double_quotes(data, arg);
-		}
-		else if ((*arg)[i] == '"' && !check_closing_doublequotes(data, *arg))
+		if ((*arg)[i] == '"')
 			i = handle_pair_of_quotes(data, arg, i, '"');
 		if (i < 0)
 			break ;
