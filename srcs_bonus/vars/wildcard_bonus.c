@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/03 16:10:20 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/05 12:59:01 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,9 @@ char	**ft_expand_wildcard(t_data *data, char *str)
 
 int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 {
-	char	*s;
-	char	**expand_wildcard;
-	char	**new_args;
-	int		i;
+	char		*s;
+	char		**expand_wildcard;
+	int			i;
 
 	(void)tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
@@ -119,12 +118,8 @@ int	handle_wilcard(t_data *data, t_token **tokens, t_token *token)
 		check_alloc(data, s);
 		expand_wildcard = ft_expand_wildcard(data, s);
 		free(s);
-		new_args = adjust_args(data, token->command, i++, expand_wildcard);
-	}
-	if (new_args)
-	{
-		free(token->command->command_args);
-		token->command->command_args = new_args;
+		adjust_args(data, token->command, &i, expand_wildcard);
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }

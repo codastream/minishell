@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 16:00:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/05 12:58:43 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_alloc_wildcardelem(t_data *data, char **wildcard, \
 			char **current_repository, char *str);
 
 // args
-char	**adjust_args(t_data *data, t_command *command, int i, \
+void	adjust_args(t_data *data, t_command *command, int *i, \
 			char	**expanded);
 
 // sort
