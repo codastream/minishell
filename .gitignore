@@ -28,7 +28,6 @@ libft.a
 minitester
 stephanetester
 .vscode
-libft
 minishell_tester
 m_tester
 .github/workflows/build.yml
