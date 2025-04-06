@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:16:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:09:07 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_cd(t_data *data, t_token *token)
 	path = build_path(data, command->command_args);
 	if (!path)
 		path = ft_strdup(ft_hash_get(data->localvars, "PWD"));
-	if (chdir(path) < 0)
+	if (!path || chdir(path) < 0)
 	{
 		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
 		return ;

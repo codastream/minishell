@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort.c                                             :+:      :+:    :+:   */
+/*   sort_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 15:59:55 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:20:54 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	**init_strs(t_data *data, char hide, char *s, int *nb)
 	char	**strs;
 
 	*nb = nb_files(data, hide);
+	if (*nb == -1)
+		return (NULL);
 	strs = ft_calloc(*nb + 1, sizeof(char *));
 	if (!strs)
 		free(s);

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:47 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/05 12:59:01 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:17:54 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	wildcard_count_elem(t_data *data, char *str)
 	i = 0;
 	len = 0;
 	current_repository = recover_current_repository(data, str[0], str);
-	while (current_repository[i])
+	while (current_repository && current_repository[i])
 	{
 		if (ft_cmp_wildcard(current_repository[i++], str))
 			len++;
@@ -84,7 +84,7 @@ char	**ft_expand_wildcard(t_data *data, char *str)
 	if (!wildcard)
 		return (wildcard);
 	current_repository = recover_current_repository(data, str[0], str);
-	while (current_repository[i])
+	while (current_repository && current_repository[i])
 	{
 		if (ft_cmp_wildcard(current_repository[i], str))
 		{

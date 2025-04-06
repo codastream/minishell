@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:13:09 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:43:20 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ t_token *token, char *str)
 	char	*result;
 
 	result = ft_hash_get(data->localvars, str);
-	if (result && ft_strcmp(str, LAST_RETURN_CODE))
+	if (result && str[0] != LAST_RETURN_CODE[0])
 		ft_printfd(token->out, "declare -x %s=\"%s\"\n", str, \
 		result);
-	else if (ft_strcmp(str, LAST_RETURN_CODE))
+	else if (str[0] != LAST_RETURN_CODE[0])
 		ft_printfd(token->out, "declare -x %s\n", str);
 }
 
@@ -57,7 +57,7 @@ void	ft_print_export(t_data *data, t_token *token)
 
 	(void)token;
 	i = 0;
-	str = hash_table_to_tab(data->localvars);
+	str = hashtab_to_tab(data, data->localvars);
 	sort_2dchar_null_ended(str);
 	while (str[i])
 		print_according_to_value_presence(data, token, str[i++]);
