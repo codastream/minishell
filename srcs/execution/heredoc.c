@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 21:57:50 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 22:43:16 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	handle_input(t_data *data, t_redir *redir, char *eof, int fds[2])
 		ft_putstr_fd_endline(input, fds[1]);
 		free(input);
 	}
+	free(eof);
 	free(input);
 }
 
@@ -45,7 +46,10 @@ void	process_input(t_data *data, t_redir *redir, int fds[2])
 	char	*eof;
 
 	close(fds[0]);
-	eof = redir->string;
+	eof = ft_strdup(redir->string);
+	if (!eof)
+		close(fds[1]);
+	check_alloc(data, eof);
 	handle_quote_in_arg(data, &eof);
 	handle_input(data, redir, eof, fds);
 	close(fds[1]);
