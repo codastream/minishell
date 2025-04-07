@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_redir.c                                      :+:      :+:    :+:   */
+/*   check_redir_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:47:41 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:57:28 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:47:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,17 @@ int	check_redirection(t_data *data, t_token **tokens, t_token *token)
 
 	code = EXIT_IGNORE;
 	if (token->type == T_REDIR_HEREDOC)
+	{
 		code = check_redir(data, tokens, token, T_EOF);
+		data->heredoc_nb += 1;
+		if (data->heredoc_nb > 16)
+		{
+			printerr("maximum here-document count exceeded");
+			update_last_return(data, EXIT_SYNTAX_ERROR);
+			free_all_data(data);
+			exit(EXIT_SYNTAX_ERROR);
+		}
+	}
 	else if (token->type == T_REDIR_IN)
 		code = check_redir(data, tokens, token, T_INFILE);
 	else if (token->type == T_REDIR_APPEND)

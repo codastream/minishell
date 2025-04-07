@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:58:56 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 19:33:14 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	is_file(t_token *token)
 	if (!token)
 		return (false);
 	return (token->type == T_INFILE \
-		|| token->type == T_EOF
+		|| token->type == T_EOF \
 		|| token->type == T_OUTFILE_APPEND \
 		|| token->type == T_OUTFILE_TRUNCATE \
 	);

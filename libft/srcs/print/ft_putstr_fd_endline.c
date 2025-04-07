@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_print_custom.c                              :+:      :+:    :+:   */
+/*   ft_putstr_fd_enline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 17:09:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 15:43:35 by fpetit           ###   ########.fr       */
+/*   Created: 2024/10/11 18:10:49 by fpetit            #+#    #+#             */
+/*   Updated: 2025/04/07 21:12:06 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "libft.h"
 
-void	printerr_command_notfound(char *command_name)
+void	ft_putstr_fd_endline(char *s, int fd)
 {
-	ft_printfd(2, "%sCommand '%s' not found%s\n", P_RED, command_name, P_NOC);
-}
-
-void	printerr_syntax(char *tokenstr)
-{
-	ft_printfd(2, "%ssyntax error near unexpected token `%s'%s\n", P_RED, \
-		tokenstr, P_NOC);
+	ft_putstr_fd(s, fd);
+	write(fd, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:31:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:43:19 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,11 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 {
 	t_list	*new;
 	t_redir	*redir;
-	char	*redir_file_str_expanded;
 	char	*redir_file_str;
 	int		index;
 
 	index = 0;
-	if (ft_strstr(file_token->string, "$"))
-		redir_file_str_expanded = \
-			try_replace_vars(data, (char *) file_token->string, &index, 0);
-	else
-		redir_file_str_expanded = ft_strdup(file_token->string);
-	check_alloc(data, redir_file_str_expanded);
-	redir_file_str = ft_subst(redir_file_str_expanded, "\"", "");
-	free(redir_file_str_expanded);
-	check_alloc(data, redir_file_str);
+	redir_file_str = get_file_str(data, file_token);
 	redir = ft_calloc(1, sizeof(t_redir));
 	check_alloc(data, redir);
 	redir->string = redir_file_str;

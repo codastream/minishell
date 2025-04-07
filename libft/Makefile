@@ -69,6 +69,7 @@ SRCS_FILES =	data/array/ft_has_unique_values_array.c\
 				print/ft_putendl_fd.c\
 				print/ft_putnbr_fd.c\
 				print/ft_putstr_fd.c\
+				print/ft_putstr_fd_endline.c\
 				print/ft_puterr.c\
 				print/ft_print_color.c\
 				printfd/ft_print_address_fd.c\

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 20:48:20 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 21:58:23 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_signal;
 
-void	handle_input(char *eof, char *eofnoreturn, int fds[2])
+void	handle_input(t_data *data, t_redir *redir, char *eof, int fds[2])
 {
 	char	*input;
 	char	*msg;
@@ -27,13 +27,14 @@ void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 			input = readline("> ");
 		if (!input && g_signal == 0)
 		{
-			ft_printfd(2, msg, P_PINK_LIGHT, eofnoreturn, P_NOC);
+			ft_printfd(2, msg, P_PINK_LIGHT, redir->string, P_NOC);
 			break ;
 		}
-		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof) || !input)
 			break ;
-		ft_print_str_fd(fds[1], input);
+		if (redir->string[0] != '"' && redir->string[0] != '\'')
+			expand_vars_in_heredoc(data, &input);
+		ft_putstr_fd_endline(input, fds[1]);
 		free(input);
 	}
 	free(input);
@@ -42,17 +43,11 @@ void	handle_input(char *eof, char *eofnoreturn, int fds[2])
 void	process_input(t_data *data, t_redir *redir, int fds[2])
 {
 	char	*eof;
-	char	*eofnoreturn;
 
 	close(fds[0]);
-	eofnoreturn = redir->string;
-	eof = ft_strjoin(eofnoreturn, "\n");
-	if (!eof)
-		close(fds[1]);
-	check_alloc(data, eof);
+	eof = redir->string;
 	handle_quote_in_arg(data, &eof);
-	handle_input(eof, eofnoreturn, fds);
-	free(eof);
+	handle_input(data, redir, eof, fds);
 	close(fds[1]);
 	free_all_data(data);
 	if (g_signal != 0)
