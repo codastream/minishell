@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:31:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:55:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 	int		index;
 
 	index = 0;
-	if (ft_strstr(file_token->string, "$"))
+	if (ft_strstr(file_token->string, "$") && file_token->type != T_EOF)
 		redir_file_str_expanded = \
 			try_replace_vars(data, (char *) file_token->string, &index, 0);
 	else

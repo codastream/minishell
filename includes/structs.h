@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:45:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 16:49:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:41:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,6 @@ typedef struct s_exec
 	int			commands_nb;
 	int			current_cmd_index;
 	int			last_pid;
-	int			future_redirin;
-	int			future_redirout;
-	int			original_in;
-	int			original_out;
 	char		**builtins;
 	char		*error_msg;
 	t_builtin	*builtin_ptrs;
@@ -120,6 +116,7 @@ typedef struct s_data
 	t_fds		*fds;
 	char		*prompt;
 	char		*line;
+	int			heredoc_nb;
 	int			return_code;
 }	t_data;
 
