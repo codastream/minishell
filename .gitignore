@@ -28,9 +28,11 @@ libft.a
 minitester
 stephanetester
 .vscode
+.github
+.github/workflows/build.yml
 minishell_tester
 m_tester
-.github/workflows/build.yml
+testeph
 eoc
 exec
 outfile
