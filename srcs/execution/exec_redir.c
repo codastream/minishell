@@ -65,11 +65,11 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	t_redir		*redir;
 
 	redir = (t_redir *) current->content;
+	redir_file = (const char *) redir->string;
 	if (redir->type == T_EOF)
 		fd = init_heredoc(data, current, redir);
 	else
 	{
-		redir_file = (const char *) redir->string;
 		opening_flags = get_opening_flags(redir);
 		fd = open(redir_file, opening_flags, 0666);
 	}

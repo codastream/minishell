@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:27:18 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/03/31 21:13:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:53:07 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,5 @@ void	ft_unset(t_data *data, t_token *token);
 
 void	append_export(t_data *data, char **cmd);
 void	supress_export(t_data *data, char **cmd);
-
-char	**hash_table_to_tab(t_hash *hash);
 
 #endif

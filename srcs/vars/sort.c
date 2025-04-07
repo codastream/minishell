@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 15:59:55 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:22:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ int	nb_files(t_data *data, char hide)
 	char			*cwd;
 
 	cwd = getpwd(data);
-	if (!cwd[0])
+	if (!cwd || !cwd[0])
 	{
 		free(cwd);
-		return (0);
+		return (-1);
 	}
 	i = 0;
 	dir = opendir(cwd);
 	free(cwd);
+	if (!dir)
+		return (0);
 	info_dir = readdir(dir);
 	while (info_dir)
 	{
@@ -76,6 +78,8 @@ char	**init_strs(t_data *data, char hide, char *s, int *nb)
 	char	**strs;
 
 	*nb = nb_files(data, hide);
+	if (*nb == -1)
+		return (NULL);
 	strs = ft_calloc(*nb + 1, sizeof(char *));
 	if (!strs)
 		free(s);

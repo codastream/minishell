@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/03 16:04:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/06 20:23:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	nb_files(t_data *data, char hide)
 	char			*cwd;
 
 	cwd = getpwd(data);
-	if (!cwd[0])
+	if (!cwd || !cwd[0])
 	{
 		free(cwd);
-		return (0);
+		return (-1);
 	}
 	i = 0;
 	dir = opendir(cwd);
@@ -48,8 +48,8 @@ char	**recover_current_repository(t_data *data, char hide, char *s)
 	int				nb;
 
 	strs = init_strs(data, hide, s, &nb);
-	if (nb == 0)
-		return (strs);
+	if (!strs || nb == 0)
+		return (NULL);
 	dir = opendir(".");
 	i = 0;
 	info_dir = readdir(dir);

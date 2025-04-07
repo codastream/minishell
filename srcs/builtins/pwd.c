@@ -60,15 +60,13 @@ void	ft_pwd(t_data *data, t_token *token)
 
 	if (has_invalid_option(data, token))
 		return ;
-	size = 2048;
+	size = 4096;
 	buffer = malloc(size);
 	check_alloc(data, buffer);
-	while (getcwd(buffer, size) == NULL)
+	if (getcwd(buffer, size) == NULL)
 	{
 		free(buffer);
-		size = size * 2;
-		buffer = malloc(size);
-		check_alloc(data, buffer);
+		return ;
 	}
 	ft_printfd(token->out, "%s\n", buffer);
 	free(buffer);

@@ -5,7 +5,7 @@ LIBFT		:=	libft.a
 #==============================COMPIL===========================#
 
 CC:=		cc
-CFLAGS:=	-MP -MMD -Wall -Wextra -Werror
+CFLAGS:=	-Wall -Wextra -Werror
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g

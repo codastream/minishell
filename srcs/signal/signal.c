@@ -28,6 +28,7 @@ void	handle_sig_main(int sig)
 		}
 		else
 			printf("\n");
+		printf("la\n");
 	}
 }
 
