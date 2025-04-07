@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 21:50:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:18:29 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*extract_prefixed_key(t_data *data, char *s, int *i)
 	return (prefixedkey);
 }
 
-char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
+char	*try_replace_vars(t_data *data, char *s, int *i, t_expandmode mode)
 {
 	char	*prefixedkey;
 	char	*value;
@@ -50,7 +50,7 @@ char	*try_replace_vars(t_data *data, char *s, int *i, int mode)
 		expanded = ft_subst_first_after_i(s, --prefixedkey, value, *i);
 		*i += ft_strlen(value);
 	}
-	else if (prefixedkey && !ft_strcmp(prefixedkey, "$") && mode == 0)
+	else if (prefixedkey && !ft_strcmp(prefixedkey, "$") && mode == ARG)
 		expanded = ft_subst_first_after_i(s, "$", "", *i);
 	else
 	{
@@ -104,7 +104,7 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 		return ;
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
-		expanded = try_replace_vars(data, *arg, &last_expanded_index, 0);
+		expanded = try_replace_vars(data, *arg, &last_expanded_index, ARG);
 		if (expanded[last_expanded_index] == '"')
 		{
 			toggle_quote_status(&in_dquote);

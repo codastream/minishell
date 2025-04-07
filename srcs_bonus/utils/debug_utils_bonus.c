@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_utils.c                                      :+:      :+:    :+:   */
+/*   debug_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:10:57 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:13:32 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:58:52 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char	*get_token_type_redir(t_tokentype type)
 		return ("redirect append");
 	else if (type == T_EOF)
 		return ("eof");
+	else if (type == T_EOF_NOEXPAND)
+		return ("eof no expand");
 	else if (type == T_INFILE)
 		return ("infile");
 	else if (type == T_OUTFILE_APPEND)

@@ -2389,3 +2389,85 @@
    fun:process_line_input
    fun:main
 }
+{
+   Suppression for libreadline.so.8.1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:handle_input
+   fun:process_input
+   fun:init_heredoc
+   fun:do_redir
+   fun:check_redirection_files
+   fun:iter_tree_token
+}
+{
+   Suppression for libreadline.so.8.1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:???
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:handle_input
+   fun:process_input
+   fun:init_heredoc
+   fun:do_redir
+   fun:check_redirection_files
+   fun:iter_tree_token
+}
+{
+   Suppression for libreadline.so.8.1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   fun: ???
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:handle_input
+   fun:process_input
+   fun:init_heredoc
+   fun:do_redir
+   fun:check_redirection_files
+   fun:iter_tree_token
+}
+{
+   Suppression for libreadline.so.8.1 (3 bytes in 1 blocks)
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:handle_input
+   fun:process_input
+   fun:init_heredoc
+   fun:do_redir
+   fun:check_redirection_files
+   fun:iter_tree_token
+}
+
+{
+   Suppression for libreadline.so.8.1 (8 bytes in 1 blocks)
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:handle_input
+   fun:process_input
+   fun:init_heredoc
+   fun:do_redir
+   fun:check_redirection_files
+   fun:iter_tree_token
+}

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 20:38:06 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:48:28 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void		add_redirect_file_to_command(t_data *data, t_token **tokens, \
 
 void		add_command_to_token(t_data *data, t_token **tokens, \
 			t_token *token);
+
+// command utils file
+char		*get_file_str(t_data *data, t_token *file_token);
 
 // command
 int			add_command_from_word(t_data *data, t_token **tokens, \

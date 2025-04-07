@@ -93,6 +93,7 @@ SRCS_FILES:=	main.c\
 				parsing/lexing/command.c\
 				parsing/lexing/command_utils.c\
 				parsing/lexing/command_utils_add.c\
+				parsing/lexing/command_utils_file.c\
 				parsing/lexing/trim.c\
 				parsing/lexing/trim_utils.c\
 				parsing/lexing/args.c\
@@ -134,6 +135,7 @@ SRCS_FILES:=	main.c\
 				vars/vars.c\
 				vars/return_code.c\
 				vars/expand.c\
+				vars/expand_heredoc.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
 				vars/sort.c\
@@ -158,6 +160,7 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					parsing/lexing/command_bonus.c\
 					parsing/lexing/command_utils_bonus.c\
 					parsing/lexing/command_utils_add_bonus.c\
+					parsing/lexing/command_utils_file_bonus.c\
 					parsing/lexing/trim_bonus.c\
 					parsing/lexing/trim_utils_bonus.c\
 					parsing/lexing/args_bonus.c\
@@ -199,6 +202,7 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					vars/vars_bonus.c\
 					vars/return_code_bonus.c\
 					vars/expand_bonus.c\
+					vars/expand_heredoc_bonus.c\
 					vars/expand_utils_bonus.c\
 					vars/expand_utils2_bonus.c\
 					vars/sort_bonus.c\

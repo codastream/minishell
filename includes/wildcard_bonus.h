@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus.h                                            :+:      :+:    :+:   */
+/*   wildcard_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/05 12:58:43 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:35:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BONUS_H
-# define BONUS_H
+#ifndef WILDCARD_BONUS_H
+# define WILDCARD_BONUS_H
 
 int		handle_wilcard(t_data *data, t_token **tokens, t_token *token);
 char	**ft_expand_wildcard(t_data *data, char *str);

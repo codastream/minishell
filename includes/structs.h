@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:45:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 15:41:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 19:33:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ typedef struct s_fds
 	int				fd;
 	struct s_fds	*next;
 }	t_fds;
+
+typedef enum e_expandmode
+{
+	ARG,
+	HEREDOC
+}	t_expandmode;
 
 typedef enum e_token
 {
