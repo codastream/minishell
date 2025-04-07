@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:15:18 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 21:57:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ void	handle_input(t_data *data, t_redir *redir, char *eof, int fds[2])
 			ft_printfd(2, msg, P_PINK_LIGHT, redir->string, P_NOC);
 			break ;
 		}
-		input = ft_strjoinfree(input, "\n", 1);
 		if (g_signal != 0 || !ft_strcmp(input, eof) || !input)
 			break ;
-		if (redir->string[0] != '"' && redir->string[0] != '\'')
+		if (!ft_strstr(redir->string, "'") && !ft_strstr(redir->string, "\""))
 			expand_vars_in_heredoc(data, &input);
-		ft_print_str_fd(fds[1], input);
+		ft_putstr_fd_endline(input, fds[1]);
 		free(input);
 	}
 	free(input);
@@ -44,20 +43,14 @@ void	handle_input(t_data *data, t_redir *redir, char *eof, int fds[2])
 void	process_input(t_data *data, t_redir *redir, int fds[2])
 {
 	char	*eof;
-	char	*eofnoreturn;
 
 	close(fds[0]);
-	eofnoreturn = redir->string;
-	eof = ft_strjoin(eofnoreturn, "\n");
-	if (!eof)
-		close(fds[1]);
-	check_alloc(data, eof);
+	eof = redir->string;
 	handle_quote_in_arg(data, &eof);
 	handle_input(data, redir, eof, fds);
-	free(eof);
 	close(fds[1]);
 	free_all_data(data);
-	if (g_signal != 0)
+	if (g_signal + 128)
 		exit(g_signal);
 	exit(EXIT_SUCCESS);
 }
