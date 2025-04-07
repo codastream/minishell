@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:24:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 14:24:52 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 21:13:12 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr_fd(char *s, int fd);
+void				ft_putstr_fd_endline(char *s, int fd);
 void				ft_puterr(char *s);
 void				ft_put_pink(char *msg);
 void				ft_put_green(char *msg);
