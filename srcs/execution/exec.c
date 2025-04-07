@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/05 13:26:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/07 22:59:01 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 	check_executable(data, token);
 	safe_dup2(data, token->in, STDIN_FILENO);
 	safe_dup2(data, token->out, STDOUT_FILENO);
+	pop_all_fd(&data->fds);
 	exec_code = execve((const char *) command->pathname, \
 	command->command_args, env_local);
 	handle_custom_error_source_exit(data, command->command_name, \
