@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:35:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 17:34:57 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:23:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	do_heredoc(t_data *data, t_token *token, t_list *current)
 	int			fd;
 	const char	*redir_file;
 	t_redir		*redir;
+	int			code;
 
 	redir = (t_redir *) current->content;
 	redir_file = (const char *) redir->string;
@@ -39,7 +40,10 @@ int	do_heredoc(t_data *data, t_token *token, t_list *current)
 	if (fd < 0)
 	{
 		token->command->has_invalid_redir = true;
-		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
+		check_signal_ok(data);
+		code = get_last_return(data);
+		if (code < 128)
+			handle_strerror(data, (char *)redir_file, code, false);
 		return (EXIT_FAILURE);
 	}
 	if (has_next_of_same_type(current, redir))

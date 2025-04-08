@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 17:57:58 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:27:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
+	int	code;
 
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "");
@@ -50,12 +51,15 @@ void	exec_command(t_data *data, t_tree *tree)
 	if (child_pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		if (tree->value->command->has_invalid_redir)
+		if (tree->value->command->has_invalid_redir || !check_signal_ok(data))
 		{
+			code = get_last_return(data);
+			if (code == 0)
+				code = EXIT_FAILURE;
 			close(data->exec->fds[1]);
 			close(data->exec->fds[0]);
 			free_all_data(data);
-			exit(EXIT_FAILURE);
+			exit(code);
 		}
 		child_exec(data, tree->value->command, tree->value);
 	}
