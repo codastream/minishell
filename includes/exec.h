@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:01:09 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/30 19:28:19 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 17:34:30 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ char	*get_last_eofmarker(t_command *command);
 int		check_executable(t_data *data, t_token *token);
 
 // exec redir
-int		check_redirection_files(t_data *data, t_token *token);
+int		prepare_redirs(t_data *data, t_token *token);
+void	adjust_fd_for_redir(t_data *data, t_redir *redir, t_token *token, \
+			int fd);
+bool	has_next_of_same_type(t_list *current, t_redir *current_redir);
+
+// exec heredoc
+bool	is_empty_redir(t_data *data, t_redir *redir, t_token *token);
+int		prepare_heredoc(t_data *data, t_token *token);
 
 // redir utils
 bool	has_type_of_redir(t_command *command, t_tokentype type);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir.c                                       :+:      :+:    :+:   */
+/*   exec_redir_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 22:36:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:35:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	return (EXIT_SUCCESS);
 }
 
-int	check_redirection_files(t_data *data, t_token *token)
+int	prepare_redirs(t_data *data, t_token *token)
 {
 	int		code;
 	t_list	*current;

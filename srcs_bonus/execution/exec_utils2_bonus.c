@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*   exec_utils2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 20:48:32 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:35:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_exec_builtin(t_data *data, t_tree *tree)
 {
 	int	code;
 
-	code = iter_tree_token(data, tree, check_redirection_files);
+	code = iter_tree_token(data, tree, prepare_redirs);
 	if (code == ERROR_EMPTY_REDIR)
 		return ;
 	if (!tree->value->command->has_invalid_redir)

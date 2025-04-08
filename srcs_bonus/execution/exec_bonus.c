@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 23:02:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 16:35:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	exec_line(t_data *data, t_tree *tree)
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-	code = iter_tree_token(data, tree, check_redirection_files);
+	code = iter_tree_token(data, tree, prepare_redirs);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	signal(SIGQUIT, SIG_IGN);

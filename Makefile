@@ -105,6 +105,7 @@ SRCS_FILES:=	main.c\
 				parsing/checking/path_utils.c\
 				execution/exec.c\
 				execution/exec_redir.c\
+				execution/exec_redir_heredoc.c\
 				execution/exec_utils.c\
 				execution/exec_utils2.c\
 				execution/heredoc.c\
