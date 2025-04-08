@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/06 20:42:26 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 22:09:09 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**split_export_cmd(char *cmd)
 		ft_free_2d_char_null_ended(result);
 	}
 	j = i;
-	while (cmd[i] && cmd[i - 1] != '=')
+	while (i > 0 && cmd[i] && cmd[i - 1] != '=')
 		i++;
 	result = generate_export_split(result, cmd, i, j);
 	return (result);
@@ -75,13 +75,16 @@ void	pars_export(t_data *data, t_token *token, int i)
 	else if (ft_isenvvarkeystr(cmd[0]) && !ft_strcmp(cmd[1], "="))
 		supress_export(data, cmd);
 	else if (ft_isenvvarkeystr(cmd[0]) && !cmd[1][0])
-		ft_hash_insert(data->localvars, cmd[0], NULL);
+	{
+		if (!ft_hash_get(data->localvars, cmd[0]))
+			ft_hash_insert(data->localvars, cmd[0], NULL);
+	}
 	else if (token->command->command_args[i][0] == '-')
 		update_last_return(data, EXIT_SYNTAX_ERROR);
 	else
 	{
-		ft_printfd(2, "export: `%s%s%s': not a valid identifier\n", \
-			cmd[0], cmd[1], cmd[2]);
+		ft_printfd(2, "%sexport: `%s%s%s': not a valid identifier\n%s", \
+			P_RED, cmd[0], cmd[1], cmd[2], P_NOC);
 		update_last_return(data, EXIT_FAILURE);
 	}
 	ft_free_2d_char_null_ended(cmd);
@@ -102,9 +105,9 @@ void	ft_export(t_data *data, t_token *token)
 	{
 		if (!is_valid_identifier(token->command->command_args[i]))
 		{
-			ft_printfd(2, "export: `%s': not a valid identifier\n", \
-				token->command->command_args[i]);
-			update_last_return(data, 1);
+			ft_printfd(2, "%s%sexport: `%s': not a valid identifier\n%s", \
+				P_RED, token->command->command_args[i], P_NOC);
+			update_last_return(data, EXIT_FAILURE);
 			break ;
 		}
 		pars_export(data, token, i++);
