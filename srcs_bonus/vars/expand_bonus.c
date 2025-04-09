@@ -90,7 +90,45 @@ bool	next_expand(char *s, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
-void	expand_vars_in_arg(t_data *data, char **arg)
+void	split_in_expand(t_data *data, char ***arg, int i)
+{
+	int	  len;
+	int	  j;
+	char  **result;
+	char  **args;
+	char  *to_split;
+
+	(void)data;
+	j = 0;
+	to_split = (*arg)[i];
+	result = ft_split_str(to_split, " \t\n\v\f");
+	len = ft_count_2dchar_null_ended(result);
+	len = len + ft_count_2dchar_null_ended(*arg);
+	args = ft_calloc(len, sizeof(char *));
+	while (j != i)
+	{
+		args[j] = (*arg)[j];
+		j++;
+	}
+	free((*arg)[i]);
+	j = 0;
+	while (result[j])
+	{
+		args[i + j] = result[j];
+		j++;	
+	}
+	i++;
+	while ((*arg)[i])
+	{
+		args[i + j - 1] = (*arg)[i];
+		i++;
+	}
+	free(*arg);
+	free(result);
+	*arg = args;
+}
+
+void	expand_vars_in_arg(t_data *data, char ***arg, int i)
 {
 	char	*s;
 	int		last_expanded_index;
@@ -99,23 +137,24 @@ void	expand_vars_in_arg(t_data *data, char **arg)
 
 	last_expanded_index = 0;
 	in_dquote = false;
-	s = *arg;
-	if (!ft_strstr(*arg, "$"))
+	s = (*arg)[i];
+	if (!ft_strstr((*arg)[i], "$"))
 		return ;
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
-		expanded = try_replace_vars(data, *arg, &last_expanded_index, ARG);
+		expanded = try_replace_vars(data, (*arg)[i], &last_expanded_index, ARG);
 		if (expanded[last_expanded_index] == '"')
 		{
 			toggle_quote_status(&in_dquote);
 			last_expanded_index++;
 		}
-		free(*arg);
-		*arg = expanded;
+		free((*arg)[i]);
+		(*arg)[i] = expanded;
 		s = expanded;
 	}
-	if (!ft_strcmp(*arg, ""))
-		reset_arg(arg);
+	if (!ft_strcmp((*arg)[i], ""))
+		reset_arg(arg[i]);
+	split_in_expand(data, arg, i);
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)
@@ -130,7 +169,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])
 	{
-		expand_vars_in_arg(data, &token->command->command_args[i]);
+		expand_vars_in_arg(data, &token->command->command_args, i);
 		i++;
 	}
 	if (ft_isemptystr(token->command->command_args[0]) \
@@ -140,5 +179,6 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 		free(token->command->command_name);
 		token->command->command_name = NULL;
 	}
+	token->command->argc = ft_count_2dchar_null_ended(token->command->command_args);
 	return (EXIT_SUCCESS);
 }

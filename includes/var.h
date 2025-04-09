@@ -27,7 +27,7 @@ int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	*try_replace_vars(t_data *data, char *s, int *exp_idx, \
 			t_expandmode mode);
 bool	next_expand(char *string, char marker, int *i, bool *in_dquote);
-void	expand_vars_in_arg(t_data *data, char **arg);
+void	expand_vars_in_arg(t_data *data, char ***arg, int i);
 
 // expand heredoc
 void	expand_vars_in_heredoc(t_data *data, char **arg);
