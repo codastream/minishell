@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/09 16:17:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:19:30 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	adjust_file(t_data *data, t_redir *redir, char **expanded)
 	if (expanded[0] && expanded[1])
 	{
 		ft_free_2d_char_null_ended(expanded);
-		printerr_source(redir->string, "ambiguous redirect");
+		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
 		update_last_return(data, EXIT_FAILURE);
 		free_after_exec(data);
 		return (EXIT_FAILURE);

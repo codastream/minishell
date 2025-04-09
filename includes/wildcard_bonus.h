@@ -6,12 +6,14 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:34:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:35:40 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:18:54 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WILDCARD_BONUS_H
 # define WILDCARD_BONUS_H
+
+# define MSG_AMBIGUOUS_REDIRECT "ambiguous redirect"
 
 int		handle_wilcard(t_data *data, t_token **tokens, t_token *token);
 char	**ft_expand_wildcard(t_data *data, char *str);

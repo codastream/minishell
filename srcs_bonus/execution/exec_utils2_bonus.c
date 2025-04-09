@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*   exec_utils2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 17:11:14 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:31:32 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ void	check_exec_builtin(t_data *data, t_tree *tree)
 	if (!tree->value->command->has_invalid_redir)
 		try_exec_builtin(data, tree->value, tree->value->command);
 	return ;
+}
+
+void	handdle_invalid_file(t_data *data, t_token *token, t_redir *redir)
+{
+	token->command->has_invalid_redir = true;
+	if (redir->ambiguous_redir)
+	{
+		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
+		update_last_return(data, EXIT_FAILURE);
+	}
+	else
+	{
+		handle_strerror(data, redir->string, EXIT_FAILURE, false);
+	}
 }

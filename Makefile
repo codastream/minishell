@@ -265,7 +265,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "$(NOC)"
 
 $(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
-	@echo "\n$(GREEN)The birth of Bonus (wildcard only)$(NOC)"
+	@echo "\n\nThe birth of bonus (wildcard only)"
 	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
 	@cat bonaive.txt
 

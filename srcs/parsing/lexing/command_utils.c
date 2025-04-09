@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 23:38:31 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:41:16 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,16 @@ t_list	*create_redir(t_data *data, t_token *file_token)
 	t_list	*new;
 	t_redir	*redir;
 	char	*redir_file_str;
-	int		index;
+	bool	has_var;
 
-	index = 0;
-	redir_file_str = get_file_str(data, file_token);
+	redir_file_str = get_file_str(data, file_token, &has_var);
 	redir = ft_calloc(1, sizeof(t_redir));
 	check_alloc(data, redir);
 	redir->string = redir_file_str;
 	redir->type = file_token->type;
+	redir->ambiguous_redir = false;
+	if (has_var && access(redir->string, F_OK) == -1)
+		redir->ambiguous_redir = true;
 	new = ft_calloc(1, sizeof(t_list));
 	check_alloc(data, new);
 	new->content = redir;
