@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:01:49 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 23:11:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:12:21 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,18 @@ void	print_path_if_needed(t_command *command, t_token *token, \
 	}
 }
 
-void	update_oldpwd(t_data *data)
+char	*update_oldpwd(t_data *data)
 {
-	char		*oldpwd;
+	char		*pwd;
+	char		*old;
 
-	oldpwd = getpwd(data);
-	if (ft_strcmp(oldpwd, ""))
-		ft_hash_update(data->localvars, "OLDPWD", oldpwd);
-	free(oldpwd);
+	old = ft_strdup(ft_hash_get(data->localvars, "OLDPWD"));
+	check_alloc(data, old);
+	pwd = getpwd(data);
+	if (ft_strcmp(pwd, ""))
+		ft_hash_update(data->localvars, "OLDPWD", pwd);
+	free(pwd);
+	return (old);
 }
 
 char	*get_old_path(t_data *data)

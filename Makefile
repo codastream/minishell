@@ -173,6 +173,7 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					parsing/checking/path_utils_bonus.c\
 					execution/exec_bonus.c\
 					execution/exec_redir_bonus.c\
+					execution/exec_redir_heredoc_bonus.c\
 					execution/exec_utils_bonus.c\
 					execution/exec_utils2_bonus.c\
 					execution/heredoc_bonus.c\
@@ -207,10 +208,10 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					vars/expand_utils_bonus.c\
 					vars/expand_utils2_bonus.c\
 					vars/sort_bonus.c\
-					vars/wildcard_bonus.c\
-					vars/wildcard_utils_bonus.c\
-					vars/wildcard_args_bonus.c\
-					vars/wildcard_init_bonus.c\
+					wildcard/wildcard_args_bonus.c\
+					wildcard/wildcard_bonus.c\
+					wildcard/wildcard_utils_bonus.c\
+					wildcard/wildcard_init_bonus.c\
 
 SRCS:=			$(addprefix $(SRC_DIR)/, $(SRCS_FILES))
 SRCS_BONUS:=	$(addprefix $(SRC_DIR_BONUS)/, $(SRCS_FILES_BONUS))
@@ -262,11 +263,11 @@ $(NAME): $(LIBFT) $(OBJS)
 	@echo "                                                                                          ░░██████                ";
 	@echo "                                                                                           ░░░░░░                 ";
 	@echo "$(NOC)"
-	@cat bonaive.txt
 
 $(BONUS_NAME): $(LIBFT) $(OBJS_BONUS)
-	@echo "\n$(GREEN)Create bonus binaries$(NOC)"
+	@echo "\n$(GREEN)The birth of Bonus (wildcard only)$(NOC)"
 	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) $(INC) -o $@ -lreadline
+	@cat bonaive.txt
 
 # $$@D gets directory from cu$(INC) rrent target - pipe prevents from relink
 # tput cols to get columns nb of terminal

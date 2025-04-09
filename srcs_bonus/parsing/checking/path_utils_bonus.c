@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:49:27 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 17:53:29 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 22:38:42 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*find_in_paths(t_data *data, char **splitted_paths, char *name)
 		if (!pathname)
 			ft_free_2d_char_null_ended(splitted_paths);
 		check_alloc(data, pathname);
-		if (access(pathname, X_OK) == 0)
+		if (access(pathname, F_OK) == 0)
 			break ;
 		free(pathname);
 		pathname = NULL;

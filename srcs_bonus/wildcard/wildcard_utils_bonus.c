@@ -6,38 +6,11 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/06 20:23:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:17:00 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int	nb_files(t_data *data, char hide)
-{
-	int				i;
-	struct dirent	*info_dir;
-	DIR				*dir;
-	char			*cwd;
-
-	cwd = getpwd(data);
-	if (!cwd || !cwd[0])
-	{
-		free(cwd);
-		return (-1);
-	}
-	i = 0;
-	dir = opendir(cwd);
-	free(cwd);
-	info_dir = readdir(dir);
-	while (info_dir)
-	{
-		if (info_dir->d_name[0] != '.' || hide == '.')
-			i++;
-		info_dir = readdir(dir);
-	}
-	closedir(dir);
-	return (i);
-}
 
 char	**recover_current_repository(t_data *data, char hide, char *s)
 {

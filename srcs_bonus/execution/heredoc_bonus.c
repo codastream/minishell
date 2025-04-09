@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 22:44:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 18:09:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_input(t_data *data, t_redir *redir, char *eof, int fds[2])
 		}
 		if (g_signal != 0 || !ft_strcmp(input, eof) || !input)
 			break ;
-		if (redir->string[0] != '"' && redir->string[0] != '\'')
+		if (!ft_strstr(redir->string, "'") && !ft_strstr(redir->string, "\""))
 			expand_vars_in_heredoc(data, &input);
 		ft_putstr_fd_endline(input, fds[1]);
 		free(input);
@@ -55,7 +55,7 @@ void	process_input(t_data *data, t_redir *redir, int fds[2])
 	close(fds[1]);
 	free_all_data(data);
 	if (g_signal != 0)
-		exit(g_signal);
+		exit(g_signal + 128);
 	exit(EXIT_SUCCESS);
 }
 

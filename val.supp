@@ -2471,3 +2471,42 @@
    fun:check_redirection_files
    fun:iter_tree_token
 }
+{
+   readline_set_prompt_malloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   ...
+}
+
+{
+   readline_expand_prompt_malloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   ...
+   fun:xmalloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   ...
+}
+
+{
+   readline_expand_prompt_realloc_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   ...
+   fun:xrealloc
+   ...
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   ...
+}

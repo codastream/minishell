@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:51 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 18:06:20 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:32:26 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_exit(t_data *data, t_token *token)
 	int		arg_count;
 
 	arg_count = ft_count_2dchar_null_ended(token->command->command_args);
-	return_code = EXIT_SUCCESS;
+	return_code = get_last_return(data);
 	if (token->command->command_args[1])
 		return_code = handle_return_code(data, token);
 	if (arg_count > 2 && return_code != 2)

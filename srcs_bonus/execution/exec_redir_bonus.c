@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir_bonus.c                                 :+:      :+:    :+:   */
+/*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 16:35:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 17:04:00 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	redir = (t_redir *) current->content;
 	redir_file = (const char *) redir->string;
 	if (redir->type == T_EOF)
-		fd = init_heredoc(data, current, redir);
+		return (EXIT_IGNORE);
 	else
 	{
 		opening_flags = get_opening_flags(redir);
@@ -99,13 +99,8 @@ int	prepare_redirs(t_data *data, t_token *token)
 	while (current)
 	{
 		redir = (t_redir *) current->content;
-		if (ft_isemptystr(redir->string) || !ft_strcmp(redir->string, "''"))
-		{
-			printerr_source("", "No such file or directory");
-			token->command->has_invalid_redir = true;
-			update_last_return(data, EXIT_FAILURE);
+		if (is_empty_redir(data, redir, token))
 			return (ERROR_EMPTY_REDIR);
-		}
 		code = do_redir(data, token, current);
 		if (code != EXIT_SUCCESS)
 			return (code);

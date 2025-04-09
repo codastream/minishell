@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_bonus.c                                       :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 16:35:41 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 21:27:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	child_exec(t_data *data, t_command *command, t_token *token)
 void	exec_command(t_data *data, t_tree *tree)
 {
 	int	child_pid;
+	int	code;
 
 	if (PRINT == 1)
 		print_pretty_tree(data, data->tree, 0, "");
@@ -50,18 +51,21 @@ void	exec_command(t_data *data, t_tree *tree)
 	if (child_pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		if (tree->value->command->has_invalid_redir)
+		if (tree->value->command->has_invalid_redir || !check_signal_ok(data))
 		{
+			code = get_last_return(data);
+			if (code == 0)
+				code = EXIT_FAILURE;
 			close(data->exec->fds[1]);
 			close(data->exec->fds[0]);
 			free_all_data(data);
-			exit(EXIT_FAILURE);
+			exit(code);
 		}
-		signal(SIGQUIT, SIG_DFL);
 		child_exec(data, tree->value->command, tree->value);
 	}
 	else
 		data->exec->last_pid = child_pid;
+	setup_signal();
 }
 
 void	exec_pipe(t_data *data, t_tree *tree)
@@ -109,11 +113,13 @@ void	exec_line(t_data *data, t_tree *tree)
 	}
 	tree->value->in = 0;
 	tree->value->out = 1;
-	code = iter_tree_token(data, tree, prepare_redirs);
+	code = iter_tree_token(data, tree, prepare_heredoc);
+	if (check_signal_ok(data))
+		code = iter_tree_token(data, tree, prepare_redirs);
 	exec_tree_node(data, tree);
 	code = wait_all(data, data->exec);
 	signal(SIGQUIT, SIG_IGN);
 	pop_all_fd(&(data->fds));
-	update_last_return(data, code);
 	check_for_eof_and_signals(data);
+	update_last_return(data, code);
 }

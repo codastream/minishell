@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_utils_bonus.c                              :+:      :+:    :+:   */
+/*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:48:01 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 23:38:31 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ static void	update_args(t_data *data, t_command *command, char *string)
 	char		**name_with_args;
 	char		**seps;
 
-	seps = ft_calloc(2, sizeof(char *));
+	seps = ft_calloc(7, sizeof(char *));
 	if (!seps)
 		free(command);
 	check_alloc(data, seps);
 	seps[0] = " ";
-	seps[1] = NULL;
+	seps[1] = "\t";
+	seps[2] = "\r";
+	seps[3] = "\f";
+	seps[4] = "\v";
+	seps[5] = "\b";
+	seps[6] = NULL;
 	delimiters = init_quote_delimiters(data);
 	if (!delimiters)
 		free(command);
