@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 16:24:27 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 14:34:23 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:45:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ t_keyval	*new_node(char *key, char *value)
 		return (NULL);
 	if (!value)
 	{
-		keyval->value = malloc(1);
-		keyval->value[0] = '\0';
+		keyval->value = NULL;
 	}
 	else
 	{
