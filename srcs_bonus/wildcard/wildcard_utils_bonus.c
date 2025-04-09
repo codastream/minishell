@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/09 17:19:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 22:19:16 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,13 @@ int	handle_wildcard_files(t_data *data, t_token *token)
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
+}
+
+void	check_relatives(char **s, bool *relative)
+{
+	if (!ft_strncmp("./", *s, 2))
+	{
+		*relative = true;
+		(*s) += 2;
+	}
 }
