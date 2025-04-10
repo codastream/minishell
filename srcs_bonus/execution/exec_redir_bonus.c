@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/09 17:32:01 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 19:21:20 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int	prepare_redirs(t_data *data, t_token *token)
 	while (current)
 	{
 		redir = (t_redir *) current->content;
-		if (is_empty_redir(data, redir, token))
-			return (ERROR_EMPTY_REDIR);
 		code = do_redir(data, token, current);
 		if (code != EXIT_SUCCESS)
 			return (code);

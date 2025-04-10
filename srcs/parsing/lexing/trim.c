@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 17:18:39 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 19:18:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,6 @@ void	handle_quote_in_arg(t_data *data, char **arg)
 	}
 }
 
-void	handle_quotes_in_redirs(t_data *data, t_command *command)
-{
-	t_list	*current;
-	t_redir	*redir;
-
-	current = command->redirections;
-	while (current)
-	{
-		redir = (t_redir *) current->content;
-		handle_quote_in_arg(data, &redir->string);
-		current = current->next;
-	}
-}
-
 int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 {
 	int		i;
@@ -97,7 +83,7 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
-	handle_quotes_in_redirs(data, token->command);
+	lst_iter_redir(data, token->command->redirections, handle_quote_in_arg);
 	name_with_args = token->command->command_args;
 	if (!name_with_args[0])
 		return (EXIT_IGNORE);

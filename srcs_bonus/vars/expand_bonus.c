@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 16:03:09 by djo              ###   ########.fr       */
+/*   Updated: 2025/04/10 19:23:34 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,6 @@ bool	next_expand(char *s, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
-int	is_in_quotes(char *str)
-{
-	if (str[0] == '"' && str[ft_strlen(str)] == '"')
-		return (0);
-	if (str[0] == '\'' && str[ft_strlen(str)] == '\'')
-		return (0);
-	return (1);
-}
-
 void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 {
 	char	*s;
@@ -136,6 +127,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
+	lst_iter_redir(data, token->command->redirections, expand_var_in_redir);
 	token->command->argc = \
 		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])

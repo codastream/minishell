@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/09 17:29:00 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:54:26 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_exec_builtin(t_data *data, t_tree *tree)
 void	handdle_invalid_file(t_data *data, t_token *token, t_redir *redir)
 {
 	token->command->has_invalid_redir = true;
-	if (redir->ambiguous_redir)
+	if (redir->has_var)
 	{
 		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
 		update_last_return(data, EXIT_FAILURE);

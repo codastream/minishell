@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 14:07:51 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:42:46 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
+	lst_iter_redir(data, token->command->redirections, expand_var_in_redir);
 	token->command->argc = \
 		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])

@@ -136,6 +136,7 @@ SRCS_FILES:=	main.c\
 				vars/return_code.c\
 				vars/expand.c\
 				vars/expand_heredoc.c\
+				vars/expand_redir.c\
 				vars/expand_split.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
@@ -205,6 +206,7 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					vars/return_code_bonus.c\
 					vars/expand_bonus.c\
 					vars/expand_heredoc_bonus.c\
+					vars/expand_redir_bonus.c\
 					vars/expand_utils_bonus.c\
 					vars/expand_utils2_bonus.c\
 					vars/expand_split_bonus.c\

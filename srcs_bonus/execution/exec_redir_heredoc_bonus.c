@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir_heredoc.c                               :+:      :+:    :+:   */
+/*   exec_redir_heredoc_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:35:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 21:23:39 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 19:13:44 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	prepare_heredoc(t_data *data, t_token *token)
 	while (current)
 	{
 		redir = (t_redir *) current->content;
+		if (redir->type != T_EOF)
+			return (EXIT_IGNORE);
 		if (is_empty_redir(data, redir, token))
 			return (ERROR_EMPTY_REDIR);
 		code = do_heredoc(data, token, current);

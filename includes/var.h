@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:58 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 13:57:30 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:16:52 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i);
 
 // expand heredoc
 void	expand_vars_in_heredoc(t_data *data, char **arg);
+
+// expand redir
+
+void	expand_var_in_redir(t_data *data, char	**file);
+void	lst_iter_redir(t_data *data, t_list *lst, void (*f)(t_data *, char **));
 
 // expand split
 void	split_in_expand(t_data *data, t_token *token, char ***arg, int i);

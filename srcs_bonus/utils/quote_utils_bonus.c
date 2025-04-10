@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_utils.c                                      :+:      :+:    :+:   */
+/*   quote_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:11:04 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 20:51:21 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:30:10 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ int	find_index_of_space_out_of_quotes(char *s)
 			i++;
 	}
 	return (-1);
+}
+
+int	is_in_quotes(char *str)
+{
+	if (str[0] == '"' && str[ft_strlen(str)] == '"')
+		return (0);
+	if (str[0] == '\'' && str[ft_strlen(str)] == '\'')
+		return (0);
+	return (1);
 }

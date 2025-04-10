@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:45:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/09 17:14:42 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 18:26:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_redir
 	t_tokentype		type;
 	char			*string;
 	bool			ambiguous_redir;
+	bool			has_var;
 }	t_redir;
 
 typedef struct s_token
