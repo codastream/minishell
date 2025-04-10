@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:22:36 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 23:02:55 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:16:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # include "fds.h"
 # include "wildcard_bonus.h"
 
-# define PRINT 0
+# define PRINT 1
 # define PRINTFD 0
 
 #endif
