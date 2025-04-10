@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_path.c                                       :+:      :+:    :+:   */
+/*   check_path_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:47:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/04 00:21:15 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 21:45:53 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*get_checked_pathmame(t_data *data, t_command *command)
 	else if (ft_strstr(arg, "./"))
 		return (get_pathname_for_relative_patharg(data, arg));
 	paths = ft_hash_get(data->localvars, "PATH");
-	if (!paths)
+	if (!paths || !ft_strcmp(paths, "") || !ft_strcmp(paths, ":"))
 		return (NULL);
 	splitted_paths = ft_split(paths, ':');
 	check_alloc(data, splitted_paths);

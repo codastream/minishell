@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 22:09:09 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 21:44:10 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	pars_export(t_data *data, t_token *token, int i)
 void	ft_export(t_data *data, t_token *token)
 {
 	int		i;
+	char	*identifier;
 
 	update_last_return(data, EXIT_SUCCESS);
 	if (!token->command->command_args[1])
@@ -105,8 +106,9 @@ void	ft_export(t_data *data, t_token *token)
 	{
 		if (!is_valid_identifier(token->command->command_args[i]))
 		{
-			ft_printfd(2, "%s%sexport: `%s': not a valid identifier\n%s", \
-				P_RED, token->command->command_args[i], P_NOC);
+			identifier = token->command->command_args[i];
+			ft_printfd(2, "%sexport: `%s': not a valid identifier\n%s", \
+				P_RED, identifier, P_NOC);
 			update_last_return(data, EXIT_FAILURE);
 			break ;
 		}
