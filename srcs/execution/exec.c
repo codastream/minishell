@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 21:27:33 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 20:29:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,6 @@ void	exec_line(t_data *data, t_tree *tree)
 	code = wait_all(data, data->exec);
 	signal(SIGQUIT, SIG_IGN);
 	pop_all_fd(&(data->fds));
-	check_for_eof_and_signals(data);
 	update_last_return(data, code);
+	check_signal_ok(data);
 }

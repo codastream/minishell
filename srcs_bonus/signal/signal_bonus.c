@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   signal_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/08 21:40:14 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 20:28:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,27 @@ void	handle_sig_child(int sig)
 
 bool	check_signal_ok(t_data *data)
 {
+	printf("checking g signal => %d\n", g_signal);
+	if (!data->line)
+		handle_end_of_loop(data);
+	if (g_signal == 0)
+	{
+		return (true);
+	}
+	else
+	{
+		update_last_return(data, 128 + g_signal);
+		g_signal = 0;
+		return (false);
+	}
+}
+
+bool	check_signal_ok(t_data *data)
+{
 	if (g_signal == 0)
 		return (true);
+	if (!data->line)
+		handle_end_of_loop(data);
 	else
 	{
 		update_last_return(data, 128 + g_signal);
@@ -67,10 +86,7 @@ bool	check_signal_ok(t_data *data)
 	}
 }
 
-void	check_for_eof_and_signals(t_data *data)
+void	reset_g_signal(void)
 {
-	if (g_signal != 0)
-		update_last_return(data, 128 + g_signal);
-	if (!data->line)
-		handle_end_of_loop(data);
+	g_signal = 0;
 }

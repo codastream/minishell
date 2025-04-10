@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 14:22:36 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 14:16:02 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 20:25:51 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # include <stdbool.h>
 
 # include "../libft/includes/libft.h"
-# include "structs.h"
 # include "colors.h"
+# include "structs.h"
 # include "builtins.h"
 # include "parsing.h"
 # include "signals.h"
@@ -43,7 +43,7 @@
 # include "fds.h"
 # include "wildcard_bonus.h"
 
-# define PRINT 1
+# define PRINT 0
 # define PRINTFD 0
 
 #endif
