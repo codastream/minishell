@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 15:48:11 by djo              ###   ########.fr       */
+/*   Updated: 2025/04/10 21:16:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	split_in_expand(t_data *data, t_token *token, char ***arg, int i)
 	result = ft_split_str((*arg)[i], " \t\n\v\f");
 	check_alloc(data, result);
 	len = ft_count_2dchar_null_ended(result);
-	printf("-> %d\n", len);
 	update_argc(token, len);
 	len = len + ft_count_2dchar_null_ended(*arg);
 	args = ft_calloc(len, sizeof(char *));
