@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/09 17:40:21 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 16:06:07 by djo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int			check_closing_quotes(t_data *data, char *input);
 int			check_closing_doublequotes(t_data *data, char *input);
 int			check_redirection(t_data *data, t_token **tokens, \
 				t_token *token);
+int			is_in_quotes(char *str)
 
 // check files
 

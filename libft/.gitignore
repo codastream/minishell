@@ -1,0 +1,7 @@
+# objects and binaries
+*.out
+libft.a
+*.o
+*.d
+
+# directories

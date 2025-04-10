@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 13:56:39 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 16:03:09 by djo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ bool	next_expand(char *s, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
+int	is_in_quotes(char *str)
+{
+	if (str[0] == '"' && str[ft_strlen(str)] == '"')
+		return (0);
+	if (str[0] == '\'' && str[ft_strlen(str)] == '\'')
+		return (0);
+	return (1);
+}
+
 void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 {
 	char	*s;
@@ -115,7 +124,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 		free(arg[0][i]);
 		arg[0][i] = NULL;
 	}
-	else
+	else if (!is_in_quotes((*arg)[i]))
 		split_in_expand(data, token, arg, i);
 }
 
