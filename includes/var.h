@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:58 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:35:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:27:21 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ int		expand_vars(t_data *data, t_token **tokens, t_token *token);
 char	*try_replace_vars(t_data *data, char *s, int *exp_idx, \
 			t_expandmode mode);
 bool	next_expand(char *string, char marker, int *i, bool *in_dquote);
-void	expand_vars_in_arg(t_data *data, char ***arg, int i);
+void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i);
 
 // expand heredoc
 void	expand_vars_in_heredoc(t_data *data, char **arg);
+
+// expand split
+void	split_in_expand(t_data *data, t_token *token, char ***arg, int i);
 
 // expand utils
 void	toggle_quote_status(bool *in_dquote);

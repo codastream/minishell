@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:18:29 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:48:17 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,45 +90,7 @@ bool	next_expand(char *s, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
-void	split_in_expand(t_data *data, char ***arg, int i)
-{
-	int	  len;
-	int	  j;
-	char  **result;
-	char  **args;
-	char  *to_split;
-
-	(void)data;
-	j = 0;
-	to_split = (*arg)[i];
-	result = ft_split_str(to_split, " \t\n\v\f");
-	len = ft_count_2dchar_null_ended(result);
-	len = len + ft_count_2dchar_null_ended(*arg);
-	args = ft_calloc(len, sizeof(char *));
-	while (j != i)
-	{
-		args[j] = (*arg)[j];
-		j++;
-	}
-	free((*arg)[i]);
-	j = 0;
-	while (result[j])
-	{
-		args[i + j] = result[j];
-		j++;	
-	}
-	i++;
-	while ((*arg)[i])
-	{
-		args[i + j - 1] = (*arg)[i];
-		i++;
-	}
-	free(*arg);
-	free(result);
-	*arg = args;
-}
-
-void	expand_vars_in_arg(t_data *data, char ***arg, int i)
+void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 {
 	char	*s;
 	int		last_expanded_index;
@@ -153,8 +115,12 @@ void	expand_vars_in_arg(t_data *data, char ***arg, int i)
 		s = expanded;
 	}
 	if (!ft_strcmp((*arg)[i], ""))
-		reset_arg(arg[i]);
-	split_in_expand(data, arg, i);
+	{
+		free(arg[0][i]);
+		arg[0][i] = NULL;
+	}
+	else
+		split_in_expand(data, token, arg, i);
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)
@@ -169,7 +135,7 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])
 	{
-		expand_vars_in_arg(data, &token->command->command_args, i);
+		expand_vars_in_arg(data, token, &token->command->command_args, i);
 		i++;
 	}
 	if (ft_isemptystr(token->command->command_args[0]) \
@@ -179,6 +145,5 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 		free(token->command->command_name);
 		token->command->command_name = NULL;
 	}
-	token->command->argc = ft_count_2dchar_null_ended(token->command->command_args);
 	return (EXIT_SUCCESS);
 }

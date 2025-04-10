@@ -206,6 +206,7 @@ SRCS_FILES_BONUS:=	main_bonus.c\
 					vars/expand_heredoc_bonus.c\
 					vars/expand_utils_bonus.c\
 					vars/expand_utils2_bonus.c\
+					vars/expand_split_bonus.c\
 					vars/sort_bonus.c\
 					wildcard/wildcard_args_bonus.c\
 					wildcard/wildcard_bonus.c\
