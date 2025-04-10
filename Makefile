@@ -136,6 +136,7 @@ SRCS_FILES:=	main.c\
 				vars/return_code.c\
 				vars/expand.c\
 				vars/expand_heredoc.c\
+				vars/expand_split.c\
 				vars/expand_utils.c\
 				vars/expand_utils2.c\
 				vars/sort.c\

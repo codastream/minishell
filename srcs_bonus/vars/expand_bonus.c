@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 11:48:17 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:56:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, (*arg)[i], &last_expanded_index, ARG);
-		if (expanded[last_expanded_index] == '"')
-		{
-			toggle_quote_status(&in_dquote);
-			last_expanded_index++;
-		}
+		adjust_quote_status(expanded, &last_expanded_index, &in_dquote);
 		free((*arg)[i]);
 		(*arg)[i] = expanded;
 		s = expanded;
