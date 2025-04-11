@@ -115,7 +115,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 		free(arg[0][i]);
 		arg[0][i] = NULL;
 	}
-	else if (!is_in_quotes((*arg)[i]))
+	else if (is_in_quotes((*arg)[i]))
 		split_in_expand(data, token, arg, i);
 }
 

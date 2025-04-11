@@ -1,0 +1,4 @@
+#!/bin/bash
+kill -INT $$
+echo "This shouldn't print if signal not caught"
+
