@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 13:42:40 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 16:02:34 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	wait_all(t_data *data, t_exec *exec)
 		result = waitpid(0, &status, 0);
 		if (result == exec->last_pid)
 			code = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			code = 128 + WTERMSIG(status);
 		i++;
 	}
 	return (code);

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:17:12 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 20:29:40 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 16:03:42 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	exec_command(t_data *data, t_tree *tree)
 	child_pid = safe_fork(data);
 	if (child_pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
 		if (tree->value->command->has_invalid_redir || !check_signal_ok(data))
 		{
 			code = get_last_return(data);
@@ -65,7 +64,6 @@ void	exec_command(t_data *data, t_tree *tree)
 	}
 	else
 		data->exec->last_pid = child_pid;
-	setup_signal();
 }
 
 void	exec_pipe(t_data *data, t_tree *tree)
