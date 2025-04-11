@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:31 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:16:06 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:43:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@ void	free_command(t_command *command)
 		ft_lstiter(command->redirections, free_redir_list);
 		ft_lstclear(&command->redirections, free);
 	}
-	if (command->redir_in)
-		ft_lstclear(&command->redir_in, free);
-	if (command->redir_out_append)
-		ft_lstclear(&command->redir_out_append, free);
-	if (command->redir_out_truncate)
-		ft_lstclear(&command->redir_out_truncate, free);
-	if (command->heredoc)
-		ft_lstclear(&command->heredoc, free);
 	reset(command);
 }
 

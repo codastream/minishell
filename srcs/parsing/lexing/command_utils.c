@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 18:59:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:38:50 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,6 @@ void	update_command_from_string(t_data *data, t_command *command, \
 		free_command(command);
 	check_alloc(data, name);
 	command->command_name = name;
-}
-
-t_list	**get_redir_list_from_operator(t_token *operator_token, \
-		t_token *command_token)
-{
-	if (operator_token->type == T_REDIR_HEREDOC)
-		return (&command_token->command->heredoc);
-	else if (operator_token->type == T_REDIR_IN)
-		return (&command_token->command->redir_in);
-	else if (operator_token->type == T_REDIR_APPEND)
-		return (&command_token->command->redir_out_append);
-	else if (operator_token->type == T_REDIR_TRUNCATE)
-		return (&command_token->command->redir_out_truncate);
-	return (NULL);
 }
 
 t_list	*create_redir(t_data *data, t_token *file_token)

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 13:15:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:57:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,17 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 		free((*arg)[i]);
 		(*arg)[i] = expanded;
 		s = expanded;
+		if (is_in_quotes((*arg)[i]))
+		{
+			split_in_expand(data, token, arg, i);
+			s = NULL;
+		}
 	}
 	if (!ft_strcmp((*arg)[i], ""))
 	{
 		free(arg[0][i]);
 		arg[0][i] = NULL;
 	}
-	else if (is_in_quotes((*arg)[i]))
-		split_in_expand(data, token, arg, i);
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)

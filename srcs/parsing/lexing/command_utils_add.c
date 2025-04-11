@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:17 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/27 19:01:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:22:54 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_command	*new_command(t_data *data, char *string)
 		command->command_args = NULL;
 	}
 	command->has_invalid_redir = false;
+	command->has_var = false;
 	return (command);
 }
 
