@@ -29,7 +29,7 @@ char	*update_oldpwd(t_data *data)
 	char		*old;
 
 	old = ft_strdup(ft_hash_get(data->localvars, "OLDPWD"));
-	check_alloc(data, old);
+//	check_alloc(data, old);
 	pwd = getpwd(data);
 	if (ft_strcmp(pwd, ""))
 		ft_hash_update(data->localvars, "OLDPWD", pwd);

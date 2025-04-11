@@ -1,4 +1,33 @@
 #!/bin/bash
-kill -INT $$
-echo "This shouldn't print if signal not caught"
+
+src_dir="srcs"
+bonus_dir="srcs_bonus"
+
+# Vérifie que les dossiers existent
+if [ ! -d "$src_dir" ] || [ ! -d "$bonus_dir" ]; then
+    echo "❌ Les dossiers '$src_dir' ou '$bonus_dir' n'existent pas."
+    exit 1
+fi
+
+# Parcours récursif des fichiers .c dans srcs (hors *_bonus.c)
+find "$src_dir" -type f -name "*.c" ! -name "*_bonus.c" | while read -r file; do
+    # Enlève le dossier de base pour retrouver le chemin relatif
+    relative_path="${file#$src_dir/}"
+    
+    # Crée le chemin correspondant dans srcs_bonus avec _bonus.c
+    filename_no_ext="${relative_path%.c}"
+    bonus_file="$bonus_dir/${filename_no_ext}_bonus.c"
+
+    if [ -f "$bonus_file" ]; then
+        echo "🔍 Comparaison entre :"
+        echo "  ➤ $file"
+        echo "  ➤ $bonus_file"
+        echo "---------------------------"
+        diff -u "$file" "$bonus_file" || echo "⚠️  Fichiers différents"
+        echo ""
+    else
+        echo "❌ Pas de fichier bonus pour $relative_path"
+        echo ""
+    fi
+done
 
