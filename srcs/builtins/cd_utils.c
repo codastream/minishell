@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:01:49 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 23:02:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:55:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*update_oldpwd(t_data *data)
 	char		*old;
 
 	old = ft_strdup(ft_hash_get(data->localvars, "OLDPWD"));
-//	check_alloc(data, old);
 	pwd = getpwd(data);
 	if (ft_strcmp(pwd, ""))
 		ft_hash_update(data->localvars, "OLDPWD", pwd);
