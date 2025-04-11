@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:57:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 19:01:42 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:33:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	lst_iter_redir(t_data *data, t_list *lst, void (*f)(t_data *, char **))
 	while (current)
 	{
 		redir = (t_redir *)current->content;
-		if (redir->type != T_EOF)
+		if (redir->string && redir->type != T_EOF)
 			(*f)(data, &redir->string);
 		current = current->next;
 	}

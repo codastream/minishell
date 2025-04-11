@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 19:15:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:42:40 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,14 @@ void	handdle_invalid_file(t_data *data, t_token *token, t_redir *redir)
 	if (redir->has_var)
 	{
 		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
-		update_last_return(data, EXIT_FAILURE);
+	}
+	else if (access(redir->string, F_OK == -1))
+	{
+		printerr_source(redir->string, MSG_NO_SUCH_FILE_OR_DIRECTORY);
 	}
 	else
 	{
 		handle_strerror(data, redir->string, EXIT_FAILURE, false);
 	}
+	update_last_return(data, EXIT_FAILURE);
 }

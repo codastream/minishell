@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 19:14:42 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 13:49:16 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ int	prepare_redirs(t_data *data, t_token *token)
 	while (current)
 	{
 		redir = (t_redir *) current->content;
+		if ((!redir->string))
+		{
+			printerr_source(redir->string, MSG_NO_SUCH_FILE_OR_DIRECTORY);
+			token->command->has_invalid_redir = true;
+			return (EXIT_FAILURE);
+		}
 		code = do_redir(data, token, current);
 		if (code != EXIT_SUCCESS)
 			return (code);
