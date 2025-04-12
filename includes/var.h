@@ -47,7 +47,7 @@ bool	check_in_dquote(char *s, char marker, int *i, bool *in_dquote);
 void	check_out_dquote(char *s, int *i, bool *in_dquote);
 void	reset_arg(char **arg);
 int		compute_sublen(char *s, int *i, int len);
-void	adjust_quote_status(char *expanded, int *last_expanded_index, \
+void	adjust_quote_status(char *expanded, char *s, int *last_expanded_index, \
 			bool *in_dquote);
 
 #endif

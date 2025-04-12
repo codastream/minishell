@@ -22,12 +22,26 @@ int	compute_sublen(char *s, int *i, int len)
 	return (sublen);
 }
 
-void	adjust_quote_status(char *expanded, int *last_expanded_index, \
+void	adjust_quote_status(char *expanded, char *s, int *last_expanded_index, \
 	bool *in_dquote)
 {
-	if (expanded[*last_expanded_index] == '"')
+	int	i;
+
+	i = 0;
+	*in_dquote = false;
+//	printf("-> %s\n-> %s\n-> %d\n", expanded, s, *last_expanded_index);
+	while (s[i])
 	{
-		toggle_quote_status(in_dquote);
-		*last_expanded_index += 1;
+		if (s[i] == '$')
+			return ;
+		if (s[i] == '"')
+			skip_quote(s, &i, '"');
+		if (s[i] == '\'')
+			skip_quote(s, &i, '\'');
+		i++;
 	}
+	*in_dquote = true;
+	(void)expanded;
+	(void)last_expanded_index;
+
 }
