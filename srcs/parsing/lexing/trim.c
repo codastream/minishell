@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 19:28:14 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:43:10 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
-	lst_iter_redir(data, token->command->redirections, handle_quote_in_redir);
+	lst_iter_redir(data, token->command->redirections, handle_quote_in_arg);
 	name_with_args = token->command->command_args;
 	if (!name_with_args[0])
 		return (EXIT_IGNORE);
