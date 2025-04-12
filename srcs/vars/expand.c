@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 17:19:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:19:01 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 {
 	int	i;
+	int	cmd_nb;
 
 	i = 0;
 	(void) tokens;
@@ -128,7 +129,8 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	lst_iter_redir(data, token->command->redirections, expand_var_in_redir);
 	token->command->argc = \
 		ft_count_2dchar_null_ended(token->command->command_args);
-	while (token->command->command_args[i])
+	cmd_nb = token->command->argc;
+	while (i < cmd_nb)
 	{
 		expand_vars_in_arg(data, token, &token->command->command_args, i);
 		i++;

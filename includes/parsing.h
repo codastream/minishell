@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 18:09:27 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:29:05 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ t_token		*remove_extra_command(t_data *data, t_token **tokens, \
 				t_token *token, t_token *next);
 
 // trim
-void		handle_quote_in_arg(t_data *data, char **arg, char *arg0);
-void		handle_quote_in_redir(t_data *data, char **arg);
+void		handle_quote_in_arg(t_data *data, char **arg);
 int			handle_quotes(t_data *data, t_token **tokens, t_token *token);
 void		remove_quotes(t_data *data, char **arg, \
 				int start_quote_index, int end_quote_index);

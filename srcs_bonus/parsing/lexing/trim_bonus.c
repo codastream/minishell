@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 18:10:44 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:28:49 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	handle_pair_of_quotes(t_data *data, char **arg, int i, char quote)
 	return (i);
 }
 
-void	handle_quote_in_redir(t_data *data, char **arg)
+void	handle_quote_in_arg(t_data *data, char **arg)
 {
 	int	i;
 
@@ -66,28 +66,6 @@ void	handle_quote_in_redir(t_data *data, char **arg)
 			i = handle_pair_of_quotes(data, arg, i, '"');
 		if (i < 0)
 			break ;
-		if ((*arg)[i] == '\'')
-			i = handle_pair_of_quotes(data, arg, i, '\'');
-		if (i < 0)
-			break ;
-		if ((*arg)[i] && (*arg)[i] != '\'' && (*arg)[i] != '"')
-			i++;
-	}
-}
-
-void	handle_quote_in_arg(t_data *data, char **arg, char *arg0)
-{
-	int	i;
-
-	i = 0;
-	while ((*arg)[i])
-	{
-		if ((*arg)[i] == '"')
-			i = handle_pair_of_quotes(data, arg, i, '"');
-		if (i < 0)
-			break ;
-		if ((*arg)[i] == '\'' && i > 0 && (!ft_strcmp((arg0), "export")))
-			skip_single_quote((*arg), &i);
 		if ((*arg)[i] == '\'')
 			i = handle_pair_of_quotes(data, arg, i, '\'');
 		if (i < 0)
@@ -112,8 +90,7 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 	i = 0;
 	while (name_with_args[i])
 	{
-		handle_quote_in_arg(data, &name_with_args[i], \
-			token->command->command_args[0]);
+		handle_quote_in_arg(data, &name_with_args[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);

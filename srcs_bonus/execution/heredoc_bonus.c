@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 17:58:09 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:28:22 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	process_input(t_data *data, t_redir *redir, int fds[2])
 	if (!eof)
 		close(fds[1]);
 	check_alloc(data, eof);
-	handle_quote_in_arg(data, &eof, "here");
+	handle_quote_in_arg(data, &eof);
 	handle_input(data, redir, eof, fds);
 	close(fds[1]);
 	free_all_data(data);
