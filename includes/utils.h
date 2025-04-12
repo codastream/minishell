@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:55 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 17:31:08 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:15:10 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	free_redir_list(void *content);
 int		find_index_of_space_out_of_quotes(char *s);
 void	skip_single_quote(char *string, int *i);
 bool	is_quote(char c);
-int		is_in_quotes(char *str);
 
 // string utils 2
 bool	is_empty_line(char *line);

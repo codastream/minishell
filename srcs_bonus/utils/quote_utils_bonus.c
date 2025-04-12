@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:11:04 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 21:53:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:20:49 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,4 @@ int	find_index_of_space_out_of_quotes(char *s)
 			i++;
 	}
 	return (-1);
-}
-
-int	is_in_quotes(char *str)
-{
-	if (str[0] == '"' && str[ft_strlen(str - 1)] == '"')
-		return (0);
-	return (1);
 }

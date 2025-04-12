@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:00:58 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/10 18:16:52 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 17:15:06 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ void	reset_arg(char **arg);
 int		compute_sublen(char *s, int *i, int len);
 void	adjust_quote_status(char *expanded, int *last_expanded_index, \
 			bool *in_dquote);
+bool	should_expand(t_token *token, char *s, bool *varindquote);
+void	nullify_empty_args(char ***arg, int i);
 
 #endif
