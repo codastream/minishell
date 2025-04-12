@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 18:20:59 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 21:00:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void	put_fd_token(t_data *data, t_token *token, int in, int out)
 		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", \
 			token->string, in, out);
 	if (token->type == T_COMMAND && has_type_of_redir(token->command, T_EOF))
+	{
+		token->in = in;
 		fd_push_back(&(data->fds), in);
+	}
 	else
 	{
 		token->in = in;
