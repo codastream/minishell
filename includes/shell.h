@@ -43,7 +43,7 @@
 # include "fds.h"
 # include "wildcard_bonus.h"
 
-# define PRINT 0
+# define PRINT 1
 # define PRINTFD 0
 
 #endif

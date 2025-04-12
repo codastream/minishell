@@ -105,17 +105,15 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, (*arg)[i], &last_expanded_index, ARG);
-		adjust_quote_status(expanded, s, &last_expanded_index, &in_dquote);
+		adjust_quote_status(expanded, &last_expanded_index, &in_dquote);
 		free((*arg)[i]);
 		(*arg)[i] = expanded;
 		s = expanded;
-//		printf("%d\n", in_dquote);
-		if (in_dquote == false)
+		if (is_in_quotes((*arg)[i]))
 		{
 			split_in_expand(data, token, arg, i);
 			s = NULL;
 		}
-		(void)token;
 	}
 	if (!ft_strcmp((*arg)[i], ""))
 	{

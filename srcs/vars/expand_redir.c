@@ -27,7 +27,7 @@ void	expand_var_in_redir(t_data *data, char	**file)
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
 		expanded = try_replace_vars(data, *file, &last_expanded_index, ARG);
-		adjust_quote_status(expanded, s, &last_expanded_index, &in_dquote);
+		adjust_quote_status(expanded, &last_expanded_index, &in_dquote);
 		free(*file);
 		*file = expanded;
 		s = expanded;
