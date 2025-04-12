@@ -44,16 +44,8 @@ void	put_fd_token(t_data *data, t_token *token, int in, int out)
 	if (PRINTFD == 1)
 		printf("adding to token %s\n\tin-> %d\n\tout-> %d\n\n", \
 			token->string, in, out);
-	if (token->type == T_COMMAND && has_type_of_redir(token->command, T_EOF))
-	{
-		token->in = in;
-		fd_push_back(&(data->fds), in);
-	}
-	else
-	{
-		token->in = in;
-		fd_push_back(&(data->fds), in);
-	}
+	token->in = in;
+	fd_push_back(&(data->fds), in);
 	token->out = out;
 	fd_push_back(&(data->fds), out);
 	(void)data;
