@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/09 22:19:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 15:54:59 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	adjust_file(t_data *data, t_redir *redir, char **expanded)
 {
 	if (!expanded)
 		return (EXIT_IGNORE);
-	if (expanded[0] && expanded[1])
+	if ((redir->type == T_OUTFILE_APPEND || redir->type == T_OUTFILE_TRUNCATE) \
+		&& expanded[0] && expanded[1])
 	{
 		ft_free_2d_char_null_ended(expanded);
 		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
@@ -64,8 +65,9 @@ int	adjust_file(t_data *data, t_redir *redir, char **expanded)
 		return (EXIT_FAILURE);
 	}
 	free(redir->string);
-	redir->string = expanded[0];
-	free(expanded);
+	redir->string = ft_strdup(expanded[0]);
+	check_alloc(data, redir->string);
+	ft_free_2d_char_null_ended(expanded);
 	return (EXIT_SUCCESS);
 }
 
