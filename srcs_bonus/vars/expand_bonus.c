@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 19:26:43 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 16:14:12 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 		(*arg)[i] = expanded;
 		s = expanded;
 	}
-	nullify_empty_args(arg, i);
-	if (ft_strcmp((*arg)[i], "") && !varindquote)
+	if (!varindquote)
 		split_in_expand(data, token, arg, i);
 }
 
