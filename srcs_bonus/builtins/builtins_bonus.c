@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:16:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:55:02 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_command *command)
 	{
 		if (!ft_strcmp(command->command_args[0], data->exec->builtins[i]))
 		{
+			if (ft_strcmp(command->command_args[0], "exit"))
+				update_last_return(data, EXIT_SUCCESS);
 			data->exec->builtin_ptrs[i](data, token);
 			return ;
 		}

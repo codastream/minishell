@@ -36,6 +36,7 @@ testeph
 eoc
 exec
 outfile
+step
 minishell_bonus
 DIR1
 DIR2

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir.c                                       :+:      :+:    :+:   */
+/*   exec_redir_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:35:06 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/03 22:36:48 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:54:30 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	redir = (t_redir *) current->content;
 	redir_file = (const char *) redir->string;
 	if (redir->type == T_EOF)
-		fd = init_heredoc(data, current, redir);
+		return (EXIT_IGNORE);
 	else
 	{
 		opening_flags = get_opening_flags(redir);
@@ -75,8 +75,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	}
 	if (fd < 0)
 	{
-		token->command->has_invalid_redir = true;
-		handle_strerror(data, (char *)redir_file, EXIT_FAILURE, false);
+		handdle_invalid_file(data, token, redir);
 		return (EXIT_FAILURE);
 	}
 	if (has_next_of_same_type(current, redir))
@@ -86,7 +85,7 @@ int	do_redir(t_data *data, t_token *token, t_list *current)
 	return (EXIT_SUCCESS);
 }
 
-int	check_redirection_files(t_data *data, t_token *token)
+int	prepare_redirs(t_data *data, t_token *token)
 {
 	int		code;
 	t_list	*current;
@@ -99,12 +98,11 @@ int	check_redirection_files(t_data *data, t_token *token)
 	while (current)
 	{
 		redir = (t_redir *) current->content;
-		if (ft_isemptystr(redir->string) || !ft_strcmp(redir->string, "''"))
+		if ((!redir->string))
 		{
-			printerr_source("", "No such file or directory");
+			printerr_source(redir->string, MSG_NO_SUCH_FILE_OR_DIRECTORY);
 			token->command->has_invalid_redir = true;
-			update_last_return(data, EXIT_FAILURE);
-			return (ERROR_EMPTY_REDIR);
+			return (EXIT_FAILURE);
 		}
 		code = do_redir(data, token, current);
 		if (code != EXIT_SUCCESS)

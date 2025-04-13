@@ -6,11 +6,40 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/06 20:20:54 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:52:56 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
+
+int	nb_files(t_data *data, char hide)
+{
+	int				i;
+	struct dirent	*info_dir;
+	DIR				*dir;
+	char			*cwd;
+
+	cwd = getpwd(data);
+	if (!cwd || !cwd[0])
+	{
+		free(cwd);
+		return (-1);
+	}
+	i = 0;
+	dir = opendir(cwd);
+	free(cwd);
+	if (!dir)
+		return (0);
+	info_dir = readdir(dir);
+	while (info_dir)
+	{
+		if (info_dir->d_name[0] != '.' || hide == '.')
+			i++;
+		info_dir = readdir(dir);
+	}
+	closedir(dir);
+	return (i);
+}
 
 void	swap(int i, int j, char **elems)
 {

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:15 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/04 01:30:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/09 19:43:44 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 static void	check_print(t_keyval *current, t_token *token)
 {
-	if (current->value[0] && \
+	if (!current->value)
+		return ;
+	if (current->value && \
 		ft_strcmp(current->key, LAST_RETURN_CODE))
 		ft_printfd(token->out, "%s=%s\n", current->key, \
 		current->value);
-	else if (!current->value[0])
+	else if (!current->value[0] && ft_strcmp(current->key, LAST_RETURN_CODE))
 		ft_printfd(token->out, "%s=\n", current->key, \
 		current->value);
 }

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:14 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:48:01 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:17:38 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ static void	update_args(t_data *data, t_command *command, char *string)
 	char		**name_with_args;
 	char		**seps;
 
-	seps = ft_calloc(2, sizeof(char *));
+	seps = ft_calloc(7, sizeof(char *));
 	if (!seps)
 		free(command);
 	check_alloc(data, seps);
 	seps[0] = " ";
-	seps[1] = NULL;
+	seps[1] = "\t";
+	seps[2] = "\r";
+	seps[3] = "\f";
+	seps[4] = "\v";
+	seps[5] = "\b";
+	seps[6] = NULL;
 	delimiters = init_quote_delimiters(data);
 	if (!delimiters)
 		free(command);
@@ -59,33 +64,21 @@ void	update_command_from_string(t_data *data, t_command *command, \
 	command->command_name = name;
 }
 
-t_list	**get_redir_list_from_operator(t_token *operator_token, \
-		t_token *command_token)
-{
-	if (operator_token->type == T_REDIR_HEREDOC)
-		return (&command_token->command->heredoc);
-	else if (operator_token->type == T_REDIR_IN)
-		return (&command_token->command->redir_in);
-	else if (operator_token->type == T_REDIR_APPEND)
-		return (&command_token->command->redir_out_append);
-	else if (operator_token->type == T_REDIR_TRUNCATE)
-		return (&command_token->command->redir_out_truncate);
-	return (NULL);
-}
-
 t_list	*create_redir(t_data *data, t_token *file_token)
 {
 	t_list	*new;
 	t_redir	*redir;
 	char	*redir_file_str;
-	int		index;
+	bool	has_var;
 
-	index = 0;
-	redir_file_str = get_file_str(data, file_token);
+	has_var = false;
+	redir_file_str = get_file_str(data, file_token, &has_var);
 	redir = ft_calloc(1, sizeof(t_redir));
 	check_alloc(data, redir);
 	redir->string = redir_file_str;
 	redir->type = file_token->type;
+	redir->ambiguous_redir = false;
+	redir->has_var = has_var;
 	new = ft_calloc(1, sizeof(t_list));
 	check_alloc(data, new);
 	new->content = redir;

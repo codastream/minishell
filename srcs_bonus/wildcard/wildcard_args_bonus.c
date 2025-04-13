@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:12:33 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/05 13:08:08 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:27:58 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	adjust_args(t_data *data, t_command *command, int *i, \
 	if (size == 1)
 	{
 		free(command->command_args[*i]);
-		command->command_args[*i] = ft_strdup(expanded[0]);
+		command->command_args[*i] = expanded[0];
 		free(expanded);
 	}
 	else

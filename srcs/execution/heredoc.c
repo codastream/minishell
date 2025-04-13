@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:12:59 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 22:43:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/12 19:28:00 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	process_input(t_data *data, t_redir *redir, int fds[2])
 	handle_input(data, redir, eof, fds);
 	close(fds[1]);
 	free_all_data(data);
-	if (g_signal + 128)
-		exit(g_signal);
+	if (g_signal != 0)
+		exit(g_signal + 128);
 	exit(EXIT_SUCCESS);
 }
 

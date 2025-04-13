@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:36:07 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 20:18:29 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 16:21:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,30 @@ bool	next_expand(char *s, char marker, int *i, bool *in_dquote)
 	return (false);
 }
 
-void	expand_vars_in_arg(t_data *data, char **arg)
+void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 {
 	char	*s;
 	int		last_expanded_index;
 	bool	in_dquote;
+	bool	varindquote;
 	char	*expanded;
 
 	last_expanded_index = 0;
+	varindquote = false;
 	in_dquote = false;
-	s = *arg;
-	if (!ft_strstr(*arg, "$"))
+	s = (*arg)[i];
+	if (!should_expand(token, s, &varindquote))
 		return ;
 	while (s && next_expand(s, '$', &last_expanded_index, &in_dquote))
 	{
-		expanded = try_replace_vars(data, *arg, &last_expanded_index, ARG);
-		if (expanded[last_expanded_index] == '"')
-		{
-			toggle_quote_status(&in_dquote);
-			last_expanded_index++;
-		}
-		free(*arg);
-		*arg = expanded;
+		expanded = try_replace_vars(data, (*arg)[i], &last_expanded_index, ARG);
+		adjust_quote_status(expanded, &last_expanded_index, &in_dquote);
+		free((*arg)[i]);
+		(*arg)[i] = expanded;
 		s = expanded;
 	}
-	if (!ft_strcmp(*arg, ""))
-		reset_arg(arg);
+	if (!varindquote)
+		split_in_expand(data, token, arg, i);
 }
 
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)
@@ -126,12 +124,14 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	(void) tokens;
 	if (token->type != T_COMMAND || !token->command->command_args)
 		return (EXIT_IGNORE);
+	lst_iter_redir(data, token->command->redirections, expand_var_in_redir);
 	token->command->argc = \
 		ft_count_2dchar_null_ended(token->command->command_args);
 	while (token->command->command_args[i])
 	{
-		expand_vars_in_arg(data, &token->command->command_args[i]);
-		i++;
+		expand_vars_in_arg(data, token, &token->command->command_args, i);
+		if (token->command->command_args[i])
+			i++;
 	}
 	if (ft_isemptystr(token->command->command_args[0]) \
 		&& ft_strcmp(token->command->command_name, \

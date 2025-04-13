@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   loop_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:09:05 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 16:54:26 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:53:17 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	process_line_input_interactive(t_data *data)
 		rl_outstream = stderr;
 		update_prompt(data);
 		data->line = readline((const char *)data->prompt);
-		check_for_eof_and_signals(data);
+		check_signal_ok(data);
 		if (!is_empty_line(data->line))
 		{
 			add_history(data->line);

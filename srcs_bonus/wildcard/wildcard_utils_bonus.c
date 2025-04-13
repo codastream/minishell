@@ -6,38 +6,11 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:47:28 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/06 20:23:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 15:54:59 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-int	nb_files(t_data *data, char hide)
-{
-	int				i;
-	struct dirent	*info_dir;
-	DIR				*dir;
-	char			*cwd;
-
-	cwd = getpwd(data);
-	if (!cwd || !cwd[0])
-	{
-		free(cwd);
-		return (-1);
-	}
-	i = 0;
-	dir = opendir(cwd);
-	free(cwd);
-	info_dir = readdir(dir);
-	while (info_dir)
-	{
-		if (info_dir->d_name[0] != '.' || hide == '.')
-			i++;
-		info_dir = readdir(dir);
-	}
-	closedir(dir);
-	return (i);
-}
 
 char	**recover_current_repository(t_data *data, char hide, char *s)
 {
@@ -82,17 +55,19 @@ int	adjust_file(t_data *data, t_redir *redir, char **expanded)
 {
 	if (!expanded)
 		return (EXIT_IGNORE);
-	if (expanded[0] && expanded[1])
+	if ((redir->type == T_OUTFILE_APPEND || redir->type == T_OUTFILE_TRUNCATE) \
+		&& expanded[0] && expanded[1])
 	{
 		ft_free_2d_char_null_ended(expanded);
-		printerr_source(redir->string, "ambiguous redirect");
+		printerr_source(redir->string, MSG_AMBIGUOUS_REDIRECT);
 		update_last_return(data, EXIT_FAILURE);
 		free_after_exec(data);
 		return (EXIT_FAILURE);
 	}
 	free(redir->string);
-	redir->string = expanded[0];
-	free(expanded);
+	redir->string = ft_strdup(expanded[0]);
+	check_alloc(data, redir->string);
+	ft_free_2d_char_null_ended(expanded);
 	return (EXIT_SUCCESS);
 }
 
@@ -118,4 +93,13 @@ int	handle_wildcard_files(t_data *data, t_token *token)
 		current = current->next;
 	}
 	return (EXIT_SUCCESS);
+}
+
+void	check_relatives(char **s, bool *relative)
+{
+	if (!ft_strncmp("./", *s, 2))
+	{
+		*relative = true;
+		(*s) += 2;
+	}
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pwd_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:30:34 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/02 13:32:11 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 21:54:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	ft_pwd(t_data *data, t_token *token)
 	char	*buffer;
 
 	if (has_invalid_option(data, token))
+	{
+		printerr_source("pwd", MSG_USAGE_NO_OPTS);
 		return ;
+	}
 	size = 4096;
 	buffer = malloc(size);
 	check_alloc(data, buffer);

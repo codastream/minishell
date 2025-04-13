@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:45:02 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/07 19:33:24 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/11 22:22:31 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,7 @@ typedef struct s_command
 	char		**command_args;
 	int			argc;
 	t_list		*redirections;
-	t_list		*redir_in;
-	t_list		*heredoc;
-	t_list		*redir_out_truncate;
-	t_list		*redir_out_append;
+	bool		has_var;
 	bool		has_invalid_redir;
 	bool		is_empty_command;
 }	t_command;
@@ -74,6 +71,8 @@ typedef struct s_redir
 {
 	t_tokentype		type;
 	char			*string;
+	bool			ambiguous_redir;
+	bool			has_var;
 }	t_redir;
 
 typedef struct s_token

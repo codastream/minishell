@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
+/*   vars_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 20:33:44 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/31 21:02:13 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 21:03:33 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	init_wd(t_data *data, t_hash *vars, int env_var_nb)
 	if (env_var_nb == 0)
 	{
 		ft_hash_insert(vars, "PWD", pwd);
-		ft_hash_insert(vars, "OLDPWD", NULL);
+		ft_hash_insert(vars, "OLDPWD", pwd);
 	}
 	free(pwd);
 }

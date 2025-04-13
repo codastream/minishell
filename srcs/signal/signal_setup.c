@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:06:26 by fpetit            #+#    #+#             */
-/*   Updated: 2025/03/28 15:18:45 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 18:47:41 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,20 @@ void	setup_signal(void)
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+int	update_return_after_wait(t_data *data, int code)
+{
+	if (code == -1)
+	{
+		update_last_return(data, 128 + g_signal);
+		g_signal = 0;
+		return (128 + g_signal);
+	}
+	else
+	{
+		update_last_return(data, code);
+		g_signal = 0;
+		return (code);
+	}
 }

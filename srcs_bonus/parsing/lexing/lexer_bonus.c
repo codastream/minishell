@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:59:08 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/05 13:16:06 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:23:17 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,11 @@ static int	check_tokens(t_data *data, t_token **tokens)
 	if (code != EXIT_SUCCESS)
 		return (code);
 	if (PRINT == 1)
-		ft_put_yellow("vars\n");
+		ft_put_yellow("expand vars\n");
 	code = do_for_tokens(data, tokens, expand_vars);
+	if (PRINT == 1)
+		ft_put_yellow("handle quotes\n");
 	code = do_for_tokens(data, tokens, handle_quotes);
-	if (code != EXIT_SUCCESS)
-		return (code);
-	code = do_for_tokens(data, tokens, remove_empty_args);
-	if (code != EXIT_SUCCESS)
-		return (code);
 	return (code);
 }
 

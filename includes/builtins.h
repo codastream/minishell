@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 09:27:18 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/06 20:53:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 23:00:39 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_cd(t_data *data, t_token *token);
 void	print_path_if_needed(t_command *command, t_token *token, \
 			char *path);
 char	*get_old_path(t_data *data);
-void	update_oldpwd(t_data *data);
+char	*update_oldpwd(t_data *data);
 void	ft_echo(t_data *data, t_token *token);
 void	ft_env(t_data *data, t_token *token);
 void	ft_exit(t_data *data, t_token *token);

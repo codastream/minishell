@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: djo <djo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:48:18 by fpetit            #+#    #+#             */
-/*   Updated: 2025/01/29 19:08:38 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:40:15 by djo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strnduup(const char *s, size_t n)
 	char	*duplicated;
 
 	if (!s)
-		return (malloc(0));
+		return (NULL);
 	len = ft_strlen(s);
 	if (len > (int)n)
 		len = (int)n;

@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/06 20:09:07 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/08 23:05:23 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ static bool	are_valid_cd_args(t_data *data, char **command_args)
 static char	*build_path_from_directory(t_data *data, char *path_arg)
 {
 	char	*path;
+	char	*pwd;
 
-	path = ft_strjoinfree(getpwd(data), "/", 1);
+	pwd = getpwd(data);
+	path = ft_strjoinfree(pwd, "/", 1);
 	check_alloc(data, path);
 	path = ft_strjoinfree(path, path_arg, 1);
 	check_alloc(data, path);
@@ -58,7 +60,7 @@ static char	*get_path_for_tilde(t_data *data, char **path_args, char *home_path)
 	return (path);
 }
 
-static char	*build_path(t_data *data, char **path_args)
+static char	*build_path(t_data *data, char **path_args, char *oldpwd)
 {
 	char	*path;
 	char	*home_path;
@@ -75,7 +77,7 @@ static char	*build_path(t_data *data, char **path_args)
 		check_alloc(data, path);
 	}
 	else if (!ft_strcmp(path_args[1], "-"))
-		path = get_old_path(data);
+		path = ft_strdup(oldpwd);
 	else if (is_path(path_args[1]))
 		path = ft_strdup(path_args[1]);
 	else if (path_args[1][0] == '~')
@@ -89,16 +91,19 @@ void	ft_cd(t_data *data, t_token *token)
 {
 	char		*path;
 	t_command	*command;
+	char		*oldpwd;
 
 	command = token->command;
 	if (!are_valid_cd_args(data, command->command_args))
 		return ;
-	update_oldpwd(data);
-	path = build_path(data, command->command_args);
+	oldpwd = update_oldpwd(data);
+	path = build_path(data, command->command_args, oldpwd);
+	free(oldpwd);
 	if (!path)
 		path = ft_strdup(ft_hash_get(data->localvars, "PWD"));
 	if (!path || chdir(path) < 0)
 	{
+		free(path);
 		handle_strerror(data, command->command_args[1], EXIT_FAILURE, false);
 		return ;
 	}
