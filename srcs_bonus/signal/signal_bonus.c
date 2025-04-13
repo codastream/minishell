@@ -61,10 +61,7 @@ bool	check_signal_ok(t_data *data)
 	if (PRINT == 1)
 		printf("g signal is %d\n", g_signal);
 	if (!data->line)
-	{
-		update_prompt(data);
 		handle_end_of_loop(data);
-	}
 	if (g_signal == 0)
 	{
 		return (true);
