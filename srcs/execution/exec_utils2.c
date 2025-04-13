@@ -6,21 +6,11 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 21:48:18 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 18:46:44 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
-
-bool	should_handle_signal(int status)
-{
-	int	signal;
-
-	signal = WTERMSIG(status);
-	if (signal == SIGINT || signal == SIGQUIT)
-		return (true);
-	return (false);
-}
 
 int	wait_all(t_data *data, t_exec *exec)
 {
@@ -36,10 +26,13 @@ int	wait_all(t_data *data, t_exec *exec)
 	while (i < exec->commands_nb)
 	{
 		result = waitpid(0, &status, 0);
+		if (result == -1)
+			break ;
 		if (result == exec->last_pid)
-			code = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) && should_handle_signal(status))
-			code = 128 + WTERMSIG(status);
+		{
+			if (WIFEXITED(status))
+				code = WEXITSTATUS(status);
+		}
 		i++;
 	}
 	return (code);

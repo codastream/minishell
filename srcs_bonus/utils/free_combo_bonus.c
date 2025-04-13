@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 19:14:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 21:53:22 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 18:50:15 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ void	free_after_parsing(t_data *data)
 
 void	free_after_exec(t_data *data)
 {
-	if (g_signal != 0)
-	{
-		update_last_return(data, g_signal);
-	}
 	free_before_parsing(data);
 	if (data->fds)
 		pop_all_fd(&data->fds);

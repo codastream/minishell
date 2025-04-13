@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/13 17:28:26 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 18:49:45 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ bool	check_signal_ok(t_data *data)
 	if (PRINT == 1)
 		printf("check g_signal - %d\n", g_signal);
 	if (!data->line)
+	{
+		update_prompt(data);
 		handle_end_of_loop(data);
+	}
 	if (g_signal == 0)
 	{
 		return (true);
