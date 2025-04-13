@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:24:37 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/11 21:54:24 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:49:55 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,15 @@ int	wait_all(t_data *data, t_exec *exec)
 	{
 		result = waitpid(0, &status, 0);
 		if (result == exec->last_pid)
+		{
+			// if (WIFEXITED(status))
 			code = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) && should_handle_signal(status))
-			code = 128 + WTERMSIG(status);
+			// if (WIFSIGNALED(status) && should_handle_signal(status))
+			// 	code = 128 + WTERMSIG(status);
+			if (PRINT == 1)
+				printf("code is %d\n", code);
+			return (code);
+		}
 		i++;
 	}
 	return (code);

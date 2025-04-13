@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:29:27 by jmassavi          #+#    #+#             */
-/*   Updated: 2025/04/10 20:33:43 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 17:28:26 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	handle_sig_child(int sig)
 
 bool	check_signal_ok(t_data *data)
 {
+	if (PRINT == 1)
+		printf("check g_signal - %d\n", g_signal);
 	if (!data->line)
 		handle_end_of_loop(data);
 	if (g_signal == 0)
