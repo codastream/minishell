@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:58:52 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/12 19:43:16 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/13 19:38:24 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,8 @@ int	handle_quotes(t_data *data, t_token **tokens, t_token *token)
 		handle_quote_in_arg(data, &name_with_args[i]);
 		i++;
 	}
+	free(token->command->command_name);
+	token->command->command_name = ft_strdup(name_with_args[0]);
+	check_alloc(data, token->command->command_name);
 	return (EXIT_SUCCESS);
 }
