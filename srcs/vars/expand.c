@@ -119,6 +119,7 @@ void	expand_vars_in_arg(t_data *data, t_token *token, char ***arg, int i)
 int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 {
 	int	i;
+	int	cmd_nb;
 
 	i = 0;
 	(void) tokens;
@@ -127,11 +128,11 @@ int	expand_vars(t_data *data, t_token **tokens, t_token *token)
 	lst_iter_redir(data, token->command->redirections, expand_var_in_redir);
 	token->command->argc = \
 		ft_count_2dchar_null_ended(token->command->command_args);
-	while (token->command->command_args[i])
+	cmd_nb = token->command->argc;
+	while (i < cmd_nb)
 	{
 		expand_vars_in_arg(data, token, &token->command->command_args, i);
-		if (token->command->command_args[i])
-			i++;
+		i++;
 	}
 	if (ft_isemptystr(token->command->command_args[0]) \
 		&& ft_strcmp(token->command->command_name, \
