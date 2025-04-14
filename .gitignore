@@ -11,6 +11,7 @@ tata2
 trash
 out
 minishell
+debugenv.sh
 *.o
 *.d
 .nfs*

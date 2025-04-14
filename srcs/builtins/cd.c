@@ -6,7 +6,7 @@
 /*   By: fpetit <fpetit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:22 by fpetit            #+#    #+#             */
-/*   Updated: 2025/04/08 23:05:23 by fpetit           ###   ########.fr       */
+/*   Updated: 2025/04/14 11:16:47 by fpetit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,17 @@ static char	*build_path_from_directory(t_data *data, char *path_arg)
 	return (path);
 }
 
-static char	*get_path_for_tilde(t_data *data, char **path_args, char *home_path)
+static char	*get_path_for_tilde(t_data *data, char **path_args, \
+	char *home_path)
 {
 	char	*path;
 
+	(void) data;
 	if (!home_path)
-		path = ft_hash_get(data->localvars, "PWD");
+	{
+		printerr_source("cd", "HOME not set");
+		return (NULL);
+	}
 	else
 		path = ft_subst(path_args[1], "~", home_path);
 	return (path);
@@ -100,7 +105,7 @@ void	ft_cd(t_data *data, t_token *token)
 	path = build_path(data, command->command_args, oldpwd);
 	free(oldpwd);
 	if (!path)
-		path = ft_strdup(ft_hash_get(data->localvars, "PWD"));
+		path = getpwd(data);
 	if (!path || chdir(path) < 0)
 	{
 		free(path);
